@@ -1,10 +1,14 @@
 #ifndef GAMESTATE_19032019
 #define GAMESTATE_19032019
 
+#include "GameEngine.h"
+
+class GameEngine;
+
 class GameState
 {
 public:
-/**
+
   virtual void init();
   virtual void freeMem();
 
@@ -13,11 +17,11 @@ public:
   // do frame update stuff
   virtual void update();
   // draw the things
-  virtual void draw();
-*/
+  virtual void render();
+
   //tells the GameEngine to change game states
-  //void changeState(GameEngine* mEngine);
-  //GameEngine* mEngine = nullptr;
+  void changeState(GameEngine* mEngine);
+  GameEngine* mEngine = nullptr;
 };
 
 #endif

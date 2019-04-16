@@ -9,9 +9,10 @@
 #include "testFile.h"
 #include "Display.h"
 #include "ImageTexture.h"
-#include "gameState.h"
-#include "menuState.h"
+#include "GameState.h"
+#include "MenuState.h"
 #include "MenuButton.h"
+#include "GameEngine.h"
 
 
 
@@ -72,10 +73,12 @@ int main( int argc, char* args[] )
 	std::vector<ImageTexture*> textureArray;
 	textureArray.push_back( new ImageTexture());
 
+
 	bool initSuccess = true;
 	//Start up SDL and create window
 	initSuccess = init();
 	Display display("windowName", 100, 100, 640, 480);
+	GameEngine game(&display);
 
 	// load a texture to the thingy
 	textureArray[0]->setRenderer(display.getRenderer());
