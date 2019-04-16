@@ -36,7 +36,8 @@ class ImageTexture
 		//Set alpha modulation
 		void setAlpha( Uint8 alpha );
 
-    // this draws the texture, with some variables and I think the last four have default values?
+    // this draws the texture, with some variables and lst ones have default values
+		// sprite is used for sprite sheets, starts on the left upper corner at 0, goes through row first then 1 col down
 		void render( int x, int y, int sprite = 0, SDL_Rect* clip = NULL, double angle = 0.0,
 									SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE );
 

@@ -2,6 +2,8 @@
 #define MENUBUTTON_02042019
 
 #include <SDL.h> // for SDL_Point
+#include <vector>
+#include "ImageTexture.h"
 
 class MenuButton
 {
@@ -10,16 +12,19 @@ public:
   enum Texture{NORMAL = 0, HIGHLIGHTED = 1, PRESSED = 2};
 
   // create button at x, y
-  MenuButton(int x, int y);
+  MenuButton(int x, int y, ImageTexture* it, int width = 300, int height = 200);
   ~MenuButton();
 
   void render();
-  void handleEvent(); //TODO: maybe?
+  void handleEvent(SDL_Event* e); //TODO: maybe?
 private:
-  SDL_Point position;
+  SDL_Point mPosition;
   // intending to have some sort of texture reserve in the game engine or maybe in main
-  std::vector<ImageTexture*> textures;
+  ImageTexture* mTexture = nullptr;
   int currentTexture;
+  int mWidth;
+  int mHeight;
+  int mCurrentSprite = 0;
 };
 
 #endif

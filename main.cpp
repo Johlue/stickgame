@@ -5,11 +5,13 @@
 #include <SDL_ttf.h>
 #include <stdio.h>
 #include <array>
+#include <vector>
 #include "testFile.h"
 #include "Display.h"
 #include "ImageTexture.h"
 #include "gameState.h"
 #include "menuState.h"
+#include "MenuButton.h"
 
 
 
@@ -22,97 +24,8 @@ enum LButtonSprite
 	BUTTON_SPRITE_TOTAL = 4
 };
 
-//The mouse button
-class LButton
-{
-	public:
-		//Initializes internal variables
-		LButton();
-
-		//Sets top left position
-		void setPosition( int x, int y );
-
-		//Handles mouse event
-		void handleEvent( SDL_Event* e );
-
-		//Shows button sprite
-		void render();
-
-	private:
-		//Top left position
-		SDL_Point mPosition;
-
-		//Currently used global sprite
-		LButtonSprite mCurrentSprite;
-};
-
 //Loads media
 bool loadMedia();
-
-//Mouse button sprites
-//SDL_Rect gSpriteClips[ BUTTON_SPRITE_TOTAL ];
-ImageTexture gButtonSpriteSheetTexture;
-
-//Buttons objects
-LButton gButtons[ 4 ];
-
-
-
-LButton::LButton()
-{
-	mPosition.x = 0;
-	mPosition.y = 0;
-
-	mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
-}
-
-void LButton::setPosition( int x, int y )
-{
-	mPosition.x = x;
-	mPosition.y = y;
-}
-
-void LButton::handleEvent( SDL_Event* e )
-{
-	//If mouse event happened
-	if( e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP )
-	{
-		//Get mouse position
-		int x, y;
-		SDL_GetMouseState( &x, &y );
-
-		//Check if mouse is outside button
-		if(  x < mPosition.x ||  x > mPosition.x + 300 || y < mPosition.y || y > mPosition.y + 200  )
-		{
-			mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
-		}
-		//Mouse is inside button
-		else
-		{
-			//Set mouse over sprite
-			switch( e->type )
-			{
-				case SDL_MOUSEMOTION:
-				mCurrentSprite = BUTTON_SPRITE_MOUSE_OVER_MOTION;
-				break;
-
-				case SDL_MOUSEBUTTONDOWN:
-				mCurrentSprite = BUTTON_SPRITE_MOUSE_DOWN;
-				break;
-
-				case SDL_MOUSEBUTTONUP:
-				mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
-				break;
-			}
-		}
-	}
-}
-
-void LButton::render()
-{
-	//Show current button sprite
-	gButtonSpriteSheetTexture.render( mPosition.x, mPosition.y, mCurrentSprite);
-}
 
 bool init()
 {
@@ -142,45 +55,44 @@ bool loadMedia()
 	bool success = true;
 
 	//Load sprites
-	if( !gButtonSpriteSheetTexture.loadFromFile( "button.png" ) )
+	/*if( !gButtonSpriteSheetTexture.loadFromFile( "button.png" ) )
 	{
 		printf( "Failed to load button sprite texture!\n" );
 		success = false;
 	}
 	else
-	{
-	/*
-		//Set sprites
-		for( int i = 0; i < BUTTON_SPRITE_TOTAL; ++i )
-		{
-			gSpriteClips[ i ].x = 0;
-			gSpriteClips[ i ].y = i * 200;
-			gSpriteClips[ i ].w = 300;
-			gSpriteClips[ i ].h = 200;
-		}*/
-		gButtons[0].setPosition(0, 0);
-		gButtons[1].setPosition(640 - 300, 480 - 200);
-		gButtons[2].setPosition(0, 480 - 200);
-		gButtons[3].setPosition(640 - 300, 0);
-		gButtonSpriteSheetTexture.useSpriteSheet(1, 4);
-	}
+	{	}*/
 
 	return success;
 }
 
 int main( int argc, char* args[] )
 {
+	// vector to keep the textures in
+	std::vector<ImageTexture*> textureArray;
+	textureArray.push_back( new ImageTexture());
+
 	bool initSuccess = true;
 	//Start up SDL and create window
 	initSuccess = init();
 	Display display("windowName", 100, 100, 640, 480);
+
+	// load a texture to the thingy
+	textureArray[0]->setRenderer(display.getRenderer());
+	if(!textureArray[0]->loadFromFile("button.png"))
+	{
+		printf("Failed to load button sprite texture!\n");
+		initSuccess = false;
+	}
+	textureArray[0]->useSpriteSheet(2, 2);
+
 	if( !initSuccess )
 	{
 		printf( "Failed to initialize!\n" );
 	}
 	else
 	{
-		gButtonSpriteSheetTexture.setRenderer(display.getRenderer());
+		//gButtonSpriteSheetTexture.setRenderer(display.getRenderer());
 		//Load media
 		if( !loadMedia() )
 		{
@@ -188,6 +100,11 @@ int main( int argc, char* args[] )
 		}
 		else
 		{
+			// make a button
+			MenuButton startButton(0, 200, textureArray[0]);
+			MenuButton endButton(300, 200, textureArray[0]);
+			MenuButton loadButton(0, 0, textureArray[0]);
+
 			//Main loop flag
 			bool quit = false;
 
@@ -207,9 +124,9 @@ int main( int argc, char* args[] )
 					}
 
 					//Handle button events
-					for( int i = 0; i < 4; ++i )
+					for( int i = 0; i < 1; ++i )
 					{
-						gButtons[ i ].handleEvent( &e );
+						startButton.handleEvent( &e );
 					}
 				}
 
@@ -218,9 +135,11 @@ int main( int argc, char* args[] )
 				SDL_RenderClear( display.getRenderer() );
 
 				//Render buttons
-				for( int i = 0; i < 4; ++i )
+				for( int i = 0; i < 1; ++i )
 				{
-					gButtons[ i ].render();
+					startButton.render();
+					endButton.render();
+					loadButton.render();
 				}
 
 				//Update screen
@@ -231,8 +150,19 @@ int main( int argc, char* args[] )
 
 	//Free resources and close SDL
 	// I don't understand why this was a separate fucntion
+	for(int i = 0; i < textureArray.size(); i++)
+	{
+		textureArray[i]->freeTexture();
+	}
+	for(int i = 0; i < textureArray.size(); i++)
+	{
+		delete (textureArray[i]);
+	}
+	textureArray.clear();
+
 	display.freeMem();
-	gButtonSpriteSheetTexture.freeTexture();
+
+	//gButtonSpriteSheetTexture.freeTexture();
 	IMG_Quit();
 	SDL_Quit();
 

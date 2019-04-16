@@ -75,18 +75,6 @@ void ImageTexture::useSpriteSheet(int row, int column)
   // calc width and height of sprites based on amount of rows
   mSpriteSize = {0, 0, mWidth / mSpriteRow, mHeight / mSpriteColumn};
 }
-/*
-void ImageTexture::setCurrentSprite(int a)
-{
-  mCurrentSprite = a;
-  // position of x in current sprite
-  int aX = (mCurrentSprite % mSpriteRow) * mSpriteSize.w;
-  // position of y in current sprite
-  int divY = mCurrentSprite / mSpriteRow;
-  int aY = divY * mSpriteSize.h;
-  // create rectangle for current sprite;
-	mSpriteSize = { aX, aY, mWidth / mSpriteRow, mHeight / mSpriteColumn };
-}*/
 
 void ImageTexture::freeTexture()
 {
