@@ -1,0 +1,28 @@
+#ifndef DISPLAY_26032019
+#define DISPLAY_26032019
+
+#include <string>
+#include <SDL.h>
+#include <SDL_image.h>
+
+class Display
+{
+public:
+  // creates runs init with these variables
+  Display(std::string windowName, int posX, int posY, int width, int height);
+  // destroys window and renderer and frees memory
+  ~Display();
+  // free memory
+  void freeMem();
+  // creates window and renderer according to set parameters
+  bool init(std::string windowName, int posX, int posY, int width, int height);
+
+  SDL_Window* getWindow() const { return mWindow; }
+  SDL_Renderer* getRenderer() const { return mRenderer; }
+private:
+  SDL_Window* mWindow = nullptr;
+  SDL_Renderer* mRenderer = nullptr;
+};
+
+
+#endif
