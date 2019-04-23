@@ -1,0 +1,3 @@
+Move menu things from main to MenuState
+Create a texture vector pointer thingy to pass to all the children in the land so they may have textures
+Other stuff?

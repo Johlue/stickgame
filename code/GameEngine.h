@@ -28,6 +28,7 @@ private:
   bool mRunning;
   int currentState;
   std::vector<GameState*> states;
+  // contains textures and is going to be given to gamestates so they... can use... them...
   std::vector<ImageTexture*> mTextures;
   Display* mDisplay = nullptr;
 };
