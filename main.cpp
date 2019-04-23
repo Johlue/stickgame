@@ -50,23 +50,6 @@ bool init()
 	return success;
 }
 
-bool loadMedia()
-{
-	//Loading success flag
-	bool success = true;
-
-	//Load sprites
-	/*if( !gButtonSpriteSheetTexture.loadFromFile( "button.png" ) )
-	{
-		printf( "Failed to load button sprite texture!\n" );
-		success = false;
-	}
-	else
-	{	}*/
-
-	return success;
-}
-
 int main( int argc, char* args[] )
 {
 	// vector to keep the textures in
@@ -84,6 +67,7 @@ int main( int argc, char* args[] )
 	textureArray[0]->setRenderer(display.getRenderer());
 	if(!textureArray[0]->loadFromFile("button.png"))
 	{
+		// fail check
 		printf("Failed to load button sprite texture!\n");
 		initSuccess = false;
 	}
@@ -95,59 +79,50 @@ int main( int argc, char* args[] )
 	}
 	else
 	{
-		//gButtonSpriteSheetTexture.setRenderer(display.getRenderer());
-		//Load media
-		if( !loadMedia() )
+		// make a button
+		MenuButton startButton(0, 200, textureArray[0]);
+		MenuButton endButton(300, 200, textureArray[0]);
+		MenuButton loadButton(0, 0, textureArray[0]);
+
+		//Main loop flag
+		bool quit = false;
+
+		//Event handler
+		SDL_Event e;
+
+		//While application is running
+		while( !quit )
 		{
-			printf( "Failed to load media!\n" );
-		}
-		else
-		{
-			// make a button
-			MenuButton startButton(0, 200, textureArray[0]);
-			MenuButton endButton(300, 200, textureArray[0]);
-			MenuButton loadButton(0, 0, textureArray[0]);
-
-			//Main loop flag
-			bool quit = false;
-
-			//Event handler
-			SDL_Event e;
-
-			//While application is running
-			while( !quit )
+			//Handle events on queue
+			while( SDL_PollEvent( &e ) != 0 )
 			{
-				//Handle events on queue
-				while( SDL_PollEvent( &e ) != 0 )
+				//User requests quit
+				if( e.type == SDL_QUIT )
 				{
-					//User requests quit
-					if( e.type == SDL_QUIT )
-					{
-						quit = true;
-					}
-
-					//Handle button events
-					for( int i = 0; i < 1; ++i )
-					{
-						startButton.handleEvent( &e );
-					}
+					quit = true;
 				}
 
-				//Clear screen
-				SDL_SetRenderDrawColor( display.getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF );
-				SDL_RenderClear( display.getRenderer() );
-
-				//Render buttons
+				//Handle button events
 				for( int i = 0; i < 1; ++i )
 				{
-					startButton.render();
-					endButton.render();
-					loadButton.render();
+					startButton.handleEvent( &e );
 				}
-
-				//Update screen
-				SDL_RenderPresent( display.getRenderer() );
 			}
+
+			//Clear screen
+			SDL_SetRenderDrawColor( display.getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF );
+			SDL_RenderClear( display.getRenderer() );
+
+			//Render buttons
+			for( int i = 0; i < 1; ++i )
+			{
+				startButton.render();
+				endButton.render();
+				loadButton.render();
+			}
+
+			//Update screen
+			SDL_RenderPresent( display.getRenderer() );
 		}
 	}
 
@@ -163,6 +138,7 @@ int main( int argc, char* args[] )
 	}
 	textureArray.clear();
 
+	game.freeMem();
 	display.freeMem();
 
 	//gButtonSpriteSheetTexture.freeTexture();

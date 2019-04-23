@@ -10,6 +10,7 @@ enum GameStates
 
 GameEngine::GameEngine(Display* display)
 {
+  mTextures.push_back(new ImageTexture());
   //TODO all the things, basically create a display and initialize gamestates and whatever
   std::vector<GameState*> states;
   mDisplay = display;
@@ -18,11 +19,12 @@ GameEngine::GameEngine(Display* display)
 
 GameEngine::~GameEngine()
 {
-  
+
 }
 
 void GameEngine::init()
 {
+  states.push_back(new MenuState(mDisplay, mTextures));
   mRunning = true;
   currentState = 0;
   // create gamestates and i guess initialize them or whatever, the display is already in another place so who cares
@@ -31,6 +33,10 @@ void GameEngine::init()
 void GameEngine::freeMem()
 {
   //TODO: go through gamestate vector and freeMem all of the things
+  mTextures[0]->freeTexture();
+  delete mTextures[0];
+  states[0]->freeMem();
+  delete states[0];
 }
 
 void GameEngine::handleEvents()

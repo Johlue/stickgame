@@ -1,13 +1,17 @@
 #ifndef GAMESTATE_19032019
 #define GAMESTATE_19032019
 
-#include "GameEngine.h"
-
-class GameEngine;
+#include "Display.h"
+#include <vector>
+#include "ImageTexture.h"
 
 class GameState
 {
 public:
+
+  GameState();
+  GameState(Display* dis, std::vector<ImageTexture*> texA);
+  ~GameState();
 
   virtual void init();
   virtual void freeMem();
@@ -20,8 +24,8 @@ public:
   virtual void render();
 
   //tells the GameEngine to change game states
-  void changeState(GameEngine* mEngine);
-  GameEngine* mEngine = nullptr;
+  void changeState(int s);
+  int* currentState;
 };
 
 #endif

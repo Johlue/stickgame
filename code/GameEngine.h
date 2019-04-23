@@ -5,8 +5,7 @@
 #include <vector>
 #include "Display.h"
 #include "GameState.h"
-
-class GameState;
+#include "MenuState.h"
 
 class GameEngine
 {
@@ -29,6 +28,7 @@ private:
   bool mRunning;
   int currentState;
   std::vector<GameState*> states;
+  std::vector<ImageTexture*> mTextures;
   Display* mDisplay = nullptr;
 };
 
