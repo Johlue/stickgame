@@ -24,7 +24,7 @@ GameEngine::~GameEngine()
 
 void GameEngine::init()
 {
-  states.push_back(new MenuState(mDisplay, mTextures));
+  states.push_back(new MenuState(mDisplay, &mTextures));
   mRunning = true;
   currentState = 0;
   // create gamestates and i guess initialize them or whatever, the display is already in another place so who cares

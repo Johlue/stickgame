@@ -10,7 +10,7 @@ class GameState
 public:
 
   GameState();
-  GameState(Display* dis, std::vector<ImageTexture*> texA);
+  GameState(Display* dis, std::vector<ImageTexture*>* texA);
   ~GameState();
 
   virtual void init();

@@ -106,6 +106,8 @@ int main( int argc, char* args[] )
 				for( int i = 0; i < 1; ++i )
 				{
 					startButton.handleEvent( &e );
+					endButton.handleEvent(&e);
+					loadButton.handleEvent(&e);
 				}
 			}
 

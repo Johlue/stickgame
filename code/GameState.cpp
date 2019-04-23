@@ -4,7 +4,7 @@
 GameState::GameState()
 {}
 
-GameState::GameState(Display* dis, std::vector<ImageTexture*> texA)
+GameState::GameState(Display* dis, std::vector<ImageTexture*>* texA)
 {}
 
 GameState::~GameState()

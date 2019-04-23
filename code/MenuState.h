@@ -9,7 +9,7 @@
 class MenuState : public GameState
 {
 public:
-    MenuState(Display* dis, std::vector<ImageTexture*> texA);
+    MenuState(Display* dis, std::vector<ImageTexture*>* texA);
     ~MenuState();
 
     void init();
@@ -24,7 +24,7 @@ public:
     //tells the GameEngine to change game states
     void changeState(int s);
   private:
-    std::vector<ImageTexture*> textureArray;
+    std::vector<ImageTexture*>* textureArray;
 
 };
 

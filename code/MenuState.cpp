@@ -3,8 +3,9 @@
 #include "MenuButton.h"
 #include <vector>
 
-MenuState::MenuState(Display* dis, std::vector<ImageTexture*> texA)
+MenuState::MenuState(Display* dis, std::vector<ImageTexture*>* texA)
 {
+  textureArray = texA;
   init();
 }
 
@@ -18,7 +19,8 @@ void MenuState::init()
 
 void MenuState::freeMem()
 {
-  printf("FREEDOM!");
+  printf("FREEDOM! (MenuState)\n");
+  textureArray = nullptr;
 }
 
 void MenuState::handleEvents()
