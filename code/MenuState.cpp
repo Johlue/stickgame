@@ -34,7 +34,10 @@ void MenuState::handleEvents(SDL_Event* e)
 {
   for(int i = 0; i < buttonArray.size(); i++)
   {
-    buttonArray[i]->handleEvent( e );
+    if(buttonArray[i]->handleEvent( e ) == 0)
+    {
+      //TODO
+    }
   }
 }
 

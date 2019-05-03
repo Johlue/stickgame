@@ -17,7 +17,8 @@ public:
   ~MenuButton();
 
   void render();
-  void handleEvent(SDL_Event* e);
+  // returns a number and depending on what it is MenuState does different things
+  int handleEvent(SDL_Event* e);
 private:
   SDL_Point mPosition;
   // intending to have some sort of texture reserve in the game engine or maybe in main

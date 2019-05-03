@@ -23,7 +23,7 @@ void MenuButton::render()
   mTexture->render(mPosition.x, mPosition.y, mCurrentSprite);
 }
 
-void MenuButton::handleEvent(SDL_Event* e)
+int MenuButton::handleEvent(SDL_Event* e)
 {
   //If mouse event happened
 	if( e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP )
@@ -66,10 +66,12 @@ void MenuButton::handleEvent(SDL_Event* e)
 
           case START:
             // do some other shit
-
+            break;
         }
         break;
+
 			}
 		}
 	}
+  return mButtonType;
 }
