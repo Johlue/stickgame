@@ -2,8 +2,9 @@
 #include <iostream>
 #include <cstdlib>
 
-MenuButton::MenuButton(int x, int y, ImageTexture* it, int width, int height)
+MenuButton::MenuButton(int x, int y, ImageTexture* it, int type, int width, int height)
 {
+  mButtonType = type;
   mPosition.x = x;
   mPosition.y = y;
   mWidth = width;
@@ -52,6 +53,7 @@ void MenuButton::handleEvent(SDL_Event* e)
 
 				case SDL_MOUSEBUTTONUP:
 				//TODO: actual functionality
+        // if mButtonType yada yada
         std::cout << "Button Pressed!\n";
 				break;
 			}

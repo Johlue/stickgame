@@ -12,7 +12,7 @@ public:
   enum Texture{NORMAL = 0, HIGHLIGHTED = 1, PRESSED = 2};
 
   // create button at x, y
-  MenuButton(int x, int y, ImageTexture* it, int width = 300, int height = 200);
+  MenuButton(int x, int y, ImageTexture* it, int type, int width = 300, int height = 200);
   ~MenuButton();
 
   void render();
@@ -25,6 +25,7 @@ private:
   int mWidth;
   int mHeight;
   int mCurrentSprite = 0;
+  int mButtonType;
 };
 
 #endif

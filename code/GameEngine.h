@@ -16,7 +16,7 @@ public:
   void init(); //TODO: display into this? or move the whole thing into gameengine, should probs do that
   void freeMem();
 
-  void handleEvents();
+  void handleEvents(SDL_Event* e);
   void update();
   void render();
 
@@ -26,7 +26,7 @@ public:
 
 private:
   bool mRunning;
-  int currentState;
+  int currentState = 0;
   std::vector<GameState*> states;
   // contains textures and is going to be given to gamestates so they... can use... them...
   std::vector<ImageTexture*> mTextures;

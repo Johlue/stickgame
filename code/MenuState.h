@@ -4,19 +4,20 @@
 #include "GameState.h"
 #include "Display.h"
 #include "ImageTexture.h"
+#include "MenuButton.h"
 #include <vector>
 
 class MenuState : public GameState
 {
 public:
-    MenuState(Display* dis, std::vector<ImageTexture*>* texA);
+    MenuState(Display* dis, std::vector<ImageTexture*>* texA, int* cs);
     ~MenuState();
 
     void init();
     void freeMem();
 
     // deal with user input
-    void handleEvents();
+    void handleEvents(SDL_Event* e);
     // do frame update stuff
     void update();
     // draw the things
@@ -25,6 +26,8 @@ public:
     void changeState(int s);
   private:
     std::vector<ImageTexture*>* textureArray;
+    std::vector<MenuButton*> buttonArray;
+    int temp = 0;
 
 };
 

@@ -4,7 +4,7 @@
 GameState::GameState()
 {}
 
-GameState::GameState(Display* dis, std::vector<ImageTexture*>* texA)
+GameState::GameState(Display* dis, std::vector<ImageTexture*>* texA, int* cs)
 {}
 
 GameState::~GameState()
@@ -17,7 +17,7 @@ GameState::~GameState()
   void GameState::freeMem()
   {}
 
-  void GameState::handleEvents()
+  void GameState::handleEvents(SDL_Event* e)
   {}
 
   void GameState::update()

@@ -10,14 +10,14 @@ class GameState
 public:
 
   GameState();
-  GameState(Display* dis, std::vector<ImageTexture*>* texA);
+  GameState(Display* dis, std::vector<ImageTexture*>* texA, int* cs);
   ~GameState();
 
   virtual void init();
   virtual void freeMem();
 
   // deal with user input
-  virtual void handleEvents();
+  virtual void handleEvents(SDL_Event* e);
   // do frame update stuff
   virtual void update();
   // draw the things

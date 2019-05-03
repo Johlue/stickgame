@@ -62,7 +62,7 @@ int main( int argc, char* args[] )
 	initSuccess = init();
 	Display display("windowName", 100, 100, 640, 480);
 	GameEngine game(&display);
-
+/*
 	// load a texture to the thingy
 	textureArray[0]->setRenderer(display.getRenderer());
 	if(!textureArray[0]->loadFromFile("button.png"))
@@ -72,7 +72,7 @@ int main( int argc, char* args[] )
 		initSuccess = false;
 	}
 	textureArray[0]->useSpriteSheet(2, 2);
-
+*/
 	if( !initSuccess )
 	{
 		printf( "Failed to initialize!\n" );
@@ -80,9 +80,9 @@ int main( int argc, char* args[] )
 	else
 	{
 		// make a button
-		MenuButton startButton(0, 200, textureArray[0]);
-		MenuButton endButton(300, 200, textureArray[0]);
-		MenuButton loadButton(0, 0, textureArray[0]);
+		MenuButton startButton(0, 200, textureArray[0], 0);
+		MenuButton endButton(300, 200, textureArray[0], 1);
+		MenuButton loadButton(0, 0, textureArray[0], 2);
 
 		//Main loop flag
 		bool quit = false;
@@ -96,32 +96,49 @@ int main( int argc, char* args[] )
 			//Handle events on queue
 			while( SDL_PollEvent( &e ) != 0 )
 			{
+				// DONZO
+				game.handleEvents(&e);
+				//
+				//-----------------------------------------------------------------------------------------------------------
+				//
+				//	THIS IS A BIG DEAL YOU KNOW
+				//
+				//-----------------------------------------------------------------------------------------------------------
+				//
+
 				//User requests quit
 				if( e.type == SDL_QUIT )
 				{
 					quit = true;
 				}
-
-				//Handle button events
-				for( int i = 0; i < 1; ++i )
-				{
-					startButton.handleEvent( &e );
-					endButton.handleEvent(&e);
-					loadButton.handleEvent(&e);
-				}
 			}
+
+			// DONZO
+			game.update();
+			//
+			//-----------------------------------------------------------------------------------------------------------
+			//
+			//	THIS IS A BIG DEAL YOU KNOW
+			//
+			//-----------------------------------------------------------------------------------------------------------
+			//
+
 
 			//Clear screen
 			SDL_SetRenderDrawColor( display.getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF );
 			SDL_RenderClear( display.getRenderer() );
 
 			//Render buttons
-			for( int i = 0; i < 1; ++i )
-			{
-				startButton.render();
-				endButton.render();
-				loadButton.render();
-			}
+
+			// DONZO
+			game.render();
+			//
+			//-----------------------------------------------------------------------------------------------------------
+			//
+			//	THIS IS A BIG DEAL YOU KNOW
+			//
+			//-----------------------------------------------------------------------------------------------------------
+			//
 
 			//Update screen
 			SDL_RenderPresent( display.getRenderer() );
