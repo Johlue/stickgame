@@ -1,3 +1,10 @@
+Create a somewhat functioning PlayState
+Create a moving player object
+Create background objects
+
+
+
+
+Done stuff
 Move menu things from main to MenuState
 Create a texture vector pointer thingy to pass to all the children in the land so they may have textures
-Other stuff?

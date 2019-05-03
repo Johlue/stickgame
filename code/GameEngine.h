@@ -13,19 +13,21 @@ public:
   //TODO: texture reserve area for use of textures
   GameEngine(Display* display);
   ~GameEngine();
-  void init(); //TODO: display into this? or move the whole thing into gameengine, should probs do that
+  void init(); // does constructor things
   void freeMem();
 
   void handleEvents(SDL_Event* e);
   void update();
   void render();
 
-  void setState(int s);
+  void setState(int s); // i think this is useless now
 
   void quit();
 
 private:
+  // is the game paused or not (though I might make a pause state instead of using this)
   bool mRunning;
+  // which state is currently running
   int currentState = 0;
   std::vector<GameState*> states;
   // contains textures and is going to be given to gamestates so they... can use... them...

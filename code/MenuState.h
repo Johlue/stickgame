@@ -25,8 +25,10 @@ public:
     //tells the GameEngine to change game states
     void changeState(int s);
   private:
+    // arrays to hold things
     std::vector<ImageTexture*>* textureArray;
     std::vector<MenuButton*> buttonArray;
+    // useless test integer
     int temp = 0;
 
 };

@@ -79,10 +79,6 @@ int main( int argc, char* args[] )
 	}
 	else
 	{
-		// make a button
-		MenuButton startButton(0, 200, textureArray[0], 0);
-		MenuButton endButton(300, 200, textureArray[0], 1);
-		MenuButton loadButton(0, 0, textureArray[0], 2);
 
 		//Main loop flag
 		bool quit = false;

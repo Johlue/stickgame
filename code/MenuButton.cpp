@@ -52,10 +52,23 @@ void MenuButton::handleEvent(SDL_Event* e)
 				break;
 
 				case SDL_MOUSEBUTTONUP:
-				//TODO: actual functionality
-        // if mButtonType yada yada
-        std::cout << "Button Pressed!\n";
-				break;
+        std::cout << "Button " << mButtonType << " Pressed!\n";
+
+        // do stuff according to buttontype
+        switch(mButtonType)
+        {
+          // quit game if buttontype is QUIT
+          case QUIT:
+            SDL_Event sdlevent;
+            sdlevent.type = SDL_QUIT;
+            SDL_PushEvent(&sdlevent);
+            break;
+
+          case START:
+            // do some other shit
+
+        }
+        break;
 			}
 		}
 	}
