@@ -65,7 +65,7 @@ int MenuButton::handleEvent(SDL_Event* e)
             break;
 
           case START:
-            // do some other shit
+            return mButtonType;
             break;
         }
         break;
@@ -73,5 +73,6 @@ int MenuButton::handleEvent(SDL_Event* e)
 			}
 		}
 	}
-  return mButtonType;
+  // return nonexistent buttontype if no buttons were pressed
+  return -1;
 }

@@ -9,7 +9,6 @@
 class PlayState : public GameState
 {
 public:
-
   PlayState();
   PlayState(Display* dis, std::vector<ImageTexture*>* texA, int* cs);
   ~PlayState();
@@ -23,6 +22,10 @@ public:
   void update();
   // draw the things
   void render();
+
+private:
+  std::vector<ImageTexture*>* textureArray;
+
 };
 
 #endif

@@ -36,7 +36,7 @@ void MenuState::handleEvents(SDL_Event* e)
   {
     if(buttonArray[i]->handleEvent( e ) == 0)
     {
-      //TODO
+      changeState(1);
     }
   }
 }

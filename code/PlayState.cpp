@@ -6,6 +6,9 @@ PlayState::PlayState()
 PlayState::PlayState(Display* dis, std::vector<ImageTexture*>* texA, int* cs)
 {
   currentState = cs;
+  textureArray = texA;
+  //TODO some other stuff
+  init();
 }
 
 PlayState::~PlayState()

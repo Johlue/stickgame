@@ -36,7 +36,10 @@ GameEngine::~GameEngine()
 void GameEngine::init()
 {
   states.push_back(new MenuState(mDisplay, &mTextures, &currentState));
+  states.push_back(new PlayState(mDisplay, &mTextures, &currentState));
+  std::cout << states.size() << std::endl;
   mRunning = true;
+  currentState = MENUSTATE;
   // create gamestates and i guess initialize them or whatever, the display is already in another place so who cares
 }
 
@@ -52,6 +55,7 @@ void GameEngine::freeMem()
 void GameEngine::handleEvents(SDL_Event* e)
 {
   //printf("e");
+  std::cout << states.size() << currentState << std::endl;
   states[currentState]->handleEvents(e);
 }
 

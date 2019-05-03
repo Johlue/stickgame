@@ -62,17 +62,7 @@ int main( int argc, char* args[] )
 	initSuccess = init();
 	Display display("windowName", 100, 100, 640, 480);
 	GameEngine game(&display);
-/*
-	// load a texture to the thingy
-	textureArray[0]->setRenderer(display.getRenderer());
-	if(!textureArray[0]->loadFromFile("button.png"))
-	{
-		// fail check
-		printf("Failed to load button sprite texture!\n");
-		initSuccess = false;
-	}
-	textureArray[0]->useSpriteSheet(2, 2);
-*/
+
 	if( !initSuccess )
 	{
 		printf( "Failed to initialize!\n" );

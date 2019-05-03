@@ -6,6 +6,7 @@
 #include "Display.h"
 #include "GameState.h"
 #include "MenuState.h"
+#include "PlayState.h"
 
 class GameEngine
 {

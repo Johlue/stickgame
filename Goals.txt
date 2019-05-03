@@ -1,4 +1,6 @@
 Create a somewhat functioning PlayState
+Create a virtual gameobject to function as a parent for everything
+maybe a separate virtual? background object to reduce update and handleevent calls
 Create a moving player object
 Create background objects
 
