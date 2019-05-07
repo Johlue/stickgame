@@ -6,6 +6,7 @@
 #include "ImageTexture.h"
 #include "GameState.h"
 #include "GameObject.h"
+#include "Player.h"
 
 
 class PlayState : public GameState

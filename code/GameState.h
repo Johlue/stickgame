@@ -33,6 +33,7 @@ public:
 
   //tells the GameEngine to change game states
   void changeState(int s);
+protected:
   int* currentState;
   Display* mDisplay = nullptr;
 };

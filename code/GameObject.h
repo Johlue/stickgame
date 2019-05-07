@@ -2,23 +2,27 @@
 #define GAMEOBJECT_03052019
 
 #include <SDL.h>
+#include <Display.h>
 
+// Parent to all gameobjects
 class GameObject
 {
 public:
   GameObject();
-  GameObject(int xl, int yl, int w, int h);
+  // x location, y location, width, heigth, pointer to display
+  GameObject(int xl, int yl, int w, int h, Display* display);
   ~GameObject();
 
   virtual void handleEvent(SDL_Event* e);
   virtual void update();
   virtual void render();
-private:
+protected:
   int x;
   int y;
   int width;
   int height;
 
+  Display* mDisplay = nullptr;
 };
 
 #endif
