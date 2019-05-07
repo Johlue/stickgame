@@ -17,8 +17,8 @@ public:
   virtual void update();
   virtual void render();
 protected:
-  int x;
-  int y;
+  double x;
+  double y;
   int width;
   int height;
 

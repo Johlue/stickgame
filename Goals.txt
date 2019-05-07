@@ -1,6 +1,8 @@
-a background object is just a texture thou and textures already exist...
-Create a moving player object
-Create background objects
+Collision basics, maybe?
+floor and walls and ceiling
+Basic enemies
+bullets and damage mechanics
+
 
 
 
@@ -10,3 +12,5 @@ Move menu things from main to MenuState
 Create a texture vector pointer thingy to pass to all the children in the land so they may have textures
 Create a somewhat functioning PlayState
 finish Createing a virtual gameobject to function as a parent for everything
+a background object is just a texture thou and textures already exist...
+Create a moving player object

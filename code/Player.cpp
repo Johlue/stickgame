@@ -3,7 +3,7 @@
 
 Player::Player(){}
 
-Player::Player(int xl, int yl, Display* display)
+Player::Player(double xl, double yl, Display* display)
 {
   mDisplay = display;
   x = xl;
