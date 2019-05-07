@@ -13,7 +13,7 @@ public:
   enum ButtonType{START = 0, QUIT = 1}; //TODO loads and whatnot
 
   // create button at x, y
-  MenuButton(int x, int y, ImageTexture* it, int type, int width = 300, int height = 200);
+  MenuButton(int x, int y, ImageTexture* it, int type, int width = 320, int height = 100);
   ~MenuButton();
 
   void render();

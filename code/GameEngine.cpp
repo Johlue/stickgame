@@ -8,12 +8,12 @@ GameEngine::GameEngine(Display* display)
   //TODO all the things, basically create a display and initialize gamestates and whatever
   // load a texture to the thingy
   mTextures[0]->setRenderer(display->getRenderer());
-  if(!mTextures[0]->loadFromFile("button.png"))
+  if(!mTextures[0]->loadFromFile("menuButtons.png"))
   {
     // fail check
     printf("Failed to load button sprite texture!\n");
   }
-  mTextures[0]->useSpriteSheet(2, 2);
+  mTextures[0]->useSpriteSheet(1, 9);
 
   std::vector<GameState*> states;
   std::cout << std::endl << currentState << std::endl;

@@ -10,7 +10,7 @@ MenuButton::MenuButton(int x, int y, ImageTexture* it, int type, int width, int 
   mWidth = width;
   mHeight = height;
   mTexture = it;
-  mTexture->useSpriteSheet(2, 2);
+  mTexture->useSpriteSheet(1, 9);
 }
 
 MenuButton::~MenuButton()
@@ -20,7 +20,7 @@ MenuButton::~MenuButton()
 
 void MenuButton::render()
 {
-  mTexture->render(mPosition.x, mPosition.y, mCurrentSprite);
+  mTexture->render(mPosition.x, mPosition.y, mCurrentSprite + (mButtonType * 3));
 }
 
 int MenuButton::handleEvent(SDL_Event* e)
