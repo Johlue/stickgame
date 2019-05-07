@@ -17,8 +17,8 @@ public:
   // creates window and renderer according to set parameters
   bool init(std::string windowName, int posX, int posY, int width, int height);
 
-  SDL_Window* getWindow() const { return mWindow; }
-  SDL_Renderer* getRenderer() const { return mRenderer; }
+  SDL_Window* getWindow();
+  SDL_Renderer* getRenderer();
 private:
   SDL_Window* mWindow = nullptr;
   SDL_Renderer* mRenderer = nullptr;

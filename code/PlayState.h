@@ -5,6 +5,8 @@
 #include <vector>
 #include "ImageTexture.h"
 #include "GameState.h"
+#include "GameObject.h"
+
 
 class PlayState : public GameState
 {
@@ -25,6 +27,7 @@ public:
 
 private:
   std::vector<ImageTexture*>* textureArray;
+  std::vector<GameObject*> objects;
 
 };
 

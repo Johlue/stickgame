@@ -1,6 +1,8 @@
 #ifndef GAMEOBJECT_03052019
 #define GAMEOBJECT_03052019
 
+#include <SDL.h>
+
 class GameObject
 {
 public:
@@ -8,7 +10,7 @@ public:
   GameObject(int xl, int yl, int w, int h);
   ~GameObject();
 
-  virtual void handleEvent();
+  virtual void handleEvent(SDL_Event* e);
   virtual void update();
   virtual void render();
 private:

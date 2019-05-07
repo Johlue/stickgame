@@ -1,13 +1,6 @@
 #include "GameEngine.h"
 #include "Display.h"
 
-enum GameStates
-{
-  MENUSTATE = 0,
-  PLAYSTATE = 1,
-  OTHERSTATE = 2
-};
-
 GameEngine::GameEngine(Display* display)
 {
 
@@ -55,7 +48,6 @@ void GameEngine::freeMem()
 void GameEngine::handleEvents(SDL_Event* e)
 {
   //printf("e");
-  std::cout << states.size() << currentState << std::endl;
   states[currentState]->handleEvents(e);
 }
 

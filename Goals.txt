@@ -1,6 +1,6 @@
 Create a somewhat functioning PlayState
 finish Createing a virtual gameobject to function as a parent for everything
-maybe a separate virtual? background object to reduce update and handleevent calls
+a background object is just a texture thou and textures already exist...
 Create a moving player object
 Create background objects
 

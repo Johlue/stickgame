@@ -52,10 +52,6 @@ bool init()
 
 int main( int argc, char* args[] )
 {
-	// vector to keep the textures in
-	std::vector<ImageTexture*> textureArray;
-	textureArray.push_back( new ImageTexture());
-
 
 	bool initSuccess = true;
 	//Start up SDL and create window
@@ -114,7 +110,7 @@ int main( int argc, char* args[] )
 			SDL_SetRenderDrawColor( display.getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF );
 			SDL_RenderClear( display.getRenderer() );
 
-			//Render buttons
+			//Render stuff
 
 			// DONZO
 			game.render();
@@ -133,15 +129,6 @@ int main( int argc, char* args[] )
 
 	//Free resources and close SDL
 	// I don't understand why this was a separate fucntion
-	for(int i = 0; i < textureArray.size(); i++)
-	{
-		textureArray[i]->freeTexture();
-	}
-	for(int i = 0; i < textureArray.size(); i++)
-	{
-		delete (textureArray[i]);
-	}
-	textureArray.clear();
 
 	game.freeMem();
 	display.freeMem();

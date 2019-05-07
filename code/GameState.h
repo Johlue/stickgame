@@ -5,11 +5,19 @@
 #include <vector>
 #include "ImageTexture.h"
 
+enum GameStates
+{
+  MENUSTATE = 0,
+  PLAYSTATE = 1,
+  OTHERSTATE = 2
+};
+
 class GameState
 {
 public:
 
   GameState();
+  // Display pointer, vector necessary textures, pointer to the active gamestate
   GameState(Display* dis, std::vector<ImageTexture*>* texA, int* cs);
   ~GameState();
 
@@ -26,6 +34,7 @@ public:
   //tells the GameEngine to change game states
   void changeState(int s);
   int* currentState;
+  Display* mDisplay = nullptr;
 };
 
 #endif

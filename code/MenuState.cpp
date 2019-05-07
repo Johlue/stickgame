@@ -5,6 +5,7 @@
 MenuState::MenuState(Display* dis, std::vector<ImageTexture*>* texA, int* cs)
 {
   currentState = cs;
+  mDisplay = dis;
   textureArray = texA;
   init();
 }
@@ -36,7 +37,7 @@ void MenuState::handleEvents(SDL_Event* e)
   {
     if(buttonArray[i]->handleEvent( e ) == 0)
     {
-      changeState(1);
+      changeState(PLAYSTATE);
     }
   }
 }

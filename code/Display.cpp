@@ -58,14 +58,15 @@ bool Display::init(std::string windowName, int posX, int posY, int width, int he
   std::cout << mRenderer << " render nro\n";
   return success;
 }
-/**
+
 SDL_Renderer* Display::getRenderer()
 {
-  std::cout << mRenderer << " render nro\n";
+  //std::cout << mRenderer << " render nro\n";
   return mRenderer;
 }
 
-void Display::getWindow()
+SDL_Window* Display::getWindow()
 {
-  std::cout << mWindow << "windon nrom\n";
-}*/
+  //std::cout << mWindow << "windon nrom\n";
+  return mWindow;
+}
