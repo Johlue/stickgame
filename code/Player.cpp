@@ -48,11 +48,6 @@ void Player::handleEvent(SDL_Event* e)
     break;
 
     case SDL_MOUSEMOTION:
-  	//Get mouse position
-  	int xm, ym;
-  	SDL_GetMouseState( &xm, &ym );
-    renderPoint = (*objects)[0]->lineIntersection(x, y, xm, ym, 1, 1, 1, 1);
-    std::cout << renderPoint.x << ", " << renderPoint.y << std::endl;
     break;
   }
 }
@@ -61,6 +56,10 @@ void Player::update()
 {
   if(movingRight) x += 3;
   if(movingLeft) x -= 3;
+  //Get mouse position
+  int xm, ym;
+  SDL_GetMouseState( &xm, &ym );
+  renderPoint = (*objects)[0]->lineIntersection(x, y, xm, ym, 1, 1, 1, 1);
 }
 
 void Player::render()
@@ -74,7 +73,10 @@ void Player::render()
   SDL_SetRenderDrawColor( mDisplay->getRenderer(), 255, 0, 0, 0xFF );
   SDL_RenderFillRect(mDisplay->getRenderer(), &rect);
 
-  SDL_Rect rect2 = { renderPoint.x-3, renderPoint.y-3, 7, 7};
-  SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0, 0, 255, 0xFF );
-  SDL_RenderFillRect(mDisplay->getRenderer(), &rect2);
+  if(renderPoint.intersect)
+  {
+    SDL_Rect rect2 = { renderPoint.x-3, renderPoint.y-3, 7, 7};
+    SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0, 0, 255, 0xFF );
+    SDL_RenderFillRect(mDisplay->getRenderer(), &rect2);
+  }
 }

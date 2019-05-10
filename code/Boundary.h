@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include <iostream>
 
+// this is a wall/ceiling/floor to ram into
 class Boundary : public GameObject
 {
 public:
@@ -15,7 +16,7 @@ public:
   void update();
   void render();
   //last 4 values are irrelevant since they are not used, first 4 are two points of the other line being checked
-  SDL_Point lineIntersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4);
+  CollisionData lineIntersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4);
 protected:
   double x2;
   double y2;

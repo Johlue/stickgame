@@ -21,7 +21,7 @@ protected:
   bool movingLeft = false;
   std::vector<GameObject*>* objects = nullptr;
   //temp test thingy for intersection math
-  SDL_Point renderPoint;
+  CollisionData renderPoint;
 };
 
 

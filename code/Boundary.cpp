@@ -1,4 +1,5 @@
 #include "Boundary.h"
+#include <cmath>
 
 Boundary::Boundary(){}
 Boundary::Boundary(double x_1, double y_1, double x_2, double y_2, Display* display)
@@ -20,7 +21,7 @@ void Boundary::render()
 }
 
 // xn and ny values can be whatever since they aren't used at all
-SDL_Point Boundary::lineIntersection(double ox1, double oy1, double ox2, double oy2, double nx3, double ny3, double nx4, double ny4)
+CollisionData Boundary::lineIntersection(double ox1, double oy1, double ox2, double oy2, double nx3, double ny3, double nx4, double ny4)
 {
   double x3 = x;
   double y3 = y;
@@ -39,6 +40,25 @@ SDL_Point Boundary::lineIntersection(double ox1, double oy1, double ox2, double 
     yr = ( ((ox1*oy2)-(oy1*ox2)) * (y3-y4) -( (oy1-oy2) * ((x3*y4) - (y3*x4)) ) )/divider;
   }
 
-  SDL_Point result{xr, yr};
+  CollisionData result{xr, yr};
+
+  double pow1 = pow((ox1 - ox2), 2.0);
+  double pow2 = pow((oy1 - oy2), 2.0);
+  double originDistance = sqrt(pow1 + pow2);
+
+  pow1 = pow((ox1 - xr), 2.0);
+  pow2 = pow((oy1 - yr), 2.0);
+  double intersectionDistance = sqrt(pow1 + pow2);
+
+  if(
+    // intersection point is inside the origin line
+    (((ox1 > xr && ox2 < xr) || (ox2 > xr && ox1 < xr)) && ((oy1 > yr && oy2 < yr) || (oy2 > yr && oy1 < yr)))
+    &&
+    // intersection point is inside boundary object TODO;
+    (((x > xr && x2 < xr) || (x2 > xr && x < xr)) && ((y > yr && y2 < yr) || (y2 > yr && y < yr)))
+    ) result.intersect = true;
+  //if(originDistance > intersectionDistance) result.intersect = true;
+  else result.intersect = false;
+
   return result;
 }
