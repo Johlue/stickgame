@@ -1,4 +1,4 @@
-BOUNDARY COLLISION FUNCTION IN PLAYER!
+BOUNDARY COLLISION FUNCTION IN PLAYER! it kinda works?
 Collision basics, maybe?
 floor and walls and ceiling
 Basic enemies
