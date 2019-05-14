@@ -18,7 +18,12 @@ PlayState::~PlayState()
 
 void PlayState::init()
 {
-  objects.push_back( new Boundary(360, 00, 360, 260, mDisplay));
+  for(int i = 0; i < 100; i++)
+  {
+    objects.push_back( new Boundary (360+i, 0, 360+i, 260, mDisplay));
+  }
+  objects.push_back( new Boundary(0, 400, 300, 400, mDisplay));
+  objects.push_back( new Boundary(360, 0, 360, 260, mDisplay));
   objects.push_back( new Player(100, 100, mDisplay, &objects));
 }
 

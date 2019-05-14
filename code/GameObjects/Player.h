@@ -22,6 +22,8 @@ protected:
   std::vector<GameObject*>* objects = nullptr;
   //temp test thingy for intersection math
   CollisionData renderPoint;
+  double xVel = 0;
+  double yVel = 0;
 };
 
 

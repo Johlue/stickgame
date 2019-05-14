@@ -9,6 +9,7 @@ Boundary::Boundary(double x_1, double y_1, double x_2, double y_2, Display* disp
   y = y_1;
   x2 = x_2;
   y2 = y_2;
+  type = BOUNDARY;
 }
 Boundary::~Boundary(){}
 
@@ -23,6 +24,7 @@ void Boundary::render()
 // xn and ny values can be whatever since they aren't used at all
 CollisionData Boundary::lineIntersection(double ox1, double oy1, double ox2, double oy2, double nx3, double ny3, double nx4, double ny4)
 {
+
   double x3 = x;
   double y3 = y;
   double x4 = x2;
@@ -52,10 +54,10 @@ CollisionData Boundary::lineIntersection(double ox1, double oy1, double ox2, dou
 
   if(
     // intersection point is inside the origin line
-    (((ox1 > xr && ox2 < xr) || (ox2 > xr && ox1 < xr)) && ((oy1 > yr && oy2 < yr) || (oy2 > yr && oy1 < yr)))
+    (((ox1 >= xr && ox2 <= xr) || (ox2 >= xr && ox1 <= xr)) && ((oy1 >= yr && oy2 <= yr) || (oy2 >= yr && oy1 <= yr)))
     &&
     // intersection point is inside boundary object TODO;
-    (((x > xr && x2 < xr) || (x2 > xr && x < xr)) && ((y > yr && y2 < yr) || (y2 > yr && y < yr)))
+    (((x >= xr && x2 <= xr) || (x2 >= xr && x <= xr)) && ((y >= yr && y2 <= yr) || (y2 >= yr && y <= yr)))
     ) result.intersect = true;
   //if(originDistance > intersectionDistance) result.intersect = true;
   else result.intersect = false;

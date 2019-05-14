@@ -5,6 +5,13 @@
 #include <Display.h>
 #include "CollisionData.h"
 
+// identifier for what type of object it is
+enum ObjectTypes
+{
+  GAMEOBJECT = 0,
+  PLAYER = 1,
+  BOUNDARY = 2
+};
 // Parent to all gameobjects
 class GameObject
 {
@@ -17,9 +24,14 @@ public:
   virtual void handleEvent(SDL_Event* e);
   virtual void update();
   virtual void render();
+
+  bool isOnScreen();
+  int getType();
   // checks if two lines intersect based on two points each(x1, y1),(x2, y2) and (x3, y3),(x4, y4)
   virtual CollisionData lineIntersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4);
 protected:
+  bool onScreen = true;
+  int type = 0;
   double x;
   double y;
   int width;

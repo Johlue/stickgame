@@ -1,11 +1,11 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = main.cpp code\testFile.cpp code\GameState.cpp code\ImageTexture.cpp code\Display.cpp code\MenuButton.cpp code\GameEngine.cpp code\MenuState.cpp code\PlayState.cpp code\GameObject.cpp code\Player.cpp code\Boundary.cpp code/CollisionData.cpp
+OBJS = main.cpp code\testFile.cpp code\GameState.cpp code\ImageTexture.cpp code\Display.cpp code\MenuButton.cpp code\GameEngine.cpp code\MenuState.cpp code\PlayState.cpp code\GameObjects\GameObject.cpp code\GameObjects\Player.cpp code\GameObjects\Boundary.cpp code\CollisionData.cpp
 
 #CC specifies which compiler we're using
 CC = g++
 
 #INCLUDE_PATHS specifies the additional include paths we'll need
-INCLUDE_PATHS = -IC:\CPP\Tutorials\StickGame\code -IC:\mingw_dev_lib\include\SDL2
+INCLUDE_PATHS = -IC:\CPP\Tutorials\StickGame\code -IC:\mingw_dev_lib\include\SDL2 -IC:\CPP\Tutorials\StickGame\code\GameObjects
 
 #LIBRARY_PATHS specifies the additional library paths we'll need
 LIBRARY_PATHS = -LC:\mingw_dev_lib\lib
