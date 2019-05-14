@@ -16,7 +16,10 @@ public:
   void handleEvent(SDL_Event* e);
   void update();
   void render();
+
 protected:
+  bool boundaryCollision();
+
   bool movingRight = false;
   bool movingLeft = false;
   std::vector<GameObject*>* objects = nullptr;
