@@ -1,6 +1,5 @@
-BOUNDARY COLLISION FUNCTION IN PLAYER! it kinda works?
-Collision basics, maybe?
-floor and walls and ceiling
+colliding with two walls is kinda broken atm
+slopes
 Basic enemies
 bullets and damage mechanics
 
@@ -15,3 +14,5 @@ Create a somewhat functioning PlayState
 finish Createing a virtual gameobject to function as a parent for everything
 a background object is just a texture thou and textures already exist...
 Create a moving player object
+floor and walls and ceiling
+Collision basics, definetly

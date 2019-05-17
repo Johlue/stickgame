@@ -20,11 +20,12 @@ void PlayState::init()
 {
   for(int i = 0; i < 100; i++)
   {
-    objects.push_back( new Boundary (360+i, 0, 360+i, 260, mDisplay));
+    objects.push_back( new Boundary (365+i, 0, 365+i, 260, mDisplay, false, false, true, false));
   }
-  objects.push_back( new Boundary(0, 400, 300, 400, mDisplay));
-  objects.push_back( new Boundary(360, 0, 360, 260, mDisplay));
-  objects.push_back( new Player(100, 100, mDisplay, &objects));
+  objects.push_back( new Boundary(0, 400, 300, 300, mDisplay, true, false, false, true));
+  objects.push_back( new Boundary(360, 0, 360, 260, mDisplay, false, false, false, true));
+  objects.push_back( new Boundary(64, 200, 404, 200, mDisplay, false, true, false, false));
+  objects.push_back( new Player(101, 101, mDisplay, &objects));
 }
 
 void PlayState::freeMem()

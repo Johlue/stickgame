@@ -3,6 +3,7 @@
 
 #include "GameObject.h"
 #include <vector>
+#include "Boundary.h"
 
 class Player : public GameObject
 {
@@ -22,6 +23,8 @@ protected:
 
   bool movingRight = false;
   bool movingLeft = false;
+  bool movingDown = false;
+  bool movingUp = false;
   std::vector<GameObject*>* objects = nullptr;
   //temp test thingy for intersection math
   CollisionData renderPoint;

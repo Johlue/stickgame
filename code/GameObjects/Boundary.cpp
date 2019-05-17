@@ -2,14 +2,19 @@
 #include <cmath>
 
 Boundary::Boundary(){}
-Boundary::Boundary(double x_1, double y_1, double x_2, double y_2, Display* display)
+Boundary::Boundary(double x_1, double y_1, double x_2, double y_2, Display* display, bool up, bool down, bool right, bool left)
 {
   mDisplay = display;
   x = x_1;
   y = y_1;
   x2 = x_2;
   y2 = y_2;
+  facingUp = up;
+  facingDown = down;
+  facingRight = right;
+  facingLeft = left;
   type = BOUNDARY;
+  if(((x*x)/x) - ((x2*x2)/x2) != 0 && ((y*y)/y) - ((y2*y2)/y2) != 0) sloped = true;
 }
 Boundary::~Boundary(){}
 
@@ -20,6 +25,11 @@ void Boundary::render()
   SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
   SDL_RenderDrawLine(mDisplay->getRenderer(), x, y, x2, y2);
 }
+
+bool Boundary::getUp(){return facingUp;}
+bool Boundary::getDown(){return facingDown;}
+bool Boundary::getRight(){return facingRight;}
+bool Boundary::getLeft(){return facingLeft;}
 
 // xn and ny values can be whatever since they aren't used at all
 CollisionData Boundary::lineIntersection(double ox1, double oy1, double ox2, double oy2, double nx3, double ny3, double nx4, double ny4)
@@ -61,6 +71,11 @@ CollisionData Boundary::lineIntersection(double ox1, double oy1, double ox2, dou
     ) result.intersect = true;
   //if(originDistance > intersectionDistance) result.intersect = true;
   else result.intersect = false;
+  result.up = facingUp;
+  result.down = facingDown;
+  result.right = facingRight;
+  result.left = facingLeft;
+  result.slope = sloped;
 
   return result;
 }
