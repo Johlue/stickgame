@@ -136,13 +136,21 @@ void Player::render()
 bool Player::boundaryCollision()
 {
   double xm, ym;
-  double shortestDistance = 999999.0;
+  double shortestDistanceX = 999999.0;
+  double shortestDistanceY = 999999.0;
   double tempDistance = 99999.0;
   int closestCorner;
-  bool colliding;
+  // does a collision happen on either axis
+  bool collidingX;
+  bool collidingY;
   bool up = false, down = false, left = false, right = false;
   CollisionData tempPoint;
-  renderPoint.intersect = false;
+  // closest points of collision for x and y axis
+  CollisionData collisionPointX;
+  CollisionData collisionPointY;
+  collisionPointX.intersect = false;
+  collisionPointY.intersect = false;
+
   for(int i = 0; i < objects->size(); i++)
   {
     // run through all boundary type gameobjects
@@ -150,38 +158,39 @@ bool Player::boundaryCollision()
     {
       for(int i2 = 0; i2 < 4; i2++)
       {
-        colliding = false;
+        collidingX = false;
+        collidingY = false;
 
         // casting a Boundary so i can use boundary functions
         GameObject *tptr = (*objects)[i];
         Boundary *ptr = dynamic_cast<Boundary*>(tptr);
 
-        colliding = false;
         //positive xvel and left are collision
-        if(xVel < 0 && ptr->getRight()) colliding = true;
-        if(xVel > 0 && ptr->getLeft()) colliding = true;
+        if(xVel < 0 && ptr->getRight()) collidingX = true;
+        if(xVel > 0 && ptr->getLeft()) collidingX = true;
         //positive yvel and up are collision
-        if(yVel < 0 && ptr->getDown()) colliding = true;
-        if(yVel > 0 && ptr->getUp()) colliding = true;
+        if(yVel < 0 && ptr->getDown()) collidingY = true;
+        if(yVel > 0 && ptr->getUp()) collidingY = true;
 
-        if(colliding)
+        // check for intersections
+        if(collidingX || collidingY)
         {
-          if (i2 == 0)
+          if (i2 == 0) // top left
           {
             xm = x; ym = y;
             tempPoint = (*objects)[i]->lineIntersection(x, y, x+xVel, y+yVel, 1, 1, 1, 1);
           }
-          if (i2 == 1)
+          if (i2 == 1) // top right
           {
             xm = x + width; ym = y;
             tempPoint = (*objects)[i]->lineIntersection(x + width, y, x+xVel + width, y+yVel, 1, 1, 1, 1);
           }
-          if (i2 == 2)
+          if (i2 == 2) //bottom left
           {
             xm = x; ym = y + height;
             tempPoint = (*objects)[i]->lineIntersection(x, y + height, x+xVel, y+yVel + height, 1, 1, 1, 1);
           }
-          if (i2 == 3)
+          if (i2 == 3) // bottom right
           {
             xm = x + width; ym = y + height;
             tempPoint = (*objects)[i]->lineIntersection(x + width, y + height, x+xVel + width, y+yVel + height, 1, 1, 1, 1);
@@ -196,55 +205,83 @@ bool Player::boundaryCollision()
           double pow2 = pow((ym - tempPoint.y), 2.0);
           tempDistance = sqrt(pow1 + pow2);
           // if intersecting multiple boundaries then check which one is closest and collide with that one
-          if(tempDistance < shortestDistance)
+          if(collidingX && tempDistance < shortestDistanceX)
           {
             closestCorner = i2;
             up = ptr->getUp();
             down = ptr->getDown();
             right = ptr->getRight();
             left = ptr->getLeft();
-            shortestDistance = tempDistance;
-            renderPoint.copy(tempPoint);
+            shortestDistanceX = tempDistance;
+            collisionPointX.copy(tempPoint);
+          }
+          if(collidingY && tempDistance < shortestDistanceY)
+          {
+            closestCorner = i2;
+            up = ptr->getUp();
+            down = ptr->getDown();
+            right = ptr->getRight();
+            left = ptr->getLeft();
+            shortestDistanceY = tempDistance;
+            collisionPointY.copy(tempPoint);
           }
         }
       }
     }
-  }
-  std::cout << "shortestDistance: " << shortestDistance << std::endl;
-  //renderpoint directions should be affecting things as well
-  if (renderPoint.intersect)
+  } // this is where collision checking ends
+  std::cout << "X: " << x << std::endl;
+  std::cout << "Y: " << y << std::endl;
+  //use the correct corner for the collision
+  if (collisionPointX.intersect || collisionPointY.intersect)
   {
     double oldX = x, oldY = y;
-    switch(closestCorner)
+    if(collisionPointX.intersect)
+    {
+      if(collisionPointX.right) x = collisionPointX.x;
+      else if(collisionPointX.left) x = collisionPointX.x - width;
+    }
+    if(collisionPointY.intersect)
+    {
+      if(collisionPointY.down) y = collisionPointY.y;
+      else if(collisionPointY.up) y = collisionPointY.y - height;
+    }
+    if(collisionPointX.intersect && collisionPointY.intersect) std::cout << "xColyCol\n";
+    /**switch(closestCorner)
     {
       case 0: //top left
-      x = renderPoint.x;
-      y = renderPoint.y;
+      x = collisionPointX.x;
+      y = collisionPointY.y;
       break;
 
       case 1: //top right
-      x = renderPoint.x - width;
-      y = renderPoint.y;
+      x = collisionPointX.x - width;
+      y = collisionPointY.y;
       break;
 
       case 2: //bottom left
-      x = renderPoint.x;
-      y = renderPoint.y - height;
+      x = collisionPointX.x;
+      y = collisionPointY.y - height;
       break;
 
       case 3: //bottom right
-      x = renderPoint.x - width;
-      y = renderPoint.y - height;
+      x = collisionPointX.x - width;
+      y = collisionPointY.y - height;
       break;
-    }
+    }*/
     // if it's not sloped then you don't stop the motion to the non-colliding direction
-    if(!renderPoint.slope)
+    //if(!renderPoint.slope)
+    // if xvel is positive and x is less than old x, do normal movement
+    if(xVel > 0 && x < oldX) x = oldX + xVel;
+    if(xVel < 0 && x > oldX) x = oldX + xVel;
+    if(yVel > 0 && y < oldY) y = oldY + yVel;
+    if(yVel < 0 && y > oldY) y = oldY + yVel;
+    if(!(collisionPointX.intersect && collisionPointY.intersect))
     {
-      if(renderPoint.right || renderPoint.left)
+      if(shortestDistanceX < 999998.0)
       {
         y = oldY + yVel;
       }
-      else if(renderPoint.up || renderPoint.down)
+      else if(shortestDistanceY < 999998.0)
       {
         x = oldX + xVel;
       }

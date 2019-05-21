@@ -1,8 +1,6 @@
-colliding with two walls is kinda broken atm
-IDEA: Create a vector containing the shortest distance boundary in each direction and solve those separtely
-slopes
 Basic enemies
 bullets and damage mechanics
+slopes
 
 
 
@@ -17,3 +15,4 @@ a background object is just a texture thou and textures already exist...
 Create a moving player object
 floor and walls and ceiling
 Collision basics, definitely
+colliding with two walls is kinda broken atm NOT ANYMORE IT ISN*T!

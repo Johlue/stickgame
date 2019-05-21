@@ -18,13 +18,24 @@ PlayState::~PlayState()
 
 void PlayState::init()
 {
-  for(int i = 0; i < 100; i++)
+  for(int i = 0; i < 1; i++)
   {
-    objects.push_back( new Boundary (365+i, 0, 365+i, 260, mDisplay, false, false, true, false));
+    //objects.push_back( new Boundary (365+i, 0, 365+i, 260, mDisplay, false, false, true, false)); // right facing
   }
-  objects.push_back( new Boundary(0, 400, 300, 300, mDisplay, true, false, false, true));
-  objects.push_back( new Boundary(360, 0, 360, 260, mDisplay, false, false, false, true));
-  objects.push_back( new Boundary(64, 200, 404, 200, mDisplay, false, true, false, false));
+  //objects.push_back( new Boundary(0, 400, 300, 300, mDisplay, true, false, false, true)); //diagonal up, left
+
+    objects.push_back( new Boundary(64, 200, 64, 160, mDisplay, false, false, false, true)); // left
+    objects.push_back( new Boundary(404, 200, 404, 160, mDisplay, false, false, true, false)); // right
+  objects.push_back( new Boundary(64, 200, 404, 200, mDisplay, false, true, false, false)); // down facing line
+  objects.push_back( new Boundary(64, 160, 404, 160, mDisplay, true, false, false, false)); // up facing line
+
+    objects.push_back( new Boundary(64, 300, 64, 260, mDisplay, false, false, true, false)); // left
+    objects.push_back( new Boundary(404, 300, 404, 260, mDisplay, false, false, false, true)); // right
+  objects.push_back( new Boundary(64, 300, 404, 300, mDisplay, true, false, false, false)); // down facing line
+  objects.push_back( new Boundary(64, 260, 404, 260, mDisplay, false, true, false, false)); // up facing line
+
+
+
   objects.push_back( new Player(101, 101, mDisplay, &objects));
 }
 
