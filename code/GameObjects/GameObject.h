@@ -3,6 +3,7 @@
 
 #include <SDL.h>
 #include <Display.h>
+#include <iostream>
 #include "CollisionData.h"
 
 // identifier for what type of object it is

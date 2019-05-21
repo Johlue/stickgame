@@ -13,14 +13,16 @@ void Hazard::handleEvent(SDL_Event* e){}
 void Hazard::update(){}
 void Hazard::render()
 {
-  switch(type)
+  switch(hazardType)
   {
     // what type of hazard
     case SPIKE:
+      std::cout <<"spizzrender";
     switch(direction)
     {
       //what direction is the spike pointing
       case UP:
+        std::cout <<"uprender";
       SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
       SDL_RenderDrawLine(mDisplay->getRenderer(), x, y+height, x+width, y+height);
       SDL_RenderDrawLine(mDisplay->getRenderer(), x, y+height, x+(width/2), y);

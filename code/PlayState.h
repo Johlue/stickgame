@@ -8,6 +8,7 @@
 #include "GameObject.h"
 #include "Player.h"
 #include "Boundary.h"
+#include "Hazard.h"
 
 
 class PlayState : public GameState

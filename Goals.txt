@@ -1,3 +1,4 @@
+CRASH ON RUN, HAZARD MAIN SUSPECT, probs in the player collision part?
 Basic enemies
   turrets?
   walking dudes?
