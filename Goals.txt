@@ -1,5 +1,9 @@
 Basic enemies
+  turrets?
+  walking dudes?
+  spikes? not really enemies but necessary anyway
 bullets and damage mechanics
+UI and interface or whatever they're called
 slopes
 
 
@@ -15,4 +19,4 @@ a background object is just a texture thou and textures already exist...
 Create a moving player object
 floor and walls and ceiling
 Collision basics, definitely
-colliding with two walls is kinda broken atm NOT ANYMORE IT ISN*T!
+colliding with two walls is kinda fixed atm

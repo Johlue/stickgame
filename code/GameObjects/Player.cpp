@@ -229,8 +229,6 @@ bool Player::boundaryCollision()
       }
     }
   } // this is where collision checking ends
-  std::cout << "X: " << x << std::endl;
-  std::cout << "Y: " << y << std::endl;
   //use the correct corner for the collision
   if (collisionPointX.intersect || collisionPointY.intersect)
   {
@@ -245,7 +243,6 @@ bool Player::boundaryCollision()
       if(collisionPointY.down) y = collisionPointY.y;
       else if(collisionPointY.up) y = collisionPointY.y - height;
     }
-    if(collisionPointX.intersect && collisionPointY.intersect) std::cout << "xColyCol\n";
     /**switch(closestCorner)
     {
       case 0: //top left

@@ -30,6 +30,10 @@ protected:
   CollisionData renderPoint;
   double xVel = 0;
   double yVel = 0;
+
+
+  int hp;
+  int ammo;
 };
 
 

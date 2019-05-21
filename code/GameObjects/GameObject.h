@@ -10,7 +10,8 @@ enum ObjectTypes
 {
   GAMEOBJECT = 0,
   PLAYER = 1,
-  BOUNDARY = 2
+  BOUNDARY = 2,
+  HAZARD = 3
 };
 // Parent to all gameobjects
 class GameObject
