@@ -53,6 +53,7 @@ void PlayState::update()
   for(int i = 0; i < objects.size(); i++)
   {
     objects[i]->update();
+    //std::cout << "update";
   }
 }
 
@@ -61,6 +62,7 @@ void PlayState::render()
   for(int i = 0; i < objects.size(); i++)
   {
     objects[i]->render();
+    //std::cout << "render";
   }
 }
 
@@ -70,10 +72,23 @@ void PlayState::handleEvents(SDL_Event* e)
   for(int i = 0; i < objects.size(); i++)
   {
     objects[i]->handleEvent(e);
+    //std::cout << "event";
   }
 
   if(e->type == SDL_KEYDOWN)
   {
+    if(e->key.keysym.sym == SDLK_r)
+    {
+      for(int i = 0; i < objects.size(); i++)
+      {
+        if(objects[i]->getType() == PLAYER)
+        {
+          delete (objects[i]);
+          objects.erase(objects.begin() + i);
+        }
+      }
+      objects.push_back( new Player(101, 101, mDisplay, &objects));
+    }
     if(e->key.keysym.sym == SDLK_ESCAPE)
     {
       *currentState = MENUSTATE;

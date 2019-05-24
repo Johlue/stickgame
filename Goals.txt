@@ -1,4 +1,3 @@
-CRASH ON RUN, HAZARD MAIN SUSPECT, probs in the player collision part?
 Basic enemies
   turrets?
   walking dudes?
@@ -21,3 +20,4 @@ Create a moving player object
 floor and walls and ceiling
 Collision basics, definitely
 colliding with two walls is kinda fixed atm
+remember to add the proper parts to the constructor silly

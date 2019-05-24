@@ -5,6 +5,8 @@
 #include <Display.h>
 #include <iostream>
 #include "CollisionData.h"
+#include <cmath>
+#include "Point.h"
 
 // identifier for what type of object it is
 enum ObjectTypes
