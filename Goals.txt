@@ -1,7 +1,8 @@
 Basic enemies
+  spikes? not really enemies but necessary anyway
+    spike collision box (partially done, player side undone), maybe other shape hazards as well
   turrets?
   walking dudes?
-  spikes? not really enemies but necessary anyway
 bullets and damage mechanics
 UI and interface or whatever they're called
 slopes

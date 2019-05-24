@@ -34,6 +34,10 @@ public:
   //rotate the entire hazard
   void rotate(double Angle);
 
+  //TODO: collisions ||
+  // option 1: width / (height/ (y - top)) this is withd at correct y location
+  //  option 2 line check run a line check from each of the players corners and if they collide with the spike, then boom game over, or at least damage check
+
   // checks if two lines intersect based on two points each(x1, y1),(x2, y2) and (x3, y3),(x4, y4)
   virtual CollisionData lineIntersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4);
 protected:

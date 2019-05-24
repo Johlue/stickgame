@@ -20,6 +20,7 @@ public:
   bool left;
   bool slope;
   // knockback, damage, iframes, whatever else comes to mind
+  int damage;
 };
 
 #endif
