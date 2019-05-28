@@ -8,13 +8,16 @@
 class Ui
 {
 public:
-  update();
-  render();
+  Ui();
+  ~Ui();
+  void update();
+  void render();
 
-  Player* getPlayer();
+  Player * getPlayer();
   void setPlayer(Player * newPlayer);
+
 protected:
-  Player* player;
+  Player * player;
 };
 
 #endif

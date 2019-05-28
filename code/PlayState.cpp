@@ -34,7 +34,7 @@ void PlayState::init()
   objects.push_back( new Boundary(64, 300, 404, 300, mDisplay, true, false, false, false)); // down facing line
   objects.push_back( new Boundary(64, 260, 404, 260, mDisplay, false, true, false, false)); // up facing line
 
-  objects.push_back (new Hazard(100, 110, 50, 50, SPIKE, UP, 64, mDisplay));
+  objects.push_back (new Hazard(200, 110, 50, 50, SPIKE, UP, 64, mDisplay));
 
   objects.push_back( new Player(101, 101, mDisplay, &objects));
 }

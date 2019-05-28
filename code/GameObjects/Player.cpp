@@ -18,6 +18,8 @@ Player::Player(double xl, double yl, Display* display, std::vector<GameObject*>*
 
 Player::~Player(){}
 
+int Player::getHP(){return hp;}
+int Player::getAmmo(){return ammo;}
 
 void Player::handleEvent(SDL_Event* e)
 {

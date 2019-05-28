@@ -21,6 +21,9 @@ public:
 
   bool collisionCheck();
 
+  int getHP();
+  int getAmmo();
+
 protected:
   void boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool * collidingX, bool * collidingY, CollisionData * collisionPointX, CollisionData * collisionPointY, double * shortestDistanceX, double * shortestDistanceY);
   void hazardCollision(Hazard * hazardPtr);
@@ -37,7 +40,7 @@ protected:
 
   int iframes = 0;
   int hp = 255;
-  int ammo;
+  int ammo = 0;
 };
 
 
