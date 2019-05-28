@@ -22,3 +22,4 @@ floor and walls and ceiling
 Collision basics, definitely
 colliding with two walls is kinda fixed atm
 remember to add the proper parts to the constructor silly
+hazard collision basics are done

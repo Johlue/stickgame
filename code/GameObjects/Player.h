@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include <vector>
 #include "Boundary.h"
+#include "Hazard.h"
 
 class Player : public GameObject
 {
@@ -22,6 +23,7 @@ public:
 
 protected:
   void boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool * collidingX, bool * collidingY, CollisionData * collisionPointX, CollisionData * collisionPointY, double * shortestDistanceX, double * shortestDistanceY);
+  void hazardCollision(Hazard * hazardPtr);
 
   bool movingRight = false;
   bool movingLeft = false;
@@ -34,7 +36,7 @@ protected:
   double yVel = 0;
 
 
-  int hp;
+  int hp = 255;
   int ammo;
 };
 

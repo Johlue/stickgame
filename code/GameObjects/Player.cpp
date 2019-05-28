@@ -113,7 +113,7 @@ void Player::render()
 
 // placeholder graphics for player
   SDL_Rect rect = { x, y, width, height};
-  SDL_SetRenderDrawColor( mDisplay->getRenderer(), 255, 0, 0, 0xFF );
+  SDL_SetRenderDrawColor( mDisplay->getRenderer(), hp, 0, 0, 0xFF );
   SDL_RenderFillRect(mDisplay->getRenderer(), &rect);
 
 // collision test rectangle, mouse based
@@ -138,17 +138,28 @@ bool Player::collisionCheck()
   CollisionData collisionPointY;
   collisionPointX.intersect = false;
   collisionPointY.intersect = false;
+  Boundary * ptr;
+  Hazard * hazardPtr;
 
+    // run through all gameobjects, and do stuff depending on their type
   for(int i = 0; i < objects->size(); i++)
   {
-    // run through all boundary type gameobjects
-    if((*objects)[i]->getType() == BOUNDARY)
-    {
-      GameObject *tptr = (*objects)[i];
-      Boundary *ptr = dynamic_cast<Boundary*>(tptr);
+    GameObject *tptr = (*objects)[i]; //pointer to store the current object for casting purposes
+    switch ((*objects)[i]->getType()) {
+      case BOUNDARY:
       // colliding with the walls
+      //convert object to appropriate type
+      ptr = dynamic_cast<Boundary*>(tptr);
       boundaryCollision(ptr, &tempPoint, &collidingX, &collidingY, &collisionPointX, &collisionPointY, &shortestDistanceX, &shortestDistanceY);
+      break;
+
+      case HAZARD:
+      // do other stuff
+      hazardPtr = dynamic_cast<Hazard*>(tptr);
+      hazardCollision(hazardPtr);
+      break;
     }
+
   } // this is where collision checking ends
   //use the correct corner for the collision
   if (collisionPointX.intersect || collisionPointY.intersect)
@@ -258,6 +269,38 @@ void Player::boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool *
         *shortestDistanceY = tempDistance;
         collisionPointY->copy(*tempPoint);
       }
+    }
+  }
+}
+
+void Player::hazardCollision(Hazard * hazardPtr)
+{
+  CollisionData hurtPoint;
+  for(int i = 0; i < 4; i++)
+  {
+    //check for collisions between the players edges and the hazards edges
+    switch (i) {
+      case 0:
+      hurtPoint = hazardPtr->lineIntersection(x, y, x + width, y,0,0,0,0);
+      break;
+
+      case 1:
+      hurtPoint = hazardPtr->lineIntersection(x, y, x, y + height,0,0,0,0);
+      break;
+
+      case 2:
+      hurtPoint = hazardPtr->lineIntersection(x+width, y, x + width, y+height,0,0,0,0);
+      break;
+
+      case 3:
+      hurtPoint = hazardPtr->lineIntersection(x, y+height, x + width, y+height,0,0,0,0);
+      break;
+    }
+    if(hurtPoint.intersect)
+    {
+      //damage and knockback happens, also iframes and status and whatever else
+      hp -= hurtPoint.damage;
+      break; //stop checking because you're now iframed and can't take further damage
     }
   }
 }

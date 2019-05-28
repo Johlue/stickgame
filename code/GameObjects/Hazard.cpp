@@ -82,24 +82,25 @@ CollisionData Hazard::lineIntersection(double ox1, double oy1, double ox2, doubl
 
   // first attempt infinite lines, didn't work in reverse
   // amazingly the fucking code can't do math order properly and you need to add a fuckload of brackets to make it not be stupid
+  // this is a spike check, probs do other things for different hazards
   for(int i = 0; i < 3; i++)
   {
     // run collision for each of the lines in the triangle
-    if(i = 0)
+    if(i == 0)
     {
       x3 = bottomLeftPoint.x;
       y3 = bottomLeftPoint.y;
       x4 = topPoint.x;
       y4 = topPoint.y;
     }
-    if(i = 2)
+    else if(i == 1)
     {
       x3 = bottomRightPoint.x;
       y3 = bottomRightPoint.y;
       x4 = topPoint.x;
       y4 = topPoint.y;
     }
-    if(i = 3)
+    else if(i == 2)
     {
       x3 = bottomLeftPoint.x;
       y3 = bottomLeftPoint.y;
@@ -123,7 +124,6 @@ CollisionData Hazard::lineIntersection(double ox1, double oy1, double ox2, doubl
     pow1 = pow((ox1 - xr), 2.0);
     pow2 = pow((oy1 - yr), 2.0);
     double intersectionDistance = sqrt(pow1 + pow2);
-
     if(
       // intersection point is inside the origin line
       (((ox1 >= xr && ox2 <= xr) || (ox2 >= xr && ox1 <= xr)) && ((oy1 >= yr && oy2 <= yr) || (oy2 >= yr && oy1 <= yr)))
