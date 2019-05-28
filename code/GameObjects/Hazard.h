@@ -22,7 +22,7 @@ class Hazard : public GameObject
 public:
   Hazard();
   // x location, y location, width, heigth, pointer to display
-  Hazard(int xl, int yl, int w, int h, int hazardtype, double angle, Display* display);
+  Hazard(int xl, int yl, int w, int h, int hazardtype, double angle, int odamage, Display* display);
   ~Hazard();
 
   virtual void handleEvent(SDL_Event* e);
@@ -45,6 +45,7 @@ protected:
   Point topPoint, bottomLeftPoint, bottomRightPoint;
   int hazardType;
   int damage;
+  int iframes = 120;
   int knockback;
 };
 

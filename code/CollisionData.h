@@ -21,6 +21,7 @@ public:
   bool slope;
   // knockback, damage, iframes, whatever else comes to mind
   int damage;
+  int iframes;
 };
 
 #endif

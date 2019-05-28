@@ -35,7 +35,7 @@ protected:
   double xVel = 0;
   double yVel = 0;
 
-
+  int iframes = 0;
   int hp = 255;
   int ammo;
 };

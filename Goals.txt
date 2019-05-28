@@ -1,8 +1,8 @@
+move the hazard collision to somewhere other than the movement, cause right now standing in a laser would be harmless as long as you don't move
 Basic enemies
-  spikes? not really enemies but necessary anyway
-    spike collision box (partially done, player side undone), maybe other shape hazards as well
   turrets?
   walking dudes?
+camera movement
 bullets and damage mechanics
 UI and interface or whatever they're called
 slopes
@@ -23,3 +23,4 @@ Collision basics, definitely
 colliding with two walls is kinda fixed atm
 remember to add the proper parts to the constructor silly
 hazard collision basics are done
+spike are kind of done i guess, just some damage mechanics are missing

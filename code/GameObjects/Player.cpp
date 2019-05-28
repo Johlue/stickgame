@@ -106,6 +106,8 @@ void Player::update()
   }
   x += xVel;
   y += yVel;
+
+  if(iframes > 0) iframes -= 1;
 }
 
 void Player::render()
@@ -113,7 +115,8 @@ void Player::render()
 
 // placeholder graphics for player
   SDL_Rect rect = { x, y, width, height};
-  SDL_SetRenderDrawColor( mDisplay->getRenderer(), hp, 0, 0, 0xFF );
+  if(iframes < 1) SDL_SetRenderDrawColor( mDisplay->getRenderer(), hp, 0, 0, 0xFF ); //no iframes atm
+  else SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 255, 0xFF);
   SDL_RenderFillRect(mDisplay->getRenderer(), &rect);
 
 // collision test rectangle, mouse based
@@ -156,7 +159,7 @@ bool Player::collisionCheck()
       case HAZARD:
       // do other stuff
       hazardPtr = dynamic_cast<Hazard*>(tptr);
-      hazardCollision(hazardPtr);
+      if(iframes < 1) hazardCollision(hazardPtr);
       break;
     }
 
@@ -300,6 +303,7 @@ void Player::hazardCollision(Hazard * hazardPtr)
     {
       //damage and knockback happens, also iframes and status and whatever else
       hp -= hurtPoint.damage;
+      iframes += hurtPoint.iframes;
       break; //stop checking because you're now iframed and can't take further damage
     }
   }

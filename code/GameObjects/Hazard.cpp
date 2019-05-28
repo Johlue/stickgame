@@ -1,7 +1,7 @@
 #include "Hazard.h"
 
 Hazard::Hazard(){type = HAZARD;}
-Hazard::Hazard(int xl, int yl, int w, int h, int haztype, double angle, Display* display)
+Hazard::Hazard(int xl, int yl, int w, int h, int haztype, double angle, int odamage, Display* display)
 {
   type = HAZARD;
   hazardType = haztype;
@@ -10,6 +10,7 @@ Hazard::Hazard(int xl, int yl, int w, int h, int haztype, double angle, Display*
   width = w;
   height = h;
   mDisplay = display;
+  damage = odamage;
 
   topPoint.x = x + (width/2);
   topPoint.y = y;
@@ -79,6 +80,7 @@ CollisionData Hazard::lineIntersection(double ox1, double oy1, double ox2, doubl
   CollisionData result{xr, yr};
   result.intersect = false;
   result.damage = damage;
+  result.iframes = iframes;
 
   // first attempt infinite lines, didn't work in reverse
   // amazingly the fucking code can't do math order properly and you need to add a fuckload of brackets to make it not be stupid
