@@ -18,8 +18,10 @@ public:
   void update();
   void render();
 
+  bool collisionCheck();
+
 protected:
-  bool boundaryCollision();
+  void boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool * collidingX, bool * collidingY, CollisionData * collisionPointX, CollisionData * collisionPointY, double * shortestDistanceX, double * shortestDistanceY);
 
   bool movingRight = false;
   bool movingLeft = false;

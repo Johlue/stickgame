@@ -102,7 +102,7 @@ void Player::update()
   if(moving)
   {
     // return true if a collision happened, and then x and y movement is taken care of in the function
-    if(boundaryCollision()) return;
+    if(collisionCheck()) return;
   }
   x += xVel;
   y += yVel;
@@ -110,13 +110,6 @@ void Player::update()
 
 void Player::render()
 {
-  // line drawn from player to mouse location for testing purposes
-  /*
-  SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0, 255, 0, 0xFF );
-  int xm, ym;
-  SDL_GetMouseState( &xm, &ym );
-  SDL_RenderDrawLine(mDisplay->getRenderer(), x, y, xm, ym);
-  */
 
 // placeholder graphics for player
   SDL_Rect rect = { x, y, width, height};
@@ -132,18 +125,13 @@ void Player::render()
   }
 }
 
-//TODOS: check which corner is colliding instead of looking at velocities
-bool Player::boundaryCollision()
+bool Player::collisionCheck()
 {
-  double xm, ym;
   double shortestDistanceX = 999999.0;
   double shortestDistanceY = 999999.0;
-  double tempDistance = 99999.0;
-  int closestCorner;
   // does a collision happen on either axis
   bool collidingX;
   bool collidingY;
-  bool up = false, down = false, left = false, right = false;
   CollisionData tempPoint;
   // closest points of collision for x and y axis
   CollisionData collisionPointX;
@@ -156,77 +144,10 @@ bool Player::boundaryCollision()
     // run through all boundary type gameobjects
     if((*objects)[i]->getType() == BOUNDARY)
     {
-      for(int i2 = 0; i2 < 4; i2++)
-      {
-        collidingX = false;
-        collidingY = false;
-
-        // casting a Boundary so i can use boundary functions
-        GameObject *tptr = (*objects)[i];
-        Boundary *ptr = dynamic_cast<Boundary*>(tptr);
-
-        //positive xvel and left are collision
-        if(xVel < 0 && ptr->getRight()) collidingX = true;
-        if(xVel > 0 && ptr->getLeft()) collidingX = true;
-        //positive yvel and up are collision
-        if(yVel < 0 && ptr->getDown()) collidingY = true;
-        if(yVel > 0 && ptr->getUp()) collidingY = true;
-
-        // check for intersections
-        if(collidingX || collidingY)
-        {
-          if (i2 == 0) // top left
-          {
-            xm = x; ym = y;
-            tempPoint = (*objects)[i]->lineIntersection(x, y, x+xVel, y+yVel, 1, 1, 1, 1);
-          }
-          if (i2 == 1) // top right
-          {
-            xm = x + width; ym = y;
-            tempPoint = (*objects)[i]->lineIntersection(x + width, y, x+xVel + width, y+yVel, 1, 1, 1, 1);
-          }
-          if (i2 == 2) //bottom left
-          {
-            xm = x; ym = y + height;
-            tempPoint = (*objects)[i]->lineIntersection(x, y + height, x+xVel, y+yVel + height, 1, 1, 1, 1);
-          }
-          if (i2 == 3) // bottom right
-          {
-            xm = x + width; ym = y + height;
-            tempPoint = (*objects)[i]->lineIntersection(x + width, y + height, x+xVel + width, y+yVel + height, 1, 1, 1, 1);
-          }
-        }
-
-        // Collisions happen here
-        // if an intersection between the ray and the boundary happens do stuff
-        if(tempPoint.intersect)
-        {
-          double pow1 = pow((xm - tempPoint.x), 2.0);
-          double pow2 = pow((ym - tempPoint.y), 2.0);
-          tempDistance = sqrt(pow1 + pow2);
-          // if intersecting multiple boundaries then check which one is closest and collide with that one
-          if(collidingX && tempDistance < shortestDistanceX)
-          {
-            closestCorner = i2;
-            up = ptr->getUp();
-            down = ptr->getDown();
-            right = ptr->getRight();
-            left = ptr->getLeft();
-            shortestDistanceX = tempDistance;
-            collisionPointX.copy(tempPoint);
-          }
-          if(collidingY && tempDistance < shortestDistanceY)
-          {
-            closestCorner = i2;
-            up = ptr->getUp();
-            down = ptr->getDown();
-            right = ptr->getRight();
-            left = ptr->getLeft();
-            shortestDistanceY = tempDistance;
-            collisionPointY.copy(tempPoint);
-          }
-        }
-      }
+      GameObject *tptr = (*objects)[i];
+      Boundary *ptr = dynamic_cast<Boundary*>(tptr);
+      // colliding with the walls
+      boundaryCollision(ptr, &tempPoint, &collidingX, &collidingY, &collisionPointX, &collisionPointY, &shortestDistanceX, &shortestDistanceY);
     }
   } // this is where collision checking ends
   //use the correct corner for the collision
@@ -243,28 +164,6 @@ bool Player::boundaryCollision()
       if(collisionPointY.down) y = collisionPointY.y;
       else if(collisionPointY.up) y = collisionPointY.y - height;
     }
-    /**switch(closestCorner)
-    {
-      case 0: //top left
-      x = collisionPointX.x;
-      y = collisionPointY.y;
-      break;
-
-      case 1: //top right
-      x = collisionPointX.x - width;
-      y = collisionPointY.y;
-      break;
-
-      case 2: //bottom left
-      x = collisionPointX.x;
-      y = collisionPointY.y - height;
-      break;
-
-      case 3: //bottom right
-      x = collisionPointX.x - width;
-      y = collisionPointY.y - height;
-      break;
-    }*/
     // if it's not sloped then you don't stop the motion to the non-colliding direction
     //if(!renderPoint.slope)
     // if xvel is positive and x is less than old x, do normal movement
@@ -286,4 +185,79 @@ bool Player::boundaryCollision()
     return true;
   }
   return false;
+}
+
+void Player::boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool * collidingX, bool * collidingY, CollisionData * collisionPointX, CollisionData * collisionPointY, double * shortestDistanceX, double * shortestDistanceY)
+{
+  bool up = false, down = false, left = false, right = false;
+  double xm, ym;
+  double tempDistance = 99999.0;
+  //required? variables collidingX/Y, collisionPointX/Y, shortestDistanceX/Y
+  for(int i2 = 0; i2 < 4; i2++)
+  {
+    *collidingX = false;
+    *collidingY = false;
+
+    // casting a Boundary so i can use boundary functions
+
+    //positive xvel and left are collision
+    if(xVel < 0 && ptr->getRight()) *collidingX = true;
+    if(xVel > 0 && ptr->getLeft()) *collidingX = true;
+    //positive yvel and up are collision
+    if(yVel < 0 && ptr->getDown()) *collidingY = true;
+    if(yVel > 0 && ptr->getUp()) *collidingY = true;
+
+    // check for intersections
+    if(*collidingX || *collidingY)
+    {
+      if (i2 == 0) // top left
+      {
+        xm = x; ym = y;
+        *tempPoint = ptr->lineIntersection(x, y, x+xVel, y+yVel, 1, 1, 1, 1);
+      }
+      if (i2 == 1) // top right
+      {
+        xm = x + width; ym = y;
+        *tempPoint = ptr->lineIntersection(x + width, y, x+xVel + width, y+yVel, 1, 1, 1, 1);
+      }
+      if (i2 == 2) //bottom left
+      {
+        xm = x; ym = y + height;
+        *tempPoint = ptr->lineIntersection(x, y + height, x+xVel, y+yVel + height, 1, 1, 1, 1);
+      }
+      if (i2 == 3) // bottom right
+      {
+        xm = x + width; ym = y + height;
+        *tempPoint = ptr->lineIntersection(x + width, y + height, x+xVel + width, y+yVel + height, 1, 1, 1, 1);
+      }
+    }
+
+    // Collisions happen here
+    // if an intersection between the ray and the boundary happens do stuff
+    if(tempPoint->intersect)
+    {
+      double pow1 = pow((xm - tempPoint->x), 2.0);
+      double pow2 = pow((ym - tempPoint->y), 2.0);
+      tempDistance = sqrt(pow1 + pow2);
+      // if intersecting multiple boundaries then check which one is closest and collide with that one
+      if(*collidingX && tempDistance < *shortestDistanceX)
+      {
+        up = ptr->getUp();
+        down = ptr->getDown();
+        right = ptr->getRight();
+        left = ptr->getLeft();
+        *shortestDistanceX = tempDistance;
+        collisionPointX->copy(*tempPoint);
+      }
+      if(*collidingY && tempDistance < *shortestDistanceY)
+      {
+        up = ptr->getUp();
+        down = ptr->getDown();
+        right = ptr->getRight();
+        left = ptr->getLeft();
+        *shortestDistanceY = tempDistance;
+        collisionPointY->copy(*tempPoint);
+      }
+    }
+  }
 }
