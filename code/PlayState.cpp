@@ -10,6 +10,7 @@ PlayState::PlayState(Display* dis, std::vector<ImageTexture*>* texA, int* cs)
   mDisplay = dis;
   textureArray = texA;
   //TODO some other stuff
+  ui.setDisplay(mDisplay);
   init();
 }
 
@@ -36,7 +37,17 @@ void PlayState::init()
 
   objects.push_back (new Hazard(200, 110, 50, 50, SPIKE, UP, 64, mDisplay));
 
-  objects.push_back( new Player(101, 101, mDisplay, &objects));
+  objects.push_back( new Player(101, 101, &playerAlive, mDisplay, &objects));
+  for(int i2 = 0; i2 < objects.size(); i2++)
+  {
+    if(objects[i2]->getType() == PLAYER)
+    {
+      Player * playerPtr;
+      playerPtr = dynamic_cast<Player*>(objects[i2]);
+      ui.setPlayer(playerPtr);
+      break;
+    }
+  }
 }
 
 void PlayState::freeMem()
@@ -54,6 +65,17 @@ void PlayState::update()
   {
     objects[i]->update();
     //std::cout << "update";
+    if(!playerAlive)
+    {
+      for(int i = 0; i < objects.size(); i++)
+      {
+        if(objects[i]->getType() == PLAYER)
+        {
+          delete (objects[i]);
+          objects.erase(objects.begin() + i);
+        }
+      }
+    }
   }
 }
 
@@ -64,6 +86,7 @@ void PlayState::render()
     objects[i]->render();
     //std::cout << "render";
   }
+  ui.render();
 }
 
 void PlayState::handleEvents(SDL_Event* e)
@@ -87,7 +110,8 @@ void PlayState::handleEvents(SDL_Event* e)
           objects.erase(objects.begin() + i);
         }
       }
-      objects.push_back( new Player(101, 101, mDisplay, &objects));
+      objects.push_back( new Player(101, 101, &playerAlive, mDisplay, &objects));
+      playerAlive = true;
     }
     if(e->key.keysym.sym == SDLK_ESCAPE)
     {

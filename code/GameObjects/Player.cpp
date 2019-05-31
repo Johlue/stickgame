@@ -4,7 +4,7 @@
 
 Player::Player(){}
 
-Player::Player(double xl, double yl, Display* display, std::vector<GameObject*>* obj)
+Player::Player(double xl, double yl, bool * life, Display* display, std::vector<GameObject*>* obj)
 {
   mDisplay = display;
   SDL_Point renderPoint{0, 0};
@@ -13,6 +13,7 @@ Player::Player(double xl, double yl, Display* display, std::vector<GameObject*>*
   width = 16;
   height = 32;
   objects = obj;
+  alive = life;
   type = PLAYER;
 }
 
@@ -74,6 +75,11 @@ void Player::handleEvent(SDL_Event* e)
 
 void Player::update()
 {
+  if(hp <= 0) //DESU happens
+  {
+    //TODO death animations and stuff
+    *alive = false;
+  }
   double xMov = 3, yMov = 3;
   if(movingRight && xVel <= xMov)
   {

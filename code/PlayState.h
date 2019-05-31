@@ -3,6 +3,7 @@
 
 #include "Display.h"
 #include <vector>
+#include "Ui.h"
 #include "ImageTexture.h"
 #include "GameState.h"
 #include "GameObject.h"
@@ -31,6 +32,8 @@ public:
 private:
   std::vector<ImageTexture*>* textureArray;
   std::vector<GameObject*> objects;
+  Ui ui;
+  bool playerAlive = true;
 
 };
 

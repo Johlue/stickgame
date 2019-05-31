@@ -12,7 +12,7 @@ public:
   Player();
   // interacting with other game objects may require a pointer to the gameobject array
   // x location, y location, pointer to display
-  Player(double xl, double yl, Display* display, std::vector<GameObject*>* obj);
+  Player(double xl, double yl, bool * life, Display* display, std::vector<GameObject*>* obj);
   ~Player();
 
   void handleEvent(SDL_Event* e);
@@ -32,6 +32,7 @@ protected:
   bool movingLeft = false;
   bool movingDown = false;
   bool movingUp = false;
+  bool * alive; // is the player alive or not
   std::vector<GameObject*>* objects = nullptr;
   //temp test thingy for intersection math
   CollisionData renderPoint;
