@@ -19,7 +19,8 @@ public:
   void update();
   void render();
 
-  bool collisionCheck();
+  void collisionCheck();
+  bool movementCollisionCheck();
 
   int getHP();
   int getAmmo();

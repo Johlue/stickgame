@@ -107,10 +107,11 @@ void Player::update()
 
   bool moving = false;
   if(xVel > 0) moving = true; if(xVel < 0) moving = true; if(yVel < 0) moving = true; if(yVel > 0) moving = true;
+  collisionCheck();
   if(moving)
   {
     // return true if a collision happened, and then x and y movement is taken care of in the function
-    if(collisionCheck()) return;
+    if(movementCollisionCheck()) return;
   }
   x += xVel;
   y += yVel;
@@ -136,7 +137,22 @@ void Player::render()
   }
 }
 
-bool Player::collisionCheck()
+void Player::collisionCheck()
+{
+  Hazard * hazardPtr;
+  for(int i = 0; i < objects->size(); i++)
+  {
+    if((*objects)[i]->getType() == HAZARD)
+    {
+      // check if yer standing in fire or something
+      hazardPtr = dynamic_cast<Hazard*>((*objects)[i]);
+      if(iframes < 1) hazardCollision(hazardPtr);
+      break;
+    }
+  }
+}
+
+bool Player::movementCollisionCheck()
 {
   double shortestDistanceX = 999999.0;
   double shortestDistanceY = 999999.0;
@@ -150,7 +166,6 @@ bool Player::collisionCheck()
   collisionPointX.intersect = false;
   collisionPointY.intersect = false;
   Boundary * ptr;
-  Hazard * hazardPtr;
 
     // run through all gameobjects, and do stuff depending on their type
   for(int i = 0; i < objects->size(); i++)
@@ -164,11 +179,6 @@ bool Player::collisionCheck()
       boundaryCollision(ptr, &tempPoint, &collidingX, &collidingY, &collisionPointX, &collisionPointY, &shortestDistanceX, &shortestDistanceY);
       break;
 
-      case HAZARD:
-      // do other stuff
-      hazardPtr = dynamic_cast<Hazard*>(tptr);
-      if(iframes < 1) hazardCollision(hazardPtr);
-      break;
     }
 
   } // this is where collision checking ends
