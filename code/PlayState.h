@@ -34,6 +34,13 @@ private:
   std::vector<GameObject*> objects;
   Ui ui;
   bool playerAlive = true;
+  int cameraX;
+  int cameraY;
+
+  int levelSizeX;
+  int levelSizeY;
+
+  int playerVectorLocation;
 
 };
 

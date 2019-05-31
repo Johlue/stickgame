@@ -17,7 +17,7 @@ public:
 
   void handleEvent(SDL_Event* e);
   void update();
-  void render();
+  void render(int cameraX, int cameraY);
 
   void collisionCheck();
   bool movementCollisionCheck();

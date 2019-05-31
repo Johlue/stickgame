@@ -5,6 +5,7 @@
 #include "Display.h"
 #include "Player.h"
 #include <SDL.h>
+#include <iostream>
 
 class Ui
 {

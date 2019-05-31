@@ -26,16 +26,16 @@ Hazard::~Hazard(){}
 void Hazard::handleEvent(SDL_Event* e){}
 void Hazard::update()
 {}
-void Hazard::render()
+void Hazard::render(int cameraX, int cameraY)
 {
   switch(hazardType)
   {
     // what type of hazard
     case SPIKE:
     SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
-    SDL_RenderDrawLine(mDisplay->getRenderer(), bottomLeftPoint.x, bottomLeftPoint.y, bottomRightPoint.x, bottomRightPoint.y);
-    SDL_RenderDrawLine(mDisplay->getRenderer(), bottomLeftPoint.x, bottomLeftPoint.y, topPoint.x, topPoint.y);
-    SDL_RenderDrawLine(mDisplay->getRenderer(), topPoint.x, topPoint.y, bottomRightPoint.x, bottomRightPoint.y);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), bottomLeftPoint.x - cameraX, bottomLeftPoint.y - cameraY, bottomRightPoint.x - cameraX, bottomRightPoint.y - cameraY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), bottomLeftPoint.x - cameraX, bottomLeftPoint.y - cameraY, topPoint.x - cameraX, topPoint.y - cameraY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), topPoint.x - cameraX, topPoint.y - cameraY, bottomRightPoint.x - cameraX, bottomRightPoint.y - cameraY);
     //do stuff
     break;
   }

@@ -119,11 +119,11 @@ void Player::update()
   if(iframes > 0) iframes -= 1;
 }
 
-void Player::render()
+void Player::render(int cameraX, int cameraY)
 {
 
 // placeholder graphics for player
-  SDL_Rect rect = { x, y, width, height};
+  SDL_Rect rect = { x - cameraX, y - cameraY, width, height};
   if(iframes < 1) SDL_SetRenderDrawColor( mDisplay->getRenderer(), hp, 0, 0, 0xFF ); //no iframes atm
   else SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 255, 0xFF);
   SDL_RenderFillRect(mDisplay->getRenderer(), &rect);
@@ -131,7 +131,7 @@ void Player::render()
 // collision test rectangle, mouse based
   if(renderPoint.intersect)
   {
-    SDL_Rect rect2 = { renderPoint.x-3, renderPoint.y-3, 7, 7};
+    SDL_Rect rect2 = { renderPoint.x-3 - cameraX, renderPoint.y-3 - cameraY, 7, 7};
     SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0, 0, 255, 0xFF );
     SDL_RenderFillRect(mDisplay->getRenderer(), &rect2);
   }
@@ -147,7 +147,7 @@ void Player::collisionCheck()
       // check if yer standing in fire or something
       hazardPtr = dynamic_cast<Hazard*>((*objects)[i]);
       if(iframes < 1) hazardCollision(hazardPtr);
-      break;
+      else break;
     }
   }
 }
@@ -297,6 +297,7 @@ void Player::boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool *
 void Player::hazardCollision(Hazard * hazardPtr)
 {
   CollisionData hurtPoint;
+  hurtPoint.intersect = false;
   for(int i = 0; i < 4; i++)
   {
     //check for collisions between the players edges and the hazards edges

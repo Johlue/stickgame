@@ -36,6 +36,7 @@ void PlayState::init()
   objects.push_back( new Boundary(64, 260, 404, 260, mDisplay, false, true, false, false)); // up facing line
 
   objects.push_back (new Hazard(200, 110, 50, 50, SPIKE, UP, 64, mDisplay));
+  objects.push_back (new Hazard(800, 110, 150, 150, SPIKE, UP, 64, mDisplay));
 
   objects.push_back( new Player(101, 101, &playerAlive, mDisplay, &objects));
   for(int i2 = 0; i2 < objects.size(); i2++)
@@ -45,6 +46,7 @@ void PlayState::init()
       Player * playerPtr;
       playerPtr = dynamic_cast<Player*>(objects[i2]);
       ui.setPlayer(playerPtr);
+      playerVectorLocation = i2;
       break;
     }
   }
@@ -76,6 +78,13 @@ void PlayState::update()
         }
       }
     }
+    else
+    {
+      cameraX = objects[playerVectorLocation]->getX() - 320+16;// -half.screenwidth +half.playerwidth
+      cameraY = objects[playerVectorLocation]->getY() - 240+32;
+      if(cameraX < 0) cameraX = 0;
+      if(cameraY < 0) cameraY = 0;
+    }
   }
 }
 
@@ -83,7 +92,7 @@ void PlayState::render()
 {
   for(int i = 0; i < objects.size(); i++)
   {
-    objects[i]->render();
+    objects[i]->render(cameraX, cameraY);
     //std::cout << "render";
   }
   ui.render();
@@ -97,11 +106,11 @@ void PlayState::handleEvents(SDL_Event* e)
     objects[i]->handleEvent(e);
     //std::cout << "event";
   }
-
   if(e->type == SDL_KEYDOWN)
   {
-    if(e->key.keysym.sym == SDLK_r)
+    switch(e->key.keysym.sym)
     {
+      case SDLK_r:
       for(int i = 0; i < objects.size(); i++)
       {
         if(objects[i]->getType() == PLAYER)
@@ -112,10 +121,21 @@ void PlayState::handleEvents(SDL_Event* e)
       }
       objects.push_back( new Player(101, 101, &playerAlive, mDisplay, &objects));
       playerAlive = true;
-    }
-    if(e->key.keysym.sym == SDLK_ESCAPE)
-    {
+
+      // find player and add his location to the variable tracking thing
+      for(int i2 = 0; i2 < objects.size(); i2++)
+      {
+        if(objects[i2]->getType() == PLAYER)
+        {
+          playerVectorLocation = i2;
+          break;
+        }
+      }
+      break;
+
+      case SDLK_ESCAPE:
       *currentState = MENUSTATE;
+      break;
     }
   }
 }

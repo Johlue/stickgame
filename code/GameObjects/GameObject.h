@@ -27,7 +27,10 @@ public:
 
   virtual void handleEvent(SDL_Event* e);
   virtual void update();
-  virtual void render();
+  virtual void render(int cameraX, int cameraY);
+
+  double getX();
+  double getY();
 
   bool isOnScreen();
   int getType();

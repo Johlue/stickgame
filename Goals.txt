@@ -1,4 +1,3 @@
-move the hazard collision to somewhere other than the movement, cause right now standing in a laser would be harmless as long as you don't move
 Basic enemies
   turrets?
   walking dudes?

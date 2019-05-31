@@ -20,10 +20,10 @@ Boundary::~Boundary(){}
 
 void Boundary::update(){}
 void Boundary::handleEvent(SDL_Event* e){}
-void Boundary::render()
+void Boundary::render(int cameraX, int cameraY)
 {
   SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
-  SDL_RenderDrawLine(mDisplay->getRenderer(), x, y, x2, y2);
+  SDL_RenderDrawLine(mDisplay->getRenderer(), x - cameraX, y - cameraY, x2 - cameraX, y2 - cameraY);
 }
 
 bool Boundary::getUp(){return facingUp;}
