@@ -24,8 +24,7 @@ Hazard::Hazard(int xl, int yl, int w, int h, int haztype, double angle, int odam
 Hazard::~Hazard(){}
 
 void Hazard::handleEvent(SDL_Event* e){}
-void Hazard::update()
-{}
+void Hazard::update(){}
 void Hazard::render(int cameraX, int cameraY)
 {
   switch(hazardType)
@@ -43,29 +42,13 @@ void Hazard::render(int cameraX, int cameraY)
 
 void Hazard::rotate(double angle)
 {
+  Point center;
+  center.x = x+(width/2);
+  center.y = y + height;
   //rotate the whole spike by rotateing each of it's points
-  rotatePoint(angle, &topPoint);
-  rotatePoint(angle, &bottomLeftPoint);
-  rotatePoint(angle, &bottomRightPoint);
-}
-
-void Hazard::rotatePoint(double angle, Point * origin)
-{
-  angle = (angle ) * (3.14159265359/180); // Convert to radians
-
-  double centerX = x+(width/2);
-  double centerY = y + height;
-  std::cout <<"CenterPoint: (" << centerX<< ", " << centerY << ")" << std::endl;
-
-  std::cout <<"Origin: (" << origin->x<< ", " << origin->y << ")" << std::endl;
-  double rotatedX = (cos(angle) * (origin->x - centerX)) - (sin(angle) * (origin->y - centerY)) + centerX;
-
-  double rotatedY = (sin(angle) * (origin->x - centerX)) + (cos(angle) * (origin->y - centerY)) + centerY;
-  std::cout <<"RotatedPoint: (" << rotatedX<< ", " << rotatedY << ")" << std::endl << std::endl;
-
-  origin->x = rotatedX;
-  origin->y = rotatedY;
-
+  rotatePoint(angle, &topPoint, center);
+  rotatePoint(angle, &bottomLeftPoint, center);
+  rotatePoint(angle, &bottomRightPoint, center);
 }
 
 CollisionData Hazard::lineIntersection(double ox1, double oy1, double ox2, double oy2, double nx3, double ny3, double nx4, double ny4)

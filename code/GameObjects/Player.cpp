@@ -19,6 +19,8 @@ Player::Player(double xl, double yl, bool * life, Display* display, std::vector<
 
 Player::~Player(){}
 
+double Player::getX(){return x;}
+double Player::getY(){return y;}
 int Player::getHP(){return hp;}
 int Player::getAmmo(){return ammo;}
 

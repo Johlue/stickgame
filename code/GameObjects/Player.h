@@ -19,6 +19,9 @@ public:
   void update();
   void render(int cameraX, int cameraY);
 
+  double getX();
+  double getY();
+
   void collisionCheck();
   bool movementCollisionCheck();
 
@@ -34,7 +37,7 @@ protected:
   bool movingDown = false;
   bool movingUp = false;
   bool * alive; // is the player alive or not
-  std::vector<GameObject*>* objects = nullptr;
+  std::vector<GameObject*>* objects = nullptr; // contains objects to interact with
   //temp test thingy for intersection math
   CollisionData renderPoint;
   double xVel = 0;

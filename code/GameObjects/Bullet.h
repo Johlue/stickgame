@@ -8,7 +8,7 @@ class Bullet : public GameObject
 public:
   Bullet();
   // x location, y location, width, heigth, pointer to display
-  Bullet(int xl, int yl, int w, int h, Display* display);
+  Bullet(int xl, int yl, Vector2D move, Display* display, std::vector<GameObject*>* obj);
   ~Bullet();
 
   virtual void handleEvent(SDL_Event* e);
@@ -18,8 +18,9 @@ public:
   // also other collision is handled by it
   virtual CollisionData lineIntersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4);
 protected:
-  double xVel;
-  double yVel;
+  Vector2D movement;
+  int lifeTime = 600;
+  std::vector<GameObject*>* objects = nullptr; // contains objects to interact with
 };
 
 #endif

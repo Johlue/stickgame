@@ -19,9 +19,11 @@ public:
   Player * getPlayer();
   void setDisplay(Display* disp);
   void setPlayer(Player * newPlayer);
+  void setDeadPlayer(bool dead);
 
 protected:
   Player * player;
+  bool playerDead = false;
   Display * mDisplay;
 };
 

@@ -10,6 +10,8 @@
 #include "Player.h"
 #include "Boundary.h"
 #include "Hazard.h"
+#include "Turret.h"
+#include "Bullet.h"
 
 
 class PlayState : public GameState
@@ -40,6 +42,7 @@ private:
   int levelSizeX;
   int levelSizeY;
 
+  Player * currentPlayer;
   int playerVectorLocation;
 
 };

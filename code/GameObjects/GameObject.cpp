@@ -18,6 +18,8 @@ int GameObject::getType()
   return type;
 }
 
+bool GameObject::isAlive(){return alive;}
+
 CollisionData GameObject::lineIntersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4){}
 
 double GameObject::getX(){return x;}

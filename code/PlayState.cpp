@@ -38,15 +38,15 @@ void PlayState::init()
   objects.push_back (new Hazard(200, 110, 50, 50, SPIKE, UP, 64, mDisplay));
   objects.push_back (new Hazard(800, 110, 150, 150, SPIKE, UP, 64, mDisplay));
 
+  objects.push_back (new Turret(200, 200, mDisplay, &objects));
+
   objects.push_back( new Player(101, 101, &playerAlive, mDisplay, &objects));
   for(int i2 = 0; i2 < objects.size(); i2++)
   {
     if(objects[i2]->getType() == PLAYER)
     {
-      Player * playerPtr;
-      playerPtr = dynamic_cast<Player*>(objects[i2]);
-      ui.setPlayer(playerPtr);
-      playerVectorLocation = i2;
+      currentPlayer = dynamic_cast<Player*>(objects[i2]);
+      ui.setPlayer(currentPlayer);
       break;
     }
   }
@@ -66,6 +66,12 @@ void PlayState::update()
   for(int i = 0; i < objects.size(); i++)
   {
     objects[i]->update();
+    if(!objects[i]->isAlive())
+    {
+      delete (objects[i]);
+      objects.erase(objects.begin() + i);
+      ui.setDeadPlayer(true);
+    }
     //std::cout << "update";
     if(!playerAlive)
     {
@@ -80,10 +86,13 @@ void PlayState::update()
     }
     else
     {
-      cameraX = objects[playerVectorLocation]->getX() - 320+16;// -half.screenwidth +half.playerwidth
-      cameraY = objects[playerVectorLocation]->getY() - 240+32;
-      if(cameraX < 0) cameraX = 0;
-      if(cameraY < 0) cameraY = 0;
+      if(currentPlayer != nullptr)
+      {
+        cameraX = currentPlayer->getX() - 320+16;// -half.screenwidth +half.playerwidth
+        cameraY = currentPlayer->getY() - 240+32;
+        if(cameraX < 0) cameraX = 0;
+        if(cameraY < 0) cameraY = 0;
+      }
     }
   }
 }
@@ -128,6 +137,9 @@ void PlayState::handleEvents(SDL_Event* e)
         if(objects[i2]->getType() == PLAYER)
         {
           playerVectorLocation = i2;
+          currentPlayer = dynamic_cast<Player*>(objects[i2]);
+          ui.setPlayer(currentPlayer);
+          ui.setDeadPlayer(false);
           break;
         }
       }

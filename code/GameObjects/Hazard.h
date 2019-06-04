@@ -29,8 +29,6 @@ public:
   virtual void update();
   virtual void render(int cameraX, int cameraY);
 
-  //rotate one point of the hazard
-  void rotatePoint(double Angle, Point * origin);
   //rotate the entire hazard
   void rotate(double Angle);
 

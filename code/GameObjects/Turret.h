@@ -2,6 +2,7 @@
 #define TURRET_31052019
 
 #include "GameObject.h"
+#include "Bullet.h"
 
 class Turret : public GameObject //this is a round gun thing that tries to spin around to shoot the player
 {
@@ -9,7 +10,7 @@ public:
 
     Turret();
     // x location, y location, width, heigth, pointer to display
-    Turret(int xl, int yl, int w, int h, Display* display);
+    Turret(int xl, int yl, Display* display, std::vector<GameObject*>* obj);
     ~Turret();
 
     void handleEvent(SDL_Event* e);
@@ -19,11 +20,14 @@ public:
     // checks if two lines intersect based on two points each(x1, y1),(x2, y2) and (x3, y3),(x4, y4)
     CollisionData lineIntersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4);
 protected:
-  double angle; // angle that the gun is currently facing in
-  int shotFrequency; // how often the gun shoots
-  int bulletDamage;
-  int bulletSpeed;
-  int bulletKnockback;
+  double angle = -90; // angle that the gun is currently facing in
+  std::vector<GameObject*>* objects = nullptr; // contains objects to interact with
+  Point cannonTopLeft, cannonTopRight, cannonBottomLeft, cannonBottomRight;
+  int cooldown= 22;
+  int shotFrequency = 22; // how often the gun shoots
+  int bulletDamage = 20;
+  int bulletSpeed = 15;
+  int bulletKnockback = 3;
   //maybe some other parameters of the bullet in question
 };
 
