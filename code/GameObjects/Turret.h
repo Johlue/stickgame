@@ -16,7 +16,8 @@ public:
     void handleEvent(SDL_Event* e);
     void update();
     void render(int cameraX, int cameraY);
-
+    void move(double x, double y);
+    void rotate(double angl);
     // checks if two lines intersect based on two points each(x1, y1),(x2, y2) and (x3, y3),(x4, y4)
     CollisionData lineIntersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4);
 protected:
@@ -24,9 +25,9 @@ protected:
   std::vector<GameObject*>* objects = nullptr; // contains objects to interact with
   Point cannonTopLeft, cannonTopRight, cannonBottomLeft, cannonBottomRight;
   int cooldown= 22;
-  int shotFrequency = 22; // how often the gun shoots
+  int shotFrequency = 19; // how often the gun shoots
   int bulletDamage = 20;
-  int bulletSpeed = 15;
+  int bulletSpeed = 5;
   int bulletKnockback = 3;
   //maybe some other parameters of the bullet in question
 };

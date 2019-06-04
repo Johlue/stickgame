@@ -23,25 +23,44 @@ Turret::Turret(int xl, int yl, Display* display, std::vector<GameObject*>* obj)
 }
 Turret::~Turret(){}
 
-void Turret::handleEvent(SDL_Event* e){}
-void Turret::update()
+void Turret::move(double xo, double yo)
+{
+  x += xo;
+  y += yo;
+  cannonTopLeft.x += xo;
+  cannonTopLeft.y += yo;
+  cannonTopRight.x += xo;
+  cannonTopRight.y += yo;
+  cannonBottomLeft.x += xo;
+  cannonBottomLeft.y += yo;
+  cannonBottomRight.x += xo;
+  cannonBottomRight.y += yo;
+}
+
+void Turret::rotate(double angl)
 {
   Point p;
   p.x = x; p.y = y;
-  rotatePoint(1, &cannonTopLeft, p);
-  rotatePoint(1, &cannonTopRight, p);
-  rotatePoint(1, &cannonBottomLeft, p);
-  rotatePoint(1, &cannonBottomRight, p);
-  angle += 1;
+  rotatePoint(angl, &cannonTopLeft, p);
+  rotatePoint(angl, &cannonTopRight, p);
+  rotatePoint(angl, &cannonBottomLeft, p);
+  rotatePoint(angl, &cannonBottomRight, p);
+  angle += angl;
   while(angle > 360){angle -= 360;}
   while (angle < 0){angle += 360;}
+}
+
+void Turret::handleEvent(SDL_Event* e){}
+void Turret::update()
+{
+  rotate(2);
   cooldown -= 1;
   if(cooldown < 1) //TODO: spinning to face the player and then not shooting at nothing all the time
   {
     cooldown = shotFrequency;
     //shoot
-    Vector2D bulletVector((angle ) * (3.14159265359/180), 5);
-    objects->push_back(new Bullet(200, 200, bulletVector, mDisplay, objects));
+    Vector2D bulletVector((angle ) * (3.14159265359/180), bulletSpeed);
+    objects->push_back(new Bullet(x, y, bulletVector, mDisplay, objects));
   }
 }
 void Turret::render(int cameraX, int cameraY)

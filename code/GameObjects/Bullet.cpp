@@ -19,6 +19,39 @@ void Bullet::update()
   y += movement.y;
   lifeTime -= 1;
   if(lifeTime < 1) alive = false;
+
+//collisions
+  for(int i = 0; i < objects->size(); i++)
+  {
+    if ((*objects)[i]->getType() == BOUNDARY)
+    {
+      CollisionData cd;
+      cd.copy((*objects)[i]->lineIntersection(x, y, x+movement.x, y+movement.y,0,0,0,0));
+      if(cd.intersect)
+      {
+        if(movement.y >= 0  && cd.up)
+        {
+          alive = false;
+          break;
+        }
+        if(movement.y <= 0  && cd.down)
+        {
+          alive = false;
+          break;
+        }
+        if(movement.x <= 0  && cd.right)
+        {
+          alive = false;
+          break;
+        }
+        if(movement.x >= 0  && cd.left)
+        {
+          alive = false;
+          break;
+        }
+      }
+    }
+  }
 }
 void Bullet::render(int cameraX, int cameraY)
 {
