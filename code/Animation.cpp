@@ -1,6 +1,12 @@
 #include "Animation.h"
 
-Animation::Animation(){}
+Animation::Animation(int framdelay, bool loop, std::vector<ImageTexture*>* textures, Display* display)
+{
+  frameDelay = framdelay;
+  looping = loop;
+  mTextures = textures;
+  mDisplay = display;
+}
 
 void Animation::render(int x, int y, int camx, int camy)
 {

@@ -17,7 +17,7 @@
 class Animation
 {
 public:
-  Animation();
+  Animation(int framdelay, bool loop, std::vector<ImageTexture*>* textures, Display* display);
   void update();
   void render(int x, int y, int cameraX, int cameraY);
   void addFrame(int sprite, int tex);
