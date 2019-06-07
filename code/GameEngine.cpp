@@ -4,26 +4,37 @@
 GameEngine::GameEngine(Display* display)
 {
 
-  mTextures.push_back(new ImageTexture());
+  mDisplay = display;
   //TODO all the things, basically create a display and initialize gamestates and whatever
   // load a texture to the thingy
+  loadImageTexture("menuButtons.png", 1, 9);
+  /*
+  mTextures.push_back(new ImageTexture());
   mTextures[0]->setRenderer(display->getRenderer());
   if(!mTextures[0]->loadFromFile("menuButtons.png"))
   {
     // fail check
     printf("Failed to load button sprite texture!\n");
   }
-  mTextures[0]->useSpriteSheet(1, 9);
+  mTextures[0]->useSpriteSheet(1, 9);*/
+
 
   std::vector<GameState*> states;
   std::cout << std::endl << currentState << std::endl;
-  mDisplay = display;
   init();
 }
 
 GameEngine::~GameEngine()
 {
 
+}
+
+void GameEngine::loadImageTexture(std::string name, int spriteRow, int spriteCol)
+{
+  mTextures.push_back(new ImageTexture());
+  mTextures.back()->setRenderer(mDisplay->getRenderer());
+  if(mTextures.back()->loadFromFile(name)) std::cout << "Failed to load texture: " << name << std::endl;
+  if(spriteRow > 1 && spriteCol > 1) mTextures.back()->useSpriteSheet(spriteRow, spriteCol);
 }
 
 void GameEngine::init()

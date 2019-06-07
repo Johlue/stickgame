@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 #include "Display.h"
 #include "GameState.h"
 #include "MenuState.h"
@@ -16,6 +17,7 @@ public:
   ~GameEngine();
   void init(); // does constructor things
   void freeMem();
+  void loadImageTexture(std::string name, int spriteRow, int spriteCol); //loads a texture file with this many row and cols
 
   void handleEvents(SDL_Event* e);
   void update();

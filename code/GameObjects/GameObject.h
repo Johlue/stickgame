@@ -1,6 +1,7 @@
 #ifndef GAMEOBJECT_03052019
 #define GAMEOBJECT_03052019
 
+#include "ImageTexture.h"
 #include <SDL.h>
 #include <Display.h>
 #include <iostream>
@@ -50,6 +51,8 @@ protected:
   double y;
   int width;
   int height;
+
+  std::vector<ImageTexture*>* textureArray;
 
   Display* mDisplay = nullptr;
 };

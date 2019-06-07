@@ -126,8 +126,8 @@ void Player::render(int cameraX, int cameraY)
 
 // placeholder graphics for player
   SDL_Rect rect = { x - cameraX, y - cameraY, width, height};
-  if(iframes < 1) SDL_SetRenderDrawColor( mDisplay->getRenderer(), hp, 0, 0, 0xFF ); //no iframes atm
-  else SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 255, 0xFF);
+  if(iframes < 1) SDL_SetRenderDrawColor( mDisplay->getRenderer(), 255, 0, 0, 0xFF ); //no iframes atm
+  else SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 102, 102, 0);
   SDL_RenderFillRect(mDisplay->getRenderer(), &rect);
 
 // collision test rectangle, mouse based
