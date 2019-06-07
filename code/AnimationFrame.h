@@ -1,15 +1,15 @@
 #ifndef ANIMATIONFRAME_07062019
 #define ANIMATIONFRAME_07062019
 
+// some numbers to help animations work
 class AnimationFrame
 {
 public:
-  AnimationFrame(int row, int col, int tex);
-  int getRow();
-  int getCol();
+  AnimationFrame(int sprit, int tex);
+  int getSprite();
   int getTexture();
 protected:
-  int row, col, texture;
+  int sprite, texture;
 };
 
 #endif

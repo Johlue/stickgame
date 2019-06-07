@@ -1,12 +1,10 @@
 #include "Animation.h"
 
-AnimationFrame::AnimationFrame(int rows, int cols, int tex)
+AnimationFrame::AnimationFrame(int sptir, int tex)
 {
-  row = rows;
-  col = cols;
+  sprite = sptir;
   texture = tex;
 }
 
-int AnimationFrame::getRow(){return row;}
-int AnimationFrame::getCol(){return col;}
+int AnimationFrame::getSprite(){return sprite;}
 int AnimationFrame::getTexture(){return texture;}
