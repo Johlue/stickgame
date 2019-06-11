@@ -4,7 +4,7 @@
 
 Player::Player(){}
 
-Player::Player(double xl, double yl, bool * life, Display* display, std::vector<GameObject*>* obj, std::vector<ImageTexture*>* texs)
+Player::Player(double xl, double yl, bool * life, Display* display, std::vector<GameObject*>* obj, std::vector<ImageTexture*>* texs) : walkAnimation(15, true, textureArray, mDisplay), standAnimation(15, true, textureArray, mDisplay)
 {
   textureArray = texs;
   mDisplay = display;
@@ -18,7 +18,7 @@ Player::Player(double xl, double yl, bool * life, Display* display, std::vector<
   type = PLAYER;
 
   // Animations and their shenanigans
-  Animation walkAnimation(15, false, textureArray, mDisplay);
+  Animation walkAnimation(15, true, textureArray, mDisplay);
   Animation standAnimation(15, true, textureArray, mDisplay);
   walkAnimation.addFrame(1, 0);
   walkAnimation.addFrame(1, 1);
