@@ -1,6 +1,6 @@
 #include "Animation.h"
 
-AnimationFrame::AnimationFrame(int sptir, int tex)
+AnimationFrame::AnimationFrame(int tex, int sptir)
 {
   sprite = sptir;
   texture = tex;

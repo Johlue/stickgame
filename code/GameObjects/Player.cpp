@@ -4,8 +4,9 @@
 
 Player::Player(){}
 
-Player::Player(double xl, double yl, bool * life, Display* display, std::vector<GameObject*>* obj)
+Player::Player(double xl, double yl, bool * life, Display* display, std::vector<GameObject*>* obj, std::vector<ImageTexture*>* texs)
 {
+  textureArray = texs;
   mDisplay = display;
   SDL_Point renderPoint{0, 0};
   x = xl;
@@ -15,9 +16,17 @@ Player::Player(double xl, double yl, bool * life, Display* display, std::vector<
   objects = obj;
   alive = life;
   type = PLAYER;
+
+  // Animations and their shenanigans
+  Animation walkAnimation(15, false, textureArray, mDisplay);
+  Animation standAnimation(15, true, textureArray, mDisplay);
+  walkAnimation.addFrame(1, 0);
+  walkAnimation.addFrame(1, 1);
+  walkAnimation.addFrame(1, 2);
 }
 
-Player::~Player(){}
+Player::~Player()
+{}
 
 double Player::getX(){return x;}
 double Player::getY(){return y;}
@@ -129,6 +138,12 @@ void Player::render(int cameraX, int cameraY)
   if(iframes < 1) SDL_SetRenderDrawColor( mDisplay->getRenderer(), 255, 0, 0, 0xFF ); //no iframes atm
   else SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 102, 102, 0);
   SDL_RenderFillRect(mDisplay->getRenderer(), &rect);
+
+  //now with real graphics
+  (*textureArray)[1]->render(x - cameraX, y - cameraY, 0);
+
+  walkAnimation.render(x, y, cameraX, cameraY);
+  walkAnimation.update();
 
 // collision test rectangle, mouse based
   if(renderPoint.intersect)

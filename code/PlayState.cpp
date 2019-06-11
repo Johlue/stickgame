@@ -40,7 +40,7 @@ void PlayState::init()
 
   objects.push_back (new Turret(100, 250, mDisplay, &objects));
 
-  objects.push_back( new Player(101, 101, &playerAlive, mDisplay, &objects));
+  objects.push_back( new Player(101, 101, &playerAlive, mDisplay, &objects, textureArray));
   for(int i2 = 0; i2 < objects.size(); i2++)
   {
     if(objects[i2]->getType() == PLAYER)
@@ -128,7 +128,7 @@ void PlayState::handleEvents(SDL_Event* e)
           objects.erase(objects.begin() + i);
         }
       }
-      objects.push_back( new Player(101, 101, &playerAlive, mDisplay, &objects));
+      objects.push_back( new Player(101, 101, &playerAlive, mDisplay, &objects, textureArray));
       playerAlive = true;
 
       // find player and add his location to the variable tracking thing

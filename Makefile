@@ -1,5 +1,5 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = main.cpp code\testFile.cpp code\GameState.cpp code\ImageTexture.cpp code\Display.cpp code\MenuButton.cpp code\GameEngine.cpp code\MenuState.cpp code\PlayState.cpp code\GameObjects\GameObject.cpp code\GameObjects\Player.cpp code\GameObjects\Boundary.cpp code\CollisionData.cpp code\GameObjects\Hazard.cpp code\Point.cpp code\Ui.cpp code\GameObjects\Turret.cpp code\GameObjects\Bullet.cpp code\Vector2D.cpp code\func.cpp code\Animation.cpp code\AnimationFrame.cpp
+OBJS = main.cpp code\testFile.cpp code\GameState.cpp code\ImageTexture.cpp code\Display.cpp code\MenuButton.cpp code\GameEngine.cpp code\MenuState.cpp code\PlayState.cpp code\GameObjects\GameObject.cpp code\GameObjects\Player.cpp code\GameObjects\Boundary.cpp code\CollisionData.cpp code\GameObjects\Hazard.cpp code\Point.cpp code\Ui.cpp code\GameObjects\Turret.cpp code\GameObjects\Bullet.cpp code\Vector2D.cpp code\func.cpp code\AnimationFrame.cpp code\Animation.cpp
 
 #CC specifies which compiler we're using
 CC = g++

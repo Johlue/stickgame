@@ -12,7 +12,7 @@ public:
   Player();
   // interacting with other game objects may require a pointer to the gameobject array
   // x location, y location, pointer to display
-  Player(double xl, double yl, bool * life, Display* display, std::vector<GameObject*>* obj);
+  Player(double xl, double yl, bool * life, Display* display, std::vector<GameObject*>* obj, std::vector<ImageTexture*>* texs);
   ~Player();
 
   void handleEvent(SDL_Event* e);
@@ -31,6 +31,9 @@ public:
 protected:
   void boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool * collidingX, bool * collidingY, CollisionData * collisionPointX, CollisionData * collisionPointY, double * shortestDistanceX, double * shortestDistanceY);
   void hazardCollision(Hazard * hazardPtr);
+
+  Animation standAnimation;
+  Animation walkAnimation;
 
   bool movingRight = false;
   bool movingLeft = false;

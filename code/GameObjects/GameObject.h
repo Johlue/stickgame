@@ -8,9 +8,10 @@
 #include "CollisionData.h"
 #include <cmath>
 #include "Point.h"
-#include "Vector2D.h";
+#include "Vector2D.h"
 #include <vector>
 #include "func.h"
+#include "Animation.h"
 
 // identifier for what type of object it is
 enum ObjectTypes

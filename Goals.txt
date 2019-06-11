@@ -1,8 +1,6 @@
 animations
   create an animation object that autoruns through the frames
   make a counter(s) similar to iframes and sync that up with the current action
-  some kind of animation manager object
-  something else?
 Brush up on vector math for bullet movement (wall bounce)
 Basic enemies
   turrets? semi done
