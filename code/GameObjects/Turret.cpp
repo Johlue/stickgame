@@ -46,36 +46,69 @@ void Turret::rotate(double angl)
   rotatePoint(angl, &cannonBottomLeft, p);
   rotatePoint(angl, &cannonBottomRight, p);
   angle += angl;
-  while(angle > 360){angle -= 360;}
-  while (angle < 0){angle += 360;}
 }
 
 void Turret::handleEvent(SDL_Event* e){}
 void Turret::update()
 {
+  while(angle > 360){angle -= 360;}
+  while (angle <= 0){angle += 360;}
+  cooldown -= 1;
+
   // check if playrid is valid, if not fix it
-  if(playerid > objs->size() - 1) playerid = 9999999;
-  else if((*objs)[playerid]->getType() != PLAYER) playerid = 9999999;
+  if(playerid > objects->size() - 1) playerid = 9999999;
+  else if((*objects)[playerid]->getType() != PLAYER) playerid = 9999999;
 
   if(playerid == 9999999)
   {
-    for(int i = 0; i < objs->size(); i++)
+    for(int i = 0; i < objects->size(); i++)
     {
-      if((*objs)[i]->getType() == PLAYER)
+      if((*objects)[i]->getType() == PLAYER)
       {
         playerid = i;
         break;
       }
     }
   }
-  rotate(2);
-  cooldown -= 1;
-  if(cooldown < 1) //TODO: spinning to face the player and then not shooting at nothing all the time
+
+  if(playerid != 9999999) //don't do things if playerid is not valid
   {
-    cooldown = shotFrequency;
-    //shoot
-    Vector2D bulletVector((angle ) * (3.14159265359/180), bulletSpeed);
-    objects->push_back(new Bullet(x, y, bulletVector, mDisplay, objects));
+    double distanceToPlayer = sqrt(pow(x - (*objects)[playerid]->getX(), 2) + pow(y - (*objects)[playerid]->getY(), 2));
+    if(distanceToPlayer > 500) return; // stop doing things if player is too far
+    bool lineofsight = true;
+    for(int i2 = 0; i2 < objects->size(); i2++)
+    {
+      if((*objects)[i2]->getType() == BOUNDARY)
+      {
+        CollisionData cd;
+        cd = (*objects)[i2]->lineIntersection(x, y,(*objects)[playerid]->getX() + 8,(*objects)[playerid]->getY() + 16,1,1,1,1); // chekc if turret can see player
+        if(cd.intersect)
+        {
+          lineofsight = false;
+          break;
+        }
+      }
+    }
+
+    if(lineofsight) //if player is visible shoot and or rotate turret
+    {
+      double angleToPlayer = atan2( x-((*objects)[playerid]->getX() +8) , ((*objects)[playerid]->getY()+16)-y);
+      //radians
+      angleToPlayer = angleToPlayer * (180.0/3.14159265359) + 180; // degrees
+
+      double zerodPangle = angleToPlayer - angle;
+      if(zerodPangle < 0) zerodPangle += 360;
+
+      if(zerodPangle > 180) rotate(-2);
+      else rotate(2);
+      if(cooldown < 1 && lineofsight) //TODO: spinning to face the player and then not shooting at nothing all the time
+      {
+        cooldown = shotFrequency;
+        //shoot
+        Vector2D bulletVector((angle-90 ) * (3.14159265359/180), bulletSpeed);
+        objects->push_back(new Bullet(x, y, bulletVector, mDisplay, objects));
+      }
+    }
   }
 }
 void Turret::render(int cameraX, int cameraY)
