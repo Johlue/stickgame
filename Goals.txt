@@ -1,7 +1,8 @@
 Brush up on vector math for bullet movement (wall bounce)
 Basic enemies
   turrets? semi done
-    aiming
+    aiming(done)
+    maybe add rotation speed variable
   walking dudes?
 bullets and damage mechanics (semi done)
 UI and interface or whatever they're called (partially done)

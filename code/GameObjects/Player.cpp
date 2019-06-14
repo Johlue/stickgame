@@ -28,7 +28,13 @@ Player::Player(double xl, double yl, bool * life, Display* display, std::vector<
 }
 
 Player::~Player()
-{}
+{
+  for(int i = 0; i < mAnimations.size(); i++)
+  {
+    delete mAnimations[i];
+  }
+  mAnimations.clear();
+}
 
 double Player::getX(){return x;}
 double Player::getY(){return y;}

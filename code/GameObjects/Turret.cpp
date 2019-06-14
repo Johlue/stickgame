@@ -97,11 +97,18 @@ void Turret::update()
       angleToPlayer = angleToPlayer * (180.0/3.14159265359) + 180; // degrees
 
       double zerodPangle = angleToPlayer - angle;
+
       if(zerodPangle < 0) zerodPangle += 360;
 
-      if(zerodPangle > 180) rotate(-2);
-      else rotate(2);
-      if(cooldown < 1 && lineofsight) //TODO: spinning to face the player and then not shooting at nothing all the time
+      if(zerodPangle > 2 || zerodPangle < -2)
+      {
+        if(zerodPangle > 180) rotate(-2);
+        else rotate(2);
+      }
+      else rotate(zerodPangle);
+
+      if(zerodPangle < 4 && zerodPangle > -4 && cooldown < 1 && lineofsight)
+      // might change the 4s to rotation speed or something like that later
       {
         cooldown = shotFrequency;
         //shoot

@@ -19,7 +19,7 @@ public:
   virtual CollisionData lineIntersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4);
 protected:
   Vector2D movement;
-  int lifeTime = 600;
+  int lifeTime = 300;
   std::vector<GameObject*>* objects = nullptr; // contains objects to interact with
 };
 
