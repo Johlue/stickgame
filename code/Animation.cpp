@@ -24,10 +24,7 @@ void Animation::render(int x, int y, int camx, int camy)
   std::cout << currentDelay << " " << currentFrame << std::endl;
   if(currentFrame < getmFrames().size())
   {
-    std::cout << "its alwatys this piece of shit that breaks evertyhign";
-    std::cout << " \ndisplay " << mDisplay;
     (*mTextures())[getmFrames()[currentFrame].getTexture()]->render(x-camx, y-camy, getmFrames()[currentFrame].getSprite());
-      std::cout << "its alwatys this piece of shit that breaks evertyhign";
   }
   //mTextures()[1].rend(x+camx, y+camy, 1);
 

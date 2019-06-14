@@ -27,8 +27,8 @@ public:
   void freeMem();
 protected:
   bool looping = true; //does animation loop or get stuck at end frame
-  int frameDelay = 15; // how long does one animation frame last
-  int currentDelay = 15; // how many gameframes until the next animationframe
+  int frameDelay = 1; // how long does one animation frame last
+  int currentDelay = 1; // how many gameframes until the next animationframe
   int currentFrame = 0; // current animationframe being displayed
   Display * mDisplay;
   std::vector<ImageTexture*>* &mTextures() {

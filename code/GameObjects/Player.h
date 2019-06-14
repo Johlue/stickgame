@@ -32,15 +32,13 @@ protected:
   void boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool * collidingX, bool * collidingY, CollisionData * collisionPointX, CollisionData * collisionPointY, double * shortestDistanceX, double * shortestDistanceY);
   void hazardCollision(Hazard * hazardPtr);
 
-  Animation standAnimation;
-  Animation walkAnimation;
-
   bool movingRight = false;
   bool movingLeft = false;
   bool movingDown = false;
   bool movingUp = false;
   bool * alive; // is the player alive or not
   std::vector<GameObject*>* objects = nullptr; // contains objects to interact with
+  std::vector<Animation*> mAnimations;
   //temp test thingy for intersection math
   CollisionData renderPoint;
   double xVel = 0;

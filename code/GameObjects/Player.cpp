@@ -2,9 +2,11 @@
 #include <iostream>
 #include <cmath>
 
+enum Animations {STAND = 0, WALK = 1};
+
 Player::Player(){}
 
-Player::Player(double xl, double yl, bool * life, Display* display, std::vector<GameObject*>* obj, std::vector<ImageTexture*>* texs) : walkAnimation(15, true, textureArray, mDisplay), standAnimation(15, true, textureArray, mDisplay)
+Player::Player(double xl, double yl, bool * life, Display* display, std::vector<GameObject*>* obj, std::vector<ImageTexture*>* texs)// : walkAnimation(15, true, textureArray, mDisplay), standAnimation(15, true, textureArray, mDisplay)
 {
   textureArray = texs;
   mDisplay = display;
@@ -18,11 +20,11 @@ Player::Player(double xl, double yl, bool * life, Display* display, std::vector<
   type = PLAYER;
 
   // Animations and their shenanigans
-  Animation walkAnimation(15, true, textureArray, mDisplay);
-  Animation standAnimation(15, true, textureArray, mDisplay);
-  walkAnimation.addFrame(1, 0);
-  walkAnimation.addFrame(1, 1);
-  walkAnimation.addFrame(1, 2);
+  mAnimations.push_back(new Animation(15, true, textureArray, mDisplay));
+  mAnimations.push_back(new Animation(15, true, textureArray, mDisplay));
+  mAnimations[WALK]->addFrame(1, 0);
+  mAnimations[WALK]->addFrame(1, 1);
+  mAnimations[WALK]->addFrame(1, 2);
 }
 
 Player::~Player()
@@ -142,8 +144,8 @@ void Player::render(int cameraX, int cameraY)
   //now with real graphics
   (*textureArray)[1]->render(x - cameraX, y - cameraY, 0);
 
-  walkAnimation.render(x, y, cameraX, cameraY);
-  walkAnimation.update();
+  mAnimations[1]->render(x, y, cameraX, cameraY);
+  mAnimations[1]->update();
 
 // collision test rectangle, mouse based
   if(renderPoint.intersect)
