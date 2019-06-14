@@ -53,6 +53,21 @@ void Turret::rotate(double angl)
 void Turret::handleEvent(SDL_Event* e){}
 void Turret::update()
 {
+  // check if playrid is valid, if not fix it
+  if(playerid > objs->size() - 1) playerid = 9999999;
+  else if((*objs)[playerid]->getType() != PLAYER) playerid = 9999999;
+
+  if(playerid == 9999999)
+  {
+    for(int i = 0; i < objs->size(); i++)
+    {
+      if((*objs)[i]->getType() == PLAYER)
+      {
+        playerid = i;
+        break;
+      }
+    }
+  }
   rotate(2);
   cooldown -= 1;
   if(cooldown < 1) //TODO: spinning to face the player and then not shooting at nothing all the time

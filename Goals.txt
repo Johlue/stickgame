@@ -1,9 +1,7 @@
-animations
-  create an animation object that autoruns through the frames
-  make a counter(s) similar to iframes and sync that up with the current action
 Brush up on vector math for bullet movement (wall bounce)
 Basic enemies
   turrets? semi done
+    aiming
   walking dudes?
 bullets and damage mechanics (semi done)
 UI and interface or whatever they're called (partially done)
@@ -31,3 +29,6 @@ hazard collision basics are done
 spike are kind of done i guess, just some damage mechanics are missing
 move the hazard collision to somewhere other than the movement
 camera movement
+animations
+  create an animation object that autoruns through the frames
+  make a counter(s) similar to iframes and sync that up with the current action

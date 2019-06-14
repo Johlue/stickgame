@@ -9,7 +9,7 @@ Animation::Animation(int framdelay, bool loop, std::vector<ImageTexture*>* textu
   currentFrame = 0;
   frameDelay = framdelay;
   looping = loop;
-  mTextures() = textures;
+  mTextures = textures;
   mDisplay = display;
   currentDelay = frameDelay;
 }
@@ -21,10 +21,9 @@ void Animation::freeMem()
 }
 void Animation::render(int x, int y, int camx, int camy)
 {
-  std::cout << currentDelay << " " << currentFrame << std::endl;
-  if(currentFrame < getmFrames().size())
+  if(currentFrame < mFrames.size())
   {
-    (*mTextures())[getmFrames()[currentFrame].getTexture()]->render(x-camx, y-camy, getmFrames()[currentFrame].getSprite());
+    (*mTextures)[mFrames[currentFrame].getTexture()]->render(x-camx, y-camy, mFrames[currentFrame].getSprite());
   }
   //mTextures()[1].rend(x+camx, y+camy, 1);
 
@@ -35,7 +34,7 @@ void Animation::update()
   currentDelay -= 1;
   if(currentDelay < 1)
   {
-    if(currentFrame < getmFrames().size()-1)
+    if(currentFrame < mFrames.size()-1)
     {
       currentFrame += 1;
     }
@@ -47,10 +46,16 @@ void Animation::update()
   }
 }
 
+void Animation::setTransparency(int amount, int textureNro)
+{
+  (*mTextures)[textureNro]->setBlendMode(SDL_BLENDMODE_BLEND);
+  (*mTextures)[textureNro]->setAlpha(amount);
+}
+
 void Animation::addFrame(int tex, int sprite)
 {
   AnimationFrame af(tex, sprite);
-  getmFrames().push_back(af);
+  mFrames.push_back(af);
 }
 
 void Animation::reset()

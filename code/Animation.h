@@ -25,20 +25,15 @@ public:
   void addFrame(int sprite, int tex); // add next frame, from texture nro, sprite nro
   void reset(); // reset animation
   void freeMem();
+  void setTransparency(int amount, int textureNro);
 protected:
   bool looping = true; //does animation loop or get stuck at end frame
   int frameDelay = 1; // how long does one animation frame last
   int currentDelay = 1; // how many gameframes until the next animationframe
   int currentFrame = 0; // current animationframe being displayed
   Display * mDisplay;
-  std::vector<ImageTexture*>* &mTextures() {
-    static std::vector<ImageTexture*>* mFrames;
-    return mFrames;
-  }
-  std::vector<AnimationFrame> &getmFrames() {
-    static std::vector<AnimationFrame> mFrames;
-    return mFrames;
-  }
+  std::vector<ImageTexture*>* mTextures;
+  std::vector<AnimationFrame> mFrames;
 };
 
 #endif

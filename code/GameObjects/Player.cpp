@@ -20,11 +20,11 @@ Player::Player(double xl, double yl, bool * life, Display* display, std::vector<
   type = PLAYER;
 
   // Animations and their shenanigans
+  mAnimations.push_back(new Animation(15, false, textureArray, mDisplay));
+  mAnimations[STAND]->addFrame(1, 0);
   mAnimations.push_back(new Animation(15, true, textureArray, mDisplay));
-  mAnimations.push_back(new Animation(15, true, textureArray, mDisplay));
-  mAnimations[WALK]->addFrame(1, 0);
-  mAnimations[WALK]->addFrame(1, 1);
   mAnimations[WALK]->addFrame(1, 2);
+  mAnimations[WALK]->addFrame(1, 3);
 }
 
 Player::~Player()
@@ -136,6 +136,7 @@ void Player::render(int cameraX, int cameraY)
 {
 
 // placeholder graphics for player
+/*
   SDL_Rect rect = { x - cameraX, y - cameraY, width, height};
   if(iframes < 1) SDL_SetRenderDrawColor( mDisplay->getRenderer(), 255, 0, 0, 0xFF ); //no iframes atm
   else SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 102, 102, 0);
@@ -143,9 +144,23 @@ void Player::render(int cameraX, int cameraY)
 
   //now with real graphics
   (*textureArray)[1]->render(x - cameraX, y - cameraY, 0);
+*/
+  if(iframes > 0)
+  {
+    mAnimations[STAND]->setTransparency(63, 1);
+  }
 
-  mAnimations[1]->render(x, y, cameraX, cameraY);
-  mAnimations[1]->update();
+  if(xVel < 1 && yVel > -1 && xVel > -1 && yVel < 1)
+  {
+    mAnimations[STAND]->render(x, y, cameraX, cameraY);
+    mAnimations[STAND]->update();
+    mAnimations[WALK]->reset();
+  }
+  else
+  {
+    mAnimations[WALK]->render(x, y, cameraX, cameraY);
+    mAnimations[WALK]->update();
+  }
 
 // collision test rectangle, mouse based
   if(renderPoint.intersect)
@@ -153,6 +168,10 @@ void Player::render(int cameraX, int cameraY)
     SDL_Rect rect2 = { renderPoint.x-3 - cameraX, renderPoint.y-3 - cameraY, 7, 7};
     SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0, 0, 255, 0xFF );
     SDL_RenderFillRect(mDisplay->getRenderer(), &rect2);
+  }
+  if(iframes > 0)
+  {
+    mAnimations[STAND]->setTransparency(255, 1);
   }
 }
 
