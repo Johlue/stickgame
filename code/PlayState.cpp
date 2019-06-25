@@ -38,13 +38,13 @@ void PlayState::init()
   objects.push_back (new Hazard(200, 110, 50, 50, SPIKE, UP, 64, mDisplay));
   objects.push_back (new Hazard(800, 110, 150, 150, SPIKE, UP, 64, mDisplay));
 
-  objects.push_back (new Turret(100, 250, mDisplay, &objects));
+  /*objects.push_back (new Turret(100, 250, mDisplay, &objects));
   objects.push_back (new Turret(400, 250, mDisplay, &objects));
   objects.push_back (new Turret(400, 150, mDisplay, &objects));
   objects.push_back (new Turret(400, 350, mDisplay, &objects));
   objects.push_back (new Turret(600, 250, mDisplay, &objects));
   objects.push_back (new Turret(600, 150, mDisplay, &objects));
-  objects.push_back (new Turret(600, 350, mDisplay, &objects));
+  objects.push_back (new Turret(600, 350, mDisplay, &objects));*/
 
   objects.push_back( new Player(101, 101, &playerAlive, mDisplay, &objects, textureArray));
   for(int i2 = 0; i2 < objects.size(); i2++)

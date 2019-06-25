@@ -24,6 +24,7 @@ public:
 
   void collisionCheck(); //
   bool movementCollisionCheck(); // checks if you ran into walls
+  bool fallingCheck();
   void damaged(CollisionData hurt); // take damage from a source that is the hurt CollisionData
 
   int getHP();
@@ -45,6 +46,25 @@ protected:
   double xVel = 0;
   double yVel = 0;
 
+  //is the player falling or not
+  bool falling = false;
+  // increase of yVel per frame while falling
+  double gravity = .2;
+  // maximum yVel gained from falling
+  double terminalVelocity = 10;
+  // how many frames can the player ascend for with a jump
+  int maxJump = 60;
+  // for how many frames has the player been ascending with a jump
+  int currentJump = 0;
+  // currently pressing jump button
+  bool jumping = false;
+  // has the player stopped pressing the jump button while midair, or reached maxJump
+  bool jumpEnded = false;
+  // is the player facing right (or left)
+  bool facingRight = true;
+  // is the player currently being knockbacked
+  bool knockback = false;
+  // remaining invincibility frames
   int iframes = 0;
   int hp = 255;
   int ammo = 0;

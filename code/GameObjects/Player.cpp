@@ -57,11 +57,11 @@ void Player::handleEvent(SDL_Event* e)
       break;
 
       case SDLK_UP:
-      movingUp = true;
-      break;
-
-      case SDLK_DOWN:
-      movingDown = true;
+      if(!falling)
+      {
+        jumping = true;
+        falling = true;
+      }
       break;
     }
     break;
@@ -78,11 +78,7 @@ void Player::handleEvent(SDL_Event* e)
       break;
 
       case SDLK_UP:
-      movingUp = false;
-      break;
-
-      case SDLK_DOWN:
-      movingDown = false;
+      jumping = false;
       break;
     }
     break;
@@ -99,32 +95,62 @@ void Player::update()
     //TODO death animations and stuff
     *alive = false;
   }
-  double xMov = 3, yMov = 3;
-  if(movingRight && xVel <= xMov)
-  {
-    xVel += xMov;
-    if(xMov < xVel <= 2*xMov) xVel = xMov;
-  }
-  else if(movingLeft && xVel >= -xMov)
-  {
-    xVel -= xMov;
-    if(-xMov > xVel >= -2 * xMov) xVel = -xMov;
-  }
-  else xVel = 0;
 
-  if(movingDown && yVel <= yMov)
+  falling = fallingCheck(); // is the player falling or not
+  if(!falling)
   {
-    yVel += yMov;
-    if(yMov < yVel <= 2*yMov) yVel = yMov;
+    currentJump = 0;
+    jumpEnded = false;
   }
-  else if(movingUp && yVel >= -yMov)
+
+  double xMov = 3.9, yMov = 3;
+  if(!knockback)
   {
-    yVel -= yMov;
-    if(-yMov > yVel >= -2 * yMov) yVel = -yMov;
+    // start moving when buttons are pressed, if not knockbacked
+    if(movingRight && xVel <= xMov)
+    {
+      xVel += xMov;
+      if(xMov < xVel <= 2*xMov) xVel = xMov;
+    }
+    else if(movingLeft && xVel >= -xMov)
+    {
+      xVel -= xMov;
+      if(-xMov > xVel >= -2 * xMov) xVel = -xMov;
+    }
+    else xVel = 0;
+
+    if(jumping)
+    {
+      yVel = -2 - gravity;
+      currentJump += 1;
+      if(currentJump > maxJump) jumping = false;
+    }
+/**
+    if(movingDown && yVel <= yMov)
+    {
+      yVel += yMov;
+      if(yMov < yVel <= 2*yMov) yVel = yMov;
+    }
+    else if(movingUp && yVel >= -yMov)
+    {
+      yVel -= yMov;
+      if(-yMov > yVel >= -2 * yMov) yVel = -yMov;
+    }
+    else yVel = 0;
+    */
   }
-  else yVel = 0;
+
+  if(!falling) yVel = 0;
+  else
+  {
+    //add gravity to yVel if falling
+    if(yVel < terminalVelocity) yVel += gravity;
+    // reduce yVel to termVel if too high;
+    if(yVel > terminalVelocity + gravity) yVel -= gravity;
+  }
 
   bool moving = false;
+  if(falling) moving = true;
   if(xVel > 0) moving = true; if(xVel < 0) moving = true; if(yVel < 0) moving = true; if(yVel > 0) moving = true;
   collisionCheck();
   if(moving)
@@ -179,6 +205,28 @@ void Player::render(int cameraX, int cameraY)
   {
     mAnimations[STAND]->setTransparency(255, 1);
   }
+}
+
+bool Player::fallingCheck()
+{
+  // checks if theres any up facing boundaries directly under the player
+  for(int i = 0; i < objects->size(); i++)
+  {
+    if((*objects)[i]->getType() == BOUNDARY)
+    {
+      Boundary * bptr;
+      bptr = dynamic_cast<Boundary*>((*objects)[i]);
+      CollisionData tempPoint;
+      if(bptr->getUp())
+      {
+        tempPoint.copy(bptr->lineIntersection(x, y + 32, x, y + 33,0,0,0,0));
+        if(tempPoint.intersect) return false;
+        tempPoint.copy(bptr->lineIntersection(x+16, y + 32, x+16, y + 33,0,0,0,0));
+        if(tempPoint.intersect) return false;
+      }
+    }
+  }
+  return true;
 }
 
 void Player::collisionCheck()
@@ -334,6 +382,12 @@ void Player::boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool *
         *shortestDistanceY = tempDistance;
         collisionPointY->copy(*tempPoint);
       }
+      // if colliding with an up facing boundary, then falling = false
+      if(up && (i2 == 2 || i2 == 3))
+      {
+        falling = false;
+        yVel = 0;
+      }
     }
   }
 }
@@ -376,7 +430,6 @@ void Player::damaged(CollisionData hurt)
 {
   if(iframes <= 0)
   {
-    std::cout << "player damaged";
     hp -= hurt.damage;
     iframes = hurt.iframes;
   }
