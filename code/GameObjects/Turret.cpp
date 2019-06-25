@@ -100,14 +100,14 @@ void Turret::update()
 
       if(zerodPangle < 0) zerodPangle += 360;
 
-      if(zerodPangle > 2 || zerodPangle < -2)
+      if(zerodPangle > rotationspeed || zerodPangle < -rotationspeed)
       {
-        if(zerodPangle > 180) rotate(-2);
-        else rotate(2);
+        if(zerodPangle > 180) rotate(-rotationspeed);
+        else rotate(rotationspeed);
       }
       else rotate(zerodPangle);
 
-      if(zerodPangle < 4 && zerodPangle > -4 && cooldown < 1 && lineofsight)
+      if(zerodPangle < rotationspeed*2 && zerodPangle > rotationspeed*-2 && cooldown < 1 && lineofsight)
       // might change the 4s to rotation speed or something like that later
       {
         cooldown = shotFrequency;

@@ -24,6 +24,7 @@ protected:
   double angle = 0; // angle that the gun is currently facing in // -90 is up facing
   std::vector<GameObject*>* objects = nullptr; // contains objects to interact with
   Point cannonTopLeft, cannonTopRight, cannonBottomLeft, cannonBottomRight;
+  double rotationspeed = 2;
   int cooldown= 22;
   int shotFrequency = 19; // how often the gun shoots
   int bulletDamage = 20;

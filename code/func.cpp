@@ -53,3 +53,5 @@ void drawCircle(SDL_Renderer * renderer, double centreX, double centreY, double 
       }
    }
 }
+
+double pi(){return 3.14159265359;}

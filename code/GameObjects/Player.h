@@ -22,8 +22,9 @@ public:
   double getX();
   double getY();
 
-  void collisionCheck();
-  bool movementCollisionCheck();
+  void collisionCheck(); //
+  bool movementCollisionCheck(); // checks if you ran into walls
+  void damaged(CollisionData hurt); // take damage from a source that is the hurt CollisionData
 
   int getHP();
   int getAmmo();

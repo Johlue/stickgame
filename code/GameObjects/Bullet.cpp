@@ -51,6 +51,19 @@ void Bullet::update()
         }
       }
     }
+    if((*objects)[i]->getType() == PLAYER)
+    {
+      CollisionData cd;
+      // if bullet is inside player object do damage, and iframes and knockback and whatever else
+      if(x >= (*objects)[i]->getX() && x <= (*objects)[i]->getX()+16 && y >= (*objects)[i]->getY() && y <= (*objects)[i]->getY()+32)
+      {
+        Player * ptr;
+        ptr = dynamic_cast<Player*>((*objects)[i]);
+        cd.damage = damage;
+        cd.iframes = iframes;
+        ptr->damaged(cd);
+      }
+    }
   }
 }
 void Bullet::render(int cameraX, int cameraY)

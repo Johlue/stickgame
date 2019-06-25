@@ -69,7 +69,7 @@ void PlayState::freeMem()
 
 void PlayState::update()
 {
-  std::cout << "currently existing objects: " << objects.size() << std::endl;
+  //std::cout << "currently existing objects: " << objects.size() << std::endl;
   for(int i = 0; i < objects.size(); i++)
   {
     objects[i]->update();

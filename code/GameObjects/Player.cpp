@@ -371,3 +371,13 @@ void Player::hazardCollision(Hazard * hazardPtr)
     }
   }
 }
+
+void Player::damaged(CollisionData hurt)
+{
+  if(iframes <= 0)
+  {
+    std::cout << "player damaged";
+    hp -= hurt.damage;
+    iframes = hurt.iframes;
+  }
+}
