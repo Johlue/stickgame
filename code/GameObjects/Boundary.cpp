@@ -53,7 +53,7 @@ CollisionData Boundary::lineIntersection(double ox1, double oy1, double ox2, dou
   }
 
   CollisionData result{xr, yr};
-
+/**
   double pow1 = pow((ox1 - ox2), 2.0);
   double pow2 = pow((oy1 - oy2), 2.0);
   double originDistance = sqrt(pow1 + pow2);
@@ -61,7 +61,7 @@ CollisionData Boundary::lineIntersection(double ox1, double oy1, double ox2, dou
   pow1 = pow((ox1 - xr), 2.0);
   pow2 = pow((oy1 - yr), 2.0);
   double intersectionDistance = sqrt(pow1 + pow2);
-
+*/
   if(
     // intersection point is inside the origin line
     (((ox1 >= xr && ox2 <= xr) || (ox2 >= xr && ox1 <= xr)) && ((oy1 >= yr && oy2 <= yr) || (oy2 >= yr && oy1 <= yr)))
