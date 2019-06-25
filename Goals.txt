@@ -1,3 +1,5 @@
+BOUNDARY INTERSECTION FAILS SEEMINGLY ARBITRARILY
+  BOUNDARY CPP LAST STUFFS
 Brush up on vector math for bullet movement (wall bounce)
 Basic enemies
   walking dudes?

@@ -96,14 +96,14 @@ void Player::update()
     *alive = false;
   }
 
-  falling = fallingCheck(); // is the player falling or not
+  if(!jumping) falling = fallingCheck(); // is the player falling or not
   if(!falling)
   {
     currentJump = 0;
     jumpEnded = false;
   }
 
-  double xMov = 3.9, yMov = 3;
+  double xMov = 3, yMov = 3;
   if(!knockback)
   {
     // start moving when buttons are pressed, if not knockbacked

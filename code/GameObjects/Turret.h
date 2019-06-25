@@ -25,8 +25,8 @@ protected:
   std::vector<GameObject*>* objects = nullptr; // contains objects to interact with
   Point cannonTopLeft, cannonTopRight, cannonBottomLeft, cannonBottomRight;
   double rotationspeed = 2;
-  int cooldown= 22;
-  int shotFrequency = 19; // how often the gun shoots
+  int cooldown= 299992;
+  int shotFrequency = 9999999; // how often the gun shoots
   int bulletDamage = 20;
   int bulletSpeed = 5;
   int bulletKnockback = 3;

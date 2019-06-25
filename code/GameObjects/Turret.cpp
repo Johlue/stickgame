@@ -73,6 +73,7 @@ void Turret::update()
 
   if(playerid != 9999999) //don't do things if playerid is not valid
   {
+    CollisionData cd;
     double distanceToPlayer = sqrt(pow(x - (*objects)[playerid]->getX(), 2) + pow(y - (*objects)[playerid]->getY(), 2));
     if(distanceToPlayer > 500) return; // stop doing things if player is too far
     bool lineofsight = true;
@@ -80,7 +81,6 @@ void Turret::update()
     {
       if((*objects)[i2]->getType() == BOUNDARY)
       {
-        CollisionData cd;
         cd = (*objects)[i2]->lineIntersection(x, y,(*objects)[playerid]->getX() + 8,(*objects)[playerid]->getY() + 16,1,1,1,1); // chekc if turret can see player
         if(cd.intersect)
         {
@@ -89,6 +89,7 @@ void Turret::update()
         }
       }
     }
+    if(!lineofsight) y+=.1; //COLLISION TEST LINE
 
     if(lineofsight) //if player is visible shoot and or rotate turret
     {
