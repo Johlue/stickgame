@@ -31,6 +31,8 @@ public:
   // draw the things
   void render();
 
+  void loadLevel(int id);
+
 private:
   std::vector<ImageTexture*>* textureArray;
   std::vector<GameObject*> objects;

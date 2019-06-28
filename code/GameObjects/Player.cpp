@@ -95,7 +95,7 @@ void Player::update()
     //TODO death animations and stuff
     *alive = false;
   }
-  std::cout << "yLoc: " << y << " jumping: " << jumping << " falling: " << falling << std::endl;
+  //std::cout << "yLoc: " << y << " jumping: " << jumping << " falling: " << falling << std::endl;
   if(!jumping) falling = fallingCheck(); // is the player falling or not
   if(!falling)
   {
@@ -222,6 +222,7 @@ bool Player::fallingCheck()
         tempPoint.copy(bptr->lineIntersection(x, y + 31, x, y + 33,0,0,0,0));
         if(tempPoint.intersect)
         {
+          // if there is a collision with the ground set the player on that object
           y = bptr->getY() - 32;
           return false;
         }
@@ -293,7 +294,12 @@ bool Player::movementCollisionCheck()
     }
     if(collisionPointY.intersect)
     {
-      if(collisionPointY.down) y = collisionPointY.y;
+      if(collisionPointY.down)
+      {
+        y = collisionPointY.y;
+        yVel = 0; // if colliding with a down facing boundary(a ceiling) then stop upward momentum, and jumping
+        jumping = false;
+      }
       else if(collisionPointY.up) y = collisionPointY.y - height;
     }
     // if it's not sloped then you don't stop the motion to the non-colliding direction

@@ -53,7 +53,7 @@ protected:
   // maximum yVel gained from falling
   double terminalVelocity = 5;
   // how many frames can the player ascend for with a jump
-  int maxJump = 30;
+  int maxJump = 20;
   // for how many frames has the player been ascending with a jump
   int currentJump = 0;
   // currently pressing jump button

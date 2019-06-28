@@ -61,3 +61,17 @@ bool closeEnough(double a, double b)
   if(a < b + 0.05 && a > b -0.05) return true;
   return false;
 }
+
+void splitString(const std::string &s, char delim, std::vector<std::string> &elems) {
+    std::stringstream ss(s);
+    std::string item;
+    while (getline(ss, item, delim)) {
+        elems.push_back(item);
+    }
+}
+
+std::vector<std::string> splitString(const std::string &s, char delim) {
+    std::vector<std::string> elems;
+    splitString(s, delim, elems);
+    return elems;
+}

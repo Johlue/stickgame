@@ -31,5 +31,5 @@ animations
   make a counter(s) similar to iframes and sync that up with the current action
 Basic enemies
   Turrets
-Fixed boundary collisions sometimes not registering due to double inaccurasy
+Fixed boundary collisions sometimes not registering due to double inaccuracy
 jumping and gravity

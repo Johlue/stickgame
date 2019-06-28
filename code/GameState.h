@@ -3,6 +3,9 @@
 
 #include "Display.h"
 #include <vector>
+#include "func.h"
+#include <fstream>
+#include <iostream>
 #include "ImageTexture.h"
 
 enum GameStates
