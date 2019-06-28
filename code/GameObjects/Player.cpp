@@ -238,6 +238,40 @@ bool Player::fallingCheck()
   return true;
 }
 
+bool Player::roofCheck()
+{
+  // checks if theres any down facing boundaries directly above the player
+  for(int i = 0; i < objects->size(); i++)
+  {
+    if((*objects)[i]->getType() == BOUNDARY)
+    {
+      Boundary * bptr;
+      bptr = dynamic_cast<Boundary*>((*objects)[i]);
+      CollisionData tempPoint;
+      if(bptr->getDown())
+      {
+        tempPoint.copy(bptr->lineIntersection(x, y - 1, x, y + 1,0,0,0,0));
+        if(tempPoint.intersect)
+        {
+          // if there is a collision with the roof, stop jumping and moving up
+          jumping = false;
+          if(yVel < 0) yVel = 0;
+          return false;
+        }
+        tempPoint.copy(bptr->lineIntersection(x+16, y - 1, x+16, y + 1,0,0,0,0));
+        if(tempPoint.intersect)
+        {
+          // if there is a collision with the roof, stop jumping and moving up
+          jumping = false;
+          if(yVel < 0) yVel = 0;
+          return false;
+        }
+      }
+    }
+  }
+  return true;
+}
+
 void Player::collisionCheck()
 {
   Hazard * hazardPtr;
@@ -297,8 +331,8 @@ bool Player::movementCollisionCheck()
       if(collisionPointY.down)
       {
         y = collisionPointY.y;
-        yVel = 0; // if colliding with a down facing boundary(a ceiling) then stop upward momentum, and jumping
-        jumping = false;
+        //yVel = 0; // if colliding with a down facing boundary(a ceiling) then stop upward momentum, and jumping
+        //jumping = false;
       }
       else if(collisionPointY.up) y = collisionPointY.y - height;
     }
@@ -320,6 +354,7 @@ bool Player::movementCollisionCheck()
         x = oldX + xVel;
       }
     }
+    roofCheck();
     return true;
   }
   return false;

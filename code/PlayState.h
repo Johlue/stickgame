@@ -31,10 +31,11 @@ public:
   // draw the things
   void render();
 
-  void loadLevel(int id);
-  void boundaryLoad(std::vector<std::string> bl);
+  void loadLevel(int id); // load a level based on the contents of a text file
 
 protected:
+  void boundaryLoad(std::vector<std::string> bl); //boundary portion of level loading
+
   std::vector<ImageTexture*>* textureArray;
   std::vector<GameObject*> objects;
   Ui ui;

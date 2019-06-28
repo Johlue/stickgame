@@ -186,10 +186,11 @@ void PlayState::loadLevel(int id)
   } else std::cout << "level opening error is a thing that happened";
 }
 
-void PlayState::boundaryLoad(std::vector<std::string> bl)
+void PlayState::boundaryLoad(std::vector<std::string> bl) // boundary portion of level loading function
 {
-  int bx, by, bx2, by2;
-  bool t1, t2, t3, t4;
+  int bx, by, bx2, by2; // x and y values
+  bool t1, t2, t3, t4; // directional truth values
+  // concert string parts to integers
   bx = std::stoi( bl[1] ); by = std::stoi( bl[2] ); bx2 = std::stoi( bl[3] ); by2 = std::stoi( bl[4] );
   if(bl[5] == "true") t1 = true; else t1 = false;
   if(bl[6] == "true") t2 = true; else t2 = false;

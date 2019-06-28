@@ -24,13 +24,14 @@ public:
 
   void collisionCheck(); //
   bool movementCollisionCheck(); // checks if you ran into walls
-  bool fallingCheck();
   void damaged(CollisionData hurt); // take damage from a source that is the hurt CollisionData
 
   int getHP();
   int getAmmo();
 
 protected:
+  bool fallingCheck();
+  bool roofCheck();
   void boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool * collidingX, bool * collidingY, CollisionData * collisionPointX, CollisionData * collisionPointY, double * shortestDistanceX, double * shortestDistanceY);
   void hazardCollision(Hazard * hazardPtr);
 
