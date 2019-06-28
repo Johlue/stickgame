@@ -95,7 +95,7 @@ void Player::update()
     //TODO death animations and stuff
     *alive = false;
   }
-
+  std::cout << "yLoc: " << y << " jumping: " << jumping << " falling: " << falling << std::endl;
   if(!jumping) falling = fallingCheck(); // is the player falling or not
   if(!falling)
   {
@@ -121,7 +121,7 @@ void Player::update()
 
     if(jumping)
     {
-      yVel = -2 - gravity;
+      yVel = -3 - gravity;
       currentJump += 1;
       if(currentJump > maxJump) jumping = false;
     }
@@ -219,10 +219,18 @@ bool Player::fallingCheck()
       CollisionData tempPoint;
       if(bptr->getUp())
       {
-        tempPoint.copy(bptr->lineIntersection(x, y + 32, x, y + 33,0,0,0,0));
-        if(tempPoint.intersect) return false;
-        tempPoint.copy(bptr->lineIntersection(x+16, y + 32, x+16, y + 33,0,0,0,0));
-        if(tempPoint.intersect) return false;
+        tempPoint.copy(bptr->lineIntersection(x, y + 31, x, y + 33,0,0,0,0));
+        if(tempPoint.intersect)
+        {
+          y = bptr->getY() - 32;
+          return false;
+        }
+        tempPoint.copy(bptr->lineIntersection(x+16, y + 31, x+16, y + 33,0,0,0,0));
+        if(tempPoint.intersect)
+        {
+          y = bptr->getY() - 32;
+          return false;
+        }
       }
     }
   }

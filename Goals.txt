@@ -1,12 +1,9 @@
-BOUNDARY INTERSECTION FAILS SEEMINGLY ARBITRARILY
-  BOUNDARY CPP LAST STUFFS
 Brush up on vector math for bullet movement (wall bounce)
 Basic enemies
   walking dudes?
 bullets and damage mechanics (semi done)
 UI and interface or whatever they're called (partially done)
 slopes
-jumping and gravity
 player attack
 level loading, like from a file
 maybe level editor if i feel like it
@@ -34,3 +31,5 @@ animations
   make a counter(s) similar to iframes and sync that up with the current action
 Basic enemies
   Turrets
+Fixed boundary collisions sometimes not registering due to double inaccurasy
+jumping and gravity

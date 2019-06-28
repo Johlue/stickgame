@@ -64,10 +64,12 @@ CollisionData Boundary::lineIntersection(double ox1, double oy1, double ox2, dou
 */
   if(
     // intersection point is inside the origin line
-    (((ox1 >= xr && ox2 <= xr) || (ox2 >= xr && ox1 <= xr)) && ((oy1 >= yr && oy2 <= yr) || (oy2 >= yr && oy1 <= yr)))
+    (((ox1 >= xr && ox2 <= xr) || (ox2 >= xr && ox1 <= xr) || (closeEnough(ox1, xr) && closeEnough(ox2, xr))) &&
+    ((oy1 >= yr && oy2 <= yr) || (oy2 >= yr && oy1 <= yr) || (closeEnough(oy1, yr) && closeEnough(oy2, yr))))
     &&
     // intersection point is inside boundary object TODO;
-    (((x >= xr && x2 <= xr) || (x2 >= xr && x <= xr)) && ((y >= yr && y2 <= yr) || (y2 >= yr && y <= yr)))
+    (((x >= xr && x2 <= xr) || (x2 >= xr && x <= xr) || (closeEnough(x, xr) && closeEnough(x2, xr))) &&
+    ((y >= yr && y2 <= yr) || (y2 >= yr && y <= yr) || (closeEnough(y, yr) && closeEnough(y2, yr))))
     ) result.intersect = true;
   //if(originDistance > intersectionDistance) result.intersect = true;
   else result.intersect = false;
@@ -76,14 +78,6 @@ CollisionData Boundary::lineIntersection(double ox1, double oy1, double ox2, dou
   result.right = facingRight;
   result.left = facingLeft;
   result.slope = sloped;
-
-  //x and y values
-  //std::cout << "ox1: " << ox1 << " xr: " << xr << " ox2: " << ox2 << " oy1: " << oy1 << " yr: " << yr << " oy2: " << " x: " << x << " x2: " << x2 << " y: " << y << " y2: " << y2 << std::endl;
-  // true or not?
-  std::cout << "x: "<< xr << "y: " << yr <<
-  " truth: " <<(ox1 >= xr)<<(ox2 <= xr)<<(ox2 >= xr)<<(ox1<=xr)<<(oy1>=yr)<<(oy2 <= yr)<<(oy2 >= yr) <<(oy1 <= yr )<<
-  " truth2: " << (x >= xr) <<(x2 <= xr) <<(x2 >= xr) <<(x <= xr) <<( y >= yr) << ( y2 <= yr) <<  (y2 >= yr)<<(y<= yr)<<
-   std::endl;
 
   return result;
 }

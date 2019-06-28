@@ -89,7 +89,6 @@ void Turret::update()
         }
       }
     }
-    if(!lineofsight) y+=.1; //COLLISION TEST LINE
 
     if(lineofsight) //if player is visible shoot and or rotate turret
     {

@@ -55,3 +55,9 @@ void drawCircle(SDL_Renderer * renderer, double centreX, double centreY, double 
 }
 
 double pi(){return 3.14159265359;}
+
+bool closeEnough(double a, double b)
+{
+  if(a < b + 0.05 && a > b -0.05) return true;
+  return false;
+}

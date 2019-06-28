@@ -8,5 +8,6 @@
 void drawCircle(SDL_Renderer * renderer, double centreX, double centreY, double radius);
 void rotatePoint(double angle, Point * origin, Point center); // rotate a point (origin) around a (center) point
 double pi();
+bool closeEnough(double a, double b); // are two double close enough to be considered equal
 
 #endif
