@@ -171,10 +171,29 @@ void PlayState::loadLevel(int id)
     {
       std::vector<std::string> strVec;
       strVec = splitString(line, ' ');
-      //objects.push_back( new Boundary(64, 200, 404, 200, mDisplay, false, true, false, false)); // down facing line
+
+      if(strVec.size() > 0) // non empty string
+      {
+        if(strVec[0] == "//"); // do nothing if a comment is here
+        else if(strVec[0] == "Boundary") boundaryLoad(strVec);
+
+
+      }
       //std::cout << strVec[0] << strVec[2] << std::endl;
     }
-
     levelFile.close();
+
   } else std::cout << "level opening error is a thing that happened";
+}
+
+void PlayState::boundaryLoad(std::vector<std::string> bl)
+{
+  int bx, by, bx2, by2;
+  bool t1, t2, t3, t4;
+  bx = std::stoi( bl[1] ); by = std::stoi( bl[2] ); bx2 = std::stoi( bl[3] ); by2 = std::stoi( bl[4] );
+  if(bl[5] == "true") t1 = true; else t1 = false;
+  if(bl[6] == "true") t2 = true; else t2 = false;
+  if(bl[7] == "true") t3 = true; else t3 = false;
+  if(bl[8] == "true") t4 = true; else t4 = false;
+  objects.push_back( new Boundary(bx, by, bx2, by2, mDisplay, t1, t2, t3, t4));
 }

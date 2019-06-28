@@ -1,3 +1,3 @@
-LEVEL 1: ACTION!
-MOAR TEXT FOR THE BLOOD GOD!
-i dunno like some tea or something
+// objects.push_back( new Boundary(64, 200, 404, 200, mDisplay, false, true, false, false)); // down facing line
+Boundary 64 210 404 210 true false false false
+Boundary 10 400 900 400 true false false false

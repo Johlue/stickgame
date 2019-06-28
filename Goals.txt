@@ -1,3 +1,4 @@
+CHANGE CEILING COLLISION TO ONLY CHECK FOR THE TOP OF THE PLAYER
 Brush up on vector math for bullet movement (wall bounce)
 Basic enemies
   walking dudes?

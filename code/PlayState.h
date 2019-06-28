@@ -32,8 +32,9 @@ public:
   void render();
 
   void loadLevel(int id);
+  void boundaryLoad(std::vector<std::string> bl);
 
-private:
+protected:
   std::vector<ImageTexture*>* textureArray;
   std::vector<GameObject*> objects;
   Ui ui;
