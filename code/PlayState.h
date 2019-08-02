@@ -35,6 +35,7 @@ public:
 
 protected:
   void boundaryLoad(std::vector<std::string> bl); //boundary portion of level loading
+  void hazardLoad(std::vector<std::string> bl);
 
   std::vector<ImageTexture*>* textureArray;
   std::vector<GameObject*> objects;

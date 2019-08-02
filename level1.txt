@@ -1,3 +1,16 @@
 // objects.push_back( new Boundary(64, 200, 404, 200, mDisplay, false, true, false, false)); // down facing line
-Boundary 64 210 404 210 true false false false
-Boundary 10 400 900 400 true false false false
+
+Boundary 64 210 404 210 T F F F
+Boundary 10 310 900 310 T F F F
+
+Boundary 64 200 64 160 F F F T
+Boundary 64 200 404 200 F T F F
+Boundary 404 200 404 160 F F T F
+Boundary 64 160 404 160 T F F F
+
+Boundary 64 300 64 260 F F T F
+Boundary 404 300 404 260 F F F T
+Boundary 64 300 404 300 T F F F
+Boundary 64 260 404 260 F T F F
+
+Hazard 200 110 50 50 0 64 spike
