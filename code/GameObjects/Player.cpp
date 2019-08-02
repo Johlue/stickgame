@@ -484,6 +484,7 @@ void Player::hazardCollision(Hazard * hazardPtr)
 
 void Player::knockedBack(int direction, int force)
 {
+  falling = true;
   knockback = true;
   xVel = force * direction;
   yVel = -3 - (force * .3);
