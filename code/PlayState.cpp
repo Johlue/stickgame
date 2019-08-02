@@ -40,7 +40,6 @@ void PlayState::init()
 
   objects.push_back (new Hazard(200, 110, 50, 50, SPIKE, UP, 64, mDisplay));
   objects.push_back (new Hazard(800, 110, 150, 150, SPIKE, UP, 64, mDisplay));
-*/
   objects.push_back (new Turret(100, 250, mDisplay, &objects));
   objects.push_back (new Turret(400, 250, mDisplay, &objects));
   objects.push_back (new Turret(400, 150, mDisplay, &objects));
@@ -48,6 +47,7 @@ void PlayState::init()
 //  objects.push_back (new Turret(600, 250, mDisplay, &objects));
 //  objects.push_back (new Turret(600, 150, mDisplay, &objects));
   objects.push_back (new Turret(300, 361, mDisplay, &objects));
+*/
 
   objects.push_back( new Player(101, 101, &playerAlive, mDisplay, &objects, textureArray));
 
@@ -180,6 +180,8 @@ void PlayState::loadLevel(int id)
       {
         if(strVec[0] == "//"); // do nothing if a comment is here
         else if(strVec[0] == "Boundary") boundaryLoad(strVec);
+        else if(strVec[0] == "Hazard") hazardLoad(strVec);
+        else if(strVec[0] == "Turret") turretLoad(strVec);
 
 
       }
@@ -188,6 +190,13 @@ void PlayState::loadLevel(int id)
     levelFile.close();
 
   } else std::cout << "level opening error is a thing that happened";
+}
+
+void PlayState::turretLoad(std::vector<std::string> bl)
+{
+  int bx, by;
+  bx = std::stoi(bl[1]); by = std::stoi(bl[2]);
+  objects.push_back(new Turret(bx, by, mDisplay, &objects));
 }
 
 void PlayState::hazardLoad(std::vector<std::string> bl)

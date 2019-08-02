@@ -30,6 +30,7 @@ public:
   int getAmmo();
 
 protected:
+  void knockedBack(int direction, int force); //left(-1) or right(1) and how far/fast/long is knockbacked
   bool fallingCheck();
   bool roofCheck();
   void boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool * collidingX, bool * collidingY, CollisionData * collisionPointX, CollisionData * collisionPointY, double * shortestDistanceX, double * shortestDistanceY);
@@ -50,7 +51,7 @@ protected:
   //is the player falling or not
   bool falling = false;
   // increase of yVel per frame while falling
-  double gravity = .2;
+  double gravity = .25;
   // maximum yVel gained from falling
   double terminalVelocity = 5;
   // how many frames can the player ascend for with a jump
@@ -65,6 +66,8 @@ protected:
   bool facingRight = true;
   // is the player currently being knockbacked
   bool knockback = false;
+  // can't move for some reason (amount of frames)
+  int stunned = 0;
   // remaining invincibility frames
   int iframes = 0;
   int hp = 255;

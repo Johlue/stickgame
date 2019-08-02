@@ -43,48 +43,51 @@ int Player::getAmmo(){return ammo;}
 
 void Player::handleEvent(SDL_Event* e)
 {
-  switch(e->type)
+  if(stunned < 1)
   {
-    case SDL_KEYDOWN:
-    switch(e->key.keysym.sym)
+    switch(e->type)
     {
-      case SDLK_RIGHT:
-      movingRight = true;
-      break;
-
-      case SDLK_LEFT:
-      movingLeft = true;
-      break;
-
-      case SDLK_UP:
-      if(!falling)
+      case SDL_KEYDOWN:
+      switch(e->key.keysym.sym)
       {
-        jumping = true;
-        falling = true;
+        case SDLK_RIGHT:
+        movingRight = true;
+        break;
+
+        case SDLK_LEFT:
+        movingLeft = true;
+        break;
+
+        case SDLK_UP:
+        if(!falling)
+        {
+          jumping = true;
+          falling = true;
+        }
+        break;
       }
       break;
+
+      case SDL_KEYUP:
+      switch(e->key.keysym.sym)
+      {
+        case SDLK_RIGHT:
+        movingRight = false;
+        break;
+
+        case SDLK_LEFT:
+        movingLeft = false;
+        break;
+
+        case SDLK_UP:
+        jumping = false;
+        break;
+      }
+      break;
+
+      case SDL_MOUSEMOTION:
+      break;
     }
-    break;
-
-    case SDL_KEYUP:
-    switch(e->key.keysym.sym)
-    {
-      case SDLK_RIGHT:
-      movingRight = false;
-      break;
-
-      case SDLK_LEFT:
-      movingLeft = false;
-      break;
-
-      case SDLK_UP:
-      jumping = false;
-      break;
-    }
-    break;
-
-    case SDL_MOUSEMOTION:
-    break;
   }
 }
 
@@ -99,10 +102,11 @@ void Player::update()
   if(!jumping) falling = fallingCheck(); // is the player falling or not
   if(!falling)
   {
+    knockback = false;
     currentJump = 0;
     jumpEnded = false;
   }
-
+  if(stunned > 0) stunned--;
   double xMov = 3, yMov = 3;
   if(!knockback)
   {
@@ -432,8 +436,11 @@ void Player::boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool *
         collisionPointY->copy(*tempPoint);
       }
       // if colliding with an up facing boundary, then falling = false
+      // also knockbacking ends upon collision  with the floor
       if(up && (i2 == 2 || i2 == 3))
       {
+        if(knockback == true) stunned += 20;
+        knockback = false;
         falling = false;
         yVel = 0;
       }
@@ -475,11 +482,19 @@ void Player::hazardCollision(Hazard * hazardPtr)
   }
 }
 
+void Player::knockedBack(int direction, int force)
+{
+  knockback = true;
+  xVel = force * direction;
+  yVel = -3 - (force * .3);
+}
+
 void Player::damaged(CollisionData hurt)
 {
   if(iframes <= 0)
   {
     hp -= hurt.damage;
     iframes = hurt.iframes;
+    knockedBack(1, 3);
   }
 }

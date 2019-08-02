@@ -2,10 +2,11 @@ Brush up on vector math for bullet movement (wall bounce)
 Basic enemies
   walking dudes?
 bullets and damage mechanics (semi done)
+  knockback (a bit functional, need to add a recovery midair and make it possible to get kbd off the ground)
 UI and interface or whatever they're called (partially done)
 slopes
 player attack
-level loading, like from a file
+level loading, like from a file (it's done for now, but will need updating in the future)
 maybe level editor if i feel like it
 
 

@@ -14,3 +14,9 @@ Boundary 64 300 404 300 T F F F
 Boundary 64 260 404 260 F T F F
 
 Hazard 200 110 50 50 0 64 spike
+
+Turret 100 250
+Turret 400 250
+Turret 400 150
+Turret 500 220
+Turret 450 221
