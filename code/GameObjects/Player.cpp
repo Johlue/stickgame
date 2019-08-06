@@ -65,6 +65,10 @@ void Player::handleEvent(SDL_Event* e)
             falling = true;
           }
           break;
+
+          case SDLK_k:
+          // do an attack (add animation later)
+          objects->push_back(new PlayerSlash(30, 10, 40, 20, objects, mDisplay));
         }
       }
 

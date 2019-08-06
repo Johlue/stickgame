@@ -41,6 +41,7 @@ public:
   double getY();
 
   bool isAlive();
+  void kill();
   bool isOnScreen();
   int getType();
   // checks if two lines intersect based on two points each(x1, y1),(x2, y2) and (x3, y3),(x4, y4)
