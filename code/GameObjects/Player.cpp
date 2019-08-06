@@ -68,7 +68,8 @@ void Player::handleEvent(SDL_Event* e)
 
           case SDLK_k:
           // do an attack (add animation later)
-          objects->push_back(new PlayerSlash(30, 10, 40, 20, objects, mDisplay));
+          int slashHeight = 30;
+          objects->push_back(new PlayerSlash(width, height/2 - slashHeight/2, 40, slashHeight, objects, mDisplay));
         }
       }
 

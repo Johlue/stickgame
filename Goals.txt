@@ -6,6 +6,7 @@ bullets and damage mechanics (semi done)
 UI and interface or whatever they're called (partially done)
 slopes
 player attack
+  Melee attack exists, needs some limitations implemented to prevent spamming
 level loading, like from a file (it's done for now, but will need updating in the future)
 maybe level editor if i feel like it
 
