@@ -43,29 +43,31 @@ int Player::getAmmo(){return ammo;}
 
 void Player::handleEvent(SDL_Event* e)
 {
-  if(stunned < 1)
-  {
     switch(e->type)
     {
       case SDL_KEYDOWN:
-      switch(e->key.keysym.sym)
+      if(stunned < 1) // can't begin moving if stunned
       {
-        case SDLK_RIGHT:
-        movingRight = true;
-        break;
-
-        case SDLK_LEFT:
-        movingLeft = true;
-        break;
-
-        case SDLK_UP:
-        if(!falling)
+        switch(e->key.keysym.sym)
         {
-          jumping = true;
-          falling = true;
+          case SDLK_RIGHT:
+          movingRight = true;
+          break;
+
+          case SDLK_LEFT:
+          movingLeft = true;
+          break;
+
+          case SDLK_UP:
+          if(!falling)
+          {
+            jumping = true;
+            falling = true;
+          }
+          break;
         }
-        break;
       }
+
       break;
 
       case SDL_KEYUP:
@@ -87,7 +89,6 @@ void Player::handleEvent(SDL_Event* e)
 
       case SDL_MOUSEMOTION:
       break;
-    }
   }
 }
 
@@ -439,7 +440,7 @@ void Player::boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool *
       // also knockbacking ends upon collision  with the floor
       if(up && (i2 == 2 || i2 == 3))
       {
-        if(knockback == true) stunned += 20;
+        //if(knockback == true) stunned += 0;
         knockback = false;
         falling = false;
         yVel = 0;
@@ -475,8 +476,7 @@ void Player::hazardCollision(Hazard * hazardPtr)
     if(hurtPoint.intersect)
     {
       //damage and knockback happens, also iframes and status and whatever else
-      hp -= hurtPoint.damage;
-      iframes += hurtPoint.iframes;
+      damaged(hurtPoint);
       break; //stop checking because you're now iframed and can't take further damage
     }
   }
@@ -487,7 +487,9 @@ void Player::knockedBack(int direction, int force)
   falling = true;
   knockback = true;
   xVel = force * direction;
-  yVel = -3 - (force * .3);
+  yVel = -1 - (force * .3);
+  y -= 2;
+  falling = true;
 }
 
 void Player::damaged(CollisionData hurt)
@@ -496,6 +498,6 @@ void Player::damaged(CollisionData hurt)
   {
     hp -= hurt.damage;
     iframes = hurt.iframes;
-    knockedBack(1, 3);
+    knockedBack(-1, 1);
   }
 }

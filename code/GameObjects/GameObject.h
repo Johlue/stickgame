@@ -21,7 +21,8 @@ enum ObjectTypes
   BOUNDARY = 2,
   HAZARD = 3,
   TURRET = 4,
-  BULLET = 5
+  BULLET = 5,
+  PLAYERATTACK = 6
 };
 // Parent to all gameobjects
 class GameObject
