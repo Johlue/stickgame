@@ -23,6 +23,7 @@ public:
   bool getLeft();
   bool isSloped();
 
+  void calculateSlopeSpeed();
   double getSlopeSpeed();
 
   //last 4 values are irrelevant since they are not used, first 4 are two points of the other line being checked
@@ -35,6 +36,7 @@ protected:
   bool facingDown;
   bool facingRight;
   bool facingLeft;
+  double speed = 1;
 };
 
 #endif

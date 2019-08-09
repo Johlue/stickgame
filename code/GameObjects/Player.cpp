@@ -311,6 +311,7 @@ bool Player::movementCollisionCheck()
   collisionPointX.intersect = false;
   collisionPointY.intersect = false;
   Boundary * ptr;
+  int shortestIdNro = -1;
 
     // run through all gameobjects, and do stuff depending on their type
   for(int i = 0; i < objects->size(); i++)
@@ -321,7 +322,7 @@ bool Player::movementCollisionCheck()
       // colliding with the walls
       //convert object to appropriate type
       ptr = dynamic_cast<Boundary*>(tptr);
-      boundaryCollision(ptr, &tempPoint, &collidingX, &collidingY, &collisionPointX, &collisionPointY, &shortestDistanceX, &shortestDistanceY);
+      if(boundaryCollision(ptr, &tempPoint, &collidingX, &collidingY, &collisionPointX, &collisionPointY, &shortestDistanceX, &shortestDistanceY)) shortestIdNro = i;
       break;
 
     }
@@ -344,7 +345,19 @@ bool Player::movementCollisionCheck()
         //yVel = 0; // if colliding with a down facing boundary(a ceiling) then stop upward momentum, and jumping
         //jumping = false;
       }
-      else if(collisionPointY.up) y = collisionPointY.y - height;
+      else if(collisionPointY.up)
+      {
+        if(collisionPointY.slope)
+        {
+          std::cout << "SLOPE COLLISION";
+          if(shortestIdNro != -1)
+          {
+            ptr = dynamic_cast<Boundary*>((*objects)[shortestIdNro]);
+            setSlope(ptr);
+          }
+        }
+        else y = collisionPointY.y - height;
+      }
     }
     // if it's not sloped then you don't stop the motion to the non-colliding direction
     //if(!renderPoint.slope)
@@ -370,8 +383,9 @@ bool Player::movementCollisionCheck()
   return false;
 }
 
-void Player::boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool * collidingX, bool * collidingY, CollisionData * collisionPointX, CollisionData * collisionPointY, double * shortestDistanceX, double * shortestDistanceY)
+bool Player::boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool * collidingX, bool * collidingY, CollisionData * collisionPointX, CollisionData * collisionPointY, double * shortestDistanceX, double * shortestDistanceY)
 {
+  bool shortestId = false;
   bool up = false, down = false, left = false, right = false;
   double xm, ym;
   double tempDistance = 99999.0;
@@ -440,6 +454,7 @@ void Player::boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool *
         left = ptr->getLeft();
         *shortestDistanceY = tempDistance;
         collisionPointY->copy(*tempPoint);
+        shortestId = true;
       }
       // if colliding with an up facing boundary, then falling = false
       // also knockbacking ends upon collision  with the floor
@@ -452,6 +467,7 @@ void Player::boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool *
       }
     }
   }
+  return shortestId;
 }
 
 void Player::hazardCollision(Hazard * hazardPtr)
@@ -505,4 +521,9 @@ void Player::damaged(CollisionData hurt)
     iframes = hurt.iframes;
     knockedBack(-1, 1);
   }
+}
+
+void Player::setSlope(Boundary * sl)
+{
+  slope = sl;
 }

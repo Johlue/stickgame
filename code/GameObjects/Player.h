@@ -34,8 +34,10 @@ protected:
   void knockedBack(int direction, int force); //left(-1) or right(1) and how far/fast/long is knockbacked
   bool fallingCheck();
   bool roofCheck();
-  void boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool * collidingX, bool * collidingY, CollisionData * collisionPointX, CollisionData * collisionPointY, double * shortestDistanceX, double * shortestDistanceY);
+  // returns a boolean to use it for id:ing the closest border for slope shenanigans
+  bool boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool * collidingX, bool * collidingY, CollisionData * collisionPointX, CollisionData * collisionPointY, double * shortestDistanceX, double * shortestDistanceY);
   void hazardCollision(Hazard * hazardPtr);
+  void setSlope(Boundary * sl);
 
   bool movingRight = false;
   bool movingLeft = false;
@@ -73,6 +75,8 @@ protected:
   int iframes = 0;
   int hp = 255;
   int ammo = 0;
+
+  Boundary * slope = nullptr; // a slope that yer stuck on currently
 };
 
 

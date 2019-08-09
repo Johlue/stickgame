@@ -8,9 +8,8 @@ slopes
   stick to slopes and math out pythagoras style based on highest point of collision
   check the middle point (and maybe edges) of player if still on slope
   this is more complex than expected:
-    math out the angle of the slope: double angle = atan2(y1 - y2, x2 - x1) * 180 / PI;
-    convert the angle in some way to get a number between 0 and 90
     SLOPES ARE COMPLEX AND ANNOYING
+    SLOPE COLLISIONS DON*T REGISTER CORRECTLY, if done at insufficient speed it will not register as a slope
 
 player attack
   Melee attack exists, needs some limitations implemented to prevent spamming

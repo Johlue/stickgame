@@ -16,6 +16,9 @@ Boundary 64 260 404 260 F T F F
 
 Boundary 400 150 550 300 T F T F
 Boundary 550 150 400 300 T F F T
+Boundary 400 150 900 300 F F F F
+Boundary 400 150 1200 300 F F F F
+Boundary 400 150 420 300 F F F F
 
 Hazard 200 110 50 50 0 64 spike
 
