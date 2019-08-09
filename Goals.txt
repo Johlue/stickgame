@@ -10,6 +10,8 @@ slopes
   this is more complex than expected:
     SLOPES ARE COMPLEX AND ANNOYING
     SLOPE COLLISIONS DON*T REGISTER CORRECTLY, if done at insufficient speed it will not register as a slope
+      in fact it doesn't seem to register as a collision at all?
+        the falling check is fucking it up
 
 player attack
   Melee attack exists, needs some limitations implemented to prevent spamming
