@@ -1,4 +1,5 @@
 // objects.push_back( new Boundary(64, 200, 404, 200, mDisplay, false, true, false, false)); // down facing line
+// up down right left
 
 Boundary 64 210 404 210 T F F F
 Boundary 10 310 900 310 T F F F
@@ -13,10 +14,13 @@ Boundary 404 300 404 260 F F F T
 Boundary 64 300 404 300 T F F F
 Boundary 64 260 404 260 F T F F
 
+Boundary 400 150 550 300 T F T F
+Boundary 550 150 400 300 T F F T
+
 Hazard 200 110 50 50 0 64 spike
 
-Turret 100 250
-Turret 400 250
-Turret 400 150
-Turret 500 220
-Turret 450 221
+//Turret 100 250
+lTurret 400 250
+klTurret 400 150
+lTurret 500 220
+lTurret 450 221

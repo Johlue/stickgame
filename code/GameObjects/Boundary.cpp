@@ -14,7 +14,11 @@ Boundary::Boundary(double x_1, double y_1, double x_2, double y_2, Display* disp
   facingRight = right;
   facingLeft = left;
   type = BOUNDARY;
-  if(((x*x)/x) - ((x2*x2)/x2) != 0 && ((y*y)/y) - ((y2*y2)/y2) != 0) sloped = true;
+  if(((x*x)/x) - ((x2*x2)/x2) != 0 && ((y*y)/y) - ((y2*y2)/y2) != 0)
+  {
+    sloped = true;
+    getSlopeSpeed();
+  }
 }
 Boundary::~Boundary(){}
 
@@ -30,6 +34,18 @@ bool Boundary::getUp(){return facingUp;}
 bool Boundary::getDown(){return facingDown;}
 bool Boundary::getRight(){return facingRight;}
 bool Boundary::getLeft(){return facingLeft;}
+
+double Boundary::getSlopeSpeed()
+{
+  double angle = atan2(y - y2, x2 - x) * (180 / pi()); // gets angle in degrees
+  std::cout << "base angle: " << angle << std::endl;
+  while(angle > 90.0) angle -= 90.0;
+  while(angle < 0.0) angle += 90.0; // adjust angle to be between 0 and 90
+  std::cout << "fixed angle: " << angle << std::endl;
+  double speedMultiplier = 1.0 - (pow(angle,2) / pow(90.0,2)); // do some math to get a speed
+  std::cout << "SPEEEEED: " << speedMultiplier << std::endl;
+  return 1;
+}
 
 // xn and ny values can be whatever since they aren't used at all
 CollisionData Boundary::lineIntersection(double ox1, double oy1, double ox2, double oy2, double nx3, double ny3, double nx4, double ny4)

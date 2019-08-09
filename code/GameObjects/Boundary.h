@@ -23,6 +23,8 @@ public:
   bool getLeft();
   bool isSloped();
 
+  double getSlopeSpeed();
+
   //last 4 values are irrelevant since they are not used, first 4 are two points of the other line being checked
   CollisionData lineIntersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4);
 protected:

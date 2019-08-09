@@ -14,6 +14,6 @@ double pi();
 bool closeEnough(double a, double b); // are two double close enough to be considered equal
 void splitString(const std::string &s, char delim, std::vector<std::string> &elems);
 std::vector<std::string> splitString(const std::string &s, char delim); //split a string into words that are stored in a vector
-
+double pythagoras(double a, double b); // pythagoras triangle between a and b
 
 #endif
