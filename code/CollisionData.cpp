@@ -18,4 +18,5 @@ void CollisionData::copy(CollisionData c)
     left = c.left;
     slope = c.slope;
     iframes = c.iframes;
+    damage = c.damage;
 }

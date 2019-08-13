@@ -499,10 +499,12 @@ void Player::knockedBack(int direction, int force)
 
 void Player::damaged(CollisionData hurt)
 {
+  int direct = -1;
   if(iframes <= 0)
   {
     hp -= hurt.damage;
     iframes = hurt.iframes;
-    knockedBack(-1, 1);
+    if(hurt.right) direct = 1;
+    knockedBack(direct, 1);
   }
 }

@@ -61,6 +61,10 @@ void Bullet::update()
         ptr = dynamic_cast<Player*>((*objects)[i]);
         cd.damage = damage;
         cd.iframes = iframes;
+
+        if(movement.x > 0) {cd.right = true; cd.left = false;}
+        else {cd.left = true; cd.right = false;}
+
         ptr->damaged(cd);
       }
     }

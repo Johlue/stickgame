@@ -2,19 +2,12 @@ Brush up on vector math for bullet movement (wall bounce)
 Basic enemies
   walking dudes?
 bullets and damage mechanics (semi done)
-  knockback (needs a direction)
+  knockback (needs variable force)
 UI and interface or whatever they're called (partially done)
-slopes
-  stick to slopes and math out pythagoras style based on highest point of collision
-  check the middle point (and maybe edges) of player if still on slope
-  this is more complex than expected:
-    SLOPES ARE COMPLEX AND ANNOYING
-    SLOPE COLLISIONS DON*T REGISTER CORRECTLY, if done at insufficient speed it will not register as a slope
-      in fact it doesn't seem to register as a collision at all?
-        the falling check is fucking it up
 
 player attack
   Melee attack exists, needs some limitations implemented to prevent spamming
+    combos?
 level loading, like from a file (it's done for now, but will need updating in the future)
 maybe level editor if i feel like it
 
@@ -43,3 +36,6 @@ Basic enemies
   Turrets
 Fixed boundary collisions sometimes not registering due to double inaccuracy
 jumping and gravity
+
+Discarded ideas:
+slopes: not making them, figurev em out later for other projects
