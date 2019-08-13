@@ -67,9 +67,12 @@ void Player::handleEvent(SDL_Event* e)
           break;
 
           case SDLK_k:
+          if(meleeCooldown > 0) break;
           // do an attack (add animation later)
           int slashHeight = 30;
           objects->push_back(new PlayerSlash(width, height/2 - slashHeight/2, 40, slashHeight, objects, mDisplay));
+          meleeCooldown = 30;
+          break;
         }
       }
 
@@ -104,6 +107,7 @@ void Player::update()
     //TODO death animations and stuff
     *alive = false;
   }
+  if(meleeCooldown > 0) meleeCooldown--;
   //std::cout << "yLoc: " << y << " jumping: " << jumping << " falling: " << falling << std::endl;
   if(!jumping) falling = fallingCheck(); // is the player falling or not
   if(!falling)
