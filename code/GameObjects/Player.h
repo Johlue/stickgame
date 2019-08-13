@@ -38,6 +38,7 @@ protected:
   bool boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool * collidingX, bool * collidingY, CollisionData * collisionPointX, CollisionData * collisionPointY, double * shortestDistanceX, double * shortestDistanceY);
   void hazardCollision(Hazard * hazardPtr);
   void setSlope(Boundary * sl);
+  Boundary* getSlope();
 
   bool movingRight = false;
   bool movingLeft = false;
