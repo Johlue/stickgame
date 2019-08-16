@@ -19,8 +19,12 @@ void Walker::update()
     if(fallingCheck()) falling = true;
   }
   if(falling && yVel < 5) yVel += .05;
+
   x += xVel;
   y += yVel;
+
+  if(falling) fallingCollisionCheck();
+
 }
 void Walker::render(int cameraX, int cameraY)
 {
@@ -49,11 +53,46 @@ bool Walker::fallingCheck()
             if(!cd.intersect)
             {
               return true; // if neither line intersects with a floor then yes you are falling
-            }
-          }
+            } else floorBeneath = ptr;
+          } else floorBeneath = ptr;
         }
       }
     }
   }
   return false;
+}
+
+  // if falling then check for ground impancts and stop falling in case something like that happens
+void Walker::fallingCollisionCheck()
+{
+  CollisionData cd;
+  for(int i = 0; i < objects->size() ; i++)
+  {
+    Boundary* ptr;
+    if((*objects)[i]->getType() == BOUNDARY)
+    {
+      ptr = dynamic_cast<Boundary*>((*objects)[i]);
+      if(ptr->getUp())
+      {
+        cd = ptr->lineIntersection(x, y + height - 1, x, y + height + yVel,0,0,0,0);
+        if(cd.intersect)
+        {
+          yVel = 0;
+          y = ptr->getY() - height;
+          falling = false;
+          floorBeneath = ptr;
+          return;
+        }
+        cd = ptr->lineIntersection(x + width, y + height - 1, x + width, y + height + yVel,0,0,0,0);
+        if(cd.intersect)
+        {
+          yVel = 0;
+          y = ptr->getY() - height;
+          falling = false;
+          floorBeneath = ptr;
+          return;
+        }
+      }
+    }
+  }
 }
