@@ -1,12 +1,17 @@
 Brush up on vector math for bullet movement (wall bounce)
 Basic enemies
   walking dudes?
+    walkers can walk and fall
+    things left to do:
+      turning at walls
+      some kind of attack
+      a way to detect the player
 bullets and damage mechanics (semi done)
   knockback (needs variable force)
 UI and interface or whatever they're called (partially done)
 
 player attack
-  Melee attack exists, needs some limitations implemented to prevent spamming
+  Melee attack exists
     combos?
   Shots
     big-ass fricking lazer beam?
