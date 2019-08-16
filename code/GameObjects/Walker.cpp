@@ -8,6 +8,7 @@ Walker::Walker(int o_x, int o_y, Display* disp, std::vector<GameObject*>* objs)
   mDisplay = disp;
   width = 20;
   height = 40;
+  type = WALKER;
 }
 Walker::~Walker(){}
 
@@ -20,10 +21,16 @@ void Walker::update()
   }
   if(falling && yVel < 5) yVel += .05;
 
-  x += xVel;
-  y += yVel;
 
   if(falling) fallingCollisionCheck();
+  if(!falling)
+  {
+    xVel = 2 * direction;
+  }
+
+
+  x += xVel;
+  y += yVel;
 
 }
 void Walker::render(int cameraX, int cameraY)

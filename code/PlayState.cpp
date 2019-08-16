@@ -132,6 +132,7 @@ void PlayState::handleEvents(SDL_Event* e)
     switch(e->key.keysym.sym)
     {
       case SDLK_r:
+      /**
       for(int i = 0; i < objects.size(); i++)
       {
         if(objects[i]->getType() == PLAYER)
@@ -140,6 +141,10 @@ void PlayState::handleEvents(SDL_Event* e)
           objects.erase(objects.begin() + i);
         }
       }
+      */
+      deleteLevel();
+      loadLevel(1);
+
       objects.push_back( new Player(101, 101, &playerAlive, mDisplay, &objects, textureArray));
       playerAlive = true;
 
@@ -183,6 +188,7 @@ void PlayState::loadLevel(int id)
         else if(strVec[0] == "Boundary") boundaryLoad(strVec);
         else if(strVec[0] == "Hazard") hazardLoad(strVec);
         else if(strVec[0] == "Turret") turretLoad(strVec);
+        else if(strVec[0] == "Walker") walkerLoad(strVec);
 
 
       }
@@ -221,4 +227,16 @@ void PlayState::boundaryLoad(std::vector<std::string> bl) // boundary portion of
   if(bl[7] == "T") t3 = true; else t3 = false;
   if(bl[8] == "T") t4 = true; else t4 = false;
   objects.push_back( new Boundary(bx, by, bx2, by2, mDisplay, t1, t2, t3, t4));
+}
+
+void PlayState::walkerLoad(std::vector<std::string> bl) // walkers for the level load
+{
+  int bx; int by;
+  bx = std::stoi(bl[1]); by = std::stoi(bl[2]);
+  objects.push_back(new Walker(bx, by, mDisplay, &objects));
+}
+
+void PlayState::deleteLevel()
+{
+  freeMem();
 }

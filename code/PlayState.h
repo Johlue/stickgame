@@ -38,6 +38,9 @@ protected:
   void boundaryLoad(std::vector<std::string> bl); //boundary portion of level loading
   void hazardLoad(std::vector<std::string> bl);
   void turretLoad(std::vector<std::string> bl);
+  void walkerLoad(std::vector<std::string> bl);
+
+  void deleteLevel();
 
   std::vector<ImageTexture*>* textureArray;
   std::vector<GameObject*> objects;
