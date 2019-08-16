@@ -12,6 +12,7 @@
 #include "Hazard.h"
 #include "Turret.h"
 #include "Bullet.h"
+#include "Walker.h"
 
 
 class PlayState : public GameState

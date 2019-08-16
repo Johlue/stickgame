@@ -8,6 +8,9 @@ UI and interface or whatever they're called (partially done)
 player attack
   Melee attack exists, needs some limitations implemented to prevent spamming
     combos?
+  Shots
+    big-ass fricking lazer beam?
+    some sort of aiming system, probs just arrow keys, but maybe some sort of "stand still and aim" thing? could also just add mouse-aim
 level loading, like from a file (it's done for now, but will need updating in the future)
 maybe level editor if i feel like it
 
