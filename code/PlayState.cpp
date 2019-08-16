@@ -48,7 +48,7 @@ void PlayState::init()
 //  objects.push_back (new Turret(600, 150, mDisplay, &objects));
   objects.push_back (new Turret(300, 361, mDisplay, &objects));
 */
-  objects.push_back(new Walker(100, 100, mDisplay));
+  objects.push_back(new Walker(100, 100, mDisplay, &objects));
 
   objects.push_back( new Player(101, 101, &playerAlive, mDisplay, &objects, textureArray));
 
