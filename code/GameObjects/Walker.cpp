@@ -25,11 +25,19 @@ void Walker::update()
   if(falling) fallingCollisionCheck();
   if(!falling)
   {
-    xVel = 2 * direction;
+    xVel = 2;
+    if(floorBeneath != nullptr)
+    {
+      if(turnAroundCheck())
+      {
+        // check if you should turn around and then do turn around if you should turn around
+        direction = direction * (-1);
+      }
+    }
   }
 
 
-  x += xVel;
+  x += xVel * direction;
   y += yVel;
 
 }
@@ -102,4 +110,15 @@ void Walker::fallingCollisionCheck()
       }
     }
   }
+}
+
+// if there's a hole in front of you then turn around
+bool Walker::turnAroundCheck()
+{
+  int xloc;
+  if(direction == 1) xloc = x + width + 2;
+  if(direction == -1) xloc = x - 2;
+  CollisionData cd = floorBeneath->lineIntersection(xloc, y + height - 1, xloc, y + height + 2,0,0,0,0);
+  if(cd.intersect) return false;
+  return true;
 }

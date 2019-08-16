@@ -19,10 +19,11 @@ public:
 
 protected:
   bool fallingCheck();
+  void fallingCollisionCheck();
+  bool turnAroundCheck();
   double xVel = 0; double yVel = 0;
   int direction = 1; // 1 = right, -1 = left;
   bool falling = false;
-  void fallingCollisionCheck();
   std::vector<GameObject*>* objects = nullptr; // contains objects to interact with
   Boundary* floorBeneath = nullptr;
 };

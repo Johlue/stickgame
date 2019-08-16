@@ -22,4 +22,4 @@ klTurret 400 150
 Turret 500 220
 lTurret 450 221
 
-Walker 60 100
+Walker 160 100
