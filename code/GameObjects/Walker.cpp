@@ -57,6 +57,8 @@ void Walker::update()
 
     if(wallCheck()) direction = direction * (-1);
 
+    if(detectPlayer()) std::cout << "playerDetected!" << std::endl;
+
     x += xVel * direction;
     y += yVel;
 
@@ -190,4 +192,24 @@ bool Walker::wallCheck()
       }
     }
   }
+  return false;
+}
+
+bool Walker::detectPlayer()
+{
+  // facing the right direction
+  if((direction == 1 && (*objects)[playerid]->getX() > x) || (direction == -1 && (*objects)[playerid]->getX() < x))
+  {
+     // 45 degrees or less angle
+    if(abs((*objects)[playerid]->getY() - y) < abs((*objects)[playerid]->getX() - x + (width/2)))
+    {
+      std::cout << (*objects)[playerid]->getX() - (x+(width/2));
+      // is player close enough
+      if(abs((*objects)[playerid]->getX() - (x+(width/2))) <= detectionRange)
+      {
+        return true;
+      }
+    }
+  }
+  return false;
 }

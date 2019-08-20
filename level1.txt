@@ -23,8 +23,8 @@ Turret 500 220
 lTurret 450 221
 
 Walker 160 100
-Walker 160 222
+'Walker 160 222
 
-Walker 450 100
-Walker 450 -200
-Walker 450 -600
+'Walker 450 100
+dWalker 450 -200
+gWalker 450 -600

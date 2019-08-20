@@ -3,7 +3,6 @@ Basic enemies
   walking dudes?
     walkers can walk and fall
     things left to do:
-      turning at walls
       some kind of attack
       a way to detect the player
 bullets and damage mechanics (semi done)

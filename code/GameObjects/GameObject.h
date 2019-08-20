@@ -12,6 +12,7 @@
 #include <vector>
 #include "func.h"
 #include "Animation.h"
+#include <stdlib.h>
 
 // identifier for what type of object it is
 enum ObjectTypes
