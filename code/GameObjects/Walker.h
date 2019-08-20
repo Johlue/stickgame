@@ -18,14 +18,16 @@ public:
   void render(int cameraX, int cameraY);
 
 protected:
-  bool fallingCheck();
-  void fallingCollisionCheck();
-  bool turnAroundCheck();
+  bool fallingCheck(); // check if there's floor underneath, and if not start falling
+  void fallingCollisionCheck(); // if falling check if collided with floor
+  bool floorEndCheck(); // check if the floor ends in front of you
+  bool wallCheck(); //  see if wall is in front
   double xVel = 0; double yVel = 0;
   int direction = 1; // 1 = right, -1 = left;
   bool falling = false;
   std::vector<GameObject*>* objects = nullptr; // contains objects to interact with
   Boundary* floorBeneath = nullptr;
+  int playerid = 9999999;
 };
 
 #endif

@@ -15,31 +15,52 @@ Walker::~Walker(){}
 void Walker::handleEvent(SDL_Event* e){}
 void Walker::update()
 {
-  if(!falling)
-  {
-    if(fallingCheck()) falling = true;
-  }
-  if(falling && yVel < 5) yVel += .05;
+  // check if playrid is valid, if not fix it
+  if(playerid > objects->size() - 1) playerid = 9999999;
+  else if((*objects)[playerid]->getType() != PLAYER) playerid = 9999999;
 
-
-  if(falling) fallingCollisionCheck();
-  if(!falling)
+  if(playerid == 9999999)
   {
-    xVel = 2;
-    if(floorBeneath != nullptr)
+    for(int i = 0; i < objects->size(); i++)
     {
-      if(turnAroundCheck())
+      if((*objects)[i]->getType() == PLAYER)
       {
-        // check if you should turn around and then do turn around if you should turn around
-        direction = direction * (-1);
+        playerid = i;
+        break;
       }
     }
   }
 
 
-  x += xVel * direction;
-  y += yVel;
+  if(playerid != 9999999) //don't do things if playerid is not valid
+  {
+    if(!falling)
+    {
+      if(fallingCheck()) falling = true;
+    }
+    if(falling && yVel < 5) yVel += .05;
 
+
+    if(falling) fallingCollisionCheck();
+    if(!falling)
+    {
+      xVel = 2;
+      if(floorBeneath != nullptr)
+      {
+        if(floorEndCheck())
+        {
+          // check if you should turn around and then do turn around if you should turn around
+          direction = direction * (-1);
+        }
+      }
+    }
+
+    if(wallCheck()) direction = direction * (-1);
+
+    x += xVel * direction;
+    y += yVel;
+
+  }
 }
 void Walker::render(int cameraX, int cameraY)
 {
@@ -113,7 +134,7 @@ void Walker::fallingCollisionCheck()
 }
 
 // if there's a hole in front of you then turn around
-bool Walker::turnAroundCheck()
+bool Walker::floorEndCheck()
 {
   int xloc;
   if(direction == 1) xloc = x + width + 2;
@@ -121,4 +142,52 @@ bool Walker::turnAroundCheck()
   CollisionData cd = floorBeneath->lineIntersection(xloc, y + height - 1, xloc, y + height + 2,0,0,0,0);
   if(cd.intersect) return false;
   return true;
+}
+
+bool Walker::wallCheck()
+{
+  if(xVel != 0)
+  {
+    CollisionData cd;
+    for(int i = 0; i < objects->size() ; i++)
+    {
+      Boundary* ptr;
+      if((*objects)[i]->getType() == BOUNDARY)
+      {
+        ptr = dynamic_cast<Boundary*>((*objects)[i]);
+        if(direction > 0)
+        {
+          if(ptr->getLeft())
+          {
+            cd = ptr->lineIntersection(x + width - 1, y, x + width + xVel + 1, y,0,0,0,0);
+            if(cd.intersect)
+            {
+              return true;
+            }
+            cd = ptr->lineIntersection(x + width - 1, y + height - 1, x + width + xVel + 1, y + height - 1 ,0,0,0,0);
+            if(cd.intersect)
+            {
+              return true;
+            }
+          }
+        }
+        else if(direction < 0)
+        {
+          if(ptr->getRight())
+          {
+            cd = ptr->lineIntersection(x + 1, y, x - xVel - 1, y,0,0,0,0);
+            if(cd.intersect)
+            {
+              return true;
+            }
+            cd = ptr->lineIntersection(x + 1, y + height - 1, x - xVel - 1, y + height - 1 ,0,0,0,0);
+            if(cd.intersect)
+            {
+              return true;
+            }
+          }
+        }
+      }
+    }
+  }
 }

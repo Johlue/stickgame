@@ -41,12 +41,9 @@ double Boundary::getSlopeSpeed() {return speed;} // get player speed on slope
 void Boundary::calculateSlopeSpeed()
 {
   double angle = abs(atan2(y - y2, x2 - x) * (180 / pi())); // gets angle in degrees
-  std::cout << "base angle: " << angle << std::endl;
   while(angle > 90.0) angle -= 90.0;
   while(angle < 0.0) angle += 90.0; // adjust angle to be between 0 and 90
-  std::cout << "fixed angle: " << angle << std::endl;
   speed = 1.0 - (pow(angle, 2) / pow(90.0, 2)); // do some math to get a speed
-  std::cout << "SPEEEEED: " << speed << std::endl;
 }
 
 // xn and ny values can be whatever since they aren't used at all
