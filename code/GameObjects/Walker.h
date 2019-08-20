@@ -5,6 +5,16 @@
 #include "Boundary.h"
 #include "Player.h"
 
+enum AIs{
+  MELEE, //medium speed, weak
+  MELEE_QUICK, // fast, weak, jumps
+  MELEE_STRONG, //slow, hits like a truck
+  RANGED, // pistol meh shooting speed / power
+  RANGED_QUICK, // smg, fast shooting, meh power
+  RANGED_MINIGUN, // minigun(duh), fast strong shooting with cooldown, moves slowly
+  RANGED_HYPERBEAM // has the players gigalazer, medium move speed, slow obvious chargeup, instant death damage
+  };
+
 class Walker : public GameObject
 {
 public:
@@ -21,8 +31,8 @@ protected:
   bool fallingCheck(); // check if there's floor underneath, and if not start falling
   void fallingCollisionCheck(); // if falling check if collided with floor
   bool floorEndCheck(); // check if the floor ends in front of you
-  bool wallCheck(); //  see if wall is in front
-  bool detectPlayer(); // try and find the player
+  bool wallCheck();     //  see if wall is in front
+  bool detectPlayer();  // try and find the player
   double xVel = 0; double yVel = 0;
   int direction = 1; // 1 = right, -1 = left;
   bool falling = false;
@@ -31,6 +41,7 @@ protected:
   int playerid = 9999999;
   bool playerDetected = false; // has the player been seen
   double detectionRange = 200.0; // how far can this guy see
+  int AI = MELEE;
 };
 
 #endif

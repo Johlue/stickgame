@@ -19,7 +19,7 @@ Hazard 200 110 50 50 0 64 spike
 afsTurret 200 150
 lTurret 400 250
 klTurret 400 150
-Turret 500 220
+a a a a Turret 500 220
 lTurret 450 221
 
 Walker 160 100

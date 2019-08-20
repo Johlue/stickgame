@@ -197,6 +197,27 @@ bool Walker::wallCheck()
 
 bool Walker::detectPlayer()
 {
+  // ignore direction if player already detected
+  if(playerDetected)
+  {
+    if(abs((*objects)[playerid]->getX() - (x+(width/2))) <= detectionRange)
+    {
+      return true;
+    }
+  }
+  // check for walls in line of sight
+  CollisionData cd;
+  for(int i = 0; i < objects->size(); i++)
+  {
+    if((*objects)[i]->getType() == BOUNDARY)
+    {
+      if((*objects)[i]->lineIntersection(x, y, (*objects)[playerid]->getX(),
+      (*objects)[playerid]->getY(),0,0,0,0).intersect)
+      {
+        return false;
+      }
+    }
+  }
   // facing the right direction
   if((direction == 1 && (*objects)[playerid]->getX() > x) || (direction == -1 && (*objects)[playerid]->getX() < x))
   {

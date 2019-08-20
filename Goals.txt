@@ -4,7 +4,7 @@ Basic enemies
     walkers can walk and fall
     things left to do:
       some kind of attack
-      a way to detect the player
+      a way to detect the player (done-ish) need to not see thru walls
 bullets and damage mechanics (semi done)
   knockback (needs variable force)
 UI and interface or whatever they're called (partially done)
@@ -17,6 +17,8 @@ player attack
     some sort of aiming system, probs just arrow keys, but maybe some sort of "stand still and aim" thing? could also just add mouse-aim
 level loading, like from a file (it's done for now, but will need updating in the future)
 maybe level editor if i feel like it
+Level design
+Boss fights
 
 
 
