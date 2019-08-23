@@ -62,7 +62,10 @@ protected:
   int shotsRemaining = 4;
   int reloadSpeed = 60;
   int reloadSpeed_t = 60;
+  int gunAngle = 0;
+  Point gunPoint;
   void rangedAI();
+  void rotate(double ang);
 
 };
 

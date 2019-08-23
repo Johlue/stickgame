@@ -9,6 +9,8 @@ Walker::Walker(int o_x, int o_y, Display* disp, std::vector<GameObject*>* objs)
   width = 20;
   height = 40;
   type = WALKER;
+  gunPoint.x = x + (width/2) + 20;
+  gunPoint.y = y + (height/5);
 }
 Walker::~Walker(){}
 
@@ -115,8 +117,11 @@ void Walker::update()
     }
 
     x += xVel * direction;
+    gunPoint.x += xVel * direction;
     y += yVel;
+    gunPoint.y += yVel * direction;
 
+    rotate(2);
   }
 }
 void Walker::render(int cameraX, int cameraY)
@@ -124,6 +129,9 @@ void Walker::render(int cameraX, int cameraY)
   SDL_Rect rect2 = { x - cameraX, y - cameraY, width, height};
   SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0, 255, 0, 0xFF );
   SDL_RenderFillRect(mDisplay->getRenderer(), &rect2);
+  SDL_Rect rect3 = {gunPoint.x - cameraX, gunPoint.y - cameraY, 3, 3};
+  SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 0, 0, 0xFF);
+  SDL_RenderFillRect(mDisplay->getRenderer(), &rect3);
 }
 
 bool Walker::fallingCheck()
@@ -299,8 +307,8 @@ void Walker::rangedAI()
   {
     if(betweenShotsDelay_t <= 0 && shotsRemaining > 0) // SHOOT!
     {
-      Vector2D bulletVector((180) * (3.14159265359/180), 10); //angle and speed of bullet
-      objects->push_back(new Bullet(x, y, bulletVector, mDisplay, objects));
+      Vector2D bulletVector((gunAngle) * (3.14159265359/180), 10); //angle and speed of bullet
+      objects->push_back(new Bullet(gunPoint.x, gunPoint.y, bulletVector, mDisplay, objects));
       shotsRemaining--; // one less bullet
       betweenShotsDelay_t = betweenShotsDelay; // reset shotdelay
     }
@@ -317,4 +325,12 @@ void Walker::rangedAI()
       }
     }
   }
+}
+
+void Walker::rotate(double angl) // rotate by angl degrees
+{
+  Point p; // this is the centerpoint of rotation
+  p.x = x + (width/2); p.y = y + (height/5);
+  rotatePoint(angl, &gunPoint, p);
+  gunAngle += angl;
 }

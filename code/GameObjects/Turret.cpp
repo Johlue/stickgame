@@ -39,7 +39,7 @@ void Turret::move(double xo, double yo)
 
 void Turret::rotate(double angl)
 {
-  Point p;
+  Point p; // this is the centerpoint of rotation
   p.x = x; p.y = y;
   rotatePoint(angl, &cannonTopLeft, p);
   rotatePoint(angl, &cannonTopRight, p);
