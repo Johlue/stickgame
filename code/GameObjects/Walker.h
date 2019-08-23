@@ -15,6 +15,12 @@ enum AIs{
   RANGED_HYPERBEAM // has the players gigalazer, medium move speed, slow obvious chargeup, instant death damage
   };
 
+enum AIwalks{
+  STANDING, // stands still and only turns around if detects player and the player goes behind walker
+  INSTANTTURN, // turns as soon as edge is detected
+  WAIT // waits 2 seconds at edge of floor before turning around
+};
+
 class Walker : public GameObject
 {
 public:
@@ -41,7 +47,11 @@ protected:
   int playerid = 9999999;
   bool playerDetected = false; // has the player been seen
   double detectionRange = 200.0; // how far can this guy see
-  int AI = MELEE;
+  int playerMemory = 600; // how long the walker can remember having detected the player
+  int playerMemoryRemaining = 0; // how many frames remaining until walker forgets the player
+  int waiting = 0; // waiting at the edge of reality(aka the floor)
+  int AI = MELEE; // combat ai
+  int AIwalk = WAIT; // movement ai (sort of)
 };
 
 #endif

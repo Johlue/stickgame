@@ -49,15 +49,55 @@ void Walker::update()
       {
         if(floorEndCheck())
         {
-          // check if you should turn around and then do turn around if you should turn around
-          direction = direction * (-1);
+          // check if you should turn around and then do turn around if you should turn around (depening on AI type)
+          switch(AIwalk)
+          {
+            case WAIT: // if waiting type wait at edge for 2 seconds
+            if(waiting < 1) waiting = 120;
+            break;
+
+            case INSTANTTURN: // turn around now
+            direction = direction * (-1);
+            break;
+
+            case STANDING: // don't move nothing bad is going to happen
+            break;
+          }
         }
+      }
+      if(AIwalk == WAIT) // waiters need to wait
+      {
+        waiting--;
+        if(waiting == 1)
+        {
+          direction = direction * -1; // after the waiting is over turn around
+        } else if(waiting > 1) xVel = 0;
       }
     }
 
     if(wallCheck()) direction = direction * (-1);
 
-    if(detectPlayer()) std::cout << "playerDetected!" << std::endl;
+    if(AIwalk == STANDING) xVel = 0;
+
+    if(detectPlayer()) // look for the player
+    {
+       playerDetected = true;
+       playerMemoryRemaining = playerMemory;
+    }
+    else
+    {
+      if(playerDetected)// if player was seen earlier and can't now, start forgetting
+      {
+        playerMemoryRemaining--;
+        std::cout << "remaining memory: " << playerMemoryRemaining << std::endl;
+        if(playerMemoryRemaining < 1)
+        {
+          playerDetected = false;
+          std::cout << "player forgotten" << std::endl;
+        }
+
+      }
+    }
 
     x += xVel * direction;
     y += yVel;
@@ -197,36 +237,37 @@ bool Walker::wallCheck()
 
 bool Walker::detectPlayer()
 {
-  // ignore direction if player already detected
-  if(playerDetected)
-  {
-    if(abs((*objects)[playerid]->getX() - (x+(width/2))) <= detectionRange)
-    {
-      return true;
-    }
-  }
   // check for walls in line of sight
   CollisionData cd;
   for(int i = 0; i < objects->size(); i++)
   {
     if((*objects)[i]->getType() == BOUNDARY)
     {
-      if((*objects)[i]->lineIntersection(x, y, (*objects)[playerid]->getX(),
-      (*objects)[playerid]->getY(),0,0,0,0).intersect)
+      if((*objects)[i]->lineIntersection(x + width/2, y + height / 6, (*objects)[playerid]->getX() +8,
+      (*objects)[playerid]->getY()+16,0,0,0,0).intersect)
       {
         return false;
       }
     }
   }
+  // ignore direction if player already detected
+  if(playerDetected)
+  {
+    if(abs((*objects)[playerid]->getX()+8 - (x+(width/2))) <= detectionRange
+        && abs((*objects)[playerid]->getY()+16 - (y+(height/6))) <= detectionRange)
+    {
+      return true;
+    }
+  }
   // facing the right direction
-  if((direction == 1 && (*objects)[playerid]->getX() > x) || (direction == -1 && (*objects)[playerid]->getX() < x))
+  if((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x))
   {
      // 45 degrees or less angle
-    if(abs((*objects)[playerid]->getY() - y) < abs((*objects)[playerid]->getX() - x + (width/2)))
+    if(abs((*objects)[playerid]->getY()+16 - y) < abs((*objects)[playerid]->getX()+8 - x + (width/2)))
     {
-      std::cout << (*objects)[playerid]->getX() - (x+(width/2));
       // is player close enough
-      if(abs((*objects)[playerid]->getX() - (x+(width/2))) <= detectionRange)
+      if(abs((*objects)[playerid]->getX()+8 - (x+(width/2))) <= detectionRange
+        && abs((*objects)[playerid]->getY()+16 - (y+(height/6))) <= detectionRange)
       {
         return true;
       }
