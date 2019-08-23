@@ -83,19 +83,34 @@ void Walker::update()
     {
        playerDetected = true;
        playerMemoryRemaining = playerMemory;
+       switch(AI)
+       {
+         case RANGED:
+         //
+         rangedAI();
+         break;
+
+         case MELEE:
+         //
+         break;
+
+       }
     }
     else
     {
       if(playerDetected)// if player was seen earlier and can't now, start forgetting
       {
         playerMemoryRemaining--;
-        std::cout << "remaining memory: " << playerMemoryRemaining << std::endl;
+        //std::cout << "remaining memory: " << playerMemoryRemaining << std::endl;
         if(playerMemoryRemaining < 1)
         {
           playerDetected = false;
-          std::cout << "player forgotten" << std::endl;
+          //std::cout << "player forgotten" << std::endl;
         }
-
+      }
+      else
+      {
+        initialShotDelay_t = initialShotDelay; //reset shotdelay due to lack of preparedness
       }
     }
 
@@ -274,4 +289,32 @@ bool Walker::detectPlayer()
     }
   }
   return false;
+}
+
+void Walker::rangedAI()
+{
+  xVel = 0;
+  if(initialShotDelay_t > 0) initialShotDelay_t--; //wait for itinialshot
+  else
+  {
+    if(betweenShotsDelay_t <= 0 && shotsRemaining > 0) // SHOOT!
+    {
+      Vector2D bulletVector((180) * (3.14159265359/180), 10); //angle and speed of bullet
+      objects->push_back(new Bullet(x, y, bulletVector, mDisplay, objects));
+      shotsRemaining--; // one less bullet
+      betweenShotsDelay_t = betweenShotsDelay; // reset shotdelay
+    }
+    else if(shotsRemaining > 0) betweenShotsDelay_t--;
+    else if(shotsRemaining <= 0)
+    {
+      // if no shots are remaining start reloading, no animation cause I'm lazy
+      reloadSpeed_t--;
+      if(reloadSpeed_t < 0)
+      {
+        // once reload is finished add shots back and reset reload time
+        shotsRemaining = clipSize;
+        reloadSpeed_t = reloadSpeed;
+      }
+    }
+  }
 }

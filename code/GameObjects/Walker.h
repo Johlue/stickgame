@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "Boundary.h"
 #include "Player.h"
+#include "Bullet.h"
 
 enum AIs{
   MELEE, //medium speed, weak
@@ -50,8 +51,19 @@ protected:
   int playerMemory = 600; // how long the walker can remember having detected the player
   int playerMemoryRemaining = 0; // how many frames remaining until walker forgets the player
   int waiting = 0; // waiting at the edge of reality(aka the floor)
-  int AI = MELEE; // combat ai
+  int AI = RANGED; // combat ai
   int AIwalk = WAIT; // movement ai (sort of)
+
+  int initialShotDelay = 60;
+  int initialShotDelay_t = 60;
+  int betweenShotsDelay = 20;
+  int betweenShotsDelay_t = 0;
+  int clipSize = 4;
+  int shotsRemaining = 4;
+  int reloadSpeed = 60;
+  int reloadSpeed_t = 60;
+  void rangedAI();
+
 };
 
 #endif
