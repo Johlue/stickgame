@@ -92,6 +92,11 @@ void Walker::update()
        switch(AI)
        {
          case RANGED:
+
+         if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x)))
+         {
+           direction = direction * -1; // turn around if player is behind
+         }
          //radians
          aimAt(((atan2( x-((*objects)[playerid]->getX() +8) , ((*objects)[playerid]->getY()+8)-y)) * (180.0/3.14159265359)) + 180 - 90, 4);
          rangedAIshoot();
@@ -343,12 +348,24 @@ void Walker::rangedAIshoot()
 
 void Walker::aimAt(double target, double rotateSpeed)
 {
-
+/**
   std::cout << "target angle: " << target << " current angle: " << gunAngle << std::endl;
   if(target > gunAngle+rotateSpeed) rotate(rotateSpeed);
   else if(target < gunAngle-rotateSpeed) rotate(-rotateSpeed);
   else if(gunAngle >= target -rotateSpeed && gunAngle < target) rotate(abs(gunAngle - target));
   else if(gunAngle <= target +rotateSpeed && gunAngle > target) rotate(-abs(gunAngle - target));
+**/
+
+  double zerodPangle = target - gunAngle;
+
+  if(zerodPangle < 0) zerodPangle += 360;
+
+  if(zerodPangle > rotateSpeed || zerodPangle < -rotateSpeed)
+  {
+    if(zerodPangle > 180) rotate(-rotateSpeed);
+    else rotate(rotateSpeed);
+  }
+  else rotate(zerodPangle);
 }
 
 void Walker::rotate(double angl) // rotate by angl degrees

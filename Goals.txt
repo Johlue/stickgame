@@ -6,7 +6,7 @@ Basic enemies
       some kind of attack
       a way to detect the player (done-ish)
       various AIs
-        attack type (melee or ranged(ADD ANGLE TO SEE WHERE SHOOTING))
+        attack type (melee or ranged(AIMING AT -90 OF THE PLAYER IS CAUSING WEIRD ROTATION ISSUES))
         walking type (stand still or not)
     flying robot things?
 bullets and damage mechanics (semi done)
