@@ -17,6 +17,8 @@ Walker::~Walker(){}
 void Walker::handleEvent(SDL_Event* e){}
 void Walker::update()
 {
+  while(gunAngle > 360) {gunAngle -= 360;}
+  while(gunAngle < 0) {gunAngle += 360;}
   // check if playrid is valid, if not fix it
   if(playerid > objects->size() - 1) playerid = 9999999;
   else if((*objects)[playerid]->getType() != PLAYER) playerid = 9999999;
@@ -88,8 +90,9 @@ void Walker::update()
        switch(AI)
        {
          case RANGED:
-         //
-         rangedAI();
+         //radians
+         aimAt(((atan2( x-((*objects)[playerid]->getX() +8) , ((*objects)[playerid]->getY()+16)-y)) * (180.0/3.14159265359)) + 180 - 90, 4);
+         rangedAIshoot();
          break;
 
          case MELEE:
@@ -100,6 +103,16 @@ void Walker::update()
     }
     else
     {
+      switch(AI)
+      {
+        int passiveAngle;// row row rowtate your gun
+        case RANGED:
+
+        if(!playerDetected) aimAt(90+(-20 * direction), 4); // point gun down if walker is not alert
+        else aimAt(90 + (-90 * direction), 4); // point forward if alert
+
+        break;
+      }
       if(playerDetected)// if player was seen earlier and can't now, start forgetting
       {
         playerMemoryRemaining--;
@@ -121,7 +134,6 @@ void Walker::update()
     y += yVel;
     gunPoint.y += yVel * direction;
 
-    rotate(2);
   }
 }
 void Walker::render(int cameraX, int cameraY)
@@ -299,7 +311,7 @@ bool Walker::detectPlayer()
   return false;
 }
 
-void Walker::rangedAI()
+void Walker::rangedAIshoot()
 {
   xVel = 0;
   if(initialShotDelay_t > 0) initialShotDelay_t--; //wait for itinialshot
@@ -327,10 +339,21 @@ void Walker::rangedAI()
   }
 }
 
+void Walker::aimAt(double target, double rotateSpeed)
+{
+
+  std::cout << "target angle: " << target << " current angle: " << gunAngle << std::endl;
+  if(target > gunAngle+rotateSpeed) rotate(rotateSpeed);
+  else if(target < gunAngle-rotateSpeed) rotate(-rotateSpeed);
+  else if(gunAngle >= target -rotateSpeed && gunAngle < target) rotate(abs(gunAngle - target));
+  else if(gunAngle <= target +rotateSpeed && gunAngle > target) rotate(-abs(gunAngle - target));
+}
+
 void Walker::rotate(double angl) // rotate by angl degrees
 {
+  int w1 = (width/2)+0.5; int h1 = (height/5)+0.5;
   Point p; // this is the centerpoint of rotation
-  p.x = x + (width/2); p.y = y + (height/5);
+  p.x = x + w1; p.y = y + h1;
   rotatePoint(angl, &gunPoint, p);
   gunAngle += angl;
 }

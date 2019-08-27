@@ -62,9 +62,10 @@ protected:
   int shotsRemaining = 4;
   int reloadSpeed = 60;
   int reloadSpeed_t = 60;
-  int gunAngle = 0;
+  double gunAngle = 0;
   Point gunPoint;
-  void rangedAI();
+  void rangedAIshoot(); // shooting function for the ranged Ai type
+  void aimAt(double target, double rotateSpeed);  // rotate gunangle towards a target, at a speed
   void rotate(double ang);
 
 };
