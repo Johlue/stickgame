@@ -6,7 +6,7 @@ Basic enemies
       some kind of attack
       a way to detect the player (done-ish)
       various AIs
-        attack type (melee or ranged(AIMING AT -90 OF THE PLAYER IS CAUSING WEIRD ROTATION ISSUES))
+        attack type (melee or ranged)
         walking type (stand still or not)
     flying robot things?
 bullets and damage mechanics (semi done)
@@ -54,6 +54,7 @@ Fixed boundary collisions sometimes not registering due to double inaccuracy
 jumping and gravity
 Player attack
   melee done
+Level loader
 
 Discarded ideas:
 slopes: not making them, figurev em out later for other projects
