@@ -1,8 +1,10 @@
 #include "Walker.h"
 
 Walker::Walker(){}
-Walker::Walker(int o_x, int o_y, Display* disp, std::vector<GameObject*>* objs)
+Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, std::vector<GameObject*>* objs)
 {
+  AI = combatAI;
+  AIwalk = movementAI;
   objects = objs;
   x = o_x; y = o_y;
   mDisplay = disp;
@@ -91,7 +93,7 @@ void Walker::update()
        {
          case RANGED:
          //radians
-         aimAt(((atan2( x-((*objects)[playerid]->getX() +8) , ((*objects)[playerid]->getY()+16)-y)) * (180.0/3.14159265359)) + 180 - 90, 4);
+         aimAt(((atan2( x-((*objects)[playerid]->getX() +8) , ((*objects)[playerid]->getY()+8)-y)) * (180.0/3.14159265359)) + 180 - 90, 4);
          rangedAIshoot();
          break;
 

@@ -49,6 +49,7 @@ Basic enemies
   Turrets
   Walkers
     can move and see player
+    basic ranged ai is existing
 Fixed boundary collisions sometimes not registering due to double inaccuracy
 jumping and gravity
 Player attack

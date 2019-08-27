@@ -22,8 +22,8 @@ klTurret 400 150
 a a a a Turret 500 220
 lTurret 450 221
 
-Walker 160 100
-'Walker 160 222
+Walker 160 100 RANGED WAIT
+Walker 160 222 MELEE INSTANTURN
 
 'Walker 450 100
 dWalker 450 -200

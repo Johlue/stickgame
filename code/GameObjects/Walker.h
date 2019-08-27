@@ -26,8 +26,8 @@ class Walker : public GameObject
 {
 public:
   Walker();
-  // x location, y location, width, heigth, pointer to display
-  Walker(int x, int y, Display* disp, std::vector<GameObject*>* objs);
+  // x location, y location, width, heigth, AI, walkAI, pointer to display
+  Walker(int x, int y, int combatAI, int movementAI, Display* disp, std::vector<GameObject*>* objs);
   ~Walker();
 
   void handleEvent(SDL_Event* e);

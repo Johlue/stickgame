@@ -230,9 +230,20 @@ void PlayState::boundaryLoad(std::vector<std::string> bl) // boundary portion of
 
 void PlayState::walkerLoad(std::vector<std::string> bl) // walkers for the level load
 {
-  int bx; int by;
+  int bx; int by; int cAI; int wAI;
   bx = std::stoi(bl[1]); by = std::stoi(bl[2]);
-  objects.push_back(new Walker(bx, by, mDisplay, &objects));
+  if(bl[3] == "MELEE") cAI = MELEE;
+  else if(bl[3] ==  "MELEE_QUICK") cAI = MELEE_QUICK; // fast, weak, jumps
+  else if(bl[3] ==  "MELEE_STRONG") cAI = MELEE_STRONG;//slow, hits like a truck
+  else if(bl[3] ==  "RANGED") cAI = RANGED; // pistol meh shooting speed / power
+  else if(bl[3] ==  "RANGED_QUICK") cAI = RANGED_QUICK;// smg, fast shooting, meh power
+  else if(bl[3] ==  "RANGED_MINIGUN") cAI = RANGED_MINIGUN;// minigun(duh), fast strong shooting, moves slowly
+  else if(bl[3] ==  "RANGED_HYPERBEAM") cAI = RANGED_HYPERBEAM;
+
+  if(bl[4] == "STANDING") wAI == STANDING; // stands still and only turns around if detects player
+  else if(bl[4] == "INSTANTTURN") wAI = INSTANTTURN; // turns as soon as edge is detected
+  else if(bl[4] == "WAIT") wAI = WAIT; // waits 2 seconds at edge of floor before turning around
+  objects.push_back(new Walker(bx, by, cAI, wAI, mDisplay, &objects));
 }
 
 void PlayState::deleteLevel()
