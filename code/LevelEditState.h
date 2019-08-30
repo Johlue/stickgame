@@ -4,6 +4,7 @@
 #include "GameState.h"
 #include "GameObject.h"
 #include "EditorObject.h"
+#include "ObjectMenu.h"
 
 class LevelEditState : public GameState
 {
@@ -28,6 +29,9 @@ public:
 protected:
   std::vector<EditorObject> objects; // change this to a new object later for ease of texturing
   std::vector<ImageTexture*>* textureArray;
+  ObjectMenu menu;
+  int speedMultiplier = 1;
+  int yMovement = 0; int xMovement = 0;
   int cameraX = 0; int cameraY = 0;
 };
 
