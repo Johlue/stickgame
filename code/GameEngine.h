@@ -8,6 +8,7 @@
 #include "GameState.h"
 #include "MenuState.h"
 #include "PlayState.h"
+#include "LevelEditState.h"
 
 class GameEngine
 {

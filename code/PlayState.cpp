@@ -49,7 +49,7 @@ void PlayState::init()
   objects.push_back (new Turret(300, 361, mDisplay, &objects));
 */
 
-  objects.push_back( new Player(101, 101, &playerAlive, mDisplay, &objects, textureArray));
+  //objects.push_back( new Player(101, 101, &playerAlive, mDisplay, &objects, textureArray));
 
   for(int i2 = 0; i2 < objects.size(); i2++)
   {
@@ -144,7 +144,7 @@ void PlayState::handleEvents(SDL_Event* e)
       deleteLevel();
       loadLevel(1);
 
-      objects.push_back( new Player(101, 101, &playerAlive, mDisplay, &objects, textureArray));
+      //objects.push_back( new Player(101, 101, &playerAlive, mDisplay, &objects, textureArray));
       playerAlive = true;
 
       // find player and add his location to the variable tracking thing
@@ -170,6 +170,17 @@ void PlayState::handleEvents(SDL_Event* e)
 
 void PlayState::loadLevel(int id)
 {
+  //delete the player just in case?
+  playerAlive = false;
+  for(int i = 0; i < objects.size(); i++)
+  {
+    if(objects[i]->getType() == PLAYER)
+    {
+      delete (objects[i]);
+      objects.erase(objects.begin() + i);
+    }
+  }
+
   std::ifstream levelFile;
   levelFile.open("level1.txt");
   if(levelFile.is_open())
@@ -188,6 +199,11 @@ void PlayState::loadLevel(int id)
         else if(strVec[0] == "Hazard") hazardLoad(strVec);
         else if(strVec[0] == "Turret") turretLoad(strVec);
         else if(strVec[0] == "Walker") walkerLoad(strVec);
+        else if(strVec[0] == "Player")
+        {
+          objects.push_back(new Player(std::stoi(strVec[1]), std::stoi(strVec[2]), &playerAlive, mDisplay, &objects, textureArray));
+          playerAlive = true;
+        }
 
 
       }

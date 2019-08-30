@@ -2,6 +2,8 @@
 #define LEVELEDITSTATE_27082019
 
 #include "GameState.h"
+#include "GameObject.h"
+#include "EditorObject.h"
 
 class LevelEditState : public GameState
 {
@@ -24,6 +26,9 @@ public:
   //tells the GameEngine to change game states
   void changeState(int s);
 protected:
+  std::vector<EditorObject> objects; // change this to a new object later for ease of texturing
+  std::vector<ImageTexture*>* textureArray;
+  int cameraX = 0; int cameraY = 0;
 };
 
 #endif

@@ -10,7 +10,7 @@ class MenuButton
 public:
   //enum for current texture
   enum Texture{NORMAL = 0, HIGHLIGHTED = 1, PRESSED = 2};
-  enum ButtonType{START = 0, QUIT = 1}; //TODO loads and whatnot
+  enum ButtonType{START = 0, QUIT = 1, EDIT = 2}; //TODO loads and whatnot
 
   // create button at x, y
   MenuButton(int x, int y, ImageTexture* it, int type, int width = 320, int height = 100);

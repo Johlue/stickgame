@@ -1,11 +1,11 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = main.cpp code\testFile.cpp code\GameState.cpp code\ImageTexture.cpp code\Display.cpp code\MenuButton.cpp code\GameEngine.cpp code\MenuState.cpp code\PlayState.cpp code\GameObjects\GameObject.cpp code\GameObjects\Player.cpp code\GameObjects\Boundary.cpp code\CollisionData.cpp code\GameObjects\Hazard.cpp code\Point.cpp code\Ui.cpp code\GameObjects\Turret.cpp code\GameObjects\Bullet.cpp code\Vector2D.cpp code\func.cpp code\AnimationFrame.cpp code\Animation.cpp code\GameObjects\PlayerSlash.cpp code\GameObjects\Walker.cpp code\LevelEditState.cpp
+OBJS = main.cpp code\testFile.cpp code\GameState.cpp code\ImageTexture.cpp code\Display.cpp code\MenuButton.cpp code\GameEngine.cpp code\MenuState.cpp code\PlayState.cpp code\GameObjects\GameObject.cpp code\GameObjects\Player.cpp code\GameObjects\Boundary.cpp code\CollisionData.cpp code\GameObjects\Hazard.cpp code\Point.cpp code\Ui.cpp code\GameObjects\Turret.cpp code\GameObjects\Bullet.cpp code\Vector2D.cpp code\func.cpp code\AnimationFrame.cpp code\Animation.cpp code\GameObjects\PlayerSlash.cpp code\GameObjects\Walker.cpp code\LevelEditState.cpp code\Editor\EditorObject.cpp code\Editor\ObjectMenu.cpp
 
 #CC specifies which compiler we're using
 CC = g++
 
 #INCLUDE_PATHS specifies the additional include paths we'll need
-INCLUDE_PATHS = -IC:\CPP\Tutorials\StickGame\code -IC:\mingw_dev_lib\include\SDL2 -IC:\CPP\Tutorials\StickGame\code\GameObjects
+INCLUDE_PATHS = -IC:\CPP\Tutorials\StickGame\code -IC:\mingw_dev_lib\include\SDL2 -IC:\CPP\Tutorials\StickGame\code\GameObjects -IC:\CPP\Tutorials\StickGame\code\Editor
 
 #LIBRARY_PATHS specifies the additional library paths we'll need
 LIBRARY_PATHS = -LC:\mingw_dev_lib\lib

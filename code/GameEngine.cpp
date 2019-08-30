@@ -42,6 +42,7 @@ void GameEngine::init()
 {
   states.push_back(new MenuState(mDisplay, &mTextures, &currentState));
   states.push_back(new PlayState(mDisplay, &mTextures, &currentState));
+  states.push_back(new LevelEditState(mDisplay, &mTextures, &currentState));
   std::cout << states.size() << std::endl;
   mRunning = true;
   currentState = MENUSTATE;

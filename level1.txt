@@ -28,3 +28,5 @@ Walker 160 222 MELEE INSTANTURN
 'Walker 450 100
 dWalker 450 -200
 gWalker 450 -600
+
+Player 101 101

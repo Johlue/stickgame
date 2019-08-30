@@ -67,6 +67,10 @@ int MenuButton::handleEvent(SDL_Event* e)
           case START:
             return mButtonType;
             break;
+
+          case EDIT:
+            return mButtonType;
+            break;
         }
         break;
 

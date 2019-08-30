@@ -39,6 +39,10 @@ void MenuState::handleEvents(SDL_Event* e)
     {
       changeState(PLAYSTATE);
     }
+    if(buttonArray[i]->handleEvent(e) == 2)
+    {
+      changeState(LEVELEDITSTATE);
+    }
   }
 }
 
