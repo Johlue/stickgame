@@ -20,7 +20,10 @@ player attack
     big-ass fricking lazer beam?
     some sort of aiming system, probs just arrow keys, but maybe some sort of "stand still and aim" thing? could also just add mouse-aim
 level loading, like from a file (it's done for now, but will need updating in the future)
-maybe level editor if i feel like it
+Level Editor, I feel like it
+  make premade textures instead of text, cause sdl sucks at it... sort of, maybe later
+  add a dropdown menu for objects and enemies and whatnot
+  add some kind of object editor menu to, well edit objects
 Level design
 Boss fights
 
