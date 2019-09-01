@@ -295,8 +295,8 @@ bool Walker::detectPlayer()
   // ignore direction if player already detected
   if(playerDetected)
   {
-    if(abs((*objects)[playerid]->getX()+8 - (x+(width/2))) <= detectionRange
-        && abs((*objects)[playerid]->getY()+16 - (y+(height/6))) <= detectionRange)
+    if(std::abs((*objects)[playerid]->getX()+8 - (x+(width/2))) <= detectionRange
+        && std::abs((*objects)[playerid]->getY()+16 - (y+(height/6))) <= detectionRange)
     {
       return true;
     }
@@ -305,11 +305,11 @@ bool Walker::detectPlayer()
   if((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x))
   {
      // 45 degrees or less angle
-    if(abs((*objects)[playerid]->getY()+16 - y) < abs((*objects)[playerid]->getX()+8 - x + (width/2)))
+    if(std::abs((*objects)[playerid]->getY()+16 - y) < std::abs((*objects)[playerid]->getX()+8 - x + (width/2)))
     {
       // is player close enough
-      if(abs((*objects)[playerid]->getX()+8 - (x+(width/2))) <= detectionRange
-        && abs((*objects)[playerid]->getY()+16 - (y+(height/6))) <= detectionRange)
+      if(std::abs((*objects)[playerid]->getX()+8 - (x+(width/2))) <= detectionRange
+        && std::abs((*objects)[playerid]->getY()+16 - (y+(height/6))) <= detectionRange)
       {
         return true;
       }
@@ -352,8 +352,8 @@ void Walker::aimAt(double target, double rotateSpeed)
   std::cout << "target angle: " << target << " current angle: " << gunAngle << std::endl;
   if(target > gunAngle+rotateSpeed) rotate(rotateSpeed);
   else if(target < gunAngle-rotateSpeed) rotate(-rotateSpeed);
-  else if(gunAngle >= target -rotateSpeed && gunAngle < target) rotate(abs(gunAngle - target));
-  else if(gunAngle <= target +rotateSpeed && gunAngle > target) rotate(-abs(gunAngle - target));
+  else if(gunAngle >= target -rotateSpeed && gunAngle < target) rotate(std::abs(gunAngle - target));
+  else if(gunAngle <= target +rotateSpeed && gunAngle > target) rotate(-std::abs(gunAngle - target));
 **/
 
   double zerodPangle = target - gunAngle;

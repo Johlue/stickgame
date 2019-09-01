@@ -1,7 +1,7 @@
 // objects.push_back( new Boundary(64, 200, 404, 200, mDisplay, false, true, false, false)); // down facing line
 // up down right left
 
-Boundary 64 210 404 210 T F F F
+Boundary 34 240 434 240 T F F F
 Boundary 10 310 900 310 T F F F
 
 Boundary 64 200 64 160 F F F T
@@ -9,21 +9,21 @@ Boundary 64 200 404 200 F T F F
 Boundary 404 200 404 160 F F T F
 Boundary 64 160 404 160 T F F F
 
-Boundary 64 300 64 260 F F T F
-Boundary 404 300 404 260 F F F T
-Boundary 64 300 404 300 T F F F
-Boundary 64 260 404 260 F T F F
+// Boundary 64 300 64 260 F F T F
+// Boundary 404 300 404 260 F F F T
+// Boundary 64 300 404 300 T F F F
+// Boundary 64 260 404 260 F T F F
 
 Hazard 200 110 50 50 0 64 spike
 
-afsTurret 200 150
-lTurret 400 250
+iiTurret 200 150
+aTurret 400 250
 klTurret 400 150
 a a a a Turret 500 220
 lTurret 450 221
 
 Walker 160 100 RANGED WAIT
-Walker 160 222 MELEE INSTANTURN
+Walker 160 222 MELEE INSTANTTURN
 
 'Walker 450 100
 dWalker 450 -200
