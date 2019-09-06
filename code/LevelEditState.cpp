@@ -26,6 +26,7 @@ void LevelEditState::freeMem()
 
 void LevelEditState::handleEvents(SDL_Event* e)
 {
+  menu.handleEvents(e);
   if(e->type == SDL_KEYDOWN)
   {
     switch(e->key.keysym.sym)
