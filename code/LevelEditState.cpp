@@ -9,6 +9,7 @@ LevelEditState::LevelEditState(Display* dis, std::vector<ImageTexture*>* texA, i
   currentState = cs;
   mDisplay = dis;
   textureArray = texA;
+  init();
 }
 
 LevelEditState::~LevelEditState()
@@ -16,7 +17,9 @@ LevelEditState::~LevelEditState()
 
 
 void LevelEditState::init()
-{}
+{
+  menu.setTextureArray(textureArray);
+}
 
 void LevelEditState::freeMem()
 {}
@@ -88,6 +91,7 @@ void LevelEditState::update()
 
 void LevelEditState::render()
 {
+  menu.render();
   for(int i = 0; i < 20; i++ )
   {
     SDL_Rect rect2 = { i*200 - cameraX, i*200 - cameraY, 50, 50};

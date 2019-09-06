@@ -111,7 +111,6 @@ void ImageTexture::render( int x, int y, int sprite, SDL_Rect* clip, double angl
 
 	//Set rendering space and render to screen
 	SDL_Rect renderQuad = { x, y, mSpriteSize.w, mSpriteSize.h};
-
   // position of x in current sprite
   int aX = (sprite % mSpriteRow) * mSpriteSize.w;
   // position of y in current sprite

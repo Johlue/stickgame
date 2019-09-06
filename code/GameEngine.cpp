@@ -9,6 +9,7 @@ GameEngine::GameEngine(Display* display)
   // load a texture to the thingy
   loadImageTexture("menuButtons.png", 1, 9);
   loadImageTexture("chara.png", 10, 10);
+  loadImageTexture("LevelEditMenu1.png", 1, 4);
   /*
   mTextures.push_back(new ImageTexture());
   mTextures[0]->setRenderer(display->getRenderer());
@@ -35,7 +36,7 @@ void GameEngine::loadImageTexture(std::string name, int spriteRow, int spriteCol
   mTextures.push_back(new ImageTexture());
   mTextures.back()->setRenderer(mDisplay->getRenderer());
   if(!mTextures.back()->loadFromFile(name)) std::cout << "Failed to load texture: " << name << std::endl;
-  if(spriteRow > 1 && spriteCol > 1) mTextures.back()->useSpriteSheet(spriteRow, spriteCol);
+  if(spriteRow > 1 || spriteCol > 1) mTextures.back()->useSpriteSheet(spriteRow, spriteCol);
 }
 
 void GameEngine::init()
@@ -52,10 +53,18 @@ void GameEngine::init()
 void GameEngine::freeMem()
 {
   //TODO: go through gamestate vector and freeMem all of the things
-  mTextures[0]->freeTexture();
-  delete mTextures[0];
-  states[0]->freeMem();
-  delete states[0];
+  for(int i = 0; i < mTextures.size(); i++)
+  {
+    mTextures[i]->freeTexture();
+    delete mTextures[i];
+  }
+  mTextures.clear();
+  for(int i = 0; i < states.size(); i++)
+  {
+    states[i]->freeMem();
+    delete states[i];
+  }
+  states.clear();
 }
 
 void GameEngine::handleEvents(SDL_Event* e)
