@@ -58,7 +58,8 @@ void ObjectMenu::mouseEvent(SDL_MouseButtonEvent& b)
     }
     else if (mState == ENEMIES)
     {
-
+      if(  !(mx < x ||  mx > x + squareWidth || my < y + 100 || my > y + 100 + squareHeight))
+        *createObject = EO_WALKER_M;
     }
   }
   else if(b.button == SDL_BUTTON_RIGHT) *createObject = EO_NONE;
