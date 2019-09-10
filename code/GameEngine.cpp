@@ -10,6 +10,8 @@ GameEngine::GameEngine(Display* display)
   loadImageTexture("menuButtons.png", 1, 9);
   loadImageTexture("chara.png", 10, 10);
   loadImageTexture("LevelEditMenu1.png", 1, 4);
+  loadImageTexture("LevelEditMenuEnemies.png", 1, 1);
+  loadImageTexture("LevelEditMenuObjects.png", 1, 1);
   /*
   mTextures.push_back(new ImageTexture());
   mTextures[0]->setRenderer(display->getRenderer());
@@ -44,7 +46,7 @@ void GameEngine::init()
   states.push_back(new MenuState(mDisplay, &mTextures, &currentState));
   states.push_back(new PlayState(mDisplay, &mTextures, &currentState));
   states.push_back(new LevelEditState(mDisplay, &mTextures, &currentState));
-  std::cout << states.size() << std::endl;
+  //std::cout << states.size() << std::endl;
   mRunning = true;
   currentState = MENUSTATE;
   // create gamestates and i guess initialize them or whatever, the display is already in another place so who cares

@@ -3,14 +3,21 @@
 ObjectMenu::ObjectMenu()
 {}
 
+ObjectMenu::ObjectMenu(EditorObject* ceo)
+{
+  currentEditorObject = ceo;
+}
+
 void ObjectMenu::render()
 {
-  if(mState == CLOSED || mState == OBJECTS) (*textureArray)[2]->render(x, y, 1);
-  else (*textureArray)[2]->render(x, y, 0);
+  if(mState == CLOSED || mState == OBJECTS) (*textureArray)[2]->render(x, y, 3);
+  else (*textureArray)[2]->render(x, y, 2);
 
-  if(mState == CLOSED || mState == ENEMIES) (*textureArray)[2]->render(x, y+50, 3);
-  else (*textureArray)[2]->render(x, y+50, 2);
+  if(mState == CLOSED || mState == ENEMIES) (*textureArray)[2]->render(x, y+50, 1);
+  else (*textureArray)[2]->render(x, y+50, 0);
 
+  if(mState == ENEMIES) (*textureArray)[3]->render(x, y+100, 0);
+  else if(mState == OBJECTS) (*textureArray)[4]->render(x, y+100, 0);
 }
 
 void ObjectMenu::handleEvents(SDL_Event* e)

@@ -27,7 +27,10 @@ public:
   //tells the GameEngine to change game states
   void changeState(int s);
 protected:
+  void mouseEvent(SDL_MouseButtonEvent& b);
+
   std::vector<EditorObject> objects; // change this to a new object later for ease of texturing
+  EditorObject* currentEditorObject = nullptr;
   std::vector<ImageTexture*>* textureArray;
   ObjectMenu menu;
   int speedMultiplier = 1;

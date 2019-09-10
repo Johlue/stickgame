@@ -6,6 +6,7 @@
 #include "func.h"
 #include <fstream>
 #include <iostream>
+#include <SDL.h>
 #include "ImageTexture.h"
 
 enum GameStates

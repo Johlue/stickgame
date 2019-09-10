@@ -26,6 +26,16 @@ void LevelEditState::freeMem()
 
 void LevelEditState::handleEvents(SDL_Event* e)
 {
+  if(objects.size() != 0)
+  {
+    for(int i = 0; i < objects.size(); i++)
+    {
+      if(objects[i].handleEvents(e))
+      {
+        *currentEditorObject = objects[i];
+      }
+    }
+  }
   menu.handleEvents(e);
   if(e->type == SDL_KEYDOWN)
   {
@@ -81,13 +91,17 @@ void LevelEditState::handleEvents(SDL_Event* e)
       break;
     }
   }
+  if(e->type == SDL_MOUSEBUTTONUP)
+  {
+    mouseEvent(e->button);
+  }
 }
 
 void LevelEditState::update()
 {
   cameraX += xMovement * speedMultiplier;
   cameraY += yMovement * speedMultiplier;
-  std::cout << "x: " << cameraX << "    y: " << cameraY << std::endl;
+  //std::cout << "x: " << cameraX << "    y: " << cameraY << std::endl;
 }
 
 void LevelEditState::render()
@@ -104,4 +118,9 @@ void LevelEditState::render()
 void LevelEditState::changeState(int s)
 {
   *currentState = s;
+}
+
+void LevelEditState::mouseEvent(SDL_MouseButtonEvent& b)
+{
+  if(b.button == SDL_BUTTON_RIGHT) currentEditorObject = nullptr;
 }
