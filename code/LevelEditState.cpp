@@ -13,16 +13,25 @@ LevelEditState::LevelEditState(Display* dis, std::vector<ImageTexture*>* texA, i
 }
 
 LevelEditState::~LevelEditState()
-{}
+{
+  freeMem();
+}
 
 
 void LevelEditState::init()
 {
+  menu.setPointers(currentEditorObject, &createObject);
   menu.setTextureArray(textureArray);
 }
 
 void LevelEditState::freeMem()
-{}
+{
+  for(int i = 0; i < objects.size(); i++)
+  {
+    delete objects[i];
+  }
+  objects.clear();
+}
 
 void LevelEditState::handleEvents(SDL_Event* e)
 {
@@ -30,9 +39,9 @@ void LevelEditState::handleEvents(SDL_Event* e)
   {
     for(int i = 0; i < objects.size(); i++)
     {
-      if(objects[i].handleEvents(e))
+      if(objects[i]->handleEvents(e))
       {
-        *currentEditorObject = objects[i];
+        currentEditorObject = objects[i];
       }
     }
   }
@@ -89,6 +98,9 @@ void LevelEditState::handleEvents(SDL_Event* e)
       case SDLK_RCTRL:
       speedMultiplier = 1;
       break;
+
+      case SDLK_d:
+      std::cout << "x: " << cameraX << " y: " << cameraY << " createObj: " << createObject << " currentEO: " << currentEditorObject << std::endl;
     }
   }
   if(e->type == SDL_MOUSEBUTTONUP)
@@ -123,4 +135,12 @@ void LevelEditState::changeState(int s)
 void LevelEditState::mouseEvent(SDL_MouseButtonEvent& b)
 {
   if(b.button == SDL_BUTTON_RIGHT) currentEditorObject = nullptr;
+  else if(b.button == SDL_BUTTON_LEFT)
+  {
+    if(createObject != EO_NONE) // if creating an object
+    {
+      //add new object to list according to the createObject thingy
+    }
+
+  }
 }
