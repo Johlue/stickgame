@@ -24,7 +24,7 @@ bool EditorObject::handleEvents(SDL_Event * e)
 
 void EditorObject::render(int camX, int camY){}
 
-bool EditorObject::mouseEvent(SDL_MouseButtonEvent& b)
+bool EditorObject::mouseEvent(SDL_MouseButtonEvent& b) 
 {
 
   //Get mouse position

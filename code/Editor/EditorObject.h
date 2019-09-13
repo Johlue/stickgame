@@ -18,7 +18,7 @@ public:
   void render(int camX, int camY);
   void update();
 protected:
-  bool mouseEvent(SDL_MouseButtonEvent& b);
+  bool mouseEvent(SDL_MouseButtonEvent& b); // return true if this object was clicked, else return false
   int x; int y; int width; int height;
   int stringLength; // how many separated letters in a string
   int type; //as in object type

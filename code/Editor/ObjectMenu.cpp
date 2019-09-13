@@ -41,28 +41,28 @@ void ObjectMenu::mouseEvent(SDL_MouseButtonEvent& b)
     //Check if mouse is NOT outside button
     if( !( mx < x ||  mx > x + mWidth || my < y || my > y + mHeight)  )
     {
-      if(mState == CLOSED || mState == OBJECTS) mState = ENEMIES;
-      else if(mState == ENEMIES) mState = CLOSED;
+      if(mState == CLOSED || mState == OBJECTS) mState = ENEMIES; // change states to enemies when button is clicked
+      else if(mState == ENEMIES) mState = CLOSED; // if already enemies close button
     }
     else if(  !(mx < x ||  mx > x + mWidth || my < y + 50 || my > y + 50 + mHeight)  )
     {
-      if(mState == CLOSED || mState == ENEMIES) mState = OBJECTS;
+      if(mState == CLOSED || mState == ENEMIES) mState = OBJECTS; // change state to objects when button is clicked
       else if(mState == OBJECTS) mState = CLOSED;
     }
-    if(mState == OBJECTS)
+    if(mState == OBJECTS) // if objects is open, on click choose clicked object from list as creatable
     {
       if(  !(mx < x ||  mx > x + squareWidth || my < y + 100 || my > y + 100 + squareHeight))
         *createObject = EO_BOUNDARY;
       else if(  !(mx < x + squareWidth ||  mx > x + squareWidth*2 || my < y + 100 || my > y + 100 + squareHeight))
         *createObject = EO_SPIKE;
     }
-    else if (mState == ENEMIES)
+    else if (mState == ENEMIES) // if enemies is open, -||-
     {
       if(  !(mx < x ||  mx > x + squareWidth || my < y + 100 || my > y + 100 + squareHeight))
         *createObject = EO_WALKER_M;
     }
   }
-  else if(b.button == SDL_BUTTON_RIGHT) *createObject = EO_NONE;
+  else if(b.button == SDL_BUTTON_RIGHT) *createObject = EO_NONE; // on right click cancel object creation
 }
 
 void ObjectMenu::setPointers(EditorObject * ceo, int * co)

@@ -28,7 +28,7 @@ void LevelEditState::freeMem()
 {
   for(int i = 0; i < objects.size(); i++)
   {
-    delete objects[i];
+    delete objects[i]; // delete everything
   }
   objects.clear();
 }
@@ -41,7 +41,7 @@ void LevelEditState::handleEvents(SDL_Event* e)
     {
       if(objects[i]->handleEvents(e))
       {
-        currentEditorObject = objects[i];
+        currentEditorObject = objects[i]; // choose editor object for editing if it got clicked
       }
     }
   }
@@ -51,10 +51,10 @@ void LevelEditState::handleEvents(SDL_Event* e)
     switch(e->key.keysym.sym)
     {
       case SDLK_ESCAPE:
-      *currentState = MENUSTATE;
+      *currentState = MENUSTATE; // escape to return to menu
       break;
 
-      case SDLK_DOWN:
+      case SDLK_DOWN: // arrows to move camera
       yMovement = 5;
       break;
 
@@ -70,7 +70,7 @@ void LevelEditState::handleEvents(SDL_Event* e)
       xMovement = -5;
       break;
 
-      case SDLK_RCTRL:
+      case SDLK_RCTRL: // right ctrl to make camera movement faster
       speedMultiplier = 3;
       break;
     }
@@ -99,13 +99,13 @@ void LevelEditState::handleEvents(SDL_Event* e)
       speedMultiplier = 1;
       break;
 
-      case SDLK_d:
+      case SDLK_d: // dump some info to the console
       std::cout << "x: " << cameraX << " y: " << cameraY << " createObj: " << createObject << " currentEO: " << currentEditorObject << std::endl;
     }
   }
   if(e->type == SDL_MOUSEBUTTONUP)
   {
-    mouseEvent(e->button);
+    mouseEvent(e->button); // used to determite which mouse button was pressed
   }
 }
 
@@ -119,7 +119,7 @@ void LevelEditState::update()
 void LevelEditState::render()
 {
   menu.render();
-  for(int i = 0; i < 20; i++ )
+  for(int i = 0; i < 20; i++ ) // some test squares for camera movement testing
   {
     SDL_Rect rect2 = { i*200 - cameraX, i*200 - cameraY, 50, 50};
     SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0, 255, 0, 0xFF );

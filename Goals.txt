@@ -22,7 +22,7 @@ player attack
 level loading, like from a file (it's done for now, but will need updating in the future)
 Level Editor, I feel like it
   make premade textures instead of text, cause sdl sucks at it... sort of, maybe later
-  add a dropdown menu for objects and enemies and whatnot
+    partially done
   add some kind of object editor menu to, well edit objects
 Level design
 Boss fights
@@ -58,6 +58,8 @@ jumping and gravity
 Player attack
   melee done
 Level loader
+Level Editor
+  add a dropdown menu for objects and enemies and whatnot
 
 Discarded ideas:
 slopes: not making them, figurev em out later for other projects

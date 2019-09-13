@@ -30,11 +30,11 @@ protected:
   void mouseEvent(SDL_MouseButtonEvent& b);
 
   std::vector<EditorObject*> objects; // change this to a new object later for ease of texturing
-  EditorObject* currentEditorObject = nullptr;
+  EditorObject* currentEditorObject = nullptr; // pointer to currently editable object
   std::vector<ImageTexture*>* textureArray;
   ObjectMenu menu;
-  int createObject = EO_NONE;
-  int speedMultiplier = 1;
+  int createObject = EO_NONE; // type of creatable object
+  int speedMultiplier = 1; //  speed at which the camera is moving
   int yMovement = 0; int xMovement = 0;
   int cameraX = 0; int cameraY = 0;
 };
