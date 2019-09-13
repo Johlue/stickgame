@@ -2,13 +2,12 @@
 
 EditorObject::EditorObject(){}
 
-EditorObject::EditorObject(int typ, int xl, int yl, int w, int h)
+EditorObject::EditorObject(int typ, int xl, int yl, Display * disp)
 {
   type = typ;
   x = xl;
   y = yl;
-  width = w;
-  height = h;
+  mDisplay = disp;
 }
 
 void EditorObject::update(){}
@@ -22,9 +21,14 @@ bool EditorObject::handleEvents(SDL_Event * e)
   return false;
 }
 
-void EditorObject::render(int camX, int camY){}
+void EditorObject::render(int camX, int camY)
+{
+  SDL_Rect rect2 = { x - camX, y - camY, width, height};
+  SDL_SetRenderDrawColor( mDisplay->getRenderer(), type * 50, type * 33, type * 100, 0xFF );
+  SDL_RenderFillRect(mDisplay->getRenderer(), &rect2);
+}
 
-bool EditorObject::mouseEvent(SDL_MouseButtonEvent& b) 
+bool EditorObject::mouseEvent(SDL_MouseButtonEvent& b)
 {
 
   //Get mouse position
@@ -40,3 +44,6 @@ bool EditorObject::mouseEvent(SDL_MouseButtonEvent& b)
   }
   return false;
 }
+
+void EditorObject::setIndex(int i){index = i;}
+int EditorObject::getIndex(){return index;}

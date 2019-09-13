@@ -13,15 +13,20 @@ class EditorObject
 {
 public:
   EditorObject();
-  EditorObject(int typ, int xl, int yl, int w, int h);
+  EditorObject(int typ, int xl, int yl, Display * disp);
   bool handleEvents(SDL_Event* e);
   void render(int camX, int camY);
   void update();
+  void setIndex(int i);
+  int getIndex();
+
 protected:
   bool mouseEvent(SDL_MouseButtonEvent& b); // return true if this object was clicked, else return false
-  int x; int y; int width; int height;
+  int x; int y; int width = 30; int height = 30;
   int stringLength; // how many separated letters in a string
   int type; //as in object type
+  Display * mDisplay;
+  int index; // the current location of the object in the object vector
 };
 
 #endif

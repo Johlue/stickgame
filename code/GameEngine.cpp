@@ -59,12 +59,14 @@ void GameEngine::freeMem()
   {
     mTextures[i]->freeTexture();
     delete mTextures[i];
+    mTextures[i] = nullptr;
   }
   mTextures.clear();
   for(int i = 0; i < states.size(); i++)
   {
     states[i]->freeMem();
     delete states[i];
+    states[i] = nullptr;
   }
   states.clear();
 }

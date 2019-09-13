@@ -28,6 +28,7 @@ public:
   void changeState(int s);
 protected:
   void mouseEvent(SDL_MouseButtonEvent& b);
+  void deleteObject(int ix); // deletes object at index ix, and also rearranges the index number in the objects vector
 
   std::vector<EditorObject*> objects; // change this to a new object later for ease of texturing
   EditorObject* currentEditorObject = nullptr; // pointer to currently editable object
@@ -37,6 +38,7 @@ protected:
   int speedMultiplier = 1; //  speed at which the camera is moving
   int yMovement = 0; int xMovement = 0;
   int cameraX = 0; int cameraY = 0;
+  bool clicked = false; // used to prevent double actions (picking from menu and creating object at the same time)
 };
 
 #endif

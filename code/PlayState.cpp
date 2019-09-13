@@ -67,6 +67,7 @@ void PlayState::freeMem()
 	for(int i = 0; i < objects.size(); i++)
 	{
 		delete (objects[i]);
+    objects[i] = nullptr;
 	}
 	objects.clear();
 }
@@ -80,6 +81,7 @@ void PlayState::update()
     if(!objects[i]->isAlive())
     {
       delete (objects[i]);
+      objects[i] = nullptr;
       objects.erase(objects.begin() + i);
     }
     //std::cout << "update";
@@ -90,6 +92,7 @@ void PlayState::update()
         if(objects[i]->getType() == PLAYER)
         {
           delete (objects[i]);
+          objects[i] = nullptr;
           objects.erase(objects.begin() + i);
         }
       }
@@ -177,6 +180,7 @@ void PlayState::loadLevel(int id)
     if(objects[i]->getType() == PLAYER)
     {
       delete (objects[i]);
+      objects[i] = nullptr;
       objects.erase(objects.begin() + i);
     }
   }

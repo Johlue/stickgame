@@ -32,6 +32,7 @@ Player::~Player()
   for(int i = 0; i < mAnimations.size(); i++)
   {
     delete mAnimations[i];
+    mAnimations[i] = nullptr;
   }
   mAnimations.clear();
 }

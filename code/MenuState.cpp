@@ -27,6 +27,7 @@ void MenuState::freeMem()
 	for(int i = 0; i < buttonArray.size(); i++)
 	{
 		delete (buttonArray[i]);
+    buttonArray[i] = nullptr;
 	}
 	buttonArray.clear();
 }

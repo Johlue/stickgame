@@ -29,12 +29,14 @@ void LevelEditState::freeMem()
   for(int i = 0; i < objects.size(); i++)
   {
     delete objects[i]; // delete everything
+    objects[i] = nullptr;
   }
   objects.clear();
 }
 
 void LevelEditState::handleEvents(SDL_Event* e)
 {
+  clicked = false;
   if(objects.size() != 0)
   {
     for(int i = 0; i < objects.size(); i++)
@@ -42,10 +44,12 @@ void LevelEditState::handleEvents(SDL_Event* e)
       if(objects[i]->handleEvents(e))
       {
         currentEditorObject = objects[i]; // choose editor object for editing if it got clicked
+        clicked = true;
+        break;
       }
     }
   }
-  menu.handleEvents(e);
+  clicked = menu.handleEvents(e);
   if(e->type == SDL_KEYDOWN)
   {
     switch(e->key.keysym.sym)
@@ -99,11 +103,20 @@ void LevelEditState::handleEvents(SDL_Event* e)
       speedMultiplier = 1;
       break;
 
+      case SDLK_DELETE:
+      if(currentEditorObject == nullptr) break;
+      deleteObject(currentEditorObject->getIndex()); // remove currently chosen object
+      currentEditorObject = nullptr;
+      break;
+
       case SDLK_d: // dump some info to the console
-      std::cout << "x: " << cameraX << " y: " << cameraY << " createObj: " << createObject << " currentEO: " << currentEditorObject << std::endl;
+      std::cout << "x: " << cameraX << " y: " << cameraY << " createObj: " << createObject << " currentEO: ";
+      if(currentEditorObject != nullptr) std::cout << currentEditorObject << std::endl;
+      break;
+
     }
   }
-  if(e->type == SDL_MOUSEBUTTONUP)
+  if(e->type == SDL_MOUSEBUTTONUP && !clicked)
   {
     mouseEvent(e->button); // used to determite which mouse button was pressed
   }
@@ -118,13 +131,14 @@ void LevelEditState::update()
 
 void LevelEditState::render()
 {
-  menu.render();
-  for(int i = 0; i < 20; i++ ) // some test squares for camera movement testing
+  if(objects.size() > 0)
   {
-    SDL_Rect rect2 = { i*200 - cameraX, i*200 - cameraY, 50, 50};
-    SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0, 255, 0, 0xFF );
-    SDL_RenderFillRect(mDisplay->getRenderer(), &rect2);
+    for(int i = 0; i < objects.size(); i++)
+    {
+      objects[i]->render(cameraX, cameraY);
+    }
   }
+  menu.render();
 }
 
 void LevelEditState::changeState(int s)
@@ -134,13 +148,33 @@ void LevelEditState::changeState(int s)
 
 void LevelEditState::mouseEvent(SDL_MouseButtonEvent& b)
 {
-  if(b.button == SDL_BUTTON_RIGHT) currentEditorObject = nullptr;
+  int mx; int my;
+  SDL_GetMouseState( &mx, &my );
+
+  if(b.button == SDL_BUTTON_RIGHT)
+  {
+   currentEditorObject = nullptr;
+   clicked = true;
+  }
   else if(b.button == SDL_BUTTON_LEFT)
   {
     if(createObject != EO_NONE) // if creating an object
     {
       //add new object to list according to the createObject thingy
+      objects.push_back(new EditorObject(createObject, mx + cameraX, my + cameraY, mDisplay));
+      objects[objects.size() - 1]->setIndex(objects.size() - 1); // set index of new object
     }
 
+  }
+}
+
+void LevelEditState::deleteObject(int ix)
+{
+  delete objects[ix];
+  objects[ix] = nullptr;
+  objects.erase(objects.begin() + ix);
+  for(int i = 0; i < objects.size(); i++)
+  {
+    objects[i]->setIndex(i);
   }
 }

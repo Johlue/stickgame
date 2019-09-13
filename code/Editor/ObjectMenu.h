@@ -14,11 +14,11 @@ class ObjectMenu
 public:
   ObjectMenu();
   void render();
-  void handleEvents(SDL_Event* e);
+  bool handleEvents(SDL_Event* e); // returns true if a successful click happened
   void setTextureArray(std::vector<ImageTexture*>* tA);
   void setPointers(EditorObject * ceo, int * co); // set all necessary pointers (except texarray, for some reason)
 protected:
-  void mouseEvent(SDL_MouseButtonEvent& b);
+  bool mouseEvent(SDL_MouseButtonEvent& b);// returns true if a successful click happened
   int mState = CLOSED; // is it open or closed and what open if it is open
   EditorObject * currentEditorObject; // object chosen for parameter editing
   int * createObject = nullptr; // type of creatable object

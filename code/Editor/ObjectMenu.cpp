@@ -15,11 +15,11 @@ void ObjectMenu::render()
   else if(mState == OBJECTS) (*textureArray)[4]->render(x, y+100, 0);
 }
 
-void ObjectMenu::handleEvents(SDL_Event* e)
+bool ObjectMenu::handleEvents(SDL_Event* e)
 {
   if(e->type == SDL_MOUSEBUTTONUP )
   {
-    mouseEvent(e->button);
+    return mouseEvent(e->button);
   }
 }
 
@@ -29,9 +29,9 @@ void ObjectMenu::setTextureArray(std::vector<ImageTexture*>* tA)
   textureArray = tA;
 }
 
-void ObjectMenu::mouseEvent(SDL_MouseButtonEvent& b)
+bool ObjectMenu::mouseEvent(SDL_MouseButtonEvent& b)
 {
-
+  bool clicked = false;
   //Get mouse position
   int mx, my;
   SDL_GetMouseState( &mx, &my );
@@ -41,28 +41,43 @@ void ObjectMenu::mouseEvent(SDL_MouseButtonEvent& b)
     //Check if mouse is NOT outside button
     if( !( mx < x ||  mx > x + mWidth || my < y || my > y + mHeight)  )
     {
+      clicked = true;
       if(mState == CLOSED || mState == OBJECTS) mState = ENEMIES; // change states to enemies when button is clicked
       else if(mState == ENEMIES) mState = CLOSED; // if already enemies close button
     }
     else if(  !(mx < x ||  mx > x + mWidth || my < y + 50 || my > y + 50 + mHeight)  )
     {
+      clicked = true;
       if(mState == CLOSED || mState == ENEMIES) mState = OBJECTS; // change state to objects when button is clicked
       else if(mState == OBJECTS) mState = CLOSED;
     }
     if(mState == OBJECTS) // if objects is open, on click choose clicked object from list as creatable
     {
       if(  !(mx < x ||  mx > x + squareWidth || my < y + 100 || my > y + 100 + squareHeight))
+      {
         *createObject = EO_BOUNDARY;
+        clicked = true;
+      }
       else if(  !(mx < x + squareWidth ||  mx > x + squareWidth*2 || my < y + 100 || my > y + 100 + squareHeight))
+      {
         *createObject = EO_SPIKE;
+        clicked = true;
+      }
     }
     else if (mState == ENEMIES) // if enemies is open, -||-
     {
       if(  !(mx < x ||  mx > x + squareWidth || my < y + 100 || my > y + 100 + squareHeight))
+      {
         *createObject = EO_WALKER_M;
+        clicked = true;
+      }
     }
   }
-  else if(b.button == SDL_BUTTON_RIGHT) *createObject = EO_NONE; // on right click cancel object creation
+  else if(b.button == SDL_BUTTON_RIGHT)
+  {
+    *createObject = EO_NONE;
+  } // on right click cancel object creation
+  return clicked;
 }
 
 void ObjectMenu::setPointers(EditorObject * ceo, int * co)
