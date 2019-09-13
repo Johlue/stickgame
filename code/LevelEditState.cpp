@@ -111,7 +111,7 @@ void LevelEditState::handleEvents(SDL_Event* e)
 
       case SDLK_d: // dump some info to the console
       std::cout << "x: " << cameraX << " y: " << cameraY << " createObj: " << createObject << " currentEO: ";
-      if(currentEditorObject != nullptr) std::cout << currentEditorObject << std::endl;
+      if(currentEditorObject != nullptr) std::cout << currentEditorObject << std::endl; else std::cout << "NaN\n";
       break;
 
     }
