@@ -13,7 +13,11 @@ bullets and damage mechanics (semi done)
   knockback (needs variable force)
 UI and interface or whatever they're called (partially done)
 
+turns out you can actually rotate textures in sdl, so that's nice
 player attack
+  gun mode and sword mode separately?
+    change between modes by pressing the associated attack button
+    can aim in gun mode with arrow keys (gradual accelerating aiming upon pressing up or down or forward)
   Melee attack exists
     combos?
   Shots
@@ -28,6 +32,8 @@ Level Editor, I feel like it
     some text editing thing for numbers
       on click access a string pointer that is rendered on the screen?
   creating boundary objects and maybe shapes of boundary objects
+
+Custom keybindings ( should be relatively easy? )
 
 Level design
 Boss fights

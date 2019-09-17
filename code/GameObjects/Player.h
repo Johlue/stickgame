@@ -73,6 +73,7 @@ protected:
   int stunned = 0;
   // remaining invincibility frames
   int iframes = 0;
+  double gunAngle = 0;
   int hp = 255;
   int ammo = 0;
 };

@@ -182,6 +182,8 @@ void Player::update()
   x += xVel;
   y += yVel;
 
+  //if(y > 2000) hp -= 1000000;
+
 }
 
 void Player::render(int cameraX, int cameraY)
