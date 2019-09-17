@@ -138,6 +138,20 @@ void LevelEditState::render()
       objects[i]->render(cameraX, cameraY);
     }
   }
+
+  if(currentEditorObject != nullptr)
+  {
+    // draw currently chosen object at the upper left corner
+    currentEditorObject->render(currentEditorObject->getX()-5, currentEditorObject->getY()-5);
+    // draw box around currently chosen object
+    int cx = currentEditorObject->getX(); int cy = currentEditorObject->getY();
+    int cw = currentEditorObject->getWidth(); int ch = currentEditorObject->getHeight();
+    SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0, 0, 0, 0xFF );
+    SDL_RenderDrawLine(mDisplay->getRenderer(), cx-cameraX-2   , cy-cameraY-2   , cx+cw-cameraX+1, cy-cameraY-2   );
+    SDL_RenderDrawLine(mDisplay->getRenderer(), cx-cameraX-2   , cy-cameraY-2   , cx-cameraX-2   , cy+ch-cameraY+1);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), cx+cw-cameraX+1, cy-cameraY-2   , cx+cw-cameraX+1, cy+ch-cameraY+1);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), cx-cameraX-2   , cy+ch-cameraY+1, cx+cw-cameraX+1, cy+ch-cameraY+1);
+  }
   menu.render();
 }
 

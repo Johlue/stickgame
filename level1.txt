@@ -5,6 +5,8 @@ Boundary 34 240 434 240 T F F F
 Boundary 10 310 900 310 T F F F
 
 Boundary 64 200 64 160 F F F T
+Boundary 264 200 264 160 F F F T
+Boundary 164 200 164 160 F F T F
 Boundary 64 200 404 200 F T F F
 Boundary 404 200 404 160 F F T F
 Boundary 64 160 404 160 T F F F

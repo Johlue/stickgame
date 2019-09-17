@@ -47,3 +47,5 @@ bool EditorObject::mouseEvent(SDL_MouseButtonEvent& b)
 
 void EditorObject::setIndex(int i){index = i;}
 int EditorObject::getIndex(){return index;}
+int EditorObject::getX() {return x;} int EditorObject::getY(){return y;}
+int EditorObject::getWidth() {return width;} int EditorObject::getHeight(){return height;}

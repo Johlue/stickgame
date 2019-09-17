@@ -173,6 +173,7 @@ void Player::update()
   if(falling) moving = true;
   if(xVel > 0) moving = true; if(xVel < 0) moving = true; if(yVel < 0) moving = true; if(yVel > 0) moving = true;
   collisionCheck();
+  if(iframes > 0) iframes -= 1;
   if(moving)
   {
     // return true if a collision happened, and then x and y movement is taken care of in the function
@@ -181,7 +182,6 @@ void Player::update()
   x += xVel;
   y += yVel;
 
-  if(iframes > 0) iframes -= 1;
 }
 
 void Player::render(int cameraX, int cameraY)
@@ -415,13 +415,13 @@ void Player::boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool *
       }
       if (i2 == 2) //bottom left
       {
-        xm = x; ym = y + height;
-        *tempPoint = ptr->lineIntersection(x, y + height, x+xVel, y+yVel + height, 1, 1, 1, 1);
+        xm = x; ym = y + height-1;
+        *tempPoint = ptr->lineIntersection(x, y + height, x+xVel, y+yVel + height-1, 1, 1, 1, 1);
       }
       if (i2 == 3) // bottom right
       {
-        xm = x + width; ym = y + height;
-        *tempPoint = ptr->lineIntersection(x + width, y + height, x+xVel + width, y+yVel + height, 1, 1, 1, 1);
+        xm = x + width; ym = y + height-1;
+        *tempPoint = ptr->lineIntersection(x + width, y + height-1, x+xVel + width, y+yVel + height-1, 1, 1, 1, 1);
       }
     }
 

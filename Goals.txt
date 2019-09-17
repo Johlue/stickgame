@@ -3,7 +3,7 @@ Basic enemies
   walking dudes
     walkers can walk and fall
     things left to do:
-      some kind of attack
+      some kind of attack (ranged guys shoot now)
       a way to detect the player (done-ish)
       various AIs
         attack type (melee or ranged)
@@ -24,6 +24,11 @@ Level Editor, I feel like it
   make premade textures instead of text, cause sdl sucks at it... sort of, maybe later
     partially done
   add some kind of object editor menu to, well edit objects
+    drop down menu for things that have multiple choices
+    some text editing thing for numbers
+      on click access a string pointer that is rendered on the screen?
+  creating boundary objects and maybe shapes of boundary objects
+
 Level design
 Boss fights
 
@@ -52,7 +57,7 @@ Basic enemies
   Turrets
   Walkers
     can move and see player
-    basic ranged ai is existing
+    basic ranged ai is existing (they can shoot)
 Fixed boundary collisions sometimes not registering due to double inaccuracy
 jumping and gravity
 Player attack

@@ -19,6 +19,7 @@ public:
   void update();
   void setIndex(int i);
   int getIndex();
+  int getX(); int getY(); int getWidth(); int getHeight();
 
 protected:
   bool mouseEvent(SDL_MouseButtonEvent& b); // return true if this object was clicked, else return false
