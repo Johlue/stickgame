@@ -34,6 +34,7 @@ protected:
   EditorObject* currentEditorObject = nullptr; // pointer to currently editable object
   std::vector<ImageTexture*>* textureArray;
   ObjectMenu menu;
+  int bx = -9999999; int by = -9999999; // boundary x and y
   int createObject = EO_NONE; // type of creatable object
   int speedMultiplier = 1; //  speed at which the camera is moving
   int yMovement = 0; int xMovement = 0;

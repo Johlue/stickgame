@@ -19,11 +19,13 @@ public:
   void update();
   void setIndex(int i);
   int getIndex();
-  int getX(); int getY(); int getWidth(); int getHeight();
+  int getX(); int getY(); int getWidth(); int getHeight(); int getType();
+  void setX2Y2(int xs, int ys);
 
 protected:
   bool mouseEvent(SDL_MouseButtonEvent& b); // return true if this object was clicked, else return false
   int x; int y; int width = 30; int height = 30;
+  int x2; int y2; // for boundary objects
   int stringLength; // how many separated letters in a string
   int type; //as in object type
   Display * mDisplay;

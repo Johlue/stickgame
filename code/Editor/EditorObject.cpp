@@ -23,9 +23,17 @@ bool EditorObject::handleEvents(SDL_Event * e)
 
 void EditorObject::render(int camX, int camY)
 {
-  SDL_Rect rect2 = { x - camX, y - camY, width, height};
-  SDL_SetRenderDrawColor( mDisplay->getRenderer(), type * 50, type * 33, type * 100, 0xFF );
-  SDL_RenderFillRect(mDisplay->getRenderer(), &rect2);
+  if(type == EO_BOUNDARY)
+  {
+    SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, 0xFF);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x - camX, y - camY, x2 - camX, y2 - camY);
+  }
+  else
+  {
+    SDL_Rect rect2 = { x - camX, y - camY, width, height};
+    SDL_SetRenderDrawColor( mDisplay->getRenderer(), type * 50, type * 33, type * 100, 0xFF );
+    SDL_RenderFillRect(mDisplay->getRenderer(), &rect2);
+  }
 }
 
 bool EditorObject::mouseEvent(SDL_MouseButtonEvent& b)
@@ -49,3 +57,5 @@ void EditorObject::setIndex(int i){index = i;}
 int EditorObject::getIndex(){return index;}
 int EditorObject::getX() {return x;} int EditorObject::getY(){return y;}
 int EditorObject::getWidth() {return width;} int EditorObject::getHeight(){return height;}
+int EditorObject::getType() {return type;}
+void EditorObject::setX2Y2(int xs, int ys){x2 = xs; y2 = ys;}

@@ -32,6 +32,8 @@ Level Editor, I feel like it
     some text editing thing for numbers
       on click access a string pointer that is rendered on the screen?
   creating boundary objects and maybe shapes of boundary objects
+    SOMETHING IS LOCKING ITEM EDIT PICKING FOR SOME REASON
+    ALSO MESS WITH CAMERA AND BOUNDARY CREATION CAUSE THAT*S BROKEN AF
 
 Custom keybindings ( should be relatively easy? )
 

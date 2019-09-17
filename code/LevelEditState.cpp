@@ -110,7 +110,7 @@ void LevelEditState::handleEvents(SDL_Event* e)
       break;
 
       case SDLK_d: // dump some info to the console
-      std::cout << "x: " << cameraX << " y: " << cameraY << " createObj: " << createObject << " currentEO: ";
+      std::cout << "x: " << cameraX << " y: " << cameraY << " createObj: " << createObject << "bx: " << bx << "by: " << by << " currentEO: ";
       if(currentEditorObject != nullptr) std::cout << currentEditorObject << std::endl; else std::cout << "NaN\n";
       break;
 
@@ -152,6 +152,17 @@ void LevelEditState::render()
     SDL_RenderDrawLine(mDisplay->getRenderer(), cx+cw-cameraX+1, cy-cameraY-2   , cx+cw-cameraX+1, cy+ch-cameraY+1);
     SDL_RenderDrawLine(mDisplay->getRenderer(), cx-cameraX-2   , cy+ch-cameraY+1, cx+cw-cameraX+1, cy+ch-cameraY+1);
   }
+  if(bx != -9999999 && by != -9999999)
+  {
+    SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, 0xFF);
+    int mx; int my;
+    SDL_GetMouseState( &mx, &my );
+
+    if(abs(bx - mx) > abs(by - my)) my = by;
+    else mx = bx;
+
+    SDL_RenderDrawLine(mDisplay->getRenderer(), bx - cameraX, by - cameraY, mx, my);
+  }
   menu.render();
 }
 
@@ -169,14 +180,35 @@ void LevelEditState::mouseEvent(SDL_MouseButtonEvent& b)
   {
    currentEditorObject = nullptr;
    clicked = true;
+   bx = -9999999; by = -9999999;
   }
   else if(b.button == SDL_BUTTON_LEFT)
   {
     if(createObject != EO_NONE) // if creating an object
     {
       //add new object to list according to the createObject thingy
-      objects.push_back(new EditorObject(createObject, mx + cameraX, my + cameraY, mDisplay));
-      objects[objects.size() - 1]->setIndex(objects.size() - 1); // set index of new object
+      if(createObject == EO_BOUNDARY)
+      {
+        if(bx == -9999999 || by == -9999999)
+        {
+          bx = mx + cameraX; by = my + cameraY;
+        }
+        else
+        {
+          if(abs(bx - mx) > abs(by - my)) my = by;
+          else mx = bx;
+          objects.push_back(new EditorObject(createObject, mx + cameraX, my + cameraY, mDisplay));
+          objects[objects.size() - 1]->setIndex(objects.size() - 1); // set index of new object
+          objects[objects.size() - 1]->setX2Y2(bx, by);
+          bx = -9999999; by = -9999999;
+        }
+      }
+      else
+      {
+        objects.push_back(new EditorObject(createObject, mx + cameraX, my + cameraY, mDisplay));
+        objects[objects.size() - 1]->setIndex(objects.size() - 1); // set index of new object
+        bx = -9999999; by = -9999999;
+      }
     }
 
   }
