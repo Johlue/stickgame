@@ -230,7 +230,7 @@ void PlayState::hazardLoad(std::vector<std::string> bl)
   int bx, by, bw, bh, hazardType, angle, damage;
   bx = std::stoi(bl[1]); by = std::stoi(bl[2]); bw = std::stoi(bl[3]); bh = std::stoi(bl[4]);
   angle = std::stoi(bl[5]); damage = std::stoi(bl[6]); // convert strings to ints
-  if(bl[7] == "spike") hazardType = 0;
+  if(bl[7] == "SPIKE") hazardType = 0;
   else hazardType = 1;
   objects.push_back(new Hazard(bx, by, bw, bh, hazardType, angle, damage, mDisplay));
 }

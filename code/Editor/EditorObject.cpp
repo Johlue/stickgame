@@ -8,6 +8,7 @@ EditorObject::EditorObject(int typ, int xl, int yl, Display * disp)
   x = xl;
   y = yl;
   mDisplay = disp;
+  constructStringInfo();
 }
 
 EditorObject::~EditorObject()
@@ -69,9 +70,47 @@ bool EditorObject::mouseEvent(SDL_MouseButtonEvent& b, int cameraX, int cameraY)
   return false;
 }
 
-void saveLevel(){}
+void EditorObject::saveLevel(){}
 
-void loadLevel(){}
+void EditorObject::loadLevel(){}
+
+void EditorObject::constructStringInfo()
+{
+  if(type != EO_NONE)
+  {
+    stringInfo.push_back(new EO_String("Type", "type"));
+    stringInfo.push_back(new EO_String(std::to_string(x), "x"));
+    stringInfo.push_back(new EO_String(std::to_string(y), "y"));
+  }
+  switch(type)
+  {
+    case EO_NONE:
+    stringInfo[0]->value = "None";
+    break;
+
+    case EO_BOUNDARY:
+    stringInfo[0]->value = "Boundary";
+    stringInfo.push_back(new EO_String(std::to_string(0), "x2"));
+    stringInfo.push_back(new EO_String(std::to_string(0), "y2"));
+    break;
+
+    case EO_WALKER_M:
+    stringInfo[0]->value = "Walker";
+    stringInfo.push_back(new EO_String("MELEE", "combatAI"));
+    stringInfo.push_back(new EO_String("WAIT", "walkAI"));
+    break;
+
+    case EO_SPIKE:
+    stringInfo[0]->value = "Hazard";
+    stringInfo.push_back(new EO_String("50", "width"));
+    stringInfo.push_back(new EO_String("50", "height"));
+    stringInfo.push_back(new EO_String("0", "angle"));
+    stringInfo.push_back(new EO_String("50", "damage"));
+    stringInfo.push_back(new EO_String("SPIKE", "subtype"));
+    break;
+
+  }
+}
 
 void EditorObject::setIndex(int i){index = i;}
 int EditorObject::getIndex(){return index;}
@@ -90,6 +129,14 @@ void EditorObject::setX2Y2(int xs, int ys)
     width = abs(x - x2) + 4;
     height = abs(y - y2) + 4;
     //std::cout << "y: " << y << " x: " << x << " x2: " << x2 << " y2: " << y2 << std::endl;
+    for(int i= 0; i < stringInfo.size(); i++)
+    {
+      // reorganize string info
+      if(stringInfo[i]->type == "x") stringInfo[i]->value = std::to_string(x);
+      if(stringInfo[i]->type == "y") stringInfo[i]->value = std::to_string(y);
+      if(stringInfo[i]->type == "x2") stringInfo[i]->value = std::to_string(x2);
+      if(stringInfo[i]->type == "y2") {stringInfo[i]->value = std::to_string(y2); break;}
+    }
   }
   else {x2 = xs; y2 = ys;}
 }

@@ -28,7 +28,7 @@ public:
   void loadLevel(); // this probs needs a string or something
 
 protected:
-  //void constructStringInfo(); // maybe? its in the constructor after all
+  void constructStringInfo(); // maybe? its in the constructor after all
   bool mouseEvent(SDL_MouseButtonEvent& b, int cameraX, int cameraY); // return true if this object was clicked, else return false
   int x; int y; int width = 30; int height = 30;
   int x2; int y2; // for boundary objects
