@@ -10,6 +10,19 @@ EditorObject::EditorObject(int typ, int xl, int yl, Display * disp)
   mDisplay = disp;
 }
 
+EditorObject::~EditorObject()
+{
+  if(stringInfo.size() > 0)
+  {
+    for(int i = 0; i < stringInfo.size(); i++)
+    {
+      delete stringInfo[i];
+      stringInfo[i] = nullptr;
+    }
+    stringInfo.clear();
+  }
+}
+
 void EditorObject::update(){}
 
 bool EditorObject::handleEvents(SDL_Event * e, int cameraX, int cameraY)
@@ -44,6 +57,8 @@ bool EditorObject::mouseEvent(SDL_MouseButtonEvent& b, int cameraX, int cameraY)
   SDL_GetMouseState( &mx, &my );
   mx += cameraX; my += cameraY;
 
+  if(type == EO_BOUNDARY){mx += 2; my += 2;} // adjust mouse location to make up for wonky hitbox
+
   if(b.button == SDL_BUTTON_LEFT)
   {
     if( !( mx < x ||  mx > x + width || my < y || my > y + height)  )
@@ -54,9 +69,27 @@ bool EditorObject::mouseEvent(SDL_MouseButtonEvent& b, int cameraX, int cameraY)
   return false;
 }
 
+void saveLevel(){}
+
+void loadLevel(){}
+
 void EditorObject::setIndex(int i){index = i;}
 int EditorObject::getIndex(){return index;}
 int EditorObject::getX() {return x;} int EditorObject::getY(){return y;}
 int EditorObject::getWidth() {return width;} int EditorObject::getHeight(){return height;}
 int EditorObject::getType() {return type;}
-void EditorObject::setX2Y2(int xs, int ys){x2 = xs; y2 = ys;}
+void EditorObject::setX2Y2(int xs, int ys)
+{
+  if(type == EO_BOUNDARY)
+  {
+    // sets x to the right and x2 to the left, and y to top and y2 to bottom
+    if(xs < x) {x2 = x; x = xs;}
+    else {x2 = xs;}
+    if(ys < y) {y2 = y; y = ys;}
+    else {y2 = ys;}
+    width = abs(x - x2) + 4;
+    height = abs(y - y2) + 4;
+    //std::cout << "y: " << y << " x: " << x << " x2: " << x2 << " y2: " << y2 << std::endl;
+  }
+  else {x2 = xs; y2 = ys;}
+}

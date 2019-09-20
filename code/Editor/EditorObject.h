@@ -3,6 +3,7 @@
 
 #include "GameObject.h"
 #include <SDL.h>
+#include "EO_String.h"
 
 enum EO_types
 {
@@ -14,6 +15,7 @@ class EditorObject
 public:
   EditorObject();
   EditorObject(int typ, int xl, int yl, Display * disp);
+  ~EditorObject();
   bool handleEvents(SDL_Event* e, int cameraX, int cameraY);
   void render(int camX, int camY);
   void update();
@@ -22,7 +24,11 @@ public:
   int getX(); int getY(); int getWidth(); int getHeight(); int getType();
   void setX2Y2(int xs, int ys);
 
+  void saveLevel();
+  void loadLevel(); // this probs needs a string or something
+
 protected:
+  //void constructStringInfo(); // maybe? its in the constructor after all
   bool mouseEvent(SDL_MouseButtonEvent& b, int cameraX, int cameraY); // return true if this object was clicked, else return false
   int x; int y; int width = 30; int height = 30;
   int x2; int y2; // for boundary objects
@@ -30,6 +36,8 @@ protected:
   int type; //as in object type
   Display * mDisplay;
   int index; // the current location of the object in the object vector
+
+  std::vector<EO_String*> stringInfo; // contains the necessary info to contruct an object string for level files
 };
 
 #endif

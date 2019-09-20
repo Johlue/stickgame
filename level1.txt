@@ -1,5 +1,8 @@
 // objects.push_back( new Boundary(64, 200, 404, 200, mDisplay, false, true, false, false)); // down facing line
-// up down right left
+// Template: Type x y (x2 y2) other
+// Boundary: x y x2 y2 up down right left
+// Hazard x y width height angle damage subtype
+// Walker x y combatAI walkAI
 
 Boundary 34 240 434 240 T F F F
 Boundary 10 310 900 310 T F F F

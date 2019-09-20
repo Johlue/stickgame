@@ -31,9 +31,12 @@ Level Editor, I feel like it
     drop down menu for things that have multiple choices
     some text editing thing for numbers
       on click access a string pointer that is rendered on the screen?
-  creating boundary objects and maybe shapes of boundary objects
-    SOMETHING IS LOCKING ITEM EDIT PICKING FOR SOME REASON
-    ALSO MESS WITH CAMERA AND BOUNDARY CREATION CAUSE THAT*S BROKEN AF
+    put a string on all objects that has the necessary data (e.g. 250 111 RANGED INSTANTTURN)
+      maybe a second string to tell you what the first strings parameters mean?(X Y combatAI walkAI)
+      render these to screen for editing
+      could also make an array of (String String typeofdata) objects instead of multiple strings
+  maybe shapes of boundary objects
+  Loading and Saving
 
 Custom keybindings ( should be relatively easy? )
 
@@ -73,6 +76,8 @@ Player attack
 Level loader
 Level Editor
   add a dropdown menu for objects and enemies and whatnot
+  creating objects
+    boundaries / other
 
 Discarded ideas:
 slopes: not making them, figurev em out later for other projects
