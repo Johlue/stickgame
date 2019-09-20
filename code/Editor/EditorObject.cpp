@@ -12,11 +12,11 @@ EditorObject::EditorObject(int typ, int xl, int yl, Display * disp)
 
 void EditorObject::update(){}
 
-bool EditorObject::handleEvents(SDL_Event * e)
+bool EditorObject::handleEvents(SDL_Event * e, int cameraX, int cameraY)
 {
   if(e->type == SDL_MOUSEBUTTONUP )
   {
-    return mouseEvent(e->button);
+    return mouseEvent(e->button, cameraX, cameraY);
   }
   return false;
 }
@@ -36,12 +36,13 @@ void EditorObject::render(int camX, int camY)
   }
 }
 
-bool EditorObject::mouseEvent(SDL_MouseButtonEvent& b)
+bool EditorObject::mouseEvent(SDL_MouseButtonEvent& b, int cameraX, int cameraY)
 {
 
   //Get mouse position
   int mx, my;
   SDL_GetMouseState( &mx, &my );
+  mx += cameraX; my += cameraY;
 
   if(b.button == SDL_BUTTON_LEFT)
   {

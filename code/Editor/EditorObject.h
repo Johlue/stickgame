@@ -14,7 +14,7 @@ class EditorObject
 public:
   EditorObject();
   EditorObject(int typ, int xl, int yl, Display * disp);
-  bool handleEvents(SDL_Event* e);
+  bool handleEvents(SDL_Event* e, int cameraX, int cameraY);
   void render(int camX, int camY);
   void update();
   void setIndex(int i);
@@ -23,7 +23,7 @@ public:
   void setX2Y2(int xs, int ys);
 
 protected:
-  bool mouseEvent(SDL_MouseButtonEvent& b); // return true if this object was clicked, else return false
+  bool mouseEvent(SDL_MouseButtonEvent& b, int cameraX, int cameraY); // return true if this object was clicked, else return false
   int x; int y; int width = 30; int height = 30;
   int x2; int y2; // for boundary objects
   int stringLength; // how many separated letters in a string

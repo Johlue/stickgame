@@ -41,7 +41,7 @@ void LevelEditState::handleEvents(SDL_Event* e)
   {
     for(int i = 0; i < objects.size(); i++)
     {
-      if(objects[i]->handleEvents(e))
+      if(objects[i]->handleEvents(e, cameraX, cameraY))
       {
         currentEditorObject = objects[i]; // choose editor object for editing if it got clicked
         clicked = true;
@@ -158,8 +158,8 @@ void LevelEditState::render()
     int mx; int my;
     SDL_GetMouseState( &mx, &my );
 
-    if(abs(bx - mx) > abs(by - my)) my = by;
-    else mx = bx;
+    if(abs(bx - (mx + cameraX)) > abs(by - (my + cameraY))) my = by - cameraY;
+    else mx = bx - cameraX;
 
     SDL_RenderDrawLine(mDisplay->getRenderer(), bx - cameraX, by - cameraY, mx, my);
   }
@@ -195,8 +195,8 @@ void LevelEditState::mouseEvent(SDL_MouseButtonEvent& b)
         }
         else
         {
-          if(abs(bx - mx) > abs(by - my)) my = by;
-          else mx = bx;
+          if(abs(bx - (mx + cameraX)) > abs(by - (my + cameraY))) my = by - cameraY;
+          else mx = bx - cameraX;
           objects.push_back(new EditorObject(createObject, mx + cameraX, my + cameraY, mDisplay));
           objects[objects.size() - 1]->setIndex(objects.size() - 1); // set index of new object
           objects[objects.size() - 1]->setX2Y2(bx, by);
