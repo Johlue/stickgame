@@ -109,6 +109,10 @@ void EditorObject::constructStringInfo()
     stringInfo.push_back(new EO_String("SPIKE", "subtype"));
     break;
 
+    case EO_TURRET:
+    //TODO
+    break;
+
   }
 }
 
