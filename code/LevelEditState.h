@@ -40,6 +40,7 @@ protected:
   int yMovement = 0; int xMovement = 0;
   int cameraX = 0; int cameraY = 0;
   bool clicked = false; // used to prevent double actions (picking from menu and creating object at the same time)
+  int currentFrame = 0;
 };
 
 #endif

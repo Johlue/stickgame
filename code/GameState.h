@@ -8,6 +8,7 @@
 #include <iostream>
 #include <SDL.h>
 #include "ImageTexture.h"
+#include <SDL_ttf.h>
 
 enum GameStates
 {

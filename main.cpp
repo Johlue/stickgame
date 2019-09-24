@@ -47,6 +47,7 @@ bool init()
 			printf( "Warning: Linear texture filtering not enabled!" );
 		}
 	}
+	if(TTF_Init() == -1) success = false;
 	return success;
 }
 
@@ -135,6 +136,7 @@ int main( int argc, char* args[] )
 
 	//gButtonSpriteSheetTexture.freeTexture();
 	IMG_Quit();
+	TTF_Quit();
 	SDL_Quit();
 
 	return 0;

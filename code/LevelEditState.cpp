@@ -124,6 +124,7 @@ void LevelEditState::handleEvents(SDL_Event* e)
 
 void LevelEditState::update()
 {
+  currentFrame += 1;
   cameraX += xMovement * speedMultiplier;
   cameraY += yMovement * speedMultiplier;
   //std::cout << "x: " << cameraX << "    y: " << cameraY << std::endl;
@@ -131,6 +132,34 @@ void LevelEditState::update()
 
 void LevelEditState::render()
 {
+/*
+  TTF_Font* Sans = TTF_OpenFont("lazy.ttf", 24); //this opens a font style and sets a size
+
+  SDL_Color color = {0, 0, 0};  // this is the color in rgb format
+
+  SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Sans, "put your text here", color); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
+
+  SDL_Texture* Message = SDL_CreateTextureFromSurface(mDisplay->getRenderer(), surfaceMessage); //now you can convert it into a texture
+
+  SDL_Rect Message_rect; //create a rect
+  Message_rect.x = 0;  //controls the rect's x coordinate
+  Message_rect.y = 0; // controls the rect's y coordinte
+  Message_rect.w = 300; // controls the width of the rect
+  Message_rect.h = 50; // controls the height of the rect
+
+  //Now since it's a texture, you have to put RenderCopy in your game loop area, the area where the whole code executes
+
+  SDL_RenderCopy(mDisplay->getRenderer(), Message, NULL, &Message_rect); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
+
+  //Don't forget too free your surface and texture
+
+      TTF_CloseFont( Sans );
+      delete Sans;
+      Sans = NULL;
+  SDL_FreeSurface(surfaceMessage); SDL_DestroyTexture(Message);
+  delete surfaceMessage; delete Message;
+  surfaceMessage = nullptr; Message = nullptr;
+*/
   if(objects.size() > 0)
   {
     for(int i = 0; i < objects.size(); i++)
@@ -141,12 +170,14 @@ void LevelEditState::render()
 
   if(currentEditorObject != nullptr)
   {
+    int clr = 188;
+    if(currentFrame % 30 > 15) clr = 0;
     // draw currently chosen object at the upper left corner
     currentEditorObject->render(currentEditorObject->getX()-5, currentEditorObject->getY()-5);
     // draw box around currently chosen object
     int cx = currentEditorObject->getX(); int cy = currentEditorObject->getY();
     int cw = currentEditorObject->getWidth(); int ch = currentEditorObject->getHeight();
-    SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0, 0, 0, 0xFF );
+    SDL_SetRenderDrawColor( mDisplay->getRenderer(), clr, clr, clr, 0xFF );
     SDL_RenderDrawLine(mDisplay->getRenderer(), cx-cameraX-2   , cy-cameraY-2   , cx+cw-cameraX+1, cy-cameraY-2   );
     SDL_RenderDrawLine(mDisplay->getRenderer(), cx-cameraX-2   , cy-cameraY-2   , cx-cameraX-2   , cy+ch-cameraY+1);
     SDL_RenderDrawLine(mDisplay->getRenderer(), cx+cw-cameraX+1, cy-cameraY-2   , cx+cw-cameraX+1, cy+ch-cameraY+1);

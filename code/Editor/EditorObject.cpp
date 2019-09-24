@@ -76,9 +76,9 @@ void EditorObject::loadLevel(){}
 
 void EditorObject::constructStringInfo()
 {
-  if(type != EO_NONE)
+  if(type != EO_NONE) // add x and y to the thing if it's not an empty object
   {
-    stringInfo.push_back(new EO_String("Type", "type"));
+    stringInfo.push_back(new EO_String("Type", "type")); // type is added, to not mess up the order of things
     stringInfo.push_back(new EO_String(std::to_string(x), "x"));
     stringInfo.push_back(new EO_String(std::to_string(y), "y"));
   }
@@ -92,6 +92,10 @@ void EditorObject::constructStringInfo()
     stringInfo[0]->value = "Boundary";
     stringInfo.push_back(new EO_String(std::to_string(0), "x2"));
     stringInfo.push_back(new EO_String(std::to_string(0), "y2"));
+    stringInfo.push_back(new EO_String("F", "facing up"));
+    stringInfo.push_back(new EO_String("F", "facing down"));
+    stringInfo.push_back(new EO_String("F", "facing right"));
+    stringInfo.push_back(new EO_String("F", "facing left"));
     break;
 
     case EO_WALKER_M:
@@ -110,7 +114,7 @@ void EditorObject::constructStringInfo()
     break;
 
     case EO_TURRET:
-    //TODO
+    stringInfo[0]->value = "Turret";
     break;
 
   }
