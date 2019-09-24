@@ -2,11 +2,12 @@
 #include "GameState.h"
 #include <vector>
 
-MenuState::MenuState(Display* dis, std::vector<ImageTexture*>* texA, int* cs)
+MenuState::MenuState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, std::vector<TextTexture*>* texS)
 {
   currentState = cs;
   mDisplay = dis;
   textureArray = texA;
+  mSymbols = texS;
   init();
 }
 
@@ -59,6 +60,11 @@ void MenuState::render()
   {
     buttonArray[i]->render();
   }
+  (*mSymbols)[0]->render(30, 30);
+  (*mSymbols)[2]->render(45, 30);
+  (*mSymbols)[5]->render(60, 30);
+  (*mSymbols)[9]->render(75, 30);
+  (*mSymbols)[13]->render(90, 30);
 }
 
 void MenuState::changeState(int s)

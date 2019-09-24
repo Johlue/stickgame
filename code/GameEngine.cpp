@@ -50,9 +50,9 @@ void GameEngine::loadImageTexture(std::string name, int spriteRow, int spriteCol
 
 void GameEngine::init()
 {
-  states.push_back(new MenuState(mDisplay, &mTextures, &currentState));
-  states.push_back(new PlayState(mDisplay, &mTextures, &currentState));
-  states.push_back(new LevelEditState(mDisplay, &mTextures, &currentState));
+  states.push_back(new MenuState(mDisplay, &mTextures, &currentState, &mSymbols));
+  states.push_back(new PlayState(mDisplay, &mTextures, &currentState, &mSymbols));
+  states.push_back(new LevelEditState(mDisplay, &mTextures, &currentState, &mSymbols));
   //std::cout << states.size() << std::endl;
   mRunning = true;
   currentState = MENUSTATE;

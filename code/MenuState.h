@@ -10,7 +10,7 @@
 class MenuState : public GameState
 {
 public:
-    MenuState(Display* dis, std::vector<ImageTexture*>* texA, int* cs);
+    MenuState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, std::vector<TextTexture*>* texS);
     ~MenuState();
 
     void init();

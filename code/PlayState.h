@@ -19,7 +19,7 @@ class PlayState : public GameState
 {
 public:
   PlayState();
-  PlayState(Display* dis, std::vector<ImageTexture*>* texA, int* cs);
+  PlayState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, std::vector<TextTexture*>* texS);
   ~PlayState();
 
   void init();

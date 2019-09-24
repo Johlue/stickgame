@@ -9,6 +9,7 @@
 #include <SDL.h>
 #include "ImageTexture.h"
 #include <SDL_ttf.h>
+#include "TextTexture.h"
 
 enum GameStates
 {
@@ -41,6 +42,7 @@ public:
 protected:
   int* currentState;
   Display* mDisplay = nullptr;
+  std::vector<TextTexture*>* mSymbols;
 };
 
 #endif
