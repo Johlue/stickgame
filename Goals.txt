@@ -37,6 +37,7 @@ Level Editor, I feel like it
       could also make an array of (String String typeofdata) objects instead of multiple strings
   maybe shapes of boundary objects
   Loading and Saving
+  MAKE AN ALPHABET THING TO DO TEXT ON SCREENING
 
 Custom keybindings ( should be relatively easy? )
 

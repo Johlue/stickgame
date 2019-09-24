@@ -21,6 +21,13 @@ GameEngine::GameEngine(Display* display)
     printf("Failed to load button sprite texture!\n");
   }
   mTextures[0]->useSpriteSheet(1, 9);*/
+  std::string symbols = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  for(int i = 0; i < symbols.size(); i++)
+  {
+    mSymbols.push_back(new TextTexture());
+    mSymbols.back()->setRenderer(mDisplay->getRenderer());
+    mSymbols.back()->createTexture(symbols.substr(i, 1));
+  }
 
 
   std::vector<GameState*> states;

@@ -41,6 +41,7 @@ protected:
   int cameraX = 0; int cameraY = 0;
   bool clicked = false; // used to prevent double actions (picking from menu and creating object at the same time)
   int currentFrame = 0;
+  std::string alphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 };
 
 #endif

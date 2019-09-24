@@ -9,6 +9,7 @@
 #include "MenuState.h"
 #include "PlayState.h"
 #include "LevelEditState.h"
+#include "TextTexture.h"
 
 class GameEngine
 {
@@ -36,6 +37,8 @@ private:
   std::vector<GameState*> states;
   // contains textures and is going to be given to gamestates so they... can use... them...
   std::vector<ImageTexture*> mTextures;
+  // letters and symbols and whatnot
+  std::vector<TextTexture*> mSymbols;
   Display* mDisplay = nullptr;
 };
 
