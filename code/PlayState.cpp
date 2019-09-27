@@ -4,12 +4,12 @@
 PlayState::PlayState()
 {}
 
-PlayState::PlayState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, std::vector<TextTexture*>* texS)
+PlayState::PlayState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, Writer* texS)
 {
   currentState = cs;
   mDisplay = dis;
   textureArray = texA;
-  mSymbols = texS;
+  mWriter = texS;
   //TODO some other stuff
   ui.setDisplay(mDisplay);
   init();

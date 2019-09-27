@@ -10,6 +10,7 @@
 #include "ImageTexture.h"
 #include <SDL_ttf.h>
 #include "TextTexture.h"
+#include "Writer.h"
 
 enum GameStates
 {
@@ -42,7 +43,7 @@ public:
 protected:
   int* currentState;
   Display* mDisplay = nullptr;
-  std::vector<TextTexture*>* mSymbols;
+  Writer* mWriter;
 };
 
 #endif

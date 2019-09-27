@@ -11,7 +11,7 @@ class LevelEditState : public GameState
 public:
   LevelEditState();
   // Display pointer, vector necessary textures, pointer to the active gamestate
-  LevelEditState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, std::vector<TextTexture*>* texS);
+  LevelEditState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, Writer* texS);
   ~LevelEditState();
 
   void init();

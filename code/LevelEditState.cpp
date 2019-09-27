@@ -4,12 +4,12 @@
 LevelEditState::LevelEditState()
 {}
 
-LevelEditState::LevelEditState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, std::vector<TextTexture*>* texS)
+LevelEditState::LevelEditState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, Writer* texS)
 {
   currentState = cs;
   mDisplay = dis;
   textureArray = texA;
-  mSymbols = texS;
+  mWriter = texS;
   init();
 }
 

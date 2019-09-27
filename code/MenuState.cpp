@@ -2,12 +2,12 @@
 #include "GameState.h"
 #include <vector>
 
-MenuState::MenuState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, std::vector<TextTexture*>* texS)
+MenuState::MenuState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, Writer* texS)
 {
   currentState = cs;
   mDisplay = dis;
   textureArray = texA;
-  mSymbols = texS;
+  mWriter = texS;
   init();
 }
 
@@ -59,12 +59,13 @@ void MenuState::render()
   for(int i = 0; i < buttonArray.size(); i++)
   {
     buttonArray[i]->render();
-  }
+  }/*
   (*mSymbols)[0]->render(30, 30);
   (*mSymbols)[2]->render(45, 30);
   (*mSymbols)[5]->render(60, 30);
   (*mSymbols)[9]->render(75, 30);
-  (*mSymbols)[13]->render(90, 30);
+  (*mSymbols)[13]->render(90, 30);*/
+  mWriter->render("Some text ere *^!#)=", 0, 80);
 }
 
 void MenuState::changeState(int s)

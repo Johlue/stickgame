@@ -1,7 +1,7 @@
 #include "GameEngine.h"
 #include "Display.h"
 
-GameEngine::GameEngine(Display* display)
+GameEngine::GameEngine(Display* display, Writer* writer)
 {
 
   mDisplay = display;
@@ -21,14 +21,7 @@ GameEngine::GameEngine(Display* display)
     printf("Failed to load button sprite texture!\n");
   }
   mTextures[0]->useSpriteSheet(1, 9);*/
-  std::string symbols = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  for(int i = 0; i < symbols.size(); i++)
-  {
-    mSymbols.push_back(new TextTexture());
-    mSymbols.back()->setRenderer(mDisplay->getRenderer());
-    mSymbols.back()->createTexture(symbols.substr(i, 1));
-  }
-
+  mWriter = writer;
 
   std::vector<GameState*> states;
   std::cout << std::endl << currentState << std::endl;
@@ -50,9 +43,9 @@ void GameEngine::loadImageTexture(std::string name, int spriteRow, int spriteCol
 
 void GameEngine::init()
 {
-  states.push_back(new MenuState(mDisplay, &mTextures, &currentState, &mSymbols));
-  states.push_back(new PlayState(mDisplay, &mTextures, &currentState, &mSymbols));
-  states.push_back(new LevelEditState(mDisplay, &mTextures, &currentState, &mSymbols));
+  states.push_back(new MenuState(mDisplay, &mTextures, &currentState, mWriter));
+  states.push_back(new PlayState(mDisplay, &mTextures, &currentState, mWriter));
+  states.push_back(new LevelEditState(mDisplay, &mTextures, &currentState, mWriter));
   //std::cout << states.size() << std::endl;
   mRunning = true;
   currentState = MENUSTATE;

@@ -13,6 +13,7 @@
 #include "MenuState.h"
 #include "MenuButton.h"
 #include "GameEngine.h"
+#include "Writer.h"
 
 
 
@@ -58,7 +59,9 @@ int main( int argc, char* args[] )
 	//Start up SDL and create window
 	initSuccess = init();
 	Display display("windowName", 100, 100, 640, 480);
-	GameEngine game(&display);
+	Writer writer;
+	writer.setup(&display);
+	GameEngine game(&display, &writer);
 
 	if( !initSuccess )
 	{

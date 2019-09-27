@@ -15,7 +15,7 @@ class GameEngine
 {
 public:
   //TODO: texture reserve area for use of textures
-  GameEngine(Display* display);
+  GameEngine(Display* display, Writer* writer);
   ~GameEngine();
   void init(); // does constructor things
   void freeMem();
@@ -40,6 +40,7 @@ private:
   // letters and symbols and whatnot
   std::vector<TextTexture*> mSymbols;
   Display* mDisplay = nullptr;
+  Writer* mWriter = nullptr;
 };
 
 #endif
