@@ -189,7 +189,17 @@ void LevelEditState::render()
 
     SDL_RenderDrawLine(mDisplay->getRenderer(), bx - cameraX, by - cameraY, mx, my);
   }
-  menu.render();
+  menu.render(); // object choosing menu
+
+// THE TODOS MUST BE PROTECTED
+  if(currentEditorObject != nullptr) // for drawing the editing menu
+  {
+    for(int i = 0; i < currentEditorObject->getStringVector().size(); i++) // go thru each EO_String
+    {
+      mWriter->render(currentEditorObject->getStringVector().at(i)->type, 30+(i*70), 440);
+      mWriter->render(currentEditorObject->getStringVector().at(i)->value, 30+(i*70), 460);
+    }
+  }
 }
 
 void LevelEditState::changeState(int s)

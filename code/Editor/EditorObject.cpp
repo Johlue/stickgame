@@ -148,3 +148,4 @@ void EditorObject::setX2Y2(int xs, int ys)
   }
   else {x2 = xs; y2 = ys;}
 }
+std::vector<EO_String*> EditorObject::getStringVector(){return stringInfo;}

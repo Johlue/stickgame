@@ -47,8 +47,8 @@ protected:
   SDL_Renderer* mRenderer;
 
   //Image dimensions
-  int mWidth = 20;
-  int mHeight = 30;
+  int mWidth = 8;
+  int mHeight = 16;
 };
 
 #endif

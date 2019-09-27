@@ -43,7 +43,7 @@ void Writer::render(std::string text, int x, int y)
       if(temp == mSymbols.substr(j, 1))
       {
         valid = true;
-        mSymbolTextures[j]->render(x + (20*i), y); // if match is found render to screen
+        mSymbolTextures[j]->render(x + (mSymbolTextures[j]->getWidth()*i), y); // if match is found render to screen
         break;
       }
     }

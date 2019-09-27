@@ -21,6 +21,7 @@ public:
   void update();
   void setIndex(int i);
   int getIndex();
+  std::vector<EO_String*> getStringVector();
   int getX(); int getY(); int getWidth(); int getHeight(); int getType();
   void setX2Y2(int xs, int ys);
 
