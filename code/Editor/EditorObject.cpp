@@ -158,11 +158,14 @@ int EditorObject::getOpenedMenu(){return openedMenu;}
 
 bool EditorObject::editorClick(SDL_MouseButtonEvent& b, int strings)
 {
+
+    if(b.button == SDL_BUTTON_RIGHT) return false;
+
     bool rtValue = false;
     //Get mouse position
     int mx, my;
     SDL_GetMouseState( &mx, &my );
-    int EOProws; int yMod;
+    int EOProws = 0; int yMod;
 
     if(strings > 9)
     {

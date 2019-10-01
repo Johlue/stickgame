@@ -69,7 +69,7 @@ void LevelEditState::handleEvents(SDL_Event* e)
     }
   }
 
-  if(objects.size() != 0)
+  if(objects.size() != 0 && !clicked)
   {
     for(int i = 0; i < objects.size(); i++)
     {
@@ -81,7 +81,7 @@ void LevelEditState::handleEvents(SDL_Event* e)
       }
     }
   }
-  clicked = menu.handleEvents(e);
+  if(!clicked) clicked = menu.handleEvents(e);
   if(e->type == SDL_KEYDOWN)
   {
     switch(e->key.keysym.sym)
