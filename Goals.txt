@@ -25,16 +25,11 @@ player attack
     some sort of aiming system, probs just arrow keys, but maybe some sort of "stand still and aim" thing? could also just add mouse-aim
 level loading, like from a file (it's done for now, but will need updating in the future)
 Level Editor, I feel like it
-  make premade textures instead of text, cause sdl sucks at it... sort of, maybe later
-    partially done
   add some kind of object editor menu to, well edit objects
+    CURRENTLY UNDER CONSTRUCTION
     drop down menu for things that have multiple choices
     some text editing thing for numbers
       on click access a string pointer that is rendered on the screen?
-    put a string on all objects that has the necessary data (e.g. 250 111 RANGED INSTANTTURN)
-      maybe a second string to tell you what the first strings parameters mean?(X Y combatAI walkAI)
-      render these to screen for editing
-      could also make an array of (String String typeofdata) objects instead of multiple strings
   maybe shapes of boundary objects
   Loading and Saving
 
@@ -78,6 +73,13 @@ Level Editor
   add a dropdown menu for objects and enemies and whatnot
   creating objects
     boundaries / other
+  put a string on all objects that has the necessary data (e.g. 250 111 RANGED INSTANTTURN)
+    maybe a second string to tell you what the first strings parameters mean?(X Y combatAI walkAI)
+    render these to screen for editing
+    could also make an array of (String String typeofdata) objects instead of multiple strings
+  object editor menu
+
+make text textures
 
 Discarded ideas:
 slopes: not making them, figurev em out later for other projects
