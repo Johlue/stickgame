@@ -24,9 +24,12 @@ public:
   std::vector<EO_String*> getStringVector();
   int getX(); int getY(); int getWidth(); int getHeight(); int getType();
   void setX2Y2(int xs, int ys);
+  int getOpenedMenu();
 
   void saveLevel();
   void loadLevel(); // this probs needs a string or something
+
+  bool editorClick(SDL_MouseButtonEvent& b, int strings); // a click while this is currentEditorObject (strings is amount of parameters in object)
 
 protected:
   void constructStringInfo(); // creates a default list of EO_Strings depending on type

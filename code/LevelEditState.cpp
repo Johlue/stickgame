@@ -60,6 +60,15 @@ void LevelEditState::freeMem()
 void LevelEditState::handleEvents(SDL_Event* e)
 {
   clicked = false;
+
+  if(currentEditorObject != nullptr)
+  {
+    if(e->type == SDL_MOUSEBUTTONUP )
+    {
+      clicked = currentEditorObject->editorClick(e->button, currentEditorObject->getStringVector().size());
+    }
+  }
+
   if(objects.size() != 0)
   {
     for(int i = 0; i < objects.size(); i++)
@@ -191,7 +200,6 @@ void LevelEditState::render()
   }
   menu.render(); // object choosing menu
 
-// THE TODOS MUST BE PROTECTED
   if(currentEditorObject != nullptr) // for drawing the editing menu
   {
     int yMod = 0;

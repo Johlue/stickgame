@@ -153,3 +153,34 @@ void EditorObject::setX2Y2(int xs, int ys)
   else {x2 = xs; y2 = ys;}
 }
 std::vector<EO_String*> EditorObject::getStringVector(){return stringInfo;}
+
+int EditorObject::getOpenedMenu(){return openedMenu;}
+
+bool EditorObject::editorClick(SDL_MouseButtonEvent& b, int strings)
+{
+    bool rtValue = false;
+    //Get mouse position
+    int mx, my;
+    SDL_GetMouseState( &mx, &my );
+    int EOProws; int yMod;
+
+    if(strings > 9)
+    {
+      EOProws = (strings - 1) / 9; //9+ = 1, 18+ = 2 etc.
+    }
+
+    // return true or false?
+    if(my > 480 - ((EOProws+1)*44) - 2) rtValue = true;
+
+    for(int i = 0; i < strings; i++)
+    {
+      yMod = i / 9; //which row are we on
+      if(  mx > 5+((i%9)*70) && mx < (5+((i%9)*70)) + 64 //is being clicked inside value?
+        && my > 460 - (EOProws*44) + (yMod * 44) && my < (460 - (EOProws*44) + (yMod * 44)) + 16)
+      {
+        std::cout << "Number: "<< i << " button pressed\n";
+      }
+    }
+
+    return rtValue;
+}
