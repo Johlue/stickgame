@@ -37,6 +37,7 @@ protected:
   int type; //as in object type
   Display * mDisplay;
   int index; // the current location of the object in the object vector
+  int openedMenu = -1; // which parameters menu is open (-1 means none are open)
 
   std::vector<EO_String*> stringInfo; // contains the necessary info to contruct an object string for level files
 };

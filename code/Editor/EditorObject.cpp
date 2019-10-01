@@ -92,10 +92,14 @@ void EditorObject::constructStringInfo()
     stringInfo[0]->value = "Boundary";
     stringInfo.push_back(new EO_String(std::to_string(0), "x2"));
     stringInfo.push_back(new EO_String(std::to_string(0), "y2"));
-    stringInfo.push_back(new EO_String("F", "facing up"));
-    stringInfo.push_back(new EO_String("F", "facing down"));
-    stringInfo.push_back(new EO_String("F", "facing right"));
-    stringInfo.push_back(new EO_String("F", "facing left"));
+    stringInfo.push_back(new EO_String("F", "face ^"));
+    stringInfo.push_back(new EO_String("F", "face v"));
+    stringInfo.push_back(new EO_String("F", "face ->"));
+    stringInfo.push_back(new EO_String("F", "face <-"));
+    stringInfo.push_back(new EO_String("777", "lolfake"));
+    stringInfo.push_back(new EO_String("777", "lolfake"));
+    stringInfo.push_back(new EO_String("777", "lolfake"));
+    stringInfo.push_back(new EO_String("777", "lolfake"));
     break;
 
     case EO_WALKER_M:

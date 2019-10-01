@@ -17,7 +17,7 @@ void TextTexture::setRenderer(SDL_Renderer* rend){mRenderer = rend;}
 void TextTexture::createTexture(std::string s )
 {
   if(mRenderer == NULL){std::cout << "Renderer of TextTexture is null"; return;}
-  TTF_Font* font = TTF_OpenFont("LiberationMono-Regular.ttf", 12); //this opens a font style and sets a size
+  TTF_Font* font = TTF_OpenFont("LiberationMono-Regular.ttf", 128); //this opens a font style and sets a size
 
   SDL_Color color = {0, 0, 0};  // this is the color in rgb format
 

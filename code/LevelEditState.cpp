@@ -194,10 +194,33 @@ void LevelEditState::render()
 // THE TODOS MUST BE PROTECTED
   if(currentEditorObject != nullptr) // for drawing the editing menu
   {
-    for(int i = 0; i < currentEditorObject->getStringVector().size(); i++) // go thru each EO_String
+    int yMod = 0;
+    int EOProws = 0;
+    if(currentEditorObject->getStringVector().size() > 9)
     {
-      mWriter->render(currentEditorObject->getStringVector().at(i)->type, 30+(i*70), 440);
-      mWriter->render(currentEditorObject->getStringVector().at(i)->value, 30+(i*70), 460);
+      EOProws = (currentEditorObject->getStringVector().size()-1) / 9; //9+ = 1, 18+ = 2 etc.
+      yMod = (currentEditorObject->getStringVector().size()-1) / 9; // how many rows
+    }
+    { // draw parameter editor box
+      SDL_Rect rectT = {0,  480 - ((EOProws+1)*44) - 2, 640, 480};
+      SDL_SetRenderDrawColor( mDisplay->getRenderer(), 100, 100, 100, 0xFF );
+      SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
+    }
+    for(int i = 0; i < currentEditorObject->getStringVector().size(); i++) // go thru each EO_String
+    { // draws the info of each parameter (up to 9 parameters / row)
+      yMod = i / 9; //which row are we on
+      { // draw box around parameter types
+        SDL_Rect rectT = {5+((i%9)*70),  440 - (EOProws*44) + (yMod * 44), 64, 16};
+        SDL_SetRenderDrawColor( mDisplay->getRenderer(), 188, 188, 188, 0xFF );
+        SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
+      }
+      mWriter->render(currentEditorObject->getStringVector().at(i)->type, 5+((i%9)*70), 440 - (EOProws*44) + (yMod * 44)); // draw parameter types
+      { // draw box around parameter values
+        SDL_Rect rectT = {5+((i%9)*70),  460 - (EOProws*44) + (yMod * 44), 64, 16};
+        SDL_SetRenderDrawColor( mDisplay->getRenderer(), 255, 255, 255, 0xFF );
+        SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
+      }
+      mWriter->render(currentEditorObject->getStringVector().at(i)->value, 5+((i%9)*70), 460 - (EOProws*44) + (yMod * 44));// draw parameter values
     }
   }
 }

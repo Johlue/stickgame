@@ -11,6 +11,7 @@
 #include <SDL_ttf.h>
 #include "TextTexture.h"
 #include "Writer.h"
+#include <algorithm>
 
 enum GameStates
 {
