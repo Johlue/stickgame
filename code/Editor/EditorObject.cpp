@@ -156,7 +156,7 @@ std::vector<EO_String*> EditorObject::getStringVector(){return stringInfo;}
 
 int EditorObject::getOpenedMenu(){return openedMenu;}
 
-bool EditorObject::editorClick(SDL_MouseButtonEvent& b, int strings)
+bool EditorObject::editorClick(SDL_MouseButtonEvent& b, int strings, std::string ** es)
 {
 
     if(b.button == SDL_BUTTON_RIGHT) return false;
@@ -182,6 +182,28 @@ bool EditorObject::editorClick(SDL_MouseButtonEvent& b, int strings)
         && my > 460 - (EOProws*44) + (yMod * 44) && my < (460 - (EOProws*44) + (yMod * 44)) + 16)
       {
         std::cout << "Number: "<< i << " button pressed\n";
+        if(stringInfo[i]->type == "x" || stringInfo[i]->type == "y" || stringInfo[i]->type == "x2" ||
+           stringInfo[i]->type == "y2" || stringInfo[i]->type == "width" || stringInfo[i]->type == "height" ||
+           stringInfo[i]->type == "angle" || stringInfo[i]->type == "damage") // if value is a number
+        {
+          std::cout << pntr;
+          *es = &(stringInfo[i]->value);
+           //do number things
+        }
+        else if(stringInfo[i]->type == "face ->" || stringInfo[i]->type == "face <-" ||
+        stringInfo[i]->type == "face v" || stringInfo[i]->type == "face ^") // if value is a boolean
+        {
+          if(stringInfo[i]->value == "F") // if false clicked becomes true, others become false
+          {
+            for(int i2 = 0; i2 < strings; i2++)
+            {
+              if(stringInfo[i2]->type == "face ->" || stringInfo[i2]->type == "face <-" || // set all to faces to false
+              stringInfo[i2]->type == "face v" || stringInfo[i2]->type == "face ^") stringInfo[i2]->value = "F";
+            }
+            stringInfo[i]->value = "T";
+          }
+          else stringInfo[i]->value = "F"; // if false becomes true
+        }
       }
     }
 

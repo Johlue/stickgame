@@ -23,28 +23,6 @@ void LevelEditState::init()
 {
   menu.setPointers(currentEditorObject, &createObject);
   menu.setTextureArray(textureArray);
-
-/* this stuff is for actaully drawing the texture
-
-    SDL_Rect Message_rect; //create a rect
-    Message_rect.x = 0;  //controls the rect's x coordinate
-    Message_rect.y = 0; // controls the rect's y coordinte
-    Message_rect.w = 20; // controls the width of the rect
-    Message_rect.h = 30; // controls the height of the rect
-
-    //Now since it's a texture, you have to put RenderCopy in your game loop area, the area where the whole code executes
-
-    SDL_RenderCopy(mDisplay->getRenderer(), Message, NULL, &Message_rect); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
-
-    //Don't forget too free your surface and texture
-    TTF_CloseFont( font );
-    delete font;
-    font = NULL;
-    SDL_FreeSurface(surfaceMessage); SDL_DestroyTexture(Message);
-    delete surfaceMessage; delete Message;
-    surfaceMessage = nullptr; Message = nullptr;
-
-  }*/
 }
 
 void LevelEditState::freeMem()
@@ -65,7 +43,7 @@ void LevelEditState::handleEvents(SDL_Event* e)
   {
     if(e->type == SDL_MOUSEBUTTONUP )
     {
-      clicked = currentEditorObject->editorClick(e->button, currentEditorObject->getStringVector().size());
+      clicked = currentEditorObject->editorClick(e->button, currentEditorObject->getStringVector().size(), &editableString);
     }
   }
 
@@ -109,6 +87,12 @@ void LevelEditState::handleEvents(SDL_Event* e)
       case SDLK_RCTRL: // right ctrl to make camera movement faster
       speedMultiplier = 3;
       break;
+
+      if(editableString != nullptr)
+      {
+        case SDLK_1:
+        break;
+      }
     }
   }
   else if(e->type == SDL_KEYUP)
@@ -144,6 +128,7 @@ void LevelEditState::handleEvents(SDL_Event* e)
       case SDLK_d: // dump some info to the console
       std::cout << "x: " << cameraX << " y: " << cameraY << " createObj: " << createObject << "bx: " << bx << "by: " << by << " currentEO: ";
       if(currentEditorObject != nullptr) std::cout << currentEditorObject << std::endl; else std::cout << "NaN\n";
+      std::cout << "string: " << editableString << std::endl;
       break;
 
     }
@@ -246,6 +231,7 @@ void LevelEditState::mouseEvent(SDL_MouseButtonEvent& b)
   if(b.button == SDL_BUTTON_RIGHT)
   {
    currentEditorObject = nullptr;
+   editableString = nullptr;
    clicked = true;
    bx = -9999999; by = -9999999;
   }
