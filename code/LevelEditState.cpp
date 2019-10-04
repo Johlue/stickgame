@@ -91,13 +91,13 @@ void LevelEditState::handleEvents(SDL_Event* e)
       break;
 
     }
-    if(editableString != nullptr)
+    if(editableString != nullptr) // can't but ifs in switch cases
     {
-      if(editableString->size() < 7)
+      if(editableString->size() < 7) // too big for ints can't use
       {
-        if(editableString->compare("0") == 0) {*editableString = "";}
+        if(editableString->compare("0") == 0) {*editableString = "";} // removes 0 from the front of the string
 
-        if(e->key.keysym.sym == SDLK_0)      editableString->append("0");
+        if(e->key.keysym.sym == SDLK_0)      editableString->append("0"); // add appropriate number to string
         else if(e->key.keysym.sym == SDLK_1) editableString->append("1");
         else if(e->key.keysym.sym == SDLK_2) editableString->append("2");
         else if(e->key.keysym.sym == SDLK_3) editableString->append("3");
@@ -109,13 +109,13 @@ void LevelEditState::handleEvents(SDL_Event* e)
         else if(e->key.keysym.sym == SDLK_9) editableString->append("9");
       }
 
-      if(e->key.keysym.sym == SDLK_BACKSPACE)
+      if(e->key.keysym.sym == SDLK_BACKSPACE) // remove last number from string
       {
         if(editableString->size() > 0) editableString->erase(editableString->end()-1, editableString->end());
         if(editableString->size() == 0) editableString->append("0");
       }
 
-      if(editableString->size() == 0) editableString->append("0");
+      if(editableString->size() == 0) editableString->append("0"); // adds 0 if string is empty
       if(editableString->size() > 0) currentEditorObject->applyChanges();
     }
   }
