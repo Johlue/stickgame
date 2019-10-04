@@ -30,6 +30,7 @@ public:
   void loadLevel(); // this probs needs a string or something
 
   bool editorClick(SDL_MouseButtonEvent& b, int strings, std::string ** es); // a click while this is currentEditorObject (strings is amount of parameters in object)
+  void applyChanges();
 
 protected:
   void constructStringInfo(); // creates a default list of EO_Strings depending on type
@@ -41,7 +42,6 @@ protected:
   Display * mDisplay;
   int index; // the current location of the object in the object vector
   int openedMenu = -1; // which parameters menu is open (-1 means none are open)
-  std::string * pntr = nullptr;
 
   std::vector<EO_String*> stringInfo; // contains the necessary info to contruct an object string for level files
 };

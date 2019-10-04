@@ -37,6 +37,8 @@ void LevelEditState::freeMem()
 
 void LevelEditState::handleEvents(SDL_Event* e)
 {
+  if(currentEditorObject == nullptr) editableString = nullptr; // no editing strings while not editing objects
+
   clicked = false;
 
   if(currentEditorObject != nullptr)
@@ -88,11 +90,33 @@ void LevelEditState::handleEvents(SDL_Event* e)
       speedMultiplier = 3;
       break;
 
-      if(editableString != nullptr)
+    }
+    if(editableString != nullptr)
+    {
+      if(editableString->size() < 7)
       {
-        case SDLK_1:
-        break;
+        if(editableString->compare("0") == 0) {*editableString = "";}
+
+        if(e->key.keysym.sym == SDLK_0)      editableString->append("0");
+        else if(e->key.keysym.sym == SDLK_1) editableString->append("1");
+        else if(e->key.keysym.sym == SDLK_2) editableString->append("2");
+        else if(e->key.keysym.sym == SDLK_3) editableString->append("3");
+        else if(e->key.keysym.sym == SDLK_4) editableString->append("4");
+        else if(e->key.keysym.sym == SDLK_5) editableString->append("5");
+        else if(e->key.keysym.sym == SDLK_6) editableString->append("6");
+        else if(e->key.keysym.sym == SDLK_7) editableString->append("7");
+        else if(e->key.keysym.sym == SDLK_8) editableString->append("8");
+        else if(e->key.keysym.sym == SDLK_9) editableString->append("9");
       }
+
+      if(e->key.keysym.sym == SDLK_BACKSPACE)
+      {
+        if(editableString->size() > 0) editableString->erase(editableString->end()-1, editableString->end());
+        if(editableString->size() == 0) editableString->append("0");
+      }
+
+      if(editableString->size() == 0) editableString->append("0");
+      if(editableString->size() > 0) currentEditorObject->applyChanges();
     }
   }
   else if(e->type == SDL_KEYUP)
@@ -149,6 +173,7 @@ void LevelEditState::update()
 
 void LevelEditState::render()
 {
+  if(editableString != nullptr) mWriter->render(*editableString, 55, 5);
   if(objects.size() > 0)
   {
     for(int i = 0; i < objects.size(); i++)

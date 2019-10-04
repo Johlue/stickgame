@@ -156,6 +156,15 @@ std::vector<EO_String*> EditorObject::getStringVector(){return stringInfo;}
 
 int EditorObject::getOpenedMenu(){return openedMenu;}
 
+void EditorObject::applyChanges()
+{
+  for(int i = 0; i < stringInfo.size(); i++)
+  {
+    if(stringInfo[i]->type == "x") x = std::stoi(stringInfo[i]->value);
+    if(stringInfo[i]->type == "y") y = std::stoi(stringInfo[i]->value);
+  }
+}
+
 bool EditorObject::editorClick(SDL_MouseButtonEvent& b, int strings, std::string ** es)
 {
 
@@ -186,7 +195,6 @@ bool EditorObject::editorClick(SDL_MouseButtonEvent& b, int strings, std::string
            stringInfo[i]->type == "y2" || stringInfo[i]->type == "width" || stringInfo[i]->type == "height" ||
            stringInfo[i]->type == "angle" || stringInfo[i]->type == "damage") // if value is a number
         {
-          std::cout << pntr;
           *es = &(stringInfo[i]->value);
            //do number things
         }
