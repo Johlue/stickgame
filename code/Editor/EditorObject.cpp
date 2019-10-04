@@ -162,6 +162,8 @@ void EditorObject::applyChanges()
   {
     if(stringInfo[i]->type == "x") x = std::stoi(stringInfo[i]->value);
     if(stringInfo[i]->type == "y") y = std::stoi(stringInfo[i]->value);
+    if(stringInfo[i]->type == "x2") x2 = std::stoi(stringInfo[i]->value);
+    if(stringInfo[i]->type == "y2") y2 = std::stoi(stringInfo[i]->value);
   }
 }
 

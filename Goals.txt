@@ -27,6 +27,7 @@ level loading, like from a file (it's done for now, but will need updating in th
 Level Editor, I feel like it
   add some kind of object editor menu to, well edit objects
     CURRENTLY UNDER CONSTRUCTION
+    NEED TO MODIFY BOUNDARY MODIFICATIONS
     drop down menu for things that have multiple choices
     some text editing thing for numbers
       on click access a string pointer that is rendered on the screen?
