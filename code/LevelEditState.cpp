@@ -168,6 +168,13 @@ void LevelEditState::update()
   currentFrame += 1;
   cameraX += xMovement * speedMultiplier;
   cameraY += yMovement * speedMultiplier;
+  if(objects.size() > 0)
+  {
+    for(int i = 0; i < objects.size(); i++)
+    {
+      objects[i]->update(cameraX, cameraY);
+    }
+  }
   //std::cout << "x: " << cameraX << "    y: " << cameraY << std::endl;
 }
 

@@ -24,12 +24,52 @@ EditorObject::~EditorObject()
   }
 }
 
-void EditorObject::update(){}
+void EditorObject::update(int cameraX, int cameraY)
+{
+  if(trueClickDragged && type != EO_BOUNDARY)
+  {
+    int mx, my;
+    SDL_GetMouseState( &mx, &my);
+    mx += cameraX; my += cameraY;
+    x = mx;
+    y = my;
+    for(int i = 0; i < stringInfo.size(); i++)
+    {
+      if(stringInfo[i]->type == "x") stringInfo[i]->value = std::to_string(mx);
+      if(stringInfo[i]->type == "y") stringInfo[i]->value = std::to_string(my);
+    }
+
+  }
+  if(clickDragged)
+  {
+    clickDragNumber++;
+    if(clickDragNumber > 30)
+    {
+      int mx, my;
+      SDL_GetMouseState( &mx, &my );
+      mx += cameraX; my += cameraY;
+
+      if( !( mx < x ||  mx > x + width || my < y || my > y + height)  )
+      {
+        trueClickDragged = true;
+        clickDragged = false;
+      }
+    }
+  }
+  else clickDragNumber = 0;
+}
 
 bool EditorObject::handleEvents(SDL_Event * e, int cameraX, int cameraY)
 {
+  if(e->type == SDL_MOUSEBUTTONDOWN)
+  {
+    clickDrag(e->button, cameraX, cameraY);
+  }
   if(e->type == SDL_MOUSEBUTTONUP )
   {
+    trueClickDragged = false;
+    clickDragged = false;
+    clickDragNumber = 0;
     return mouseEvent(e->button, cameraX, cameraY);
   }
   return false;
@@ -170,8 +210,13 @@ void EditorObject::applyChanges()
 bool EditorObject::editorClick(SDL_MouseButtonEvent& b, int strings, std::string ** es)
 {
 
-    if(b.button == SDL_BUTTON_RIGHT) return false;
-
+    if(b.button == SDL_BUTTON_RIGHT)
+    {
+      clickDragged = false;
+      trueClickDragged = false;
+      clickDragNumber = 0;
+      return false;
+    }
     bool rtValue = false;
     //Get mouse position
     int mx, my;
@@ -218,4 +263,23 @@ bool EditorObject::editorClick(SDL_MouseButtonEvent& b, int strings, std::string
     }
 
     return rtValue;
+}
+
+void EditorObject::clickDrag(SDL_MouseButtonEvent& b, int cameraX, int cameraY)
+{
+  //Get mouse position
+  int mx, my;
+  SDL_GetMouseState( &mx, &my );
+  mx += cameraX; my += cameraY;
+
+  if(type == EO_BOUNDARY){mx += 2; my += 2;} // adjust mouse location to make up for wonky hitbox
+
+  if(b.button == SDL_BUTTON_LEFT)
+  {
+    if( !( mx < x ||  mx > x + width || my < y || my > y + height)  )
+    {
+      clickDragged = true;
+    }
+  }
+  else clickDragged = false;
 }
