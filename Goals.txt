@@ -29,7 +29,7 @@ Level Editor, I feel like it
     CURRENTLY UNDER CONSTRUCTION
     NEED TO MODIFY BOUNDARY MODIFICATIONS
     drop down menu for things that have multiple choices
-  maybe shapes of boundary objectsa
+  maybe shapes of boundary objects
   Loading and Saving
 
 Custom keybindings ( should be relatively easy? )
