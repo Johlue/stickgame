@@ -31,7 +31,7 @@ Level Editor, I feel like it
     drop down menu for things that have multiple choices
     some text editing thing for numbers
       on click access a string pointer that is rendered on the screen?
-  maybe shapes of boundary objects
+  maybe shapes of boundary objectsa
   Loading and Saving
 
 Custom keybindings ( should be relatively easy? )
