@@ -180,7 +180,8 @@ void LevelEditState::update()
 
 void LevelEditState::render()
 {
-  if(editableString != nullptr) mWriter->render(*editableString, 55, 5);
+  mWriter->render("X: " + (std::to_string(cameraX)), 55, 5);
+  mWriter->render("Y: " + (std::to_string(cameraY)), 135, 5);
   if(objects.size() > 0)
   {
     for(int i = 0; i < objects.size(); i++)

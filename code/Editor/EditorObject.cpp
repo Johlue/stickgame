@@ -40,6 +40,27 @@ void EditorObject::update(int cameraX, int cameraY)
     }
 
   }
+  if(trueClickDragged && type == EO_BOUNDARY)
+  {
+    int tx = abs(x - x2);
+    int ty = abs(y - y2);
+
+    int mx, my;
+    SDL_GetMouseState( &mx, &my);
+    mx += cameraX; my += cameraY;
+    x = mx;
+    y = my;
+    x2 = x + tx;
+    y2 = y + ty;
+    for(int i = 0; i < stringInfo.size(); i++)
+    {
+      if(stringInfo[i]->type == "x") stringInfo[i]->value = std::to_string(x);
+      if(stringInfo[i]->type == "y") stringInfo[i]->value = std::to_string(y);
+      if(stringInfo[i]->type == "x2") stringInfo[i]->value = std::to_string(x2);
+      if(stringInfo[i]->type == "y2") stringInfo[i]->value = std::to_string(y2);
+    }
+
+  }
   if(clickDragged)
   {
     clickDragNumber++;

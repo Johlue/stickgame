@@ -29,8 +29,6 @@ Level Editor, I feel like it
     CURRENTLY UNDER CONSTRUCTION
     NEED TO MODIFY BOUNDARY MODIFICATIONS
     drop down menu for things that have multiple choices
-    some text editing thing for numbers
-      on click access a string pointer that is rendered on the screen?
   maybe shapes of boundary objectsa
   Loading and Saving
 
@@ -79,6 +77,7 @@ Level Editor
     render these to screen for editing
     could also make an array of (String String typeofdata) objects instead of multiple strings
   object editor menu
+  some text editing thing for numbers
 
 make text textures
 
