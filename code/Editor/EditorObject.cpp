@@ -26,7 +26,6 @@ EditorObject::~EditorObject()
 
 void EditorObject::update(int cameraX, int cameraY)
 {
-  std::cout << "openedMenu: " << openedMenu << std::endl;
   if(trueClickDragged && type != EO_BOUNDARY)
   {
     int mx, my;

@@ -82,3 +82,22 @@ double pythagoras(double a, double b)
   double r = sqrt(a + b);
   return r;
 }
+
+std::vector<std::string> menuOptions(std::string type)
+{
+  std::vector<std::string> tms;
+  if(type == "walkAI")
+  {
+    tms.push_back("STAND"); tms.push_back("INSTTURN"); tms.push_back("WAIT");
+  }
+  else if(type == "combatAI")
+  {
+    tms.push_back("MELEE"); tms.push_back("M_QUICK"); tms.push_back("M_STRONG"); tms.push_back("RANGED");
+    tms.push_back("R_QUICK"); tms.push_back("R_MINIG"); tms.push_back("R_BFG");
+  }
+  else if(type == "subtype")
+  {
+    tms.push_back("SPIKE");
+  }
+  return tms;
+}

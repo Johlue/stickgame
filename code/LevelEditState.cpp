@@ -267,10 +267,9 @@ void LevelEditState::render()
     if(om != -1) // if a multiple choice menu is open
     {
       yMod = om/9;
-      if(currentEditorObject->getStringVector()[om]->type == "walkAI")
+      std::vector<std::string> tms = menuOptions(currentEditorObject->getStringVector()[om]->type);
+      if(tms.size() > 0)
       {
-        std::vector<std::string> tms;
-        tms.push_back("STAND"); tms.push_back("INSTTURN"); tms.push_back("WAIT");
         for(int i2 = 0; i2 < tms.size(); i2++)
         {
           { // draw box and then a smaller box and fill it with text

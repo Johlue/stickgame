@@ -27,6 +27,7 @@ level loading, like from a file (it's done for now, but will need updating in th
 Level Editor, I feel like it
   add some kind of object editor menu to, well edit objects
     CURRENTLY UNDER CONSTRUCTION
+      DROPDOWNMENU OPTIONS ARE IN func
     NEED TO MODIFY BOUNDARY MODIFICATIONS
     drop down menu for things that have multiple choices
   maybe shapes of boundary objects

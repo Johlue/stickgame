@@ -15,5 +15,6 @@ bool closeEnough(double a, double b); // are two double close enough to be consi
 void splitString(const std::string &s, char delim, std::vector<std::string> &elems);
 std::vector<std::string> splitString(const std::string &s, char delim); //split a string into words that are stored in a vector
 double pythagoras(double a, double b); // pythagoras triangle between a and b
+std::vector<std::string> menuOptions(std::string type); // returns menuoptions for a specified type
 
 #endif
