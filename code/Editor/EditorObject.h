@@ -25,6 +25,7 @@ public:
   int getX(); int getY(); int getWidth(); int getHeight(); int getType();
   void setX2Y2(int xs, int ys);
   int getOpenedMenu();
+  void setOpenedMenu(int om);
 
   void saveLevel();
   void loadLevel(); // this probs needs a string or something

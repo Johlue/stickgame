@@ -26,6 +26,7 @@ EditorObject::~EditorObject()
 
 void EditorObject::update(int cameraX, int cameraY)
 {
+  std::cout << "openedMenu: " << openedMenu << std::endl;
   if(trueClickDragged && type != EO_BOUNDARY)
   {
     int mx, my;
@@ -236,6 +237,7 @@ bool EditorObject::editorClick(SDL_MouseButtonEvent& b, int strings, std::string
       clickDragged = false;
       trueClickDragged = false;
       clickDragNumber = 0;
+      openedMenu = -1;
       return false;
     }
     bool rtValue = false;
@@ -258,16 +260,18 @@ bool EditorObject::editorClick(SDL_MouseButtonEvent& b, int strings, std::string
       if(  mx > 5+((i%9)*70) && mx < (5+((i%9)*70)) + 64 //is being clicked inside value?
         && my > 460 - (EOProws*44) + (yMod * 44) && my < (460 - (EOProws*44) + (yMod * 44)) + 16)
       {
-        std::cout << "Number: "<< i << " button pressed\n";
+        // if value is a number
         if(stringInfo[i]->type == "x" || stringInfo[i]->type == "y" || stringInfo[i]->type == "x2" ||
            stringInfo[i]->type == "y2" || stringInfo[i]->type == "width" || stringInfo[i]->type == "height" ||
-           stringInfo[i]->type == "angle" || stringInfo[i]->type == "damage") // if value is a number
+           stringInfo[i]->type == "angle" || stringInfo[i]->type == "damage")
         {
           *es = &(stringInfo[i]->value);
            //do number things
+           openedMenu = -1; // close other menus
         }
+        // if value is a boolean
         else if(stringInfo[i]->type == "face ->" || stringInfo[i]->type == "face <-" ||
-        stringInfo[i]->type == "face v" || stringInfo[i]->type == "face ^") // if value is a boolean
+        stringInfo[i]->type == "face v" || stringInfo[i]->type == "face ^")
         {
           if(stringInfo[i]->value == "F") // if false clicked becomes true, others become false
           {
@@ -279,7 +283,18 @@ bool EditorObject::editorClick(SDL_MouseButtonEvent& b, int strings, std::string
             stringInfo[i]->value = "T";
           }
           else stringInfo[i]->value = "F"; // if false becomes true
+
+          openedMenu = -1; // close other menus
+          *es = nullptr;
         }
+        // value is multiple choice
+        else
+        {
+            std::cout << "Number: "<< i << " button pressed\n";
+            openedMenu = i;
+            *es = nullptr;
+        }
+
       }
     }
 
@@ -303,4 +318,9 @@ void EditorObject::clickDrag(SDL_MouseButtonEvent& b, int cameraX, int cameraY)
     }
   }
   else clickDragged = false;
+}
+
+void EditorObject::setOpenedMenu(int om)
+{
+  openedMenu = om;
 }

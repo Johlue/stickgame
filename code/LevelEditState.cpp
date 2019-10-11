@@ -57,6 +57,10 @@ void LevelEditState::handleEvents(SDL_Event* e)
       {
         currentEditorObject = objects[i]; // choose editor object for editing if it got clicked
         clicked = true;
+        for(int i2 = 0; i2 < objects.size(); i2++) // close editor menus
+        {
+          objects[i2]->setOpenedMenu(-1);
+        }
         break;
       }
     }
@@ -175,6 +179,16 @@ void LevelEditState::update()
       objects[i]->update(cameraX, cameraY);
     }
   }
+  if(currentEditorObject == nullptr) // close editor menus if no object is chosen
+  {
+    if(objects.size() > 0)
+    {
+      for(int i = 0; i < objects.size(); i++)
+      {
+        objects[i]->setOpenedMenu(-1);
+      }
+    }
+  }
   //std::cout << "x: " << cameraX << "    y: " << cameraY << std::endl;
 }
 
@@ -248,6 +262,36 @@ void LevelEditState::render()
       }
       mWriter->render(currentEditorObject->getStringVector().at(i)->value, 5+((i%9)*70), 460 - (EOProws*44) + (yMod * 44));// draw parameter values
     }
+    // draw currently opened menu
+    int om = currentEditorObject->getOpenedMenu();
+    if(om != -1) // if a multiple choice menu is open
+    {
+      yMod = om/9;
+      if(currentEditorObject->getStringVector()[om]->type == "walkAI")
+      {
+        std::vector<std::string> tms;
+        tms.push_back("STAND"); tms.push_back("INSTTURN"); tms.push_back("WAIT");
+        for(int i2 = 0; i2 < tms.size(); i2++)
+        {
+          { // draw box and then a smaller box and fill it with text
+            // black box for outlines
+            {
+              SDL_Rect rectT = {5+((om%9)*70)-1,  440 - (EOProws*44) + (yMod * 44) - (17 * i2)-1, 64+2, 16+2};
+              SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0, 0, 0, 0xFF );
+              SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
+            }
+            // actual text container
+            {
+              SDL_Rect rectT = {5+((om%9)*70),  440 - (EOProws*44) + (yMod * 44) - (17 * i2), 64, 16};
+              SDL_SetRenderDrawColor( mDisplay->getRenderer(), 255, 255, 255, 0xFF );
+              SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
+            }
+            // draw options inside box
+            mWriter->render(tms[i2], 5+((om%9)*70),  440 - (EOProws*44) + (yMod * 44) - (17 * i2));
+          }
+        }
+      }
+    }
   }
 }
 
@@ -267,6 +311,13 @@ void LevelEditState::mouseEvent(SDL_MouseButtonEvent& b)
    editableString = nullptr;
    clicked = true;
    bx = -9999999; by = -9999999;
+   if(objects.size() > 0)
+   {
+     for(int i = 0; i < objects.size(); i++)
+     {
+       objects[i]->setOpenedMenu(-1);
+     }
+   }
   }
   else if(b.button == SDL_BUTTON_LEFT)
   {
