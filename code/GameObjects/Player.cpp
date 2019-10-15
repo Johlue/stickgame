@@ -57,12 +57,28 @@ void Player::handleEvent(SDL_Event* e)
           case SDLK_RIGHT:
           movingRight = true;
           aimingForward = true;
+          if(facingRight == false)
+          {
+            std::cout << "old angle: " << gunAngle;
+            double targetAngle = 180 - gunAngle;
+            double tmpnro = targetAngle - gunAngle;
+            rotate(tmpnro);
+            gunAngle += tmpnro;
+            std::cout << " new angle: " << gunAngle << " targetAngle: " << targetAngle << " rotate this much: " << tmpnro << std::endl;
+          }
           facingRight = true;
           break;
 
           case SDLK_LEFT:
           movingLeft = true;
           aimingForward = true;
+          if(facingRight == true)
+          {
+            double targetAngle = 180 - gunAngle;
+            double tmpnro = targetAngle - gunAngle;
+            rotate(tmpnro);
+            gunAngle += tmpnro;
+          }
           facingRight = false;
           break;
 
