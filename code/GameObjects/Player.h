@@ -36,11 +36,15 @@ protected:
   bool roofCheck();
   void boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool * collidingX, bool * collidingY, CollisionData * collisionPointX, CollisionData * collisionPointY, double * shortestDistanceX, double * shortestDistanceY);
   void hazardCollision(Hazard * hazardPtr);
+  void rotate(double angl);
 
   bool movingRight = false;
   bool movingLeft = false;
   bool movingDown = false;
   bool movingUp = false;
+  bool aimingForward = false;
+  bool aimingUp = false;
+  bool aimingDown = false;
   bool * alive; // is the player alive or not
   std::vector<GameObject*>* objects = nullptr; // contains objects to interact with
   std::vector<Animation*> mAnimations;
@@ -74,6 +78,7 @@ protected:
   // remaining invincibility frames
   int iframes = 0;
   double gunAngle = 0;
+  Point gunPoint; // location of gun relative to player
   int hp = 255;
   int ammo = 0;
 };

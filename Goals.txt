@@ -25,11 +25,6 @@ player attack
     some sort of aiming system, probs just arrow keys, but maybe some sort of "stand still and aim" thing? could also just add mouse-aim
 level loading, like from a file (it's done for now, but will need updating in the future)
 Level Editor, I feel like it
-  add some kind of object editor menu to, well edit objects
-    CURRENTLY UNDER CONSTRUCTION
-      DROPDOWNMENU OPTIONS ARE IN func
-    NEED TO MODIFY BOUNDARY MODIFICATIONS
-    drop down menu for things that have multiple choices
   maybe shapes of boundary objects
   Loading and Saving
 
@@ -70,7 +65,9 @@ Player attack
   melee done
 Level loader
 Level Editor
-  add a dropdown menu for objects and enemies and whatnot
+  add some kind of object editor menu to, well edit objects
+      DROPDOWNMENU OPTIONS ARE IN func
+    drop down menu for things that have multiple choices
   creating objects
     boundaries / other
   put a string on all objects that has the necessary data (e.g. 250 111 RANGED INSTANTTURN)

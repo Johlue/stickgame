@@ -19,6 +19,9 @@ Player::Player(double xl, double yl, bool * life, Display* display, std::vector<
   alive = life;
   type = PLAYER;
 
+  gunPoint.x = (width/2) + 10;
+  gunPoint.y = (height/5);
+
   // Animations and their shenanigans
   mAnimations.push_back(new Animation(15, false, textureArray, mDisplay));
   mAnimations[STAND]->addFrame(1, 0);
@@ -53,20 +56,27 @@ void Player::handleEvent(SDL_Event* e)
         {
           case SDLK_RIGHT:
           movingRight = true;
+          aimingForward = true;
           facingRight = true;
           break;
 
           case SDLK_LEFT:
           movingLeft = true;
+          aimingForward = true;
           facingRight = false;
           break;
 
           case SDLK_UP:
+          aimingUp = true;
           if(!falling)
           {
             jumping = true;
             falling = true;
           }
+          break;
+
+          case SDLK_DOWN:
+          aimingDown = true;
           break;
 
           case SDLK_k:
@@ -88,14 +98,21 @@ void Player::handleEvent(SDL_Event* e)
       {
         case SDLK_RIGHT:
         movingRight = false;
+        aimingForward = false;
         break;
 
         case SDLK_LEFT:
         movingLeft = false;
+        aimingForward = false;
         break;
 
         case SDLK_UP:
         jumping = false;
+        aimingUp = false;
+        break;
+
+        case SDLK_DOWN:
+        aimingDown = false;
         break;
       }
       break;
@@ -111,6 +128,39 @@ void Player::update()
   {
     //TODO death animations and stuff
     *alive = false;
+  }
+
+  // aimingu!
+  double target;
+  if(!((aimingUp && aimingDown) || (!aimingUp && !aimingDown && !aimingForward)))
+  {
+    if(aimingUp && !aimingForward) target = 360-90;
+    if(aimingUp && aimingForward) target = 360-45;
+    if(!aimingUp && !aimingDown && aimingForward) target = 0;
+    if(aimingDown && aimingForward) target = 45;
+    if(aimingDown && !aimingForward) target = 90;
+
+    if(facingRight == false) target = 180 - target;
+
+    double rotateSpeed = 6;
+
+    double zerodPangle = target - gunAngle;
+
+    if(zerodPangle < 0) zerodPangle += 360;
+
+    if(zerodPangle > rotateSpeed || zerodPangle < -rotateSpeed)
+    {
+      if(zerodPangle > 180) rotate(-rotateSpeed);
+      else rotate(rotateSpeed);
+    }
+    else rotate(zerodPangle);
+/*
+    Point p; p.x = 0; p.y = 0;
+    rotatePoint(6, &gunPoint, p);
+    gunAngle += 6;*/
+    if(gunAngle >= 360) gunAngle -= 360;
+    else if(gunAngle < 0) gunAngle += 360;
+    std::cout << gunAngle << std::endl;
   }
 
   if(meleeCooldown > 0) meleeCooldown--;
@@ -189,16 +239,11 @@ void Player::update()
 void Player::render(int cameraX, int cameraY)
 {
 
-// placeholder graphics for player
-/*
-  SDL_Rect rect = { x - cameraX, y - cameraY, width, height};
-  if(iframes < 1) SDL_SetRenderDrawColor( mDisplay->getRenderer(), 255, 0, 0, 0xFF ); //no iframes atm
-  else SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 102, 102, 0);
+  // placeholder graphics for gun
+  SDL_Rect rect = {x + gunPoint.x - cameraX, y + gunPoint.y - cameraY, 2, 2};
+  SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 102, 102, 0);
   SDL_RenderFillRect(mDisplay->getRenderer(), &rect);
 
-  //now with real graphics
-  (*textureArray)[1]->render(x - cameraX, y - cameraY, 0);
-*/
   if(iframes > 0)
   {
     mAnimations[STAND]->setTransparency(63, 1);
@@ -519,4 +564,13 @@ void Player::damaged(CollisionData hurt)
     if(hurt.right) direct = 1;
     knockedBack(direct, 1);
   }
+}
+
+void Player::rotate(double angl) // rotate by angl degrees
+{
+  int w1 = (width/2)+0.5; int h1 = (height/5)+0.5;
+  Point p; // this is the centerpoint of rotation
+  p.x = w1; p.y = h1;
+  rotatePoint(angl, &gunPoint, p);
+  gunAngle += angl;
 }

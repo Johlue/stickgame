@@ -348,13 +348,6 @@ void Walker::rangedAIshoot()
 
 void Walker::aimAt(double target, double rotateSpeed)
 {
-/**
-  std::cout << "target angle: " << target << " current angle: " << gunAngle << std::endl;
-  if(target > gunAngle+rotateSpeed) rotate(rotateSpeed);
-  else if(target < gunAngle-rotateSpeed) rotate(-rotateSpeed);
-  else if(gunAngle >= target -rotateSpeed && gunAngle < target) rotate(std::abs(gunAngle - target));
-  else if(gunAngle <= target +rotateSpeed && gunAngle > target) rotate(-std::abs(gunAngle - target));
-**/
 
   double zerodPangle = target - gunAngle;
 
