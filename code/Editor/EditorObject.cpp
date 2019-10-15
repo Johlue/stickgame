@@ -250,6 +250,29 @@ bool EditorObject::editorClick(SDL_MouseButtonEvent& b, int strings, std::string
       EOProws = (strings - 1) / 9; //9+ = 1, 18+ = 2 etc.
     }
 
+    //if a dropdown menu is open
+    if(openedMenu != -1)
+    {
+      yMod = openedMenu/9;
+      std::vector<std::string> tms = menuOptions(stringInfo[openedMenu]->type);
+      if(tms.size() > 0)
+      {
+        for(int i2 = 0; i2 < tms.size(); i2++)
+        {
+          //is mouse inside the currently processed option
+          if(  mx > 5+((openedMenu%9)*70)-1
+            && mx < 5+((openedMenu%9)*70)-1 + 64 + 2
+            && my > 440 - (EOProws*44) + (yMod * 44) - (17 * i2) - 1
+            && my < 440 - (EOProws*44) + (yMod * 44) - (17 * i2) - 1 + 16 + 2)
+          {
+            stringInfo[openedMenu]->value = tms[i2]; // change value to chosen one
+            rtValue = true; // also a click happened
+            break;
+          }
+        }
+      }
+    }
+
     // return true or false?
     if(my > 480 - ((EOProws+1)*44) - 2) rtValue = true;
 

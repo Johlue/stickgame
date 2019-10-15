@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include <SDL.h>
 #include "EO_String.h"
+#include "func.h"
 
 enum EO_types
 {
