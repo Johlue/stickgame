@@ -328,7 +328,7 @@ void Walker::rangedAIshoot()
     if(betweenShotsDelay_t <= 0 && shotsRemaining > 0) // SHOOT!
     {
       Vector2D bulletVector((gunAngle) * (3.14159265359/180), 10); //angle and speed of bullet
-      objects->push_back(new Bullet(gunPoint.x, gunPoint.y, bulletVector, mDisplay, objects, false));
+      objects->push_back(new Bullet(gunPoint.x, gunPoint.y, bulletVector, mDisplay, objects, false, 4));
       shotsRemaining--; // one less bullet
       betweenShotsDelay_t = betweenShotsDelay; // reset shotdelay
     }

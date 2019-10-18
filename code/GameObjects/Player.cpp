@@ -85,7 +85,7 @@ void Player::handleEvent(SDL_Event* e)
           case SDLK_l: // for now shoot button
           {
             Vector2D bulletVector((gunAngle) * (3.14159265359/180), 10); //angle and speed of bullet
-            objects->push_back(new Bullet(gunPoint.x + x, gunPoint.y + y, bulletVector, mDisplay, objects, true));
+            objects->push_back(new Bullet(gunPoint.x + x, gunPoint.y + y, bulletVector, mDisplay, objects, true, 10));
           }
           break;
 

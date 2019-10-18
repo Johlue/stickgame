@@ -1,13 +1,14 @@
 #include "Bullet.h"
 
 Bullet::Bullet(){type = BULLET;}
-Bullet::Bullet(int xl, int yl, Vector2D move, Display* display, std::vector<GameObject*>* obj, bool players)
+Bullet::Bullet(int xl, int yl, Vector2D move, Display* display, std::vector<GameObject*>* obj, bool players, int dmg)
 {
   type = BULLET;
   x = xl;
   y = yl;
   movement = move;
   mDisplay = display;
+  damage = dmg;
   objects = obj;
   playerBullet = players;
 }

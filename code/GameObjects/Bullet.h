@@ -10,7 +10,7 @@ class Bullet : public GameObject
 public:
   Bullet();
   // x location, y location, width, heigth, pointer to display
-  Bullet(int xl, int yl, Vector2D move, Display* display, std::vector<GameObject*>* obj, bool players);
+  Bullet(int xl, int yl, Vector2D move, Display* display, std::vector<GameObject*>* obj, bool players, int dmg);
   ~Bullet();
 
   virtual void handleEvent(SDL_Event* e);
