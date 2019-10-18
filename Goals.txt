@@ -15,9 +15,9 @@ UI and interface or whatever they're called (partially done)
 
 turns out you can actually rotate textures in sdl, so that's nice
 player attack
+  gigalazer
   gun mode and sword mode separately?
     change between modes by pressing the associated attack button
-    can aim in gun mode with arrow keys (gradual accelerating aiming upon pressing up or down or forward)
   Melee attack exists
     combos?
 level loading, like from a file (it's done for now, but will need updating in the future)
