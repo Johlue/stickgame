@@ -68,6 +68,13 @@ void Player::handleEvent(SDL_Event* e)
 
           case SDLK_UP:
           aimingUp = true;
+          break;
+
+          case SDLK_DOWN:
+          aimingDown = true;
+          break;
+
+          case SDLK_j: // for now jump button
           if(!falling)
           {
             jumping = true;
@@ -75,11 +82,14 @@ void Player::handleEvent(SDL_Event* e)
           }
           break;
 
-          case SDLK_DOWN:
-          aimingDown = true;
+          case SDLK_l: // for now shoot button
+          {
+            Vector2D bulletVector((gunAngle) * (3.14159265359/180), 10); //angle and speed of bullet
+            objects->push_back(new Bullet(gunPoint.x + x, gunPoint.y + y, bulletVector, mDisplay, objects, true));
+          }
           break;
 
-          case SDLK_k:
+          case SDLK_k: // for now melee button
           if(meleeCooldown > 0) break;
           // do an attack (add animation later)
           int slashHeight = 40;
@@ -107,12 +117,15 @@ void Player::handleEvent(SDL_Event* e)
         break;
 
         case SDLK_UP:
-        jumping = false;
         aimingUp = false;
         break;
 
         case SDLK_DOWN:
         aimingDown = false;
+        break;
+
+        case SDLK_j:
+        jumping = false;
         break;
       }
       break;
@@ -142,7 +155,7 @@ void Player::update()
 
     if(facingRight == false) target = 180 - target;
 
-    double rotateSpeed = 360;
+    double rotateSpeed = 360; // rotate speed is excessively high because it'll get corrected to target anyway
 
     double zerodPangle = target - gunAngle;
 
@@ -160,7 +173,7 @@ void Player::update()
     gunAngle += 6;*/
     if(gunAngle >= 360) gunAngle -= 360;
     else if(gunAngle < 0) gunAngle += 360;
-    std::cout << gunAngle << std::endl;
+
   }
 
   if(meleeCooldown > 0) meleeCooldown--;

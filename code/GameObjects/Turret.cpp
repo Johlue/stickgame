@@ -113,7 +113,7 @@ void Turret::update()
         cooldown = shotFrequency;
         //shoot
         Vector2D bulletVector((angle-90 ) * (3.14159265359/180), bulletSpeed);
-        objects->push_back(new Bullet(x, y, bulletVector, mDisplay, objects));
+        objects->push_back(new Bullet(x, y, bulletVector, mDisplay, objects, false));
       }
     }
   }

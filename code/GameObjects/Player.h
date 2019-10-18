@@ -6,6 +6,7 @@
 #include "Boundary.h"
 #include "Hazard.h"
 #include "PlayerSlash.h"
+#include "Bullet.h"
 
 class Player : public GameObject
 {

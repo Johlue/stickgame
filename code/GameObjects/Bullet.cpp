@@ -1,7 +1,7 @@
 #include "Bullet.h"
 
 Bullet::Bullet(){type = BULLET;}
-Bullet::Bullet(int xl, int yl, Vector2D move, Display* display, std::vector<GameObject*>* obj)
+Bullet::Bullet(int xl, int yl, Vector2D move, Display* display, std::vector<GameObject*>* obj, bool players)
 {
   type = BULLET;
   x = xl;
@@ -9,6 +9,7 @@ Bullet::Bullet(int xl, int yl, Vector2D move, Display* display, std::vector<Game
   movement = move;
   mDisplay = display;
   objects = obj;
+  playerBullet = players;
 }
 Bullet::~Bullet(){}
 
@@ -51,7 +52,7 @@ void Bullet::update()
         }
       }
     }
-    if((*objects)[i]->getType() == PLAYER)
+    if((*objects)[i]->getType() == PLAYER && !playerBullet)
     {
       CollisionData cd;
       // if bullet is inside player object do damage, and iframes and knockback and whatever else
