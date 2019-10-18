@@ -19,6 +19,7 @@ Walker::~Walker(){}
 void Walker::handleEvent(SDL_Event* e){}
 void Walker::update()
 {
+  if(hp <= 0) alive = false;
   while(gunAngle > 360) {gunAngle -= 360;}
   while(gunAngle < 0) {gunAngle += 360;}
   // check if playrid is valid, if not fix it
@@ -344,6 +345,14 @@ void Walker::rangedAIshoot()
       }
     }
   }
+}
+
+void Walker::damaged(CollisionData cd)
+{
+  int direct = -1;
+  hp -= cd.damage;
+  if(cd.right) direct = 1;
+  //knockedBack(direct, 1);
 }
 
 void Walker::aimAt(double target, double rotateSpeed)

@@ -20,9 +20,6 @@ player attack
     can aim in gun mode with arrow keys (gradual accelerating aiming upon pressing up or down or forward)
   Melee attack exists
     combos?
-  Shots
-    big-ass fricking lazer beam?
-    some sort of aiming system, probs just arrow keys, but maybe some sort of "stand still and aim" thing? could also just add mouse-aim
 level loading, like from a file (it's done for now, but will need updating in the future)
 Level Editor, I feel like it
   maybe shapes of boundary objects
@@ -63,6 +60,8 @@ Fixed boundary collisions sometimes not registering due to double inaccuracy
 jumping and gravity
 Player attack
   melee done
+  Shots
+    aiming is just diagonals and straight lines
 Level loader
 Level Editor
   add some kind of object editor menu to, well edit objects

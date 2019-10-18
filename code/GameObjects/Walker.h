@@ -34,6 +34,8 @@ public:
   void update();
   void render(int cameraX, int cameraY);
 
+  void damaged(CollisionData cd);
+
 protected:
   bool fallingCheck(); // check if there's floor underneath, and if not start falling
   void fallingCollisionCheck(); // if falling check if collided with floor
@@ -42,6 +44,7 @@ protected:
   bool detectPlayer();  // try and find the player
   double xVel = 0; double yVel = 0;
   int direction = 1; // 1 = right, -1 = left;
+  int hp = 40;
   bool falling = false;
   std::vector<GameObject*>* objects = nullptr; // contains objects to interact with
   Boundary* floorBeneath = nullptr; // the floor that your currently standing on

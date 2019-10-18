@@ -3,6 +3,7 @@
 
 #include "GameObject.h"
 #include "Player.h"
+#include "Walker.h"
 
 class Bullet : public GameObject
 {

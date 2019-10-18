@@ -64,6 +64,9 @@ void Bullet::update()
         else {cd.left = true; cd.right = false;}
 
         //TODO actual damage dealing
+        Walker * wlk;
+        wlk = dynamic_cast<Walker*>((*objects)[i]);
+        wlk->damaged(cd);
 
         alive = false;
       }
