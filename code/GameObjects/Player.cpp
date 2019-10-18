@@ -142,7 +142,7 @@ void Player::update()
 
     if(facingRight == false) target = 180 - target;
 
-    double rotateSpeed = 45;
+    double rotateSpeed = 360;
 
     double zerodPangle = target - gunAngle;
 
