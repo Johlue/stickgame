@@ -25,3 +25,6 @@ CollisionData GameObject::lineIntersection(double x1, double y1, double x2, doub
 
 double GameObject::getX(){return x;}
 double GameObject::getY(){return y;}
+
+int GameObject::getWidth(){return width;}
+int GameObject::getHeight(){return height;}

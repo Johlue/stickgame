@@ -52,7 +52,23 @@ void Bullet::update()
         }
       }
     }
-    if((*objects)[i]->getType() == PLAYER && !playerBullet)
+    if(playerBullet && (*objects)[i]->getType() == WALKER) // hitting an enemy with a player bullet
+    {
+      if(x >= (*objects)[i]->getX() && x <= (*objects)[i]->getX()+(*objects)[i]->getWidth()
+      && y >= (*objects)[i]->getY() && y <= (*objects)[i]->getY()+(*objects)[i]->getHeight())
+      {
+        CollisionData cd;
+        cd.damage = damage;
+        cd.iframes = iframes;
+        if(movement.x > 0) {cd.right = true; cd.left = false;}
+        else {cd.left = true; cd.right = false;}
+
+        //TODO actual damage dealing
+
+        alive = false;
+      }
+    }
+    else if((*objects)[i]->getType() == PLAYER && !playerBullet) // hitting a player with an enemy bullet
     {
       CollisionData cd;
       // if bullet is inside player object do damage, and iframes and knockback and whatever else

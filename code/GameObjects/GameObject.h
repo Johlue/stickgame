@@ -42,6 +42,9 @@ public:
   double getX();
   double getY();
 
+  int getWidth();
+  int getHeight();
+
   bool isAlive();
   void kill();
   bool isOnScreen();
