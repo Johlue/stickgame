@@ -63,6 +63,7 @@ CollisionData Hazard::lineIntersection(double ox1, double oy1, double ox2, doubl
   CollisionData result{xr, yr};
   result.intersect = false;
   result.damage = damage;
+  result.knockback = knockback;
   result.iframes = iframes;
 
   // first attempt infinite lines, didn't work in reverse

@@ -22,6 +22,7 @@ public:
   // knockback, damage, iframes, whatever else comes to mind
   int damage;
   int iframes;
+  double knockback;
 };
 
 #endif

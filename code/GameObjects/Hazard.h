@@ -43,8 +43,8 @@ protected:
   Point topPoint, bottomLeftPoint, bottomRightPoint;
   int hazardType;
   int damage;
+  double knockback = 0;
   int iframes = 120;
-  int knockback;
 };
 
 #endif

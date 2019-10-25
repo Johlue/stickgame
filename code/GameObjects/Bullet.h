@@ -10,7 +10,7 @@ class Bullet : public GameObject
 public:
   Bullet();
   // x location, y location, width, heigth, pointer to display
-  Bullet(int xl, int yl, Vector2D move, Display* display, std::vector<GameObject*>* obj, bool players, int dmg);
+  Bullet(int xl, int yl, Vector2D move, Display* display, std::vector<GameObject*>* obj, bool players, int dmg, double kb);
   ~Bullet();
 
   virtual void handleEvent(SDL_Event* e);
@@ -22,6 +22,7 @@ public:
 protected:
   bool playerBullet = false;
   int damage = 4, iframes = 10;
+  double knockback = 1;
   Vector2D movement;
   int lifeTime = 300;
   std::vector<GameObject*>* objects = nullptr; // contains objects to interact with

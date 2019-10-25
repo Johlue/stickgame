@@ -85,7 +85,7 @@ void Player::handleEvent(SDL_Event* e)
           case SDLK_l: // for now shoot button
           {
             Vector2D bulletVector((gunAngle) * (3.14159265359/180), 10); //angle and speed of bullet
-            objects->push_back(new Bullet(gunPoint.x + x, gunPoint.y + y, bulletVector, mDisplay, objects, true, 10));
+            objects->push_back(new Bullet(gunPoint.x + x, gunPoint.y + y, bulletVector, mDisplay, objects, true, 10, 1));
           }
           break;
 
@@ -185,6 +185,7 @@ void Player::update()
     currentJump = 0;
     jumpEnded = false;
   }
+
   if(stunned > 0) stunned--;
   double xMov = 3, yMov = 3;
   if(!knockback)
@@ -575,7 +576,7 @@ void Player::damaged(CollisionData hurt)
     hp -= hurt.damage;
     iframes = hurt.iframes;
     if(hurt.right) direct = 1;
-    knockedBack(direct, 1);
+    knockedBack(direct, hurt.knockback);
   }
 }
 

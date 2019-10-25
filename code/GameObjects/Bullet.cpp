@@ -1,9 +1,10 @@
 #include "Bullet.h"
 
 Bullet::Bullet(){type = BULLET;}
-Bullet::Bullet(int xl, int yl, Vector2D move, Display* display, std::vector<GameObject*>* obj, bool players, int dmg)
+Bullet::Bullet(int xl, int yl, Vector2D move, Display* display, std::vector<GameObject*>* obj, bool players, int dmg, double kb)
 {
   type = BULLET;
+  knockback = kb;
   x = xl;
   y = yl;
   movement = move;
@@ -61,6 +62,7 @@ void Bullet::update()
         CollisionData cd;
         cd.damage = damage;
         cd.iframes = iframes;
+        cd.knockback = knockback;
         if(movement.x > 0) {cd.right = true; cd.left = false;}
         else {cd.left = true; cd.right = false;}
 
@@ -81,6 +83,7 @@ void Bullet::update()
         Player * ptr;
         ptr = dynamic_cast<Player*>((*objects)[i]);
         cd.damage = damage;
+        cd.knockback = knockback;
         cd.iframes = iframes;
 
         if(movement.x > 0) {cd.right = true; cd.left = false;}
