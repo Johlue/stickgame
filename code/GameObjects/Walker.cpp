@@ -110,9 +110,11 @@ void Walker::update()
          } //TODO: some kind of delay me thinks
 
          //if at melee range do an attack
-         if( abs(((*objects)[playerid]->getX()+8) - (x + (width/2))) < 20)
+         if( abs(((*objects)[playerid]->getX()+8) - (x + (width/2))) < 20 &&
+         abs(((*objects)[playerid]->getY()+16) - (y + (height/2))) < 100 )
          {
-           std::cout << "Attack not yet implemented\n";
+           std::cout << "Attack not yet implemented\nAlso put it on cooldown or something\n";
+           xVel = 0; //also don't move, at least for the normal melee AI
          }
          break;
 

@@ -57,6 +57,13 @@ protected:
   int AI = RANGED; // combat ai
   int AIwalk = WAIT; // movement ai (sort of)
 
+  int meleeCooldown = 120; // total amount of time until a second melee attack can be unleashed
+  int meleeCooldownRemaining = 0; // time remaining until next attack
+  int meleeTell = 60; // amount of time spent posing until actually attacking
+  int meleeTellRemaining = 0; // time until end of posing
+  int meleeAttack = 30; // amount of time the melee attack animation lasts for, (afterwards movement is possible again)
+  int meleeAttackRemaning = 0;
+
   int initialShotDelay = 60;
   int initialShotDelay_t = 60;
   int betweenShotsDelay = 20;
