@@ -7,6 +7,11 @@ Basic enemies
       a way to detect the player (done-ish)
       various AIs
         attack type (melee or ranged)
+          melee:
+            same back and forth walking as normal and same "find the player AI"
+            after the players been found thou they will instead increase in speed and start moving towards the player
+            after the player is witing range they will try to hit him with a melee
+            some AI types may also jump
         walking type (stand still or not)
     flying robot things?
 bullets and damage mechanics (semi done)

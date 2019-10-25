@@ -104,7 +104,16 @@ void Walker::update()
          break;
 
          case MELEE:
-         //
+         if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x)))
+         {
+           direction = direction * -1; // turn around if player is behind
+         } //TODO: some kind of delay me thinks
+
+         //if at melee range do an attack
+         if( abs(((*objects)[playerid]->getX()+8) - (x + (width/2))) < 20)
+         {
+           std::cout << "Attack not yet implemented\n";
+         }
          break;
 
        }
@@ -280,6 +289,7 @@ bool Walker::wallCheck()
 
 bool Walker::detectPlayer()
 {
+  if(AI == MELEE) std::cout << playerDetected << " " << playerMemoryRemaining << std::endl;
   // check for walls in line of sight
   CollisionData cd;
   for(int i = 0; i < objects->size(); i++)
