@@ -20,6 +20,11 @@ void Walker::handleEvent(SDL_Event* e){}
 void Walker::update()
 {
   if(hp <= 0) alive = false;
+
+  if(meleeTellRemaining > 0) meleeTellRemaining--;
+  if(meleeCooldownRemaining > 0 && meleeAttackRemaning <= 0) meleeCooldownRemaining--;
+  if(meleeAttackRemaning > 0) meleeAttackRemaning--;
+
   while(gunAngle > 360) {gunAngle -= 360;}
   while(gunAngle < 0) {gunAngle += 360;}
   // check if playrid is valid, if not fix it
@@ -154,6 +159,8 @@ void Walker::render(int cameraX, int cameraY)
 {
   SDL_Rect rect2 = { x - cameraX, y - cameraY, width, height};
   SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0, 255, 0, 0xFF );
+  if(meleeTellRemaining > 0) SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 0, 0, 0xFF);
+  if(meleeAttackRemaning > 0) SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 255, 0xFF);
   SDL_RenderFillRect(mDisplay->getRenderer(), &rect2);
   SDL_Rect rect3 = {gunPoint.x - cameraX, gunPoint.y - cameraY, 3, 3};
   SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 0, 0, 0xFF);
@@ -372,9 +379,9 @@ void Walker::meleeAttackF()
           // start melee attack
           meleeAttackRemaning = meleeAttack;
           int slashXMod;
-          if(direction == -1) slashXMod = x - 3;
-          else  slashXMod = x + width + 3;
-          //objects->push_back(new Slash(width, height/2 - slashHeight/2, slashWidth, slashHeight, true, objects, mDisplay));
+          if(direction == -1) slashXMod = -3 - width; // -slashwidth actually
+          else  slashXMod = width + 3;
+          objects->push_back(new Slash(&x, &y, slashXMod, (height/2) - (height/2), width, height, direction, false, objects, mDisplay)); // height/2 - slashHeight/2 actually
         }
       }
     }

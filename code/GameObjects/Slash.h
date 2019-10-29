@@ -13,7 +13,7 @@ class Slash : public GameObject
 public:
   Slash();
   // rx and ry are relative to player location (x = player x + prx)
-  Slash(double * o_x, double * o_y, int rx, int ry, int width, int height, bool playerSlash,std::vector<GameObject*>* objs, Display* display);
+  Slash(double * o_x, double * o_y, int rx, int ry, int width, int height, int direction, bool playerSlash,std::vector<GameObject*>* objs, Display* display);
   ~Slash();
 
   void handleEvent(SDL_Event* e);
@@ -32,6 +32,7 @@ protected:
   bool damageDealt = false; // becomes true upon dealing damage to something, can't deal damage again afterwards
   int rx, ry;
   double * ox; double * oy; // pointers to the owners x and y locations
+  int direction = 1;
   int playerid = 9999999;
   bool playerOwned;
   int lifetime = 20;
