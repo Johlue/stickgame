@@ -53,31 +53,47 @@ void Slash::update()
     cd.damage = damage;
     cd.iframes = iframes;
     cd.knockback = knockback;
-    if(playerOwned == true)
+    if(!damageDealt) // can only deal damage once during it's lifecycle (but it is possible to multihit)
     {
-      if((*objects)[i]->getType() == WALKER)
+      if(playerOwned == true)
       {
-        Walker * bptr;
-        bptr = dynamic_cast<Walker*>((*objects)[i]);
-        if(bptr->getX() >= x && bptr->getX() <= x + width && bptr->getY() >= y && bptr->getY() <= y + height)
-        {bptr->damaged(cd);}
+        if((*objects)[i]->getType() == WALKER)
+        {
+          Walker * bptr;
+          bptr = dynamic_cast<Walker*>((*objects)[i]);
+          // if the hitboxes don't not overlap then do the thing
+          if(!(bptr->getX() > x + width || x > bptr->getX() + bptr->getWidth())
+          && !(bptr->getY() > y + height || y > bptr->getY() + bptr->getHeight()))
+          {
+            bptr->damaged(cd);
+            damageDealt = true;
+          }
+        }
+        if((*objects)[i]->getType() == TURRET)
+        {
+          /*Turret * bptr;
+          bptr = dynamic_cast<Turret*>((*objects)[i]);
+          if(!(bptr->getX() > x + width || x > bptr->getX() + bptr->getWidth())
+          && !(bptr->getY() > y + height || y > bptr->getY() + bptr->getHeight()))
+          {
+            bptr->damaged(cd);
+            damageDealt = true;
+          }
+          // temporarily in comments since turrets don't have health mechanics yet TODO*/
+        }
       }
-      if((*objects)[i]->getType() == TURRET)
+      // if its not the players then damage the player
+      if(playerOwned == false && (*objects)[i]->getType() == PLAYER)
       {
-        /*Turret * bptr;
-        bptr = dynamic_cast<Turret*>((*objects)[i]);
-        if(bptr->getX() >= x && bptr->getX() <= x + width && bptr->getY() >= y && bptr->getY() <= y + height)
-        {bptr->damaged(cd);}
-        // temporarily in comments since turrets don't have health mechanics yet TODO*/
+        Player * bptr;
+        bptr = dynamic_cast<Player*>((*objects)[i]);
+        if(!(bptr->getX() > x + width || x > bptr->getX() + bptr->getWidth())
+        && !(bptr->getY() > y + height || y > bptr->getY() + bptr->getHeight()))
+        {
+          bptr->damaged(cd);
+          damageDealt = true;
+        }
       }
-    }
-    // if its not the players then damage the player
-    if(playerOwned == false && (*objects)[i]->getType() == PLAYER)
-    {
-      Player * bptr;
-      bptr = dynamic_cast<Player*>((*objects)[i]);
-      if(bptr->getX() >= x && bptr->getX() <= x + width && bptr->getY() >= y && bptr->getY() <= y + height)
-      {bptr->damaged(cd);}
     }
     //slay all bullets that enter your threatened area
     if((*objects)[i]->getType() == BULLET)
