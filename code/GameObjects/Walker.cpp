@@ -110,11 +110,7 @@ void Walker::update()
          } //TODO: some kind of delay me thinks
 
          //if at melee range do an attack
-         if( abs(((*objects)[playerid]->getX()+8) - (x + (width/2))) < 20 &&
-         abs(((*objects)[playerid]->getY()+16) - (y + (height/2))) < 100 )
-         {
-           std::cout << "Attack not yet implemented\nAlso put it on cooldown or something\n";
-           xVel = 0; //also don't move, at least for the normal melee AI
+         meleeAttack();
          }
          break;
 
@@ -356,6 +352,34 @@ void Walker::rangedAIshoot()
       }
     }
   }
+}
+
+void Walker::meleeAttack()
+{
+  if( abs(((*objects)[playerid]->getX()+8) - (x + (width/2))) < 20 &&
+  abs(((*objects)[playerid]->getY()+16) - (y + (height/2))) < 100 )
+  {
+    if(meleeCooldownRemaining <= 0) //do nothing if melee attack is on cooldown
+    {
+      if(meleeTellRemaining < 1)
+      {
+        // start melee tell animation
+        meleeTellRemaining = meleeTell;
+      }
+      else if(meleeTellRemaining == 1) // attack if meleeTell has reached its end
+      {
+        if(meleeAttackRemaning == 0)
+        {
+          // start melee attack
+          meleeAttackRemaning = meleeAttack;
+          int slashXMod;
+          if(direction == -1) slashXMod = x - 3;
+          else  slashXMod = x + width + 3;
+          //objects->push_back(new Slash(width, height/2 - slashHeight/2, slashWidth, slashHeight, true, objects, mDisplay));
+        }
+      }
+    }
+    xVel = 0; //also don't move, at least for the normal melee AI
 }
 
 void Walker::damaged(CollisionData cd)

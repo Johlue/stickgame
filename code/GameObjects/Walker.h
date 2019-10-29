@@ -78,6 +78,8 @@ protected:
   void aimAt(double target, double rotateSpeed);  // rotate gunangle towards a target, at a speed
   void rotate(double ang);
 
+  void meleeAttack();
+
 };
 
 #endif
