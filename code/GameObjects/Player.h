@@ -5,7 +5,7 @@
 #include <vector>
 #include "Boundary.h"
 #include "Hazard.h"
-#include "PlayerSlash.h"
+#include "Slash.h"
 #include "Bullet.h"
 
 class Player : public GameObject

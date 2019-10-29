@@ -1,17 +1,20 @@
-#ifndef PLAYERSLASH_06082019
-#define PLAYERSLASH_06082019
+#ifndef SLASH_06082019
+#define SLASH_06082019
 
 #include "GameObject.h"
+#include "Walker.h"
+#include "Turret.h"
+#include "Player.h"
 #include <iostream>
 
 // melee attack of the player
-class PlayerSlash : public GameObject
+class Slash : public GameObject
 {
 public:
-  PlayerSlash();
+  Slash();
   // rx and ry are relative to player location (x = player x + prx)
-  PlayerSlash(int rx, int ry, int width, int height, std::vector<GameObject*>* objs, Display* display);
-  ~PlayerSlash();
+  Slash(int rx, int ry, int width, int height, bool playerSlash,std::vector<GameObject*>* objs, Display* display);
+  ~Slash();
 
   void handleEvent(SDL_Event* e);
   void update();
@@ -28,7 +31,11 @@ public:
 protected:
   int rx, ry;
   int playerid = 9999999;
+  bool playerOwned;
   int lifetime = 20;
+  int damage = 20;
+  int iframes = 40;
+  double knockback = 3;
   std::vector<GameObject*>* objects = nullptr; // contains objects to interact with
 };
 

@@ -291,7 +291,6 @@ bool Walker::wallCheck()
 
 bool Walker::detectPlayer()
 {
-  if(AI == MELEE) std::cout << playerDetected << " " << playerMemoryRemaining << std::endl;
   // check for walls in line of sight
   CollisionData cd;
   for(int i = 0; i < objects->size(); i++)
@@ -365,6 +364,7 @@ void Walker::damaged(CollisionData cd)
   hp -= cd.damage;
   if(cd.right) direct = 1;
   //knockedBack(direct, 1);
+  std::cout << "ouchie!";
 }
 
 void Walker::aimAt(double target, double rotateSpeed)
