@@ -110,8 +110,7 @@ void Walker::update()
          } //TODO: some kind of delay me thinks
 
          //if at melee range do an attack
-         meleeAttack();
-         }
+         meleeAttackF();
          break;
 
        }
@@ -354,7 +353,7 @@ void Walker::rangedAIshoot()
   }
 }
 
-void Walker::meleeAttack()
+void Walker::meleeAttackF()
 {
   if( abs(((*objects)[playerid]->getX()+8) - (x + (width/2))) < 20 &&
   abs(((*objects)[playerid]->getY()+16) - (y + (height/2))) < 100 )
@@ -380,6 +379,7 @@ void Walker::meleeAttack()
       }
     }
     xVel = 0; //also don't move, at least for the normal melee AI
+  }
 }
 
 void Walker::damaged(CollisionData cd)

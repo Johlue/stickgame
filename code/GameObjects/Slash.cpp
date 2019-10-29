@@ -4,9 +4,11 @@ Slash::Slash()
 {
   type = PLAYERATTACK;
 }
-Slash::Slash(int o_rx, int o_ry, int o_width, int o_height, bool playerSlash, std::vector<GameObject*>* objs, Display* display)
+Slash::Slash(double * o_x, double * o_y, int o_rx, int o_ry, int o_width, int o_height, bool playerSlash, std::vector<GameObject*>* objs, Display* display)
 {
   mDisplay = display;
+  ox = o_x;
+  oy = o_y;
   rx = o_rx;
   ry = o_ry;
   width = o_width;
@@ -42,8 +44,8 @@ void Slash::update()
   // set location to players (assuming playerid is valid)
   if(playerid != 9999999)
   {
-    x = (*objects)[playerid]->getX() + rx;
-    y = (*objects)[playerid]->getY() + ry;
+    x = *ox + rx;
+    y = *oy + ry;
   }
 
   for(int i = 0; i < objects->size(); i++)

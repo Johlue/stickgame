@@ -94,8 +94,8 @@ void Player::handleEvent(SDL_Event* e)
           // do an attack (add animation later)
           int slashHeight = 40;
           int slashWidth = 40;
-          if(facingRight) objects->push_back(new Slash(width, height/2 - slashHeight/2, slashWidth, slashHeight, true, objects, mDisplay));
-          else objects->push_back(new Slash(-slashWidth, height/2 - slashHeight/2, slashWidth, slashHeight, true, objects, mDisplay));
+          if(facingRight) objects->push_back(new Slash(&x, &y, width, height/2 - slashHeight/2, slashWidth, slashHeight, true, objects, mDisplay));
+          else objects->push_back(new Slash(&x, &y, -slashWidth, height/2 - slashHeight/2, slashWidth, slashHeight, true, objects, mDisplay));
           meleeCooldown = 30;
           break;
         }
