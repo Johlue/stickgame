@@ -58,7 +58,8 @@ void Walker::update()
     if(falling) fallingCollisionCheck();
     if(!falling)
     {
-      xVel = 2;
+      xVel = moveSpeed;
+      if(playerMemoryRemaining > 0) xVel = combatSpeed;
       if(floorBeneath != nullptr)
       {
         if(floorEndCheck())

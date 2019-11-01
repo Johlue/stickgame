@@ -56,6 +56,8 @@ protected:
   int waiting = 0; // waiting at the edge of reality(aka the floor)
   int AI = RANGED; // combat ai
   int AIwalk = WAIT; // movement ai (sort of)
+  double moveSpeed = 2;
+  double combatSpeed = 2;
 
   int meleeCooldown = 120; // total amount of time until a second melee attack can be unleashed
   int meleeCooldownRemaining = 0; // time remaining until next attack

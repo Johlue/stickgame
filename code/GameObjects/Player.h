@@ -30,6 +30,7 @@ public:
 
   int getHP();
   int getAmmo();
+  double getLazerCharge();
 
 protected:
   void knockedBack(int direction, int force); //left(-1) or right(1) and how far/fast/long is knockbacked
@@ -82,6 +83,11 @@ protected:
   Point gunPoint; // location of gun relative to player
   int hp = 255;
   int ammo = 0;
+
+  int lazerChargeMax = 9000;
+  int lazerCharge = 0;
+  bool lazerOnCooldown = false;
+  bool lazerIsCharging = false;
 };
 
 

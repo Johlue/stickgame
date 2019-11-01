@@ -92,11 +92,17 @@ void Player::handleEvent(SDL_Event* e)
           case SDLK_k: // for now melee button
           if(meleeCooldown > 0) break;
           // do an attack (add animation later)
-          int slashHeight = 40;
-          int slashWidth = 40;
-          if(facingRight) objects->push_back(new Slash(&x, &y, width, height/2 - slashHeight/2, slashWidth, slashHeight, 1, true, objects, mDisplay));
-          else objects->push_back(new Slash(&x, &y, -slashWidth, height/2 - slashHeight/2, slashWidth, slashHeight,-1, true, objects, mDisplay));
-          meleeCooldown = 30;
+          {
+            int slashHeight = 40;
+            int slashWidth = 40;
+            if(facingRight) objects->push_back(new Slash(&x, &y, width, height/2 - slashHeight/2, slashWidth, slashHeight, 1, true, objects, mDisplay));
+            else objects->push_back(new Slash(&x, &y, -slashWidth, height/2 - slashHeight/2, slashWidth, slashHeight,-1, true, objects, mDisplay));
+            meleeCooldown = 30;
+          }
+          break;
+
+          case SDLK_i: // gigalazer button
+          if(!lazerOnCooldown) lazerIsCharging = true;
           break;
         }
       }
@@ -126,6 +132,15 @@ void Player::handleEvent(SDL_Event* e)
 
         case SDLK_j:
         jumping = false;
+        break;
+
+        case SDLK_i:
+        lazerIsCharging = false;
+        if(lazerCharge == lazerChargeMax)
+        {
+          std::cout << "FIRE THE LAZER!\n";
+          lazerOnCooldown = true;
+        }
         break;
       }
       break;
@@ -175,6 +190,16 @@ void Player::update()
     else if(gunAngle < 0) gunAngle += 360;
 
   }
+
+  // gigalazer things
+  if(lazerIsCharging) lazerCharge = std::min(lazerCharge + 90, lazerChargeMax);
+  else if(lazerOnCooldown)
+  {
+    lazerCharge = std::max(lazerCharge -15, 0);
+    if(lazerCharge == 0) lazerOnCooldown = false;
+  }
+  else lazerCharge = std::max(lazerCharge -180, 0);
+
 
   if(meleeCooldown > 0) meleeCooldown--;
   //std::cout << "yLoc: " << y << " jumping: " << jumping << " falling: " << falling << std::endl;
@@ -588,3 +613,5 @@ void Player::rotate(double angl) // rotate by angl degrees
   rotatePoint(angl, &gunPoint, p);
   gunAngle += angl;
 }
+
+double Player::getLazerCharge(){return lazerCharge;}

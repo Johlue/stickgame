@@ -10,12 +10,10 @@ Basic enemies
           melee:
             same back and forth walking as normal and same "find the player AI"
             after the players been found thou they will instead increase in speed and start moving towards the player
-            after the player is witing range they will try to hit him with a melee
+            after the player is within range they will try to hit him with a melee
             some AI types may also jump
         walking type (stand still or not)
     flying robot things?
-bullets and damage mechanics (semi done)
-  knockback (needs variable force)
 UI and interface or whatever they're called (partially done)
 
 turns out you can actually rotate textures in sdl, so that's nice
@@ -67,6 +65,8 @@ Player attack
   melee done
   Shots
     aiming is just diagonals and straight lines
+bullets and damage mechanics
+  knockback (has variable force)
 Level loader
 Level Editor
   add some kind of object editor menu to, well edit objects
