@@ -19,6 +19,10 @@ UI and interface or whatever they're called (partially done)
 turns out you can actually rotate textures in sdl, so that's nice
 player attack
   gigalazer
+    chargeup is Done
+    actual laze code thou?
+      multiple line collision checks? probs yeah
+    lazer graphics thou? could make multiple rotated textures and then have like a "movement wave patter thing" based on animating the individual lazer particles
   gun mode and sword mode separately?
     change between modes by pressing the associated attack button
   Melee attack exists
