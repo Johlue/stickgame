@@ -63,6 +63,7 @@ protected:
   int meleeTellRemaining = 0; // time until end of posing
   int meleeAttack = 30; // amount of time the melee attack animation lasts for, (afterwards movement is possible again)
   int meleeAttackRemaning = 0;
+  bool meleeAttackInitiated = false;
 
   int initialShotDelay = 60;
   int initialShotDelay_t = 60;

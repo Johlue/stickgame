@@ -25,6 +25,8 @@ void Walker::update()
   if(meleeCooldownRemaining > 0 && meleeAttackRemaning <= 0) meleeCooldownRemaining--;
   if(meleeAttackRemaning > 0) meleeAttackRemaning--;
 
+  std::cout << "mTell: " << meleeTellRemaining << " mAtt: " << meleeAttackRemaning << " mCool: " << meleeCooldownRemaining << std::endl;
+
   while(gunAngle > 360) {gunAngle -= 360;}
   while(gunAngle < 0) {gunAngle += 360;}
   // check if playrid is valid, if not fix it
@@ -131,6 +133,10 @@ void Walker::update()
         else aimAt(90 + (-90 * direction), 4); // point forward if alert
 
         break;
+
+        case MELEE:
+        if(meleeAttackInitiated) meleeAttackF();
+        break;
       }
       if(playerDetected)// if player was seen earlier and can't now, start forgetting
       {
@@ -147,6 +153,8 @@ void Walker::update()
         initialShotDelay_t = initialShotDelay; //reset shotdelay due to lack of preparedness
       }
     }
+
+    if((meleeAttackRemaning > 0 || meleeTellRemaining > 0) && (AI == MELEE || AI == MELEE_STRONG)) xVel = 0;
 
     x += xVel * direction;
     gunPoint.x += xVel * direction;
@@ -362,8 +370,8 @@ void Walker::rangedAIshoot()
 
 void Walker::meleeAttackF()
 {
-  if( abs(((*objects)[playerid]->getX()+8) - (x + (width/2))) < 20 &&
-  abs(((*objects)[playerid]->getY()+16) - (y + (height/2))) < 100 )
+  if( (abs(((*objects)[playerid]->getX()+8) - (x + (width/2))) < 20 &&
+  abs(((*objects)[playerid]->getY()+16) - (y + (height/2))) < 100) || meleeAttackInitiated )
   {
     if(meleeCooldownRemaining <= 0) //do nothing if melee attack is on cooldown
     {
@@ -371,17 +379,20 @@ void Walker::meleeAttackF()
       {
         // start melee tell animation
         meleeTellRemaining = meleeTell;
+        meleeAttackInitiated = true; // start of melee attack
       }
       else if(meleeTellRemaining == 1) // attack if meleeTell has reached its end
       {
         if(meleeAttackRemaning == 0)
         {
           // start melee attack
+          meleeCooldownRemaining = meleeCooldown;
           meleeAttackRemaning = meleeAttack;
           int slashXMod;
           if(direction == -1) slashXMod = -3 - width; // -slashwidth actually
           else  slashXMod = width + 3;
           objects->push_back(new Slash(&x, &y, slashXMod, (height/2) - (height/2), width, height, direction, false, objects, mDisplay)); // height/2 - slashHeight/2 actually
+          meleeAttackInitiated = false; // end of melee attack
         }
       }
     }
