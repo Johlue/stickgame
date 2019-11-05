@@ -642,9 +642,10 @@ void Player::fireTheLazer()
   std::vector<Point> beamStartPoint;
   Point beamStart;
   Point beamEnd;
+  CollisionData cd;
   for(int i = 0; i < 8; i++) // create 8 separate beams  and rotate them
   {
-    beamEnd.x = x + 1024;
+    beamEnd.x = x + 10024;
     beamEnd.y = y + (i*4);
     rotatePoint(gunAngle, &beamEnd, center);
     beamStart.x = x + 24;
@@ -652,12 +653,21 @@ void Player::fireTheLazer()
     rotatePoint(gunAngle, &beamStart, center);
     beamEndPoint.push_back(beamEnd);
     beamStartPoint.push_back(beamStart);
-  }
-  for(int i = 0; i < objects->size(); i++)
-  {
-    if((*objects)[i]->getType() == BOUNDARY)
+    for(int i2 = 0; i2 < objects->size(); i2++)
     {
-
+      if((*objects)[i2]->getType() == BOUNDARY)
+      {
+        cd = ((*objects))[i2]->lineIntersection(beamStartPoint[i].x, beamStartPoint[i].y, beamEndPoint[i].x, beamEndPoint[i].y ,0,0,0,0);
+        if(cd.intersect)
+        {
+          if(pythagoras(std::abs(beamStartPoint[i].x - beamEndPoint[i].x), std::abs(beamStartPoint[i].y - beamEndPoint[i].y))
+          > pythagoras(std::abs(beamStartPoint[i].x - cd.x), std::abs(beamStartPoint[i].y - cd.y)))
+          {
+            beamEndPoint[i].x = cd.x;
+            beamEndPoint[i].y = cd.y;
+          }
+        }
+      }
     }
   }
   for(int i = 0; i < beamStartPoint.size(); i++)
