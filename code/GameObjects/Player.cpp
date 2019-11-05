@@ -75,7 +75,7 @@ void Player::handleEvent(SDL_Event* e)
           break;
 
           case SDLK_j: // for now jump button
-          if(!falling)
+          if(!falling && !lazerIsFiring)
           {
             jumping = true;
             falling = true;
@@ -139,6 +139,8 @@ void Player::handleEvent(SDL_Event* e)
         if(lazerCharge == lazerChargeMax)
         {
           std::cout << "FIRE THE LAZER!\n";
+          lazerIsFiring = true;
+          lazerDuration = lazerDurationMax;
           lazerOnCooldown = true;
         }
         break;
@@ -199,6 +201,17 @@ void Player::update()
     if(lazerCharge == 0) lazerOnCooldown = false;
   }
   else lazerCharge = std::max(lazerCharge -180, 0);
+  if(lazerIsFiring)
+  {
+    fireTheLazer();
+    lazerDuration--;
+    if(lazerDuration < 1)
+    {
+      lazerIsFiring = false;
+      std::cout << "the firing of the lazer has been stopped\n";
+    }
+  }
+  else lazerDuration = 0;
 
 
   if(meleeCooldown > 0) meleeCooldown--;
@@ -277,6 +290,7 @@ void Player::update()
 
 void Player::render(int cameraX, int cameraY)
 {
+  fireTheLazer(); // graphics test
 
   // placeholder graphics for gun
   SDL_Rect rect = {x + gunPoint.x - cameraX, y + gunPoint.y - cameraY, 2, 2};
@@ -595,6 +609,9 @@ void Player::knockedBack(int direction, int force)
 
 void Player::damaged(CollisionData hurt)
 {
+  // all ongoing actions are cancelled
+  lazerIsFiring = false;
+  lazerIsCharging = false;
   int direct = -1;
   if(iframes <= 0)
   {
@@ -615,3 +632,38 @@ void Player::rotate(double angl) // rotate by angl degrees
 }
 
 double Player::getLazerCharge(){return lazerCharge;}
+
+void Player::fireTheLazer()
+{
+  // check for boundary collisions first and store distance of shortest collision point in beamEndPoint[a]
+  // run second collision for enemies etc. from beam origin to beam end
+  Point center; center.x = x + (width/2); center.y = y + (height/2);
+  std::vector<Point> beamEndPoint;
+  std::vector<Point> beamStartPoint;
+  Point beamStart;
+  Point beamEnd;
+  for(int i = 0; i < 8; i++) // create 8 separate beams  and rotate them
+  {
+    beamEnd.x = x + 1024;
+    beamEnd.y = y + (i*4);
+    rotatePoint(gunAngle, &beamEnd, center);
+    beamStart.x = x + 24;
+    beamStart.y = y + (i*4);
+    rotatePoint(gunAngle, &beamStart, center);
+    beamEndPoint.push_back(beamEnd);
+    beamStartPoint.push_back(beamStart);
+  }
+  for(int i = 0; i < objects->size(); i++)
+  {
+    if((*objects)[i]->getType() == BOUNDARY)
+    {
+
+    }
+  }
+  for(int i = 0; i < beamStartPoint.size(); i++)
+  {
+    std::cout << beamStartPoint[i].x << " " << beamStartPoint[i].y << std::endl << beamEndPoint[i].x << " " << beamEndPoint[i].y << std::endl;
+    SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 0, 0, 0xFF);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), beamStartPoint[i].x, beamStartPoint[i].y, beamEndPoint[i].x, beamEndPoint[i].y);
+  }
+}

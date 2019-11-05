@@ -39,6 +39,7 @@ protected:
   void boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool * collidingX, bool * collidingY, CollisionData * collisionPointX, CollisionData * collisionPointY, double * shortestDistanceX, double * shortestDistanceY);
   void hazardCollision(Hazard * hazardPtr);
   void rotate(double angl);
+  void fireTheLazer();
 
   bool movingRight = false;
   bool movingLeft = false;
@@ -86,8 +87,11 @@ protected:
 
   int lazerChargeMax = 9000;
   int lazerCharge = 0;
+  int lazerDuration = 0;
+  int lazerDurationMax = 180;
   bool lazerOnCooldown = false;
   bool lazerIsCharging = false;
+  bool lazerIsFiring = false;
 };
 
 

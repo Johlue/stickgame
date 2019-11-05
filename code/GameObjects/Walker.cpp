@@ -25,7 +25,7 @@ void Walker::update()
   if(meleeCooldownRemaining > 0 && meleeAttackRemaning <= 0) meleeCooldownRemaining--;
   if(meleeAttackRemaning > 0) meleeAttackRemaning--;
 
-  std::cout << "mTell: " << meleeTellRemaining << " mAtt: " << meleeAttackRemaning << " mCool: " << meleeCooldownRemaining << std::endl;
+  //std::cout << "mTell: " << meleeTellRemaining << " mAtt: " << meleeAttackRemaning << " mCool: " << meleeCooldownRemaining << std::endl;
 
   while(gunAngle > 360) {gunAngle -= 360;}
   while(gunAngle < 0) {gunAngle += 360;}
@@ -407,7 +407,6 @@ void Walker::damaged(CollisionData cd)
   hp -= cd.damage;
   if(cd.right) direct = 1;
   //knockedBack(direct, 1);
-  std::cout << "ouchie!";
 }
 
 void Walker::aimAt(double target, double rotateSpeed)
