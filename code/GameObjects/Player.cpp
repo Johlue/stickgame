@@ -648,24 +648,20 @@ void Player::fireTheLazer()
     beamEnd.x = x + 10024;
     beamEnd.y = y + (i*4);
     rotatePoint(gunAngle, &beamEnd, center);
-    beamStart.x = x + 24;
+    beamStart.x = x + (width/2);
     beamStart.y = y + (i*4);
     rotatePoint(gunAngle, &beamStart, center);
     beamEndPoint.push_back(beamEnd);
     beamStartPoint.push_back(beamStart);
     for(int i2 = 0; i2 < objects->size(); i2++)
     {
-      if((*objects)[i2]->getType() == BOUNDARY)
+      if((*objects)[i2]->getType() == BOUNDARY) // check if any boundaries intersect with the beam
       {
         cd = ((*objects))[i2]->lineIntersection(beamStartPoint[i].x, beamStartPoint[i].y, beamEndPoint[i].x, beamEndPoint[i].y ,0,0,0,0);
-        if(cd.intersect)
+        if(cd.intersect) // in case of intersection set a new end point for beam
         {
-          if(pythagoras(std::abs(beamStartPoint[i].x - beamEndPoint[i].x), std::abs(beamStartPoint[i].y - beamEndPoint[i].y))
-          > pythagoras(std::abs(beamStartPoint[i].x - cd.x), std::abs(beamStartPoint[i].y - cd.y)))
-          {
-            beamEndPoint[i].x = cd.x;
-            beamEndPoint[i].y = cd.y;
-          }
+          beamEndPoint[i].x = cd.x;
+          beamEndPoint[i].y = cd.y;
         }
       }
     }
