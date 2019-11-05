@@ -7,6 +7,7 @@
 #include "Hazard.h"
 #include "Slash.h"
 #include "Bullet.h"
+#include "Walker.h"
 
 class Player : public GameObject
 {
