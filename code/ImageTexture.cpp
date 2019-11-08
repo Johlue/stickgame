@@ -120,9 +120,9 @@ void ImageTexture::render( int x, int y, int sprite, SDL_Rect* clip, double angl
 	//Set clip rendering dimensions
 	if( clip != NULL )
 	{
-		renderQuad.w = clip->w;
-		renderQuad.h = clip->h;
-  	SDL_RenderCopyEx( mRenderer, mTexture, clip, &renderQuad, angle, center, flip );
+    clip->x = x;
+    clip->y = y;
+  	SDL_RenderCopyEx( mRenderer, mTexture, &spriteClip, clip, angle, center, flip );
 	}
   else
   {

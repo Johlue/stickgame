@@ -7,11 +7,15 @@ GameEngine::GameEngine(Display* display, Writer* writer)
   mDisplay = display;
   //TODO all the things, basically create a display and initialize gamestates and whatever
   // load a texture to the thingy
-  loadImageTexture("menuButtons.png", 1, 9);
-  loadImageTexture("chara.png", 10, 10);
-  loadImageTexture("LevelEditMenu1.png", 1, 4);
-  loadImageTexture("LevelEditMenuEnemies.png", 1, 1);
-  loadImageTexture("LevelEditMenuObjects.png", 1, 1);
+  loadImageTexture("menuButtons.png", 1, 9);            // 0
+  loadImageTexture("chara.png", 10, 10);                // 1
+  loadImageTexture("LevelEditMenu1.png", 1, 4);         // 2
+  loadImageTexture("LevelEditMenuEnemies.png", 1, 1);   // 3
+  loadImageTexture("LevelEditMenuObjects.png", 1, 1);   // 4
+  loadImageTexture("GigalazerCircleInside.png", 1, 1);  // 5
+  loadImageTexture("GigalazerCircleOutside.png", 1, 1); // 6
+  loadImageTexture("GigalazerSquareInside.png", 1, 1);  // 7
+  loadImageTexture("GigalazerSquareOutside.png", 1, 1); // 8
   /*
   mTextures.push_back(new ImageTexture());
   mTextures[0]->setRenderer(display->getRenderer());

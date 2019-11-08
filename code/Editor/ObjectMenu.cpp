@@ -5,8 +5,9 @@ ObjectMenu::ObjectMenu()
 
 void ObjectMenu::render()
 {
+  SDL_Rect clippy = {0, 0, 88, 111};
   if(mState == CLOSED || mState == OBJECTS) (*textureArray)[2]->render(x, y, 3);
-  else (*textureArray)[2]->render(x, y, 2);
+  else (*textureArray)[2]->render(x, y, 2, &clippy);
 
   if(mState == CLOSED || mState == ENEMIES) (*textureArray)[2]->render(x, y+50, 1);
   else (*textureArray)[2]->render(x, y+50, 0);

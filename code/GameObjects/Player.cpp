@@ -672,14 +672,14 @@ void Player::fireTheLazer()
   }
   for(int i = 0; i < beamStartPoint.size(); i++) // damage things go here
   {
-    std::cout << beamStartPoint[i].x << " " << beamStartPoint[i].y << std::endl << beamEndPoint[i].x << " " << beamEndPoint[i].y << std::endl;
+    //std::cout << beamStartPoint[i].x << " " << beamStartPoint[i].y << std::endl << beamEndPoint[i].x << " " << beamEndPoint[i].y << std::endl;
     SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 0, 0, 0xFF);
     SDL_RenderDrawLine(mDisplay->getRenderer(), beamStartPoint[i].x, beamStartPoint[i].y, beamEndPoint[i].x, beamEndPoint[i].y);
     for(int i2 = 0; i2 < objects->size(); i2++)
     {
       if((*objects)[i2]->getType() == WALKER)
       {
-        Walker * wptr; // TODO 
+        Walker * wptr; // TODO
         //cd = wptr->lineIntersection(0,0,0,0,0,0,0,0); // TODO
         //wptr = dynamic_cast<Walker*>((*objects)[i2]);
         //wptr->damaged(dmg);
