@@ -78,7 +78,7 @@ std::vector<std::string> splitString(const std::string &s, char delim) {
 
 double pythagoras(double a, double b)
 {
-  pow(a, 2.0); pow(b, 2.0);
+  a = pow(a, 2.0); b = pow(b, 2.0);
   double r = sqrt(a + b);
   return r;
 }

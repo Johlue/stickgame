@@ -42,7 +42,7 @@ protected:
   void hazardCollision(Hazard * hazardPtr);
   void rotate(double angl);
   void fireTheLazer();
-  void renderTheLazer();
+  void renderTheLazer(int cx, int cy);
 
   bool movingRight = false;
   bool movingLeft = false;
