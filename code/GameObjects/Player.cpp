@@ -291,6 +291,7 @@ void Player::update()
 void Player::render(int cameraX, int cameraY)
 {
   fireTheLazer(); // graphics test
+  renderTheLazer();
 
   // placeholder graphics for gun
   SDL_Rect rect = {x + gunPoint.x - cameraX, y + gunPoint.y - cameraY, 2, 2};
@@ -638,8 +639,8 @@ void Player::fireTheLazer()
   // check for boundary collisions first and store distance of shortest collision point in beamEndPoint[a]
   // run second collision for enemies etc. from beam origin to beam end
   Point center; center.x = x + (width/2); center.y = y + (height/2);
-  std::vector<Point> beamEndPoint;
-  std::vector<Point> beamStartPoint;
+  beamEndPoint.clear();
+  beamStartPoint.clear();
   Point beamStart;
   Point beamEnd;
   CollisionData cd;
@@ -670,6 +671,7 @@ void Player::fireTheLazer()
       }
     }
   }
+  Point pointless = {0, 0};
   for(int i = 0; i < beamStartPoint.size(); i++) // damage things go here
   {
     //std::cout << beamStartPoint[i].x << " " << beamStartPoint[i].y << std::endl << beamEndPoint[i].x << " " << beamEndPoint[i].y << std::endl;
@@ -690,4 +692,22 @@ void Player::fireTheLazer()
       }
     }
   }
+}
+
+void Player::renderTheLazer()
+{
+  //if(!lazerIsFiring) return;
+  for(int i = 0; i < beamStartPoint.size(); i++) // drawing lazer outlines
+  {
+    SDL_Rect scale = {0, 0, pythagoras(abs(beamStartPoint[i].x - beamEndPoint[i].x), abs(beamStartPoint[i].y - beamEndPoint[i].y)), 10};
+    (*textureArray)[8]->render(beamStartPoint[i].x, beamStartPoint[i].y-4, 0, &scale, gunAngle); // beam squares
+    (*textureArray)[6]->render(beamEndPoint[i].x -15, beamEndPoint[i].y -15, 0); // beam end circles
+  }
+  for(int i = 0; i < beamStartPoint.size(); i++) // drawing lazer insides
+  {
+    SDL_Rect scale = {0, 0, pythagoras(abs(beamStartPoint[i].x - beamEndPoint[i].x)+2, abs(beamStartPoint[i].y - beamEndPoint[i].y)-2), 8};
+    (*textureArray)[7]->render(beamStartPoint[i].x, beamStartPoint[i].y-4, 0, &scale, gunAngle); // beam squares
+    (*textureArray)[5]->render(beamEndPoint[i].x -15, beamEndPoint[i].y -15, 0); // beam end circles
+  }
+
 }
