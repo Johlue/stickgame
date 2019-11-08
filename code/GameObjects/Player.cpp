@@ -697,6 +697,8 @@ void Player::fireTheLazer()
 void Player::renderTheLazer(int cx, int cy)
 {
   //if(!lazerIsFiring) return;
+  for(int i = 0; i < 300; i++)
+  {(*textureArray)[7]->render(x, y, 0);}
   for(int i = 0; i < beamStartPoint.size(); i++) // drawing lazer outlines
   {
     std::cout << "deltaX: " << abs(beamStartPoint[i].x - beamEndPoint[i].x)
