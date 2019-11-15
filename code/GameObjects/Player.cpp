@@ -697,21 +697,39 @@ void Player::fireTheLazer()
 void Player::renderTheLazer(int cx, int cy)
 {
   //if(!lazerIsFiring) return;
-  for(int i = 0; i < 300; i++)
+  Point drawPoint = {0, 0};
+  //for(int i = 0; i < 300; i++)
   {(*textureArray)[7]->render(x, y, 0);}
-  for(int i = 0; i < beamStartPoint.size(); i++) // drawing lazer outlines
+  for(int i = 1; i < beamStartPoint.size(); i += 2) // drawing lazer outlines
   {
-    std::cout << "deltaX: " << abs(beamStartPoint[i].x - beamEndPoint[i].x)
-              << " deltaY: "<< abs(beamStartPoint[i].y - beamEndPoint[i].y)
-              << " pytha: " << pythagoras(abs(beamStartPoint[i].x - beamEndPoint[i].x), abs(beamStartPoint[i].y - beamEndPoint[i].y)) << std::endl;
-    SDL_Rect scale = {0, 0, pythagoras(abs(beamStartPoint[i].x - beamEndPoint[i].x), abs(beamStartPoint[i].y - beamEndPoint[i].y)), 10};
-    (*textureArray)[8]->render(beamStartPoint[i].x - cx, beamStartPoint[i].y-4 - cy, 0, &scale, gunAngle); // beam squares
+    for(int i2 = 1; i2 < 120; i2 += 2)
+    {
+      drawPoint.x = beamStartPoint[i].x + (i2*10); drawPoint.y = beamStartPoint[i].y;
+      rotatePoint(gunAngle, &drawPoint, beamStartPoint[i]);
+      // if distance between startpoint and endpoint is less than distance between startpoint and drawpoint stop draw
+      if(abs(beamStartPoint[i].x - drawPoint.x) > abs(beamStartPoint[i].x - beamEndPoint[i].x)
+      || abs(beamStartPoint[i].y - drawPoint.y) > abs(beamStartPoint[i].y - beamEndPoint[i].y)) break;
+      (*textureArray)[8]->render(drawPoint.x - cx, drawPoint.y - 4 - cy, 0, NULL, gunAngle); // beam squares
+    }
+  }
+  for(int i= 0; i < beamStartPoint.size(); i++)
+  {
     (*textureArray)[6]->render(beamEndPoint[i].x -15 - cx, beamEndPoint[i].y -15 - cy, 0); // beam end circles
   }
-  for(int i = 0; i < beamStartPoint.size(); i++) // drawing lazer insides
+  for(int i = 1; i < beamStartPoint.size(); i += 2) // drawing lazer insides
   {
-    SDL_Rect scale = {0, 0, pythagoras(abs(beamStartPoint[i].x - beamEndPoint[i].x)+2, abs(beamStartPoint[i].y - beamEndPoint[i].y)-2), 8};
-    (*textureArray)[7]->render(beamStartPoint[i].x - cx, beamStartPoint[i].y-4 - cy, 0, &scale, gunAngle); // beam squares
+    for(int i2 = 1; i2 < 120; i2 += 2)
+    {
+      drawPoint.x = beamStartPoint[i].x + (i2*8); drawPoint.y = beamStartPoint[i].y;
+      rotatePoint(gunAngle, &drawPoint, beamStartPoint[i]);
+      // if distance between startpoint and endpoint is less than distance between startpoint and drawpoint stop draw
+      if(abs(beamStartPoint[i].x - drawPoint.x) > abs(beamStartPoint[i].x - beamEndPoint[i].x)
+      || abs(beamStartPoint[i].y - drawPoint.y) > abs(beamStartPoint[i].y - beamEndPoint[i].y)) break;
+      (*textureArray)[7]->render(drawPoint.x - cx, drawPoint.y - 4 - cy, 0, NULL, gunAngle); // beam squares
+    }
+  }
+  for(int i= 0; i < beamStartPoint.size(); i++)
+  {
     (*textureArray)[5]->render(beamEndPoint[i].x -15 - cx, beamEndPoint[i].y -15 - cy, 0); // beam end circles
   }
 
