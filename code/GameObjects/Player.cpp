@@ -290,7 +290,6 @@ void Player::update()
 
 void Player::render(int cameraX, int cameraY)
 {
-  fireTheLazer(); // graphics test
   renderTheLazer(cameraX, cameraY);
 
   // placeholder graphics for gun
@@ -674,9 +673,6 @@ void Player::fireTheLazer()
   Point pointless = {0, 0};
   for(int i = 0; i < beamStartPoint.size(); i++) // damage things go here
   {
-    //std::cout << beamStartPoint[i].x << " " << beamStartPoint[i].y << std::endl << beamEndPoint[i].x << " " << beamEndPoint[i].y << std::endl;
-    SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 0, 0, 0xFF);
-    SDL_RenderDrawLine(mDisplay->getRenderer(), beamStartPoint[i].x, beamStartPoint[i].y, beamEndPoint[i].x, beamEndPoint[i].y);
     for(int i2 = 0; i2 < objects->size(); i2++)
     {
       if((*objects)[i2]->getType() == WALKER)
@@ -696,37 +692,25 @@ void Player::fireTheLazer()
 
 void Player::renderTheLazer(int cx, int cy)
 {
-  //if(!lazerIsFiring) return;
+  if(!lazerIsFiring) return;
   Point drawPoint = {0, 0};
-  //for(int i = 0; i < 300; i++)
-  {(*textureArray)[7]->render(x, y, 0);}
-  for(int i = 1; i < beamStartPoint.size(); i += 2) // drawing lazer outlines
+  for(int i = 0; i < beamStartPoint.size(); i++) // drawing lazer outlines
   {
-    for(int i2 = 1; i2 < 120; i2 += 2)
-    {
-      drawPoint.x = beamStartPoint[i].x + (i2*10); drawPoint.y = beamStartPoint[i].y;
-      rotatePoint(gunAngle, &drawPoint, beamStartPoint[i]);
-      // if distance between startpoint and endpoint is less than distance between startpoint and drawpoint stop draw
-      if(abs(beamStartPoint[i].x - drawPoint.x) > abs(beamStartPoint[i].x - beamEndPoint[i].x)
-      || abs(beamStartPoint[i].y - drawPoint.y) > abs(beamStartPoint[i].y - beamEndPoint[i].y)) break;
-      (*textureArray)[8]->render(drawPoint.x - cx, drawPoint.y - 4 - cy, 0, NULL, gunAngle); // beam squares
-    }
+    SDL_Rect scl = {0,0, // strech beam graphic from beam start to beam end
+      pythagoras(abs(beamStartPoint[i].x - beamEndPoint[i].x), abs(beamStartPoint[i].y) - beamEndPoint[i].y) - 13 ,21};
+    SDL_Point center = {-10, 11};
+    (*textureArray)[8]->render(beamStartPoint[i].x + 10 - cx, beamStartPoint[i].y-11-cy, 0, &scl, gunAngle, &center );
   }
   for(int i= 0; i < beamStartPoint.size(); i++)
   {
     (*textureArray)[6]->render(beamEndPoint[i].x -15 - cx, beamEndPoint[i].y -15 - cy, 0); // beam end circles
   }
-  for(int i = 1; i < beamStartPoint.size(); i += 2) // drawing lazer insides
+  for(int i = 0; i < beamStartPoint.size(); i++) // drawing lazer insides
   {
-    for(int i2 = 1; i2 < 120; i2 += 2)
-    {
-      drawPoint.x = beamStartPoint[i].x + (i2*8); drawPoint.y = beamStartPoint[i].y;
-      rotatePoint(gunAngle, &drawPoint, beamStartPoint[i]);
-      // if distance between startpoint and endpoint is less than distance between startpoint and drawpoint stop draw
-      if(abs(beamStartPoint[i].x - drawPoint.x) > abs(beamStartPoint[i].x - beamEndPoint[i].x)
-      || abs(beamStartPoint[i].y - drawPoint.y) > abs(beamStartPoint[i].y - beamEndPoint[i].y)) break;
-      (*textureArray)[7]->render(drawPoint.x - cx, drawPoint.y - 4 - cy, 0, NULL, gunAngle); // beam squares
-    }
+    SDL_Rect scl = {0,0, // strech beam graphic from beam start to beam end
+      pythagoras(abs(beamStartPoint[i].x - beamEndPoint[i].x), abs(beamStartPoint[i].y) - beamEndPoint[i].y) -13 ,17};
+    SDL_Point center = {-12, 9};
+    (*textureArray)[7]->render(beamStartPoint[i].x + 12 - cx, beamStartPoint[i].y - cy- 9, 0, &scl, gunAngle, &center );
   }
   for(int i= 0; i < beamStartPoint.size(); i++)
   {
