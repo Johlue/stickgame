@@ -677,10 +677,12 @@ void Player::fireTheLazer()
     {
       if((*objects)[i2]->getType() == WALKER)
       {
-        Walker * wptr; // TODO
-        //cd = wptr->lineIntersection(0,0,0,0,0,0,0,0); // TODO
-        //wptr = dynamic_cast<Walker*>((*objects)[i2]);
-        //wptr->damaged(dmg);
+        Walker * wptr;
+        wptr = dynamic_cast<Walker*>((*objects)[i2]);
+        cd = wptr->lineIntersection(
+          beamStartPoint[i].x,beamStartPoint[i].y,beamEndPoint[i].x,beamEndPoint[i].y,0,0,0,0);
+        cd.damage = 1;
+        if(cd.intersect) wptr->damaged(cd);
       }
       else if((*objects)[i2]->getType() == TURRET)
       {

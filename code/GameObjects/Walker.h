@@ -35,6 +35,7 @@ public:
   void render(int cameraX, int cameraY);
 
   void damaged(CollisionData cd);
+  CollisionData lineIntersection(double ox1, double oy1, double ox2, double oy2, double nx3, double ny3, double nx4, double ny4);
 
 protected:
   bool fallingCheck(); // check if there's floor underneath, and if not start falling
