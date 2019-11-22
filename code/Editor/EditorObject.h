@@ -8,7 +8,7 @@
 
 enum EO_types
 {
-  EO_NONE, EO_BOUNDARY, EO_WALKER_M, EO_TURRET, EO_SPIKE //add other stuff later
+  EO_NONE, EO_BOUNDARY, EO_WALKER_M, EO_TURRET, EO_SPIKE, EO_PLAYER //add other stuff later
 };
 
 class EditorObject

@@ -157,10 +157,6 @@ void EditorObject::constructStringInfo()
     stringInfo.push_back(new EO_String("F", "face v"));
     stringInfo.push_back(new EO_String("F", "face ->"));
     stringInfo.push_back(new EO_String("F", "face <-"));
-    stringInfo.push_back(new EO_String("777", "lolfake"));
-    stringInfo.push_back(new EO_String("777", "lolfake"));
-    stringInfo.push_back(new EO_String("777", "lolfake"));
-    stringInfo.push_back(new EO_String("777", "lolfake"));
     break;
 
     case EO_WALKER_M:

@@ -98,6 +98,10 @@ void LevelEditState::handleEvents(SDL_Event* e)
       saveLevel("testLevel.txt");
       break;
 
+      case SDLK_l:
+      loadLevel("testLevel.txt");
+      break;
+
     }
     if(editableString != nullptr) // can't put ifs in switch cases
     {
@@ -386,4 +390,60 @@ void LevelEditState::saveLevel(std::string lvlName)
 
 void LevelEditState::loadLevel(std::string lvlName)
 {
+  freeMem();
+  std::string line;
+  std::ifstream levelfile;
+  levelfile.open(lvlName);
+  if(levelfile.is_open())
+  {
+    while(std::getline(levelfile, line))
+    {
+      createObjectFromFile(line);
+    }
+  }
+  else std::cout << "opening level file failed\n";
+  levelfile.close();
+}
+
+bool LevelEditState::createObjectFromFile(std::string sourceString)
+{
+  std::vector<std::string> pieces;
+  pieces = splitString(sourceString, ' ');
+
+  if(pieces[0] == "Boundary")
+  {
+    objects.push_back(new EditorObject(EO_BOUNDARY, 0, 0, mDisplay));
+  }
+  else if(pieces[0] == "Turret")
+  {
+    objects.push_back(new EditorObject(EO_TURRET, 0, 0, mDisplay));
+  }
+  else if(pieces[0] == "Hazard")
+  {
+    objects.push_back(new EditorObject(EO_SPIKE, 0, 0, mDisplay));
+  }
+  else if(pieces[0] == "Walker")
+  {
+    objects.push_back(new EditorObject(EO_WALKER_M, 0, 0, mDisplay));
+  }
+  else if(pieces[0] == "Player")
+  {
+    //objects.push_back(new EditorObject(EO_PLAYER, 0, 0, mDisplay));
+    return false; // for now
+  }
+  else return false;
+
+  if(pieces.size() == objects.back()->getStringVector().size())
+  {
+    for(int i = 0; i < pieces.size(); i++)
+    {
+      std::cout << "old object string: " << objects.back()->getStringVector().at(i)->value << " old pieces string: " << pieces[i] << "\n";
+      objects.back()->getStringVector().at(i)->value = pieces[i];
+      objects.back()->applyChanges();
+      std::cout << "new object string: " << objects.back()->getStringVector().at(i)->value << " new pieces string: " << pieces[i] << "\n";
+    }
+  }
+  else return false;
+
+  return false;
 }
