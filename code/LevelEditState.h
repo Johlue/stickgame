@@ -26,6 +26,9 @@ public:
 
   //tells the GameEngine to change game states
   void changeState(int s);
+
+  void saveLevel(std::string lvlName);
+  void loadLevel(std::string lvlName);
 protected:
   void mouseEvent(SDL_MouseButtonEvent& b);
   void deleteObject(int ix); // deletes object at index ix, and also rearranges the index number in the objects vector

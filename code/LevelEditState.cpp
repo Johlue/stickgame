@@ -94,8 +94,12 @@ void LevelEditState::handleEvents(SDL_Event* e)
       speedMultiplier = 3;
       break;
 
+      case SDLK_s:
+      saveLevel("testLevel.txt");
+      break;
+
     }
-    if(editableString != nullptr) // can't but ifs in switch cases
+    if(editableString != nullptr) // can't put ifs in switch cases
     {
       if(editableString->size() < 7) // too big for ints can't use
       {
@@ -359,4 +363,27 @@ void LevelEditState::deleteObject(int ix)
   {
     objects[i]->setIndex(i);
   }
+}
+
+void LevelEditState::saveLevel(std::string lvlName)
+{
+  if(objects.size() > 0)
+  {
+    std::ofstream levelfile;
+    levelfile.open(lvlName);
+    for(int i = 0; i < objects.size(); i++)
+    {
+      for(int i2 = 0; i2 < objects[i]->getStringVector().size(); i2++)
+      {
+        levelfile << objects[i]->getStringVector().at(i2)->value;
+        levelfile << " ";
+      }
+      levelfile << "\n";
+    }
+    levelfile.close();
+  }
+}
+
+void LevelEditState::loadLevel(std::string lvlName)
+{
 }
