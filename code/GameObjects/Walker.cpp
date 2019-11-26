@@ -13,6 +13,27 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
   type = WALKER;
   gunPoint.x = x + (width/2) + 20;
   gunPoint.y = y + (height/5);
+  if(AI == MELEE)
+  {
+    meleeCooldown = 30;
+    meleeTell = 40;
+    meleeAttack = 30;
+  }
+  else if(AI == MELEE_QUICK){}
+  else if(AI == MELEE_STRONG){}
+  else if(AI == RANGED)
+  {
+    initialShotDelay = 60;
+    betweenShotsDelay = 20;
+    clipSize = 4;
+    reloadSpeed = 60;
+  }
+  else if(AI == RANGED_QUICK){}
+  else if(AI == RANGED_MINIGUN){}
+  else if(AI == RANGED_HYPERBEAM){}
+  initialShotDelay_t = initialShotDelay;
+  reloadSpeed_t = reloadSpeed;
+  shotsRemaining = clipSize;
 }
 Walker::~Walker(){}
 
@@ -112,7 +133,8 @@ void Walker::update()
          break;
 
          case MELEE:
-         if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x)))
+         if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x))
+          && meleeTellRemaining < 1 && meleeAttackRemaning < 1)
          {
            direction = direction * -1; // turn around if player is behind
          } //TODO: some kind of delay me thinks
@@ -403,6 +425,8 @@ void Walker::meleeAttackF()
 
 void Walker::damaged(CollisionData cd)
 {
+  playerDetected = true;
+  playerMemoryRemaining = playerMemory; // getting shot is fairly noticable after all
   int direct = -1;
   hp -= cd.damage;
   if(cd.right) direct = 1;

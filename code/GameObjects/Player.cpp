@@ -290,6 +290,7 @@ void Player::update()
 
 void Player::render(int cameraX, int cameraY)
 {
+  cameraY -= 1; // to get the player level with the ground
   renderTheLazer(cameraX, cameraY);
 
   // placeholder graphics for gun
@@ -343,7 +344,7 @@ bool Player::fallingCheck()
         if(tempPoint.intersect)
         {
           // if there is a collision with the ground set the player on that object
-          y = bptr->getY() - 32;
+          y = bptr->getY() - 32.01;
           return false;
         }
         tempPoint.copy(bptr->lineIntersection(x+16, y + 31, x+16, y + 33,0,0,0,0));

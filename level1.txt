@@ -19,7 +19,7 @@ Boundary 64 160 404 160 T F F F
 // Boundary 64 300 404 300 T F F F
 // Boundary 64 260 404 260 F T F F
 
-Hazard 200 110 50 50 0 64 SPIKE
+rHazard 200 110 50 50 0 64 SPIKE
 
 gTurret 200 150
 aTurret 400 250

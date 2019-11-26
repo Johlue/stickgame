@@ -60,7 +60,7 @@ protected:
   double moveSpeed = 2;
   double combatSpeed = 2;
 
-  int meleeCooldown = 120; // total amount of time until a second melee attack can be unleashed
+  int meleeCooldown = 30; // total amount of time until a second melee attack can be unleashed
   int meleeCooldownRemaining = 0; // time remaining until next attack
   int meleeTell = 60; // amount of time spent posing until actually attacking
   int meleeTellRemaining = 0; // time until end of posing

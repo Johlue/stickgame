@@ -410,6 +410,7 @@ bool LevelEditState::createObjectFromFile(std::string sourceString)
   std::vector<std::string> pieces;
   pieces = splitString(sourceString, ' ');
 
+  // first create a an appropriately tagged object
   if(pieces[0] == "Boundary")
   {
     objects.push_back(new EditorObject(EO_BOUNDARY, 0, 0, mDisplay));
@@ -437,10 +438,8 @@ bool LevelEditState::createObjectFromFile(std::string sourceString)
   {
     for(int i = 0; i < pieces.size(); i++)
     {
-      std::cout << "old object string: " << objects.back()->getStringVector().at(i)->value << " old pieces string: " << pieces[i] << "\n";
       objects.back()->getStringVector().at(i)->value = pieces[i];
       objects.back()->applyChanges();
-      std::cout << "new object string: " << objects.back()->getStringVector().at(i)->value << " new pieces string: " << pieces[i] << "\n";
     }
   }
   else return false;
