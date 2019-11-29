@@ -4,12 +4,12 @@
 // Hazard x y width height angle damage subtype
 // Walker x y combatAI walkAI
 
-Boundary 34 240 434 240 T F F F
+Boundary 34 240 250 240 T F F F
 Boundary 10 310 900 310 T F F F
 
 Boundary 64 200 64 160 F F F T
 Boundary 264 200 264 160 F F F T
-Boundary 164 200 164 160 F F T F
+Boundary 264 260 264 360 F F T F
 Boundary 64 200 404 200 F T F F
 Boundary 404 200 404 160 F F T F
 Boundary 64 160 404 160 T F F F
@@ -27,8 +27,8 @@ klTurret 400 150
 a a a a Turret 500 220
 lTurret 450 221
 
-Walker 160 100 RANGED WAIT
-Walker 160 222 MELEE INSTANTTURN
+Walker 160 100 MELEE WAIT
+Walker 160 222 MELEE_QUICK INSTANTTURN
 
 'Walker 450 100
 dWalker 450 -200

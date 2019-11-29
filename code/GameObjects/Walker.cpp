@@ -111,7 +111,11 @@ void Walker::update()
       }
     }
 
-    if(wallCheck()) direction = direction * (-1);
+    if(wallCheck())
+    {
+      if(playerMemoryRemaining < 540) direction = direction * (-1); // can't see player, turn around
+      else xVel = 0; // can see player, just wait
+    }
 
     if(AIwalk == STANDING) xVel = 0;
 
@@ -133,6 +137,8 @@ void Walker::update()
          break;
 
          case MELEE:
+         case MELEE_QUICK:
+         case MELEE_STRONG:
          if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x))
           && meleeTellRemaining < 1 && meleeAttackRemaning < 1)
          {
@@ -140,7 +146,7 @@ void Walker::update()
          } //TODO: some kind of delay me thinks
 
          //if at melee range do an attack
-         meleeAttackF();
+         meleeAttackSlow();
          break;
 
        }
@@ -158,7 +164,7 @@ void Walker::update()
         break;
 
         case MELEE:
-        if(meleeAttackInitiated) meleeAttackF();
+        if(meleeAttackInitiated) meleeAttackSlow();
         break;
       }
       if(playerDetected)// if player was seen earlier and can't now, start forgetting
@@ -182,7 +188,7 @@ void Walker::update()
     x += xVel * direction;
     gunPoint.x += xVel * direction;
     y += yVel;
-    gunPoint.y += yVel * direction;
+    gunPoint.y += yVel;
 
   }
 }
@@ -391,9 +397,9 @@ void Walker::rangedAIshoot()
   }
 }
 
-void Walker::meleeAttackF()
+void Walker::meleeAttackSlow()
 {
-  if( (abs(((*objects)[playerid]->getX()+8) - (x + (width/2))) < 20 &&
+  if( (abs(((*objects)[playerid]->getX()+8) - (x + (width/2))) < meleeRange && // within melee range
   abs(((*objects)[playerid]->getY()+16) - (y + (height/2))) < 100) || meleeAttackInitiated )
   {
     if(meleeCooldownRemaining <= 0) //do nothing if melee attack is on cooldown
@@ -420,6 +426,29 @@ void Walker::meleeAttackF()
       }
     }
     xVel = 0; //also don't move, at least for the normal melee AI
+  }
+}
+
+void Walker::meleeAttackQuick()
+{
+  if( (abs(((*objects)[playerid]->getX()+8) - (x + (width/2))) < quickMeleeRange && // within jump range
+  abs(((*objects)[playerid]->getY()+16) - (y + (height/2))) < 100) || meleeAttackInitiated )
+  {
+    if(meleeCooldownRemaining <= 0)
+    {
+      if(meleeAttackRemaning == 0)
+      {
+        // start jump
+        yVel -= 1.5;
+        meleeCooldownRemaining = meleeCooldown;
+        meleeAttackRemaning = meleeAttack;
+        int slashXMod;
+        if(direction == -1) slashXMod = -3 - width; // -slashwidth actually
+        else  slashXMod = width + 3;
+        objects->push_back(new Slash(&x, &y, slashXMod, (height/2) - (height/2), width, height, direction, false, objects, mDisplay)); // height/2 - slashHeight/2 actually
+        meleeAttackInitiated = false; // end of melee attack
+      }
+    }
   }
 }
 
