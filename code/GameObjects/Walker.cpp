@@ -19,7 +19,12 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
     meleeTell = 40;
     meleeAttack = 30;
   }
-  else if(AI == MELEE_QUICK){}
+  else if(AI == MELEE_QUICK)
+  {
+    meleeAttack = 15;
+    meleeCooldown = 10;
+    combatSpeed = 3.5;
+  }
   else if(AI == MELEE_STRONG){}
   else if(AI == RANGED)
   {
@@ -80,7 +85,11 @@ void Walker::update()
     if(!falling)
     {
       xVel = moveSpeed;
-      if(playerMemoryRemaining > 0) xVel = combatSpeed;
+      if(playerMemoryRemaining > 0)
+      {
+        xVel = combatSpeed; // move at combat speed if player is in line of sight
+        if(jumping) xVel = jumpSpeed; // jump speed if jumping
+      }
       if(floorBeneath != nullptr)
       {
         if(floorEndCheck())
@@ -137,7 +146,6 @@ void Walker::update()
          break;
 
          case MELEE:
-         case MELEE_QUICK:
          case MELEE_STRONG:
          if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x))
           && meleeTellRemaining < 1 && meleeAttackRemaning < 1)
@@ -147,6 +155,16 @@ void Walker::update()
 
          //if at melee range do an attack
          meleeAttackSlow();
+         break;
+
+         case MELEE_QUICK:
+         if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x))
+          && meleeTellRemaining < 1 && meleeAttackRemaning < 1)
+          {
+            if(!falling) direction = direction * -1; // turn if player behind, while not midair
+          }
+          meleeAttackQuick();
+
          break;
 
        }
@@ -223,6 +241,7 @@ bool Walker::fallingCheck()
             cd = ptr->lineIntersection(x + width, y + height - 1, x + width, y + height,0,0,0,0);
             if(!cd.intersect)
             {
+              jumping = false; // if you're not falling then you're not jumping
               return true; // if neither line intersects with a floor then yes you are falling
             } else floorBeneath = ptr;
           } else floorBeneath = ptr;
@@ -434,20 +453,23 @@ void Walker::meleeAttackQuick()
   if( (abs(((*objects)[playerid]->getX()+8) - (x + (width/2))) < quickMeleeRange && // within jump range
   abs(((*objects)[playerid]->getY()+16) - (y + (height/2))) < 100) || meleeAttackInitiated )
   {
-    if(meleeCooldownRemaining <= 0)
+    if(!jumping)
     {
-      if(meleeAttackRemaning == 0)
-      {
-        // start jump
-        yVel -= 1.5;
-        meleeCooldownRemaining = meleeCooldown;
-        meleeAttackRemaning = meleeAttack;
-        int slashXMod;
-        if(direction == -1) slashXMod = -3 - width; // -slashwidth actually
-        else  slashXMod = width + 3;
-        objects->push_back(new Slash(&x, &y, slashXMod, (height/2) - (height/2), width, height, direction, false, objects, mDisplay)); // height/2 - slashHeight/2 actually
-        meleeAttackInitiated = false; // end of melee attack
-      }
+      // if not jumping and close enough to player start jump
+      jumping = true;
+      falling = true;
+      yVel = -1.3;
+      meleeAttackInitiated = true;
+    }
+    if(jumping &&
+      (abs(((*objects)[playerid]->getX()+8) - (x + (width/2))) < meleeRange &&
+    abs(((*objects)[playerid]->getY()+16) - (y + (height/2))) < 40) && meleeAttackInitiated)
+    {
+      int slashXMod;
+      if(direction == -1) slashXMod = -3 - width; // -slashwidth actually
+      else  slashXMod = width + 3;
+      objects->push_back(new Slash(&x, &y, slashXMod, (height/2) - (height/4), width, height/2, direction, false, objects, mDisplay)); // height/2 - slashHeight/2 actually
+      meleeAttackInitiated = false; // end of melee attack
     }
   }
 }

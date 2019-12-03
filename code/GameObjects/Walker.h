@@ -67,8 +67,11 @@ protected:
   int meleeAttack = 30; // amount of time the melee attack animation lasts for, (afterwards movement is possible again)
   int meleeAttackRemaning = 0;
   bool meleeAttackInitiated = false;
-  int meleeRange = 20; // how close to player to perform melee attack
-  int quickMeleeRange = 20; // how close to player to jump for quick ai
+  int meleeRange = 30; // how close to player to perform melee attack
+
+  int quickMeleeRange = 80; // how close to player to jump for quick ai
+  bool jumping = false;
+  double jumpSpeed = 5;
 
   int initialShotDelay = 60;
   int initialShotDelay_t = 60;
