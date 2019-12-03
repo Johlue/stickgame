@@ -4,6 +4,21 @@
 #include "GameObject.h"
 #include "Bullet.h"
 
+enum TurretAttackAIs{
+  TA_GUN_ACCURATE,
+  TA_GUN_SEMI_SPREAD,
+  TA_GUN_FULL_SPREAD,
+  TA_GUN_DANMAKU,
+  TA_BEYBLADE
+};
+
+enum TurretMovementAIs{
+  TM_STATIONARY,
+  TM_FLIGHT,
+  TM_GROUNDSPIN,
+  TM_NOCLIP
+};
+
 class Turret : public GameObject //this is a round gun thing that tries to spin around to shoot the player
 {
 public:

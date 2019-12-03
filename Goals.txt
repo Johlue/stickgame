@@ -8,12 +8,8 @@ Basic enemies
       various AIs
         attack type (melee or ranged)
           melee:
-            same back and forth walking as normal and same "find the player AI"
-            after the players been found thou they will instead increase in speed and start moving towards the player
-            after the player is within range they will try to hit him with a melee
-            some AI types may also jump
-        walking type (stand still or not)
     flying robot things?
+      make different AI types for turrets 
 UI and interface or whatever they're called (partially done)
 
 turns out you can actually rotate textures in sdl, so that's nice
@@ -57,9 +53,19 @@ animations
   make a counter(s) similar to iframes and sync that up with the current action
 Basic enemies
   Turrets
-  Walkers
-    can move and see player
-    basic ranged ai is existing (they can shoot)
+    walking dudes
+      walkers can walk and fall
+        some kind of attack (ranged guys shoot now)
+        a way to detect the player (done-ish)
+        various AIs
+          attack type (melee or ranged)
+            melee:
+              same back and forth walking as normal and same "find the player AI"
+              after the players been found thou they will instead increase in speed and start moving towards the player
+              after the player is within range they will try to hit him with a melee
+              some AI types may also jump
+          walking type (stand still or not)
+      flying robot things?
 Fixed boundary collisions sometimes not registering due to double inaccuracy
 jumping and gravity
 Player attack

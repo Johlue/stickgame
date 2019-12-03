@@ -59,6 +59,7 @@ protected:
   int AIwalk = WAIT; // movement ai (sort of)
   double moveSpeed = 2;
   double combatSpeed = 2;
+  int damage = 8;
 
   int meleeCooldown = 30; // total amount of time until a second melee attack can be unleashed
   int meleeCooldownRemaining = 0; // time remaining until next attack
