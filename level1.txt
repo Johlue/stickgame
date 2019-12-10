@@ -23,7 +23,7 @@ rHazard 200 110 50 50 0 64 SPIKE
 
 gTurret 200 150
 aTurret 400 250
-klTurret 400 150
+Turret 400 150
 a a a a Turret 500 220
 lTurret 450 221
 

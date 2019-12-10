@@ -14,6 +14,8 @@
 #include "MenuButton.h"
 #include "GameEngine.h"
 #include "Writer.h"
+#include <stdlib.h>
+#include <time.h>
 
 
 
@@ -54,7 +56,7 @@ bool init()
 
 int main( int argc, char* args[] )
 {
-
+	std::srand(time(NULL));
 	bool initSuccess = true;
 	//Start up SDL and create window
 	initSuccess = init();

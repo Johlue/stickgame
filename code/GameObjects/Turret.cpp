@@ -8,6 +8,24 @@ Turret::Turret(int xl, int yl, Display* display, std::vector<GameObject*>* obj)
   x = xl;
   y = yl;
 
+  switch(combatAI)
+  {
+    case TA_GUN_ACCURATE:
+    break;
+    case TA_GUN_SEMI_SPREAD:
+    shootingAngle = 8;
+    shotFrequency = 15;
+    break;
+    case TA_GUN_FULL_SPREAD:
+    shootingAngle = 8;
+    shotFrequency = 60;
+    break;
+    case TA_GUN_DANMAKU:
+    shootingAngle = 30;
+    shotFrequency = 1;
+    break;
+  }
+
   cooldown = shotFrequency;
 
   cannonTopLeft.x = x - 4;
@@ -75,7 +93,7 @@ void Turret::update()
   {
     CollisionData cd;
     double distanceToPlayer = sqrt(pow(x - (*objects)[playerid]->getX(), 2) + pow(y - (*objects)[playerid]->getY(), 2));
-    if(distanceToPlayer > 500) return; // stop doing things if player is too far
+    if(distanceToPlayer > detectionRange) return; // stop doing things if player is too far
     bool lineofsight = true;
     for(int i2 = 0; i2 < objects->size(); i2++)
     {
@@ -107,17 +125,59 @@ void Turret::update()
       }
       else rotate(zerodPangle);
 
-      if(zerodPangle < rotationspeed*2 && zerodPangle > rotationspeed*-2 && cooldown < 1 && lineofsight)
+      if(zerodPangle < shootingAngle && zerodPangle > -shootingAngle && cooldown < 1 && lineofsight)
       // might change the 4s to rotation speed or something like that later
       {
-        cooldown = shotFrequency;
-        //shoot
-        Vector2D bulletVector((angle-90 ) * (3.14159265359/180), bulletSpeed);
-        objects->push_back(new Bullet(x, y, bulletVector, mDisplay, objects, false, 10, 2));
+        shoot();
       }
     }
   }
 }
+
+void Turret::shoot()
+{
+  cooldown = shotFrequency;
+  int randomInt;
+  int randomInt2;
+  //shoot
+  switch(combatAI)
+  {
+    case TA_GUN_ACCURATE:
+    {
+    Vector2D bulletVector((angle-90) * (3.14159265359/180), bulletSpeed);
+    objects->push_back(new Bullet(x, y, bulletVector, mDisplay, objects, false, 10, 2));
+    }
+    break;
+
+    case TA_GUN_SEMI_SPREAD:
+    {
+    randomInt = rand() % 11 - 5;
+    Vector2D bulletVector((angle-90+randomInt ) * (3.14159265359/180), bulletSpeed);
+    objects->push_back(new Bullet(x, y, bulletVector, mDisplay, objects, false, 10, 2));
+    }
+    break;
+
+    case TA_GUN_FULL_SPREAD:
+    {
+      for(int i = 0; i < 14; i++)
+      {
+        randomInt = rand() % 31 - 15;
+        randomInt2 = rand() % 3 - 1;
+        Vector2D bulletVector((angle-90+randomInt) * (3.14159265359/180), bulletSpeed + randomInt2);
+        objects->push_back(new Bullet(x, y, bulletVector, mDisplay, objects, false, 10, 2));
+      }
+    }
+    break;
+
+    case TA_GUN_DANMAKU:
+    {
+      Vector2D bulletVector((angle-90+rand()) * (3.14159265359/180), bulletSpeed + randomInt2);
+      objects->push_back(new Bullet(x, y, bulletVector, mDisplay, objects, false, 10, 2));
+    }
+    break;
+  }
+}
+
 void Turret::render(int cameraX, int cameraY)
 {
   SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
