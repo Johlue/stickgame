@@ -51,6 +51,9 @@ protected:
   bool gravity = false; // is it affected by gravity
   //maybe some other parameters of the bullet in question
 
+  int hp;
+  int radius = 10; // how big it is, used for hitbox purposes
+
   int combatAI = TA_GUN_SEMI_SPREAD;
   int movementAI = TM_STATIONARY;
 };
