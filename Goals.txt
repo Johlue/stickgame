@@ -9,6 +9,7 @@ Basic enemies
         attack type (melee or ranged)
           melee:
     flying robot things?
+      make them killable (some of them anyway) visual indicator for unkillable ones
       make different AI types for turrets
         accurate: the current AI shoots at an equal fire rate straight at the player
         semi-spread: shoots faster, but is less accurate, some randomness in aiming
@@ -26,6 +27,7 @@ turns out you can actually rotate textures in sdl, so that's nice
 player attack
   gigalazer
     probs animate it somehow
+    also make it destroy bullets
   gun mode and sword mode separately?
     change between modes by pressing the associated attack button
   Melee attack exists

@@ -8,7 +8,6 @@ enum TurretAttackAIs{
   TA_GUN_ACCURATE,
   TA_GUN_SEMI_SPREAD,
   TA_GUN_FULL_SPREAD,
-  TA_GUN_DANMAKU,
   TA_BEYBLADE
 };
 
@@ -25,7 +24,7 @@ public:
 
     Turret();
     // x location, y location, width, heigth, pointer to display
-    Turret(int xl, int yl, Display* display, std::vector<GameObject*>* obj);
+    Turret(int xl, int yl, int cAI, int mAI, Display* display, std::vector<GameObject*>* obj);
     ~Turret();
 
     void handleEvent(SDL_Event* e);
@@ -52,7 +51,7 @@ protected:
   bool gravity = false; // is it affected by gravity
   //maybe some other parameters of the bullet in question
 
-  int combatAI = TA_GUN_DANMAKU;
+  int combatAI = TA_GUN_SEMI_SPREAD;
   int movementAI = TM_STATIONARY;
 };
 

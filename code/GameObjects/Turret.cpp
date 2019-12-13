@@ -1,12 +1,15 @@
 #include "Turret.h"
 
 Turret::Turret(){type = TURRET;}
-Turret::Turret(int xl, int yl, Display* display, std::vector<GameObject*>* obj)
+Turret::Turret(int xl, int yl, int cAI, int mAI, Display* display, std::vector<GameObject*>* obj)
 {
   objects = obj;
   type = TURRET;
   x = xl;
   y = yl;
+
+  combatAI = cAI;
+  movementAI = mAI;
 
   switch(combatAI)
   {
@@ -19,10 +22,6 @@ Turret::Turret(int xl, int yl, Display* display, std::vector<GameObject*>* obj)
     case TA_GUN_FULL_SPREAD:
     shootingAngle = 8;
     shotFrequency = 60;
-    break;
-    case TA_GUN_DANMAKU:
-    shootingAngle = 30;
-    shotFrequency = 1;
     break;
   }
 
@@ -166,13 +165,6 @@ void Turret::shoot()
         Vector2D bulletVector((angle-90+randomInt) * (3.14159265359/180), bulletSpeed + randomInt2);
         objects->push_back(new Bullet(x, y, bulletVector, mDisplay, objects, false, 10, 2));
       }
-    }
-    break;
-
-    case TA_GUN_DANMAKU:
-    {
-      Vector2D bulletVector((angle-90+rand()) * (3.14159265359/180), bulletSpeed + randomInt2);
-      objects->push_back(new Bullet(x, y, bulletVector, mDisplay, objects, false, 10, 2));
     }
     break;
   }

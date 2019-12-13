@@ -221,9 +221,21 @@ void PlayState::loadLevel(int id)
 
 void PlayState::turretLoad(std::vector<std::string> bl)
 {
-  int bx, by;
+  int bx, by, cai, mai;
   bx = std::stoi(bl[1]); by = std::stoi(bl[2]);
-  objects.push_back(new Turret(bx, by, mDisplay, &objects));
+  if(bl[3] == "T_SLOW") cai = TA_GUN_ACCURATE;
+  else if(bl[3] == "T_FAST") cai = TA_GUN_SEMI_SPREAD;
+  else if(bl[3] == "T_SPREAD") cai = TA_GUN_FULL_SPREAD;
+  else if(bl[3] == "T_BLADE") cai = TA_BEYBLADE;
+  else cai = 0;
+
+  if(bl[4] == "T_STATIC") mai = TM_STATIONARY;
+  else if(bl[4] == "T_FLIGHT") mai = TM_FLIGHT;
+  else if(bl[4] == "T_GROUND") mai = TM_GROUNDSPIN;
+  else if(bl[4] == "T_NOCLIP") mai = TM_NOCLIP;
+  else mai = 0;
+
+  objects.push_back(new Turret(bx, by, cai, mai, mDisplay, &objects));
 }
 
 void PlayState::hazardLoad(std::vector<std::string> bl)
