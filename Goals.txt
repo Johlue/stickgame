@@ -14,7 +14,6 @@ Basic enemies
         accurate: the current AI shoots at an equal fire rate straight at the player
         semi-spread: shoots faster, but is less accurate, some randomness in aiming
         full spread: basically a shotgun shoots a lot of bullets at once and at varying angles and speeds
-        danmaku: shoots fuckloads of bullets in every direction
         ITS BEYBLADE!: spinny blades that tries to charge at you
 
         stationary: floats in place
