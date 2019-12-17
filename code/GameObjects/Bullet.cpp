@@ -74,6 +74,25 @@ void Bullet::update()
         alive = false;
       }
     }
+    else if(playerBullet && (*objects)[i]->getType() == TURRET)
+    {
+      CollisionData cd;
+      Turret * ptr;
+      ptr = dynamic_cast<Turret*>((*objects)[i]);
+      if(x >= ptr->getX() - ptr->getRadius() && x <= ptr->getX() + ptr->getRadius()
+        && y >= ptr->getY() - ptr->getRadius() && y <= ptr->getY() + ptr->getRadius())
+        {
+          cd.damage = damage;
+          cd.knockback = knockback;
+          cd.iframes = iframes;
+          if(movement.x > 0) {cd.right = true; cd.left = false;}
+          else {cd.left = true; cd.right = false;}
+
+          ptr->damaged(cd);
+
+          alive = false;
+        }
+    }
     else if((*objects)[i]->getType() == PLAYER && !playerBullet) // hitting a player with an enemy bullet
     {
       CollisionData cd;

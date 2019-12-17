@@ -76,15 +76,14 @@ void Slash::update()
         }
         if((*objects)[i]->getType() == TURRET)
         {
-          /*Turret * bptr;
+          Turret * bptr;
           bptr = dynamic_cast<Turret*>((*objects)[i]);
-          if(!(bptr->getX() > x + width || x > bptr->getX() + bptr->getWidth())
-          && !(bptr->getY() > y + height || y > bptr->getY() + bptr->getHeight()))
+          if(!(bptr->getX() - bptr->getRadius() > x + width || x > bptr->getX() + bptr->getRadius())
+          && !(bptr->getY() - bptr->getRadius() > y + height || y > bptr->getY() + bptr->getRadius()))
           {
             bptr->damaged(cd);
             damageDealt = true;
           }
-          // temporarily in comments since turrets don't have health mechanics yet TODO*/
         }
       }
       // if its not the players then damage the player

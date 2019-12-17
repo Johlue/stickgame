@@ -687,7 +687,12 @@ void Player::fireTheLazer()
       }
       else if((*objects)[i2]->getType() == TURRET)
       {
-        // TODO turrets don't have damage mechanics yet
+        Turret * wptr;
+        wptr = dynamic_cast<Turret*>((*objects)[i2]);
+        cd = wptr->lineIntersection(
+          beamStartPoint[i].x,beamStartPoint[i].y,beamEndPoint[i].x,beamEndPoint[i].y,0,0,0,0);
+        cd.damage = 1;
+        if(cd.intersect) wptr->damaged(cd);
       }
     }
   }

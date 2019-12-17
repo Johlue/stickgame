@@ -68,6 +68,8 @@ void Turret::rotate(double angl)
 void Turret::handleEvent(SDL_Event* e){}
 void Turret::update()
 {
+  if(hp <= 0) alive = false;
+
   while(angle > 360){angle -= 360;}
   while (angle <= 0){angle += 360;}
   cooldown -= 1;
@@ -170,6 +172,16 @@ void Turret::shoot()
   }
 }
 
+void Turret::damaged(CollisionData cd)
+{
+  int direct = -1;
+  hp -= cd.damage;
+  if(cd.right) direct = 1;
+  //knockedBack(direct, 1);
+}
+
+int Turret::getRadius(){return radius;}
+
 void Turret::render(int cameraX, int cameraY)
 {
   SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
@@ -183,4 +195,74 @@ void Turret::render(int cameraX, int cameraY)
     // ACTUALLY, I could just use the line rotation thingy from the hazard triangle for this
 }
 
-CollisionData Turret::lineIntersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4){}
+CollisionData Turret::lineIntersection(double ox1, double oy1, double ox2, double oy2, double nx3, double ny3, double nx4, double ny4)
+{
+  double x3, y3; //first point of checkable line
+  double x4, y4; //second point of checkable line
+
+  double xr = -9999;
+  double yr = -9999;
+
+  CollisionData result{xr, yr};
+  result.intersect = false;
+
+  // check for each line in rectangle shape
+  for(int i = 0; i < 4; i++)
+  {
+    // run collision for each of the lines in the objects
+    if(i == 0) // left
+    {
+      x3 = x-radius;
+      y3 = y-radius;
+      x4 = x-radius;
+      y4 = y+radius;
+    }
+    else if(i == 1) // top
+    {
+      x3 = x-radius;
+      y3 = y-radius;
+      x4 = x+radius;
+      y4 = y-radius;
+    }
+    else if(i == 2) // bottom
+    {
+      x3 = x+radius;
+      y3 = y+radius;
+      x4 = x-radius;
+      y4 = y+radius;
+    }
+    else if(i == 3) // right
+    {
+      x3 = x+radius;
+      y3 = y-radius;
+      x4 = x+radius;
+      y4 = y+radius;
+    }
+    double divider = ((ox1-ox2)*(y3-y4))-((oy1-oy2)*(x3-x4));
+    if(divider != 0)
+    {
+      xr = ( ((ox1*oy2)-(oy1*ox2)) * (x3-x4) -( (ox1-ox2) * ((x3*y4) - (y3*x4)) ) )/divider;
+      yr = ( ((ox1*oy2)-(oy1*ox2)) * (y3-y4) -( (oy1-oy2) * ((x3*y4) - (y3*x4)) ) )/divider;
+    }
+
+    result.x = xr;
+    result.y = yr;
+
+    double pow1 = pow((ox1 - ox2), 2.0);
+    double pow2 = pow((oy1 - oy2), 2.0);
+    double originDistance = sqrt(pow1 + pow2);
+
+    pow1 = pow((ox1 - xr), 2.0);
+    pow2 = pow((oy1 - yr), 2.0);
+    double intersectionDistance = sqrt(pow1 + pow2);
+    if(
+      // intersection point is inside the origin line
+      (((ox1 >= xr && ox2 <= xr) || (ox2 >= xr && ox1 <= xr)) && ((oy1 >= yr && oy2 <= yr) || (oy2 >= yr && oy1 <= yr)))
+      &&
+      // intersection point is inside current triangle line
+      //MIGHT BE BROKEN
+      (((x3 >= xr && x4 <= xr) || (x4 >= xr && x3 <= xr)) && ((y3 >= yr && y4 <= yr) || (y4 >= yr && y3 <= yr)))
+      ) result.intersect = true;
+  }
+  return result;
+}
