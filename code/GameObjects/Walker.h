@@ -32,7 +32,7 @@ public:
 
   void handleEvent(SDL_Event* e);
   void update();
-  void render(int cameraX, int cameraY);
+  bool render(int cameraX, int cameraY, int priority);
 
   void damaged(CollisionData cd);
   CollisionData lineIntersection(double ox1, double oy1, double ox2, double oy2, double nx3, double ny3, double nx4, double ny4);

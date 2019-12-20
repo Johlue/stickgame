@@ -18,7 +18,7 @@ public:
 
   void handleEvent(SDL_Event* e);
   void update();
-  void render(int cameraX, int cameraY);
+  bool render(int cameraX, int cameraY, int priority);
 
   double getX();
   double getY();

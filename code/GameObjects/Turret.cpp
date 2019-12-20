@@ -182,7 +182,7 @@ void Turret::damaged(CollisionData cd)
 
 int Turret::getRadius(){return radius;}
 
-void Turret::render(int cameraX, int cameraY)
+bool Turret::render(int cameraX, int cameraY, int priority)
 {
   SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
   drawCircle(mDisplay->getRenderer(), x - cameraX, y - cameraY, 10);
@@ -193,6 +193,7 @@ void Turret::render(int cameraX, int cameraY)
   // rotating cannon pipe thing
     //or do the classic: draw 8 lines next to each other version
     // ACTUALLY, I could just use the line rotation thingy from the hazard triangle for this
+  return true;
 }
 
 CollisionData Turret::lineIntersection(double ox1, double oy1, double ox2, double oy2, double nx3, double ny3, double nx4, double ny4)

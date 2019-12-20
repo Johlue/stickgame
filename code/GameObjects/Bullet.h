@@ -15,7 +15,7 @@ public:
 
   virtual void handleEvent(SDL_Event* e);
   virtual void update();
-  virtual void render(int cameraX, int cameraY);
+  virtual bool render(int cameraX, int cameraY, int priority);
 
   // also other collision is handled by it
   virtual CollisionData lineIntersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4);

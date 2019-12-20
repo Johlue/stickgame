@@ -24,10 +24,20 @@ Boundary::~Boundary(){}
 
 void Boundary::update(){}
 void Boundary::handleEvent(SDL_Event* e){}
-void Boundary::render(int cameraX, int cameraY)
+bool Boundary::render(int cameraX, int cameraY, int priority)
 {
-  SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
-  SDL_RenderDrawLine(mDisplay->getRenderer(), x - cameraX, y - cameraY, x2 - cameraX, y2 - cameraY);
+  int i = 3 - priority;
+  SDL_SetRenderDrawColor(mDisplay->getRenderer(), (i*70), (i*70), (i*70), SDL_ALPHA_OPAQUE);
+  if(facingUp)
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x - cameraX, y+i - cameraY, x2 - cameraX, y2+i - cameraY);
+  else if(facingDown)
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x - cameraX, y-i - cameraY, x2 - cameraX, y2-i - cameraY);
+  else if(facingRight)
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x-i - cameraX, y - cameraY, x2-i - cameraX, y2 - cameraY);
+  else if(facingLeft)
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x+i - cameraX, y - cameraY, x2+i - cameraX, y2 - cameraY);
+  if(priority >= 3) return true;
+  return false;
 }
 
 bool Boundary::getUp(){return facingUp;}

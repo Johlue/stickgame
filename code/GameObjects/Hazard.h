@@ -27,7 +27,7 @@ public:
 
   virtual void handleEvent(SDL_Event* e);
   virtual void update();
-  virtual void render(int cameraX, int cameraY);
+  virtual bool render(int cameraX, int cameraY, int priority);
 
   //rotate the entire hazard
   void rotate(double Angle);

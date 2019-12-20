@@ -25,7 +25,7 @@ Hazard::~Hazard(){}
 
 void Hazard::handleEvent(SDL_Event* e){}
 void Hazard::update(){}
-void Hazard::render(int cameraX, int cameraY)
+bool Hazard::render(int cameraX, int cameraY, int priority)
 {
   switch(hazardType)
   {
@@ -38,6 +38,7 @@ void Hazard::render(int cameraX, int cameraY)
     //do stuff
     break;
   }
+  return true;
 }
 
 void Hazard::rotate(double angle)

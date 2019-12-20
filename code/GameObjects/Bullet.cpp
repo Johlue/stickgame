@@ -113,11 +113,12 @@ void Bullet::update()
     }
   }
 }
-void Bullet::render(int cameraX, int cameraY)
+bool Bullet::render(int cameraX, int cameraY, int priority)
 {
   SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
   drawCircle(mDisplay->getRenderer(), x - cameraX, y - cameraY, 3);
   // black sphere maybe with white inside
+  return true;
 }
 
 CollisionData Bullet::lineIntersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4){}

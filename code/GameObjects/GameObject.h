@@ -37,7 +37,7 @@ public:
 
   virtual void handleEvent(SDL_Event* e);
   virtual void update();
-  virtual void render(int cameraX, int cameraY);
+  virtual bool render(int cameraX, int cameraY, int priority);
 
   double getX();
   double getY();

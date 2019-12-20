@@ -288,7 +288,7 @@ void Player::update()
 
 }
 
-void Player::render(int cameraX, int cameraY)
+bool Player::render(int cameraX, int cameraY, int priority)
 {
   cameraY -= 1; // to get the player level with the ground
   renderTheLazer(cameraX, cameraY);
@@ -326,6 +326,7 @@ void Player::render(int cameraX, int cameraY)
   {
     mAnimations[STAND]->setTransparency(255, 1);
   }
+  return true;
 }
 
 bool Player::fallingCheck()

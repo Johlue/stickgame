@@ -29,7 +29,7 @@ public:
 
     void handleEvent(SDL_Event* e);
     void update();
-    void render(int cameraX, int cameraY);
+    bool render(int cameraX, int cameraY, int priority);
     void move(double x, double y);
     void shoot();
     void rotate(double angl);

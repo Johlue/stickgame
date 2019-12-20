@@ -114,11 +114,18 @@ void PlayState::update()
 
 void PlayState::render()
 {
-  for(int i = 0; i < objects.size(); i++)
+  std::vector<bool> processed; // records if the drawing for the current object is complete or not
+  for(int i3 = 0; i3 < objects.size(); i3++){processed.push_back(false);}
+
+  for(int i2 = 0; i2 < 9; i2++)
   {
-    objects[i]->render(cameraX, cameraY);
-    //std::cout << "render";
+    for(int i = 0; i < objects.size(); i++)
+    {
+      if(processed[i] == false) processed[i] = objects[i]->render(cameraX, cameraY, i2);
+      //std::cout << "render";
+    }
   }
+  processed.clear();
   ui.render();
 }
 

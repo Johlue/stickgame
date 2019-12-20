@@ -6,7 +6,7 @@ GameObject::~GameObject(){}
 
 void GameObject::handleEvent(SDL_Event* e){}
 void GameObject::update(){}
-void GameObject::render(int cameraX, int cameraY){}
+bool GameObject::render(int cameraX, int cameraY, int priority){}
 
 bool GameObject::isOnScreen()
 {

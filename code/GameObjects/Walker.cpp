@@ -219,7 +219,7 @@ void Walker::update()
 
   }
 }
-void Walker::render(int cameraX, int cameraY)
+bool Walker::render(int cameraX, int cameraY, int priority)
 {
   SDL_Rect rect2 = { x - cameraX, y - cameraY, width, height};
   SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0, 255, 0, 0xFF );
@@ -229,6 +229,7 @@ void Walker::render(int cameraX, int cameraY)
   SDL_Rect rect3 = {gunPoint.x - cameraX, gunPoint.y - cameraY, 3, 3};
   SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 0, 0, 0xFF);
   SDL_RenderFillRect(mDisplay->getRenderer(), &rect3);
+  return true;
 }
 
 bool Walker::fallingCheck()
