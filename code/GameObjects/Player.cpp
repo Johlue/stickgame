@@ -290,43 +290,47 @@ void Player::update()
 
 bool Player::render(int cameraX, int cameraY, int priority)
 {
-  cameraY -= 1; // to get the player level with the ground
-  renderTheLazer(cameraX, cameraY);
+  if(priority >= 8)
+  {
+    cameraY -= 1; // to get the player level with the ground
+    renderTheLazer(cameraX, cameraY);
 
-  // placeholder graphics for gun
-  SDL_Rect rect = {x + gunPoint.x - cameraX, y + gunPoint.y - cameraY, 2, 2};
-  SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 102, 102, 0);
-  SDL_RenderFillRect(mDisplay->getRenderer(), &rect);
+    // placeholder graphics for gun
+    SDL_Rect rect = {x + gunPoint.x - cameraX, y + gunPoint.y - cameraY, 2, 2};
+    SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 102, 102, 0);
+    SDL_RenderFillRect(mDisplay->getRenderer(), &rect);
 
-  if(iframes > 0)
-  {
-    mAnimations[STAND]->setTransparency(63, 1);
-  }
+    if(iframes > 0)
+    {
+      mAnimations[STAND]->setTransparency(63, 1);
+    }
 
-  if(xVel < 1 && yVel > -1 && xVel > -1 && yVel < 1)
-  {
-    mAnimations[STAND]->render(x, y, cameraX, cameraY);
-    mAnimations[STAND]->update();
-    mAnimations[WALK]->reset();
-  }
-  else
-  {
-    mAnimations[WALK]->render(x, y, cameraX, cameraY);
-    mAnimations[WALK]->update();
-  }
+    if(xVel < 1 && yVel > -1 && xVel > -1 && yVel < 1)
+    {
+      mAnimations[STAND]->render(x, y, cameraX, cameraY);
+      mAnimations[STAND]->update();
+      mAnimations[WALK]->reset();
+    }
+    else
+    {
+      mAnimations[WALK]->render(x, y, cameraX, cameraY);
+      mAnimations[WALK]->update();
+    }
 
-// collision test rectangle, mouse based
-  if(renderPoint.intersect)
-  {
-    SDL_Rect rect2 = { renderPoint.x-3 - cameraX, renderPoint.y-3 - cameraY, 7, 7};
-    SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0, 0, 255, 0xFF );
-    SDL_RenderFillRect(mDisplay->getRenderer(), &rect2);
+  // collision test rectangle, mouse based
+    if(renderPoint.intersect)
+    {
+      SDL_Rect rect2 = { renderPoint.x-3 - cameraX, renderPoint.y-3 - cameraY, 7, 7};
+      SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0, 0, 255, 0xFF );
+      SDL_RenderFillRect(mDisplay->getRenderer(), &rect2);
+    }
+    if(iframes > 0)
+    {
+      mAnimations[STAND]->setTransparency(255, 1);
+    }
+    return true;
   }
-  if(iframes > 0)
-  {
-    mAnimations[STAND]->setTransparency(255, 1);
-  }
-  return true;
+  return false;
 }
 
 bool Player::fallingCheck()
