@@ -5,10 +5,10 @@ OBJS = main.cpp code\testFile.cpp code\GameState.cpp code\ImageTexture.cpp code\
 CC = g++
 
 #INCLUDE_PATHS specifies the additional include paths we'll need
-INCLUDE_PATHS = -IF:\CPP\Tutorials\StickGame\code -IF:\mingw_dev_lib\include\SDL2 -IF:\CPP\Tutorials\StickGame\code\GameObjects -IF:\CPP\Tutorials\StickGame\code\Editor
+INCLUDE_PATHS = -IC:\CPP\Tutorials\StickGame\code -IC:\mingw_dev_lib\include\SDL2 -IC:\CPP\Tutorials\StickGame\code\GameObjects -IC:\CPP\Tutorials\StickGame\code\Editor
 
 #LIBRARY_PATHS specifies the additional library paths we'll need
-LIBRARY_PATHS = -LF:\mingw_dev_lib\lib
+LIBRARY_PATHS = -LC:\mingw_dev_lib\lib
 
 #COMPILER_FLAGS specifies the additional compilation options we're using
 # -w suppresses all warnings
