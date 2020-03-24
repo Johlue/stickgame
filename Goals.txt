@@ -3,8 +3,7 @@ Basic enemies
   walking dudes
     walkers can walk and fall
     things left to do:
-      some kind of attack (ranged guys shoot now)
-      a way to detect the player (done-ish)
+      knockback / flinching
       various AIs
         attack type (melee or ranged)
           melee:
@@ -17,7 +16,7 @@ Basic enemies
         ITS BEYBLADE!: spinny blades that tries to charge at you
 
         stationary: floats in place
-        flight: flies around, doesn't go through walls
+        flight: flies around, doesn't go through walls - donzo
         groundspin: moves across the ground in the players direction
         noclip: flies thru walls and follows player forever
 UI and interface or whatever they're called (partially done)

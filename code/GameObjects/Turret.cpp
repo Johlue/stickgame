@@ -42,16 +42,36 @@ Turret::~Turret(){}
 
 void Turret::move(double xo, double yo)
 {
-  x += xo;
-  y += yo;
-  cannonTopLeft.x += xo;
-  cannonTopLeft.y += yo;
-  cannonTopRight.x += xo;
-  cannonTopRight.y += yo;
-  cannonBottomLeft.x += xo;
-  cannonBottomLeft.y += yo;
-  cannonBottomRight.x += xo;
-  cannonBottomRight.y += yo;
+  if(movementAI == TM_NOCLIP)
+  {
+    x += xo;
+    y += yo;
+    cannonTopLeft.x += xo;
+    cannonTopLeft.y += yo;
+    cannonTopRight.x += xo;
+    cannonTopRight.y += yo;
+    cannonBottomLeft.x += xo;
+    cannonBottomLeft.y += yo;
+    cannonBottomRight.x += xo;
+    cannonBottomRight.y += yo;
+    return;
+  }
+  if(!collisionCheck(xo, 0))
+  {
+    x += xo;
+    cannonTopLeft.x += xo;
+    cannonTopRight.x += xo;
+    cannonBottomLeft.x += xo;
+    cannonBottomRight.x += xo;
+  }
+  if(!collisionCheck(0, yo))
+  {
+    y += yo;
+    cannonTopLeft.y += yo;
+    cannonTopRight.y += yo;
+    cannonBottomLeft.y += yo;
+    cannonBottomRight.y += yo;
+  }
 }
 
 void Turret::rotate(double angl)
@@ -95,6 +115,7 @@ void Turret::update()
     CollisionData cd;
     double distanceToPlayer = sqrt(pow(x - (*objects)[playerid]->getX(), 2) + pow(y - (*objects)[playerid]->getY(), 2));
     if(distanceToPlayer > detectionRange) return; // stop doing things if player is too far
+    if(movementAI == TM_NOCLIP) turretMove(); // no need to check for line of sight while noclipping
     bool lineofsight = true;
     for(int i2 = 0; i2 < objects->size(); i2++)
     {
@@ -130,6 +151,81 @@ void Turret::update()
       // might change the 4s to rotation speed or something like that later
       {
         shoot();
+      }
+
+      if(movementAI != TM_NOCLIP) turretMove(); // move after checking los, unless TM_NOCLIP since that one is done earlier
+
+    }
+  }
+}
+
+void Turret::turretMove()
+{
+  switch(movementAI)
+  {
+    case TM_STATIONARY:
+    break;
+
+    case TM_FLIGHT:
+    // flies but not through walls
+    {
+      Vector2D moveVector((angle-90) * (3.14159265359/180), moveSpeed);
+      move(moveVector.x, moveVector.y);
+    }
+    break;
+
+    case TM_NOCLIP:
+    // flies and also goes through walls
+    break;
+
+    case TM_GROUNDSPIN:
+    // moves across the ground, is affected by gravity, and can't move unless in contact with the floor
+    break;
+
+  }
+}
+
+bool Turret::collisionCheck(double xm, double ym)
+{
+  if(moveSpeed == 0) return false;
+  CollisionData cd;
+  for(int i = 0; i < objects->size(); i++)
+  {
+    Boundary* ptr;
+    if((*objects)[i]->getType() == BOUNDARY)
+    {
+      ptr = dynamic_cast<Boundary*>((*objects)[i]);
+      if(xm > 0.0)
+      {
+        if(ptr->getLeft())
+        {
+          cd = ptr->lineIntersection(x + radius, y, x + radius + xm, y,0,0,0,0);
+          if(cd.intersect) return true;
+        }
+      }
+      else if(xm < 0.0)
+      {
+        if(ptr->getRight())
+        {
+          cd = ptr->lineIntersection(x - radius, y, x - radius + xm, y,0,0,0,0);
+          if(cd.intersect) return true;
+        }
+      }
+      if(ym > 0.0)
+      {
+        if(ptr->getUp())
+        {
+          cd = ptr->lineIntersection(x, y + radius, x, y + radius + ym,0,0,0,0);
+          if(cd.intersect) return true;
+        }
+      }
+      else if(ym < 0.0)
+      {
+        if(ptr->getDown())
+        {
+          cd = ptr->lineIntersection(x, y - radius, x, y - radius + ym,0,0,0,0);
+          if(cd.intersect) return true;
+        }
       }
     }
   }
