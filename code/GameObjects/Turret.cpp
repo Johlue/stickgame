@@ -42,36 +42,16 @@ Turret::~Turret(){}
 
 void Turret::move(double xo, double yo)
 {
-  if(movementAI == TM_NOCLIP)
-  {
-    x += xo;
-    y += yo;
-    cannonTopLeft.x += xo;
-    cannonTopLeft.y += yo;
-    cannonTopRight.x += xo;
-    cannonTopRight.y += yo;
-    cannonBottomLeft.x += xo;
-    cannonBottomLeft.y += yo;
-    cannonBottomRight.x += xo;
-    cannonBottomRight.y += yo;
-    return;
-  }
-  if(!collisionCheck(xo, 0))
-  {
-    x += xo;
-    cannonTopLeft.x += xo;
-    cannonTopRight.x += xo;
-    cannonBottomLeft.x += xo;
-    cannonBottomRight.x += xo;
-  }
-  if(!collisionCheck(0, yo))
-  {
-    y += yo;
-    cannonTopLeft.y += yo;
-    cannonTopRight.y += yo;
-    cannonBottomLeft.y += yo;
-    cannonBottomRight.y += yo;
-  }
+  x += xo;
+  y += yo;
+  cannonTopLeft.x += xo;
+  cannonTopLeft.y += yo;
+  cannonTopRight.x += xo;
+  cannonTopRight.y += yo;
+  cannonBottomLeft.x += xo;
+  cannonBottomLeft.y += yo;
+  cannonBottomRight.x += xo;
+  cannonBottomRight.y += yo;
 }
 
 void Turret::rotate(double angl)
@@ -135,6 +115,7 @@ void Turret::update()
       double angleToPlayer = atan2( x-((*objects)[playerid]->getX() +8) , ((*objects)[playerid]->getY()+16)-y);
       //radians
       angleToPlayer = angleToPlayer * (180.0/3.14159265359) + 180; // degrees
+      std::cout << angleToPlayer << "aiming" <<"\n";
 
       double zerodPangle = angleToPlayer - angle;
 
@@ -170,12 +151,26 @@ void Turret::turretMove()
     // flies but not through walls
     {
       Vector2D moveVector((angle-90) * (3.14159265359/180), moveSpeed);
-      move(moveVector.x, moveVector.y);
+      bool cx, cy;
+      cx = collisionCheck(moveVector.x, 0);
+      cy = collisionCheck(0, moveVector.y);
+      if(!cx && !cy) move(moveVector.x, moveVector.y);
+      else if(!cx && cy) move(moveVector.x, 0);
+      else if(cx && !cy) move(0, moveVector.y);
     }
     break;
 
     case TM_NOCLIP:
-    // flies and also goes through walls
+    // flies and also goes through wall
+    {
+      double angleToPlayer = atan2( x-((*objects)[playerid]->getX() +8) , ((*objects)[playerid]->getY()+16)-y);
+      //radians
+      angleToPlayer = angleToPlayer * (180.0/3.14159265359) + 180; // degrees
+      Vector2D moveVector(x, y, ((*objects)[playerid]->getX()+8), ((*objects)[playerid]->getY()+16), moveSpeed);
+      std::cout << angleToPlayer << "movement" <<"\n";
+      move(moveVector.x, moveVector.y);
+      std::cout << "x: " << x << " y: " << y << "\n";
+    }
     break;
 
     case TM_GROUNDSPIN:

@@ -19,6 +19,7 @@ Basic enemies
         flight: flies around, doesn't go through walls - donzo
         groundspin: moves across the ground in the players direction
         noclip: flies thru walls and follows player forever
+          is horribly broken pls fix, also fix vector2d while at it
 UI and interface or whatever they're called (partially done)
 
 turns out you can actually rotate textures in sdl, so that's nice
