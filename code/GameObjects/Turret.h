@@ -31,7 +31,7 @@ public:
     void update();
     bool render(int cameraX, int cameraY, int priority);
     void move(double xm, double ym);
-    void turretMove();
+    void turretMove(double distanceToPlayer);
     void shoot();
     void rotate(double angl);
     void damaged(CollisionData cd);
@@ -59,6 +59,7 @@ protected:
   double moveSpeed = 2;
   int hp = 60;
   int radius = 10; // how big it is, used for hitbox purposes
+  int distanceFromPlayer = 90; // in case of a moving turret, this is the distance it will keep from the player
 
   int combatAI = TA_GUN_SEMI_SPREAD;
   int movementAI = TM_STATIONARY;

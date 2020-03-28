@@ -95,7 +95,7 @@ void Turret::update()
     CollisionData cd;
     double distanceToPlayer = sqrt(pow(x - (*objects)[playerid]->getX(), 2) + pow(y - (*objects)[playerid]->getY(), 2));
     if(distanceToPlayer > detectionRange) return; // stop doing things if player is too far
-    if(movementAI == TM_NOCLIP) turretMove(); // no need to check for line of sight while noclipping
+    if(movementAI == TM_NOCLIP) turretMove(distanceToPlayer); // no need to check for line of sight while noclipping
     bool lineofsight = true;
     for(int i2 = 0; i2 < objects->size(); i2++)
     {
@@ -115,7 +115,6 @@ void Turret::update()
       double angleToPlayer = atan2( x-((*objects)[playerid]->getX() +8) , ((*objects)[playerid]->getY()+16)-y);
       //radians
       angleToPlayer = angleToPlayer * (180.0/3.14159265359) + 180; // degrees
-      std::cout << angleToPlayer << "aiming" <<"\n";
 
       double zerodPangle = angleToPlayer - angle;
 
@@ -134,13 +133,13 @@ void Turret::update()
         shoot();
       }
 
-      if(movementAI != TM_NOCLIP) turretMove(); // move after checking los, unless TM_NOCLIP since that one is done earlier
+      if(movementAI != TM_NOCLIP) turretMove(distanceToPlayer); // move after checking los, unless TM_NOCLIP since that one is done earlier
 
     }
   }
 }
 
-void Turret::turretMove()
+void Turret::turretMove(double distanceToPlayer)
 {
   switch(movementAI)
   {
@@ -152,11 +151,14 @@ void Turret::turretMove()
     {
       Vector2D moveVector((angle-90) * (3.14159265359/180), moveSpeed);
       bool cx, cy;
-      cx = collisionCheck(moveVector.x, 0);
-      cy = collisionCheck(0, moveVector.y);
-      if(!cx && !cy) move(moveVector.x, moveVector.y);
-      else if(!cx && cy) move(moveVector.x, 0);
-      else if(cx && !cy) move(0, moveVector.y);
+      if(distanceToPlayer > distanceFromPlayer)
+      {
+        cx = collisionCheck(moveVector.x, 0);
+        cy = collisionCheck(0, moveVector.y);
+        if(!cx && !cy) move(moveVector.x, moveVector.y);
+        else if(!cx && cy) move(moveVector.x, 0);
+        else if(cx && !cy) move(0, moveVector.y);
+      }
     }
     break;
 
@@ -167,9 +169,9 @@ void Turret::turretMove()
       //radians
       angleToPlayer = angleToPlayer * (180.0/3.14159265359) + 180; // degrees
       Vector2D moveVector(x, y, ((*objects)[playerid]->getX()+8), ((*objects)[playerid]->getY()+16), moveSpeed);
-      std::cout << angleToPlayer << "movement" <<"\n";
-      move(moveVector.x, moveVector.y);
-      std::cout << "x: " << x << " y: " << y << "\n";
+      if(distanceToPlayer > distanceFromPlayer) move(moveVector.x, moveVector.y);
+      else if(distanceToPlayer > distanceFromPlayer - 2);
+      else move(-moveVector.x, -moveVector.y);
     }
     break;
 
