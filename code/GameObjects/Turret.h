@@ -31,7 +31,7 @@ public:
     void update();
     bool render(int cameraX, int cameraY, int priority);
     void move(double xm, double ym);
-    void turretMove(double distanceToPlayer);
+    void turretMove(double distanceToPlayer, bool los);
     void shoot();
     void rotate(double angl);
     void damaged(CollisionData cd);
@@ -53,7 +53,11 @@ protected:
   int bulletKnockback = 3;
   int playerid = 9999999;
   int detectionRange = 500; // how far can it see
-  bool gravity = false; // is it affected by gravity
+  double velocity = 0; // current speed of groundspinner
+  double maxVelocity = 7; // max speed of groundspinner
+  double fallVelocity = 0; // current speed of falling
+  double maxFallVelocity = 10; // max speed of falling
+  bool falling = true;
   //maybe some other parameters of the bullet in question
 
   double moveSpeed = 2;

@@ -95,7 +95,7 @@ void Turret::update()
     CollisionData cd;
     double distanceToPlayer = sqrt(pow(x - (*objects)[playerid]->getX(), 2) + pow(y - (*objects)[playerid]->getY(), 2));
     if(distanceToPlayer > detectionRange) return; // stop doing things if player is too far
-    if(movementAI == TM_NOCLIP) turretMove(distanceToPlayer); // no need to check for line of sight while noclipping
+
     bool lineofsight = true;
     for(int i2 = 0; i2 < objects->size(); i2++)
     {
@@ -109,6 +109,8 @@ void Turret::update()
         }
       }
     }
+
+    turretMove(distanceToPlayer, lineofsight); // prelos movement
 
     if(lineofsight) //if player is visible shoot and or rotate turret
     {
@@ -132,22 +134,21 @@ void Turret::update()
       {
         shoot();
       }
-
-      if(movementAI != TM_NOCLIP) turretMove(distanceToPlayer); // move after checking los, unless TM_NOCLIP since that one is done earlier
-
     }
   }
 }
 
-void Turret::turretMove(double distanceToPlayer)
+void Turret::turretMove(double distanceToPlayer, bool los)
 {
   switch(movementAI)
   {
     case TM_STATIONARY:
+    // does not move at all
     break;
 
     case TM_FLIGHT:
     // flies but not through walls
+    if(los)
     {
       Vector2D moveVector((angle-90) * (3.14159265359/180), moveSpeed);
       bool cx, cy;
@@ -177,6 +178,51 @@ void Turret::turretMove(double distanceToPlayer)
 
     case TM_GROUNDSPIN:
     // moves across the ground, is affected by gravity, and can't move unless in contact with the floor
+    if(!collisionCheck(0, -1))
+    {
+      falling = true;
+    }
+    if(falling)
+    {
+      fallVelocity += .06;
+    }
+
+    Vector2D moveVector(x, y, x+velocity, y+fallVelocity);
+    bool cx, cy;
+    cx = collisionCheck(moveVector.x, 0);
+    cy = collisionCheck(0, moveVector.y);
+
+    if(cx) // if colliding with surface reverse direction and decrease speed
+    {
+      velocity = (-velocity * 0.6);
+      if(velocity > -0.1 && velocity < 0.1) velocity = 0;
+    }
+    if(cy)
+    {
+      fallVelocity = (-fallVelocity * 0.6);
+      if(fallVelocity > -0.1 && fallVelocity < 0.1) fallVelocity = 0;
+    }
+    else falling = true;
+
+    if(fallVelocity == 0) falling = false;
+
+    if(!los) // if player isn't seen slow down
+    {
+      if(velocity < -0.1) velocity += 0.05;
+      else if(velocity > 0.1) velocity -= 0.05;
+      else velocity = 0;
+    }
+    else if(!falling || cy) // while in contact with the ground accelerate towards the player
+    {
+      if(((*objects)[playerid]->getX()+8) > x) velocity += 0.1;
+      else if(((*objects)[playerid]->getX()+8) < x) velocity -= 0.1;
+    }
+
+    // no going faster than allowed
+    if(velocity > maxVelocity) velocity = maxVelocity;
+    if(fallVelocity > maxFallVelocity) fallVelocity = maxFallVelocity;
+
+    move(velocity, fallVelocity);
     break;
 
   }
