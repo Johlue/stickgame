@@ -92,6 +92,8 @@ void Turret::update()
 
   if(playerid != 9999999) //don't do things if playerid is not valid
   {
+    if(combatAI == TA_BEYBLADE) shoot();
+
     CollisionData cd;
     double distanceToPlayer = sqrt(pow(x - (*objects)[playerid]->getX(), 2) + pow(y - (*objects)[playerid]->getY(), 2));
     if(distanceToPlayer > detectionRange) return; // stop doing things if player is too far
@@ -132,7 +134,7 @@ void Turret::update()
       if(zerodPangle < shootingAngle && zerodPangle > -shootingAngle && cooldown < 1 && lineofsight)
       // might change the 4s to rotation speed or something like that later
       {
-        shoot();
+        if(combatAI != TA_BEYBLADE) shoot();
       }
     }
   }
@@ -306,6 +308,22 @@ void Turret::shoot()
         Vector2D bulletVector((angle-90+randomInt) * (3.14159265359/180), bulletSpeed + randomInt2);
         objects->push_back(new Bullet(x, y, bulletVector, mDisplay, objects, false, 10, 2));
       }
+    }
+    break;
+
+    case TA_BEYBLADE:
+    {
+      bool hit = false;
+      CollisionData cd;
+      double pcx = (*objects)[playerid]->getX();
+      double pcy = (*objects)[playerid]->getY();
+      //intersection check between blade center to player center
+      cd = (*objects)[playerid]->lineIntersection(x, y, pcx + 8, pcy + 16,1,1,1,1);
+      // if in los and distance to player is less than blade radius
+      if(cd.intersect && sqrt(pow(x - (*objects)[playerid]->getX() + 8, 2) + pow(y - (*objects)[playerid]->getY() + 16, 2)) < bladeRadius) hit = true;
+      //is center of circle in square
+      if(x >= pcx && x <= pcx + 16 && y >= pcy && y <= pcy+32) hit = true;
+      if(hit) std::cout << "x";
     }
     break;
   }
