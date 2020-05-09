@@ -114,7 +114,7 @@ void Turret::update()
 
     turretMove(distanceToPlayer, lineofsight); // prelos movement
 
-    if(lineofsight) //if player is visible shoot and or rotate turret
+    if(lineofsight && combatAI != TA_BEYBLADE) //if player is visible shoot and or rotate turret
     {
       double angleToPlayer = atan2( x-((*objects)[playerid]->getX() +8) , ((*objects)[playerid]->getY()+16)-y);
       //radians
@@ -134,7 +134,7 @@ void Turret::update()
       if(zerodPangle < shootingAngle && zerodPangle > -shootingAngle && cooldown < 1 && lineofsight)
       // might change the 4s to rotation speed or something like that later
       {
-        if(combatAI != TA_BEYBLADE) shoot();
+        shoot();
       }
     }
   }
@@ -320,10 +320,11 @@ void Turret::shoot()
       //intersection check between blade center to player center
       cd = (*objects)[playerid]->lineIntersection(x, y, pcx + 8, pcy + 16,1,1,1,1);
       // if in los and distance to player is less than blade radius
-      if(cd.intersect && sqrt(pow(x - (*objects)[playerid]->getX() + 8, 2) + pow(y - (*objects)[playerid]->getY() + 16, 2)) < bladeRadius) hit = true;
+      if(cd.intersect && sqrt(pow(x - ((*objects)[playerid]->getX() + 8), 2) + pow(y - ((*objects)[playerid]->getY() + 16), 2)) < bladeRadius) hit = true;
+      std::cout << cd.intersect << " " << sqrt(pow(x - ((*objects)[playerid]->getX() + 8), 2) + pow(y - ((*objects)[playerid]->getY() + 16), 2)) << " " << bladeRadius << "\n";
       //is center of circle in square
       if(x >= pcx && x <= pcx + 16 && y >= pcy && y <= pcy+32) hit = true;
-      if(hit) std::cout << "x";
+      if(hit) std::cout << "x"; // TODO: actual damage
     }
     break;
   }
@@ -342,10 +343,18 @@ int Turret::getRadius(){return radius;}
 bool Turret::render(int cameraX, int cameraY, int priority)
 {
   SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
-  drawCircle(mDisplay->getRenderer(), x - cameraX, y - cameraY, 10);
-  SDL_RenderDrawLine(mDisplay->getRenderer(), cannonBottomLeft.x - cameraX, cannonBottomLeft.y - cameraY, cannonTopLeft.x - cameraX, cannonTopLeft.y - cameraY);
-  SDL_RenderDrawLine(mDisplay->getRenderer(), cannonTopRight.x - cameraX, cannonTopRight.y - cameraY, cannonTopLeft.x - cameraX, cannonTopLeft.y - cameraY);
-  SDL_RenderDrawLine(mDisplay->getRenderer(), cannonTopRight.x - cameraX, cannonTopRight.y - cameraY, cannonBottomRight.x - cameraX, cannonBottomRight.y - cameraY);
+  drawCircle(mDisplay->getRenderer(), x - cameraX, y - cameraY, radius);
+  if(combatAI != TA_BEYBLADE)
+  {
+    SDL_RenderDrawLine(mDisplay->getRenderer(), cannonBottomLeft.x - cameraX, cannonBottomLeft.y - cameraY, cannonTopLeft.x - cameraX, cannonTopLeft.y - cameraY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), cannonTopRight.x - cameraX, cannonTopRight.y - cameraY, cannonTopLeft.x - cameraX, cannonTopLeft.y - cameraY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), cannonTopRight.x - cameraX, cannonTopRight.y - cameraY, cannonBottomRight.x - cameraX, cannonBottomRight.y - cameraY);
+  }
+  else
+  {
+    SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 0, 0, SDL_ALPHA_OPAQUE);
+    drawCircle(mDisplay->getRenderer(), x - cameraX, y - cameraY, bladeRadius);
+  }
   //draw a ball at x, y
   // rotating cannon pipe thing
     //or do the classic: draw 8 lines next to each other version

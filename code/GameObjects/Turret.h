@@ -51,7 +51,7 @@ protected:
   int bulletDamage = 20;
   int bulletSpeed = 5;
   int bulletKnockback = 3;
-  double bladeRadius = 18;
+  double bladeRadius = 38;
   int bladeDamage;
   int playerid = 9999999;
   int detectionRange = 500; // how far can it see
