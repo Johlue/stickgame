@@ -609,6 +609,7 @@ void Player::knockedBack(int direction, int force)
   knockback = true;
   xVel = force * direction;
   yVel = -1 - (force * .3);
+  if(force < 0) yVel = -1 - (-force * .3);
   y -= 2;
   falling = true;
 }

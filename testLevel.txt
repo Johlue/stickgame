@@ -1,0 +1,4 @@
+Walker 24 208 MELEE WAIT 
+Hazard 314 251 50 50 0 50 SPIKE 
+Boundary 207 104 207 392 F F F F 
+Boundary 38 152 379 152 F F F F 

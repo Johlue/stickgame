@@ -31,6 +31,7 @@ void ObjectMenu::setTextureArray(std::vector<ImageTexture*>* tA)
 
 bool ObjectMenu::mouseEvent(SDL_MouseButtonEvent& b)
 {
+  std::cout << *createObject << std::endl;
   bool clicked = false;
   //Get mouse position
   int mx, my;
@@ -51,26 +52,43 @@ bool ObjectMenu::mouseEvent(SDL_MouseButtonEvent& b)
       if(mState == CLOSED || mState == ENEMIES) mState = OBJECTS; // change state to objects when button is clicked
       else if(mState == OBJECTS) mState = CLOSED;
     }
-    if(mState == OBJECTS) // if objects is open, on click choose clicked object from list as creatable
+
+    if(mState != CLOSED &&
+      !(mx < x || mx > x + mWidth || my < y + 100 || my > y + (squareHeight * 4) + 100)
+    ) // picking objects from the menu
     {
-      if(  !(mx < x ||  mx > x + squareWidth || my < y + 100 || my > y + 100 + squareHeight))
+      int createObjectId = 0;                       // objects menu starts at 0
+      if(mState == ENEMIES) createObjectId += 1000; // enemies menu starts at 1000
+
+      createObjectId += (mx - x)/squareWidth;
+      createObjectId += ((my - (y+100))/squareHeight)*4;
+
+      if((createObjectId >= 0 && createObjectId <= 1) || (createObjectId >= 1000 && createObjectId <= 1001)) // this needs to be regularily updated
+      *createObject = createObjectId;
+      clicked = true;
+
+/**
+      if(mState == OBJECTS) // if objects is open, on click choose clicked object from list as creatable
       {
-        *createObject = EO_BOUNDARY;
-        clicked = true;
+        if(  !(mx < x ||  mx > x + squareWidth || my < y + 100 || my > y + 100 + squareHeight))
+        {
+          *createObject = EO_BOUNDARY;
+          clicked = true;
+        }
+        else if(  !(mx < x + squareWidth ||  mx > x + squareWidth*2 || my < y + 100 || my > y + 100 + squareHeight))
+        {
+          *createObject = EO_SPIKE;
+          clicked = true;
+        }
       }
-      else if(  !(mx < x + squareWidth ||  mx > x + squareWidth*2 || my < y + 100 || my > y + 100 + squareHeight))
+      else if (mState == ENEMIES) // if enemies is open, -||-
       {
-        *createObject = EO_SPIKE;
-        clicked = true;
-      }
-    }
-    else if (mState == ENEMIES) // if enemies is open, -||-
-    {
-      if(  !(mx < x ||  mx > x + squareWidth || my < y + 100 || my > y + 100 + squareHeight))
-      {
-        *createObject = EO_WALKER_M;
-        clicked = true;
-      }
+        if(  !(mx < x ||  mx > x + squareWidth || my < y + 100 || my > y + 100 + squareHeight))
+        {
+          *createObject = EO_WALKER_M;
+          clicked = true;
+        }
+      }**/
     }
   }
   else if(b.button == SDL_BUTTON_RIGHT)

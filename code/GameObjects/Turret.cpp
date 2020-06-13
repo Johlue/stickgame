@@ -321,10 +321,20 @@ void Turret::shoot()
       cd = (*objects)[playerid]->lineIntersection(x, y, pcx + 8, pcy + 16,1,1,1,1);
       // if in los and distance to player is less than blade radius
       if(cd.intersect && sqrt(pow(x - ((*objects)[playerid]->getX() + 8), 2) + pow(y - ((*objects)[playerid]->getY() + 16), 2)) < bladeRadius) hit = true;
-      std::cout << cd.intersect << " " << sqrt(pow(x - ((*objects)[playerid]->getX() + 8), 2) + pow(y - ((*objects)[playerid]->getY() + 16), 2)) << " " << bladeRadius << "\n";
+      //std::cout << cd.intersect << " " << sqrt(pow(x - ((*objects)[playerid]->getX() + 8), 2) + pow(y - ((*objects)[playerid]->getY() + 16), 2)) << " " << bladeRadius << "\n";
       //is center of circle in square
       if(x >= pcx && x <= pcx + 16 && y >= pcy && y <= pcy+32) hit = true;
-      if(hit) std::cout << "x"; // TODO: actual damage
+      if(hit)
+      {
+        Player * ptr;
+        ptr = dynamic_cast<Player*>((*objects)[playerid]);
+
+        cd.damage = bladeDamage;
+        cd.knockback = bladeKnockback;
+        if(pcx > x) cd.knockback = -bladeKnockback;
+        cd.iframes = 120;
+        ptr->damaged(cd);
+      }
     }
     break;
   }

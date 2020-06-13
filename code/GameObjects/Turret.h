@@ -52,7 +52,8 @@ protected:
   int bulletSpeed = 5;
   int bulletKnockback = 3;
   double bladeRadius = 38;
-  int bladeDamage;
+  int bladeDamage = 40;
+  int bladeKnockback = 4;
   int playerid = 9999999;
   int detectionRange = 500; // how far can it see
   double velocity = 0; // current speed of groundspinner

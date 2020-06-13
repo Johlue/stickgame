@@ -33,6 +33,7 @@ player attack
     combos?
 level loading, like from a file (it's done for now, but will need updating in the future)
 Level Editor, I feel like it
+  Actually adding various objects to the objects list
   maybe shapes of boundary objects
   Loading and Saving
 
