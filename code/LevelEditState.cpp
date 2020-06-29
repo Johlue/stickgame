@@ -240,7 +240,7 @@ void LevelEditState::render()
   }
   menu.render(); // object choosing menu
 
-  if(currentEditorObject != nullptr) // for drawing the editing menu
+  if(currentEditorObject != nullptr) // for drawing the object editing menu
   {
     int yMod = 0;
     int EOProws = 0;
@@ -331,19 +331,29 @@ void LevelEditState::mouseEvent(SDL_MouseButtonEvent& b)
     if(createObject != EO_NONE) // if creating an object
     {
       //add new object to list according to the createObject thingy
-      if(createObject == EO_BOUNDARY)
+      if(createObject == EO_BOUNDARY || createObject == EO_BOX) // for two click creatables
       {
         if(bx == -9999999 || by == -9999999)
         {
           bx = mx + cameraX; by = my + cameraY;
         }
-        else
+        else if(createObject == EO_BOUNDARY)
         {
           if(abs(bx - (mx + cameraX)) > abs(by - (my + cameraY))) my = by - cameraY;
           else mx = bx - cameraX;
-          objects.push_back(new EditorObject(createObject, mx + cameraX, my + cameraY, mDisplay));
+          createBoundary( mx + cameraX, my + cameraY, bx, by);
+          /**
           objects[objects.size() - 1]->setIndex(objects.size() - 1); // set index of new object
-          objects[objects.size() - 1]->setX2Y2(bx, by);
+          objects[objects.size() - 1]->setX2Y2(bx, by);*/
+          bx = -9999999; by = -9999999;
+        }
+        else if(createObject == EO_BOX)
+        {
+          createBoundary(mx + cameraX, my + cameraY, bx, my + cameraY);
+          createBoundary(mx + cameraX, my + cameraY, mx + cameraX, by);
+          createBoundary(bx, my + cameraY, bx, by);
+          createBoundary(mx + cameraX, by, bx, by);
+
           bx = -9999999; by = -9999999;
         }
       }
@@ -354,8 +364,14 @@ void LevelEditState::mouseEvent(SDL_MouseButtonEvent& b)
         bx = -9999999; by = -9999999;
       }
     }
-
   }
+}
+
+void LevelEditState::createBoundary(int x, int y, int x2, int y2)
+{
+  objects.push_back(new EditorObject(EO_BOUNDARY, x, y, mDisplay));
+  objects[objects.size() - 1]->setIndex(objects.size() - 1);
+  objects[objects.size() - 1]->setX2Y2(x2, y2);
 }
 
 void LevelEditState::deleteObject(int ix)

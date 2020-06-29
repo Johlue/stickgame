@@ -98,10 +98,36 @@ bool EditorObject::handleEvents(SDL_Event * e, int cameraX, int cameraY)
 
 void EditorObject::render(int camX, int camY)
 {
-  if(type == EO_BOUNDARY)
+  if(type == EO_BOUNDARY) // 5 = up | 6 = down | 7 = -> | 8 = <-
   {
     SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, 0xFF);
     SDL_RenderDrawLine(mDisplay->getRenderer(), x - camX, y - camY, x2 - camX, y2 - camY);
+    // draw an arrow towards the direction that is inpassable at the middle of the boundary
+    // repeated 4 times cause I'm lazy
+    if(stringInfo[5]->value == "T")
+    {
+      SDL_RenderDrawLine(mDisplay->getRenderer(), x + (abs(x - x2)/2) - camX, y - camY, x + (abs(x - x2)/2) - camX, y - 20 - camY);
+      SDL_RenderDrawLine(mDisplay->getRenderer(), x + (abs(x - x2)/2) - camX, y - camY, x + (abs(x - x2)/2) + 5 - camX, y - 5 - camY);
+      SDL_RenderDrawLine(mDisplay->getRenderer(), x + (abs(x - x2)/2) - camX, y - camY, x + (abs(x - x2)/2) - 5 - camX, y - 5 - camY);
+    }
+    if(stringInfo[6]->value == "T")
+    {
+      SDL_RenderDrawLine(mDisplay->getRenderer(), x + (abs(x - x2)/2) - camX, y - camY, x + (abs(x - x2)/2) - camX, y + 20 - camY);
+      SDL_RenderDrawLine(mDisplay->getRenderer(), x + (abs(x - x2)/2) - camX, y - camY, x + (abs(x - x2)/2) + 5 - camX, y + 5 - camY);
+      SDL_RenderDrawLine(mDisplay->getRenderer(), x + (abs(x - x2)/2) - camX, y - camY, x + (abs(x - x2)/2) - 5 - camX, y + 5 - camY);
+    }
+    if(stringInfo[7]->value == "T")
+    {
+      SDL_RenderDrawLine(mDisplay->getRenderer(), x - camX, y + (abs(y - y2)/2) - camY, x + 20 - camX, y + (abs(y - y2)/2) - camY);
+      SDL_RenderDrawLine(mDisplay->getRenderer(), x - camX, y + (abs(y - y2)/2) - camY, x + 5 - camX, y + (abs(y - y2)/2) + 5 - camY);
+      SDL_RenderDrawLine(mDisplay->getRenderer(), x - camX, y + (abs(y - y2)/2) - camY, x + 5 - camX, y + (abs(y - y2)/2) - 5 - camY);
+    }
+    if(stringInfo[8]->value == "T")
+    {
+      SDL_RenderDrawLine(mDisplay->getRenderer(), x - camX, y + (abs(y - y2)/2) - camY, x - 20 - camX, y + (abs(y - y2)/2) - camY);
+      SDL_RenderDrawLine(mDisplay->getRenderer(), x - camX, y + (abs(y - y2)/2) - camY, x - 5 - camX, y + (abs(y - y2)/2) + 5 - camY);
+      SDL_RenderDrawLine(mDisplay->getRenderer(), x - camX, y + (abs(y - y2)/2) - camY, x - 5 - camX, y + (abs(y - y2)/2) - 5 - camY);
+    }
   }
   else
   {
@@ -176,6 +202,8 @@ void EditorObject::constructStringInfo()
 
     case EO_TURRET:
     stringInfo[0]->value = "Turret";
+    stringInfo.push_back(new EO_String("T_SLOW", "t_atk"));
+    stringInfo.push_back(new EO_String("T_STATIC", "t_move"));
     break;
 
   }

@@ -99,5 +99,19 @@ std::vector<std::string> menuOptions(std::string type)
   {
     tms.push_back("SPIKE");
   }
+  else if(type == "t_atk")
+  {
+    tms.push_back("T_SLOW");
+    tms.push_back("T_FAST");
+    tms.push_back("T_SPREAD");
+    tms.push_back("T_BLADE");
+  }
+  else if(type == "t_move")
+  {
+    tms.push_back("T_STATIC");
+    tms.push_back("T_FLIGHT");
+    tms.push_back("T_GROUND");
+    tms.push_back("T_NOCLIP");
+  }
   return tms;
 }

@@ -6,6 +6,7 @@
 // Turret x y combatAI moveAI
 
 Boundary 34 240 250 240 T F F F
+Boundary 34 240 250 240 F T F F
 Boundary 10 310 900 310 T F F F
 
 Boundary 64 200 64 160 F F F T

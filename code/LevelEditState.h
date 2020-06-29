@@ -34,6 +34,7 @@ protected:
   void deleteObject(int ix); // deletes object at index ix, and also rearranges the index number in the objects vector
   // gets a string of parameters and creates an object based on them, returns true if creation succeeded
   bool createObjectFromFile(std::string sourceString);
+  void createBoundary(int x, int y, int x2, int y2);
 
   std::vector<EditorObject*> objects; // change this to a new object later for ease of texturing
   EditorObject* currentEditorObject = nullptr; // pointer to currently editable object

@@ -54,7 +54,7 @@ bool ObjectMenu::mouseEvent(SDL_MouseButtonEvent& b)
     }
 
     if(mState != CLOSED &&
-      !(mx < x || mx > x + mWidth || my < y + 100 || my > y + (squareHeight * 4) + 100)
+      !(mx < x || mx > x + mWidth || my < y + 100 || my > y + (squareHeight * 3) + 100)  // this is the area of the object grid
     ) // picking objects from the menu
     {
       int createObjectId = 0;                       // objects menu starts at 0
@@ -63,7 +63,7 @@ bool ObjectMenu::mouseEvent(SDL_MouseButtonEvent& b)
       createObjectId += (mx - x)/squareWidth;
       createObjectId += ((my - (y+100))/squareHeight)*4;
 
-      if((createObjectId >= 0 && createObjectId <= 1) || (createObjectId >= 1000 && createObjectId <= 1001)) // this needs to be regularily updated
+      if((createObjectId >= 0 && createObjectId <= 2) || (createObjectId >= 1000 && createObjectId <= 1001)) // this needs to be regularily updated
       *createObject = createObjectId;
       clicked = true;
 
