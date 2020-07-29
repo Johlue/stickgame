@@ -6,6 +6,11 @@
 #include "EditorObject.h"
 #include "ObjectMenu.h"
 
+enum mouseModes
+{
+  MOUSE_EDIT, MOUSE_DRAG, MOUSE_CREATE
+};
+
 class LevelEditState : public GameState
 {
 public:
@@ -30,7 +35,7 @@ public:
   void saveLevel(std::string lvlName);
   void loadLevel(std::string lvlName);
 protected:
-  void mouseEvent(SDL_MouseButtonEvent& b);
+  //void mouseEvent(SDL_MouseButtonEvent& b);
   void deleteObject(int ix); // deletes object at index ix, and also rearranges the index number in the objects vector
   // gets a string of parameters and creates an object based on them, returns true if creation succeeded
   bool createObjectFromFile(std::string sourceString);
@@ -47,6 +52,7 @@ protected:
   int cameraX = 0; int cameraY = 0;
   bool clicked = false; // used to prevent double actions (picking from menu and creating object at the same time)
   int currentFrame = 0;
+  int clickMode = MOUSE_EDIT; // this the choice of clicking. Drag, edit, create, etc.
   std::string * editableString = nullptr;
 };
 

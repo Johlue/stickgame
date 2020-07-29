@@ -37,7 +37,29 @@ void LevelEditState::freeMem()
 
 void LevelEditState::handleEvents(SDL_Event* e)
 {
+
   if(currentEditorObject == nullptr) editableString = nullptr; // no editing strings while not editing objects
+
+  // mouse stuff
+  if(e->type == SDL_MOUSEBUTTONUP)
+  {
+    if(menu.handleEvents(e))
+    {
+      clickMode = MOUSE_CREATE;
+
+    }
+    // if no menu clickings happened
+    else
+    {
+      if(clickMode == MOUSE_EDIT)
+      {
+
+      }
+    }
+  }
+
+  /*
+
 
   clicked = false;
 
@@ -65,7 +87,9 @@ void LevelEditState::handleEvents(SDL_Event* e)
       }
     }
   }
-  if(!clicked) clicked = menu.handleEvents(e);
+  if(!clicked) clicked = menu.handleEvents(e);*/
+
+  // camera movement controls
   if(e->type == SDL_KEYDOWN)
   {
     switch(e->key.keysym.sym)
@@ -101,8 +125,9 @@ void LevelEditState::handleEvents(SDL_Event* e)
       case SDLK_l:
       loadLevel("testLevel.txt");
       break;
-
     }
+
+    // object editor thingy
     if(editableString != nullptr) // can't put ifs in switch cases
     {
       if(editableString->size() < 7) // too big for ints can't use
@@ -161,6 +186,44 @@ void LevelEditState::handleEvents(SDL_Event* e)
       currentEditorObject = nullptr;
       break;
 
+      case SDLK_q:
+      currentEditorObject = nullptr;
+      createObject = EO_NONE;
+      if(clickMode == MOUSE_EDIT)
+      {
+        clickMode = MOUSE_CREATE;
+        std::cout << "MOUSE_CREATE" << std::endl;
+        break;
+      }
+      if(clickMode == MOUSE_CREATE)
+      {
+        clickMode = MOUSE_DRAG;
+        std::cout << "MOUSE_DRAG" << std::endl;
+        break;
+      }
+      clickMode = MOUSE_EDIT;
+      std::cout << "MOUSE_EDIT" << std::endl;
+      break;
+
+      case SDLK_e:
+      currentEditorObject = nullptr;
+      createObject = EO_NONE;
+      if(clickMode == MOUSE_EDIT)
+      {
+        clickMode = MOUSE_DRAG;
+        std::cout << "MOUSE_DRAG" << std::endl;
+        break;
+      }
+      if(clickMode == MOUSE_CREATE)
+      {
+        clickMode = MOUSE_EDIT;
+        std::cout << "MOUSE_EDIT" << std::endl;
+        break;
+      }
+      clickMode = MOUSE_CREATE;
+      std::cout << "MOUSE_CREATE" << std::endl;
+      break;
+
       case SDLK_d: // dump some info to the console
       std::cout << "x: " << cameraX << " y: " << cameraY << " createObj: " << createObject << "bx: " << bx << "by: " << by << " currentEO: ";
       if(currentEditorObject != nullptr) std::cout << currentEditorObject << std::endl; else std::cout << "NaN\n";
@@ -169,10 +232,11 @@ void LevelEditState::handleEvents(SDL_Event* e)
 
     }
   }
+  /*
   if(e->type == SDL_MOUSEBUTTONUP && !clicked)
   {
     mouseEvent(e->button); // used to determite which mouse button was pressed
-  }
+  }*/
 }
 
 void LevelEditState::update()
@@ -227,16 +291,26 @@ void LevelEditState::render()
     SDL_RenderDrawLine(mDisplay->getRenderer(), cx+cw-cameraX+1, cy-cameraY-2   , cx+cw-cameraX+1, cy+ch-cameraY+1);
     SDL_RenderDrawLine(mDisplay->getRenderer(), cx-cameraX-2   , cy+ch-cameraY+1, cx+cw-cameraX+1, cy+ch-cameraY+1);
   }
-  if(bx != -9999999 && by != -9999999)
+  if(bx != -9999999 && by != -9999999) // drawing 2 point objects, line, box etc
   {
     SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, 0xFF);
     int mx; int my;
     SDL_GetMouseState( &mx, &my );
 
-    if(abs(bx - (mx + cameraX)) > abs(by - (my + cameraY))) my = by - cameraY;
-    else mx = bx - cameraX;
+    if(createObject == EO_BOUNDARY)
+    {
+      if(abs(bx - (mx + cameraX)) > abs(by - (my + cameraY))) my = by - cameraY; // if x is longer draw the line only on x axis, else y
+      else mx = bx - cameraX;
 
-    SDL_RenderDrawLine(mDisplay->getRenderer(), bx - cameraX, by - cameraY, mx, my);
+      SDL_RenderDrawLine(mDisplay->getRenderer(), bx - cameraX, by - cameraY, mx, my);
+    }
+    else if(createObject == EO_BOX)
+    {
+      SDL_RenderDrawLine(mDisplay->getRenderer(), mx, by - cameraY, mx, my);
+      SDL_RenderDrawLine(mDisplay->getRenderer(), bx - cameraX, my, mx, my);
+      SDL_RenderDrawLine(mDisplay->getRenderer(), bx - cameraX, by - cameraY, mx, by - cameraY);
+      SDL_RenderDrawLine(mDisplay->getRenderer(), bx - cameraX, by - cameraY, bx - cameraX, my);
+    }
   }
   menu.render(); // object choosing menu
 
@@ -307,6 +381,7 @@ void LevelEditState::changeState(int s)
   *currentState = s;
 }
 
+/*
 void LevelEditState::mouseEvent(SDL_MouseButtonEvent& b)
 {
   int mx; int my;
@@ -342,9 +417,6 @@ void LevelEditState::mouseEvent(SDL_MouseButtonEvent& b)
           if(abs(bx - (mx + cameraX)) > abs(by - (my + cameraY))) my = by - cameraY;
           else mx = bx - cameraX;
           createBoundary( mx + cameraX, my + cameraY, bx, by);
-          /**
-          objects[objects.size() - 1]->setIndex(objects.size() - 1); // set index of new object
-          objects[objects.size() - 1]->setX2Y2(bx, by);*/
           bx = -9999999; by = -9999999;
         }
         else if(createObject == EO_BOX)
@@ -365,7 +437,7 @@ void LevelEditState::mouseEvent(SDL_MouseButtonEvent& b)
       }
     }
   }
-}
+}*/
 
 void LevelEditState::createBoundary(int x, int y, int x2, int y2)
 {

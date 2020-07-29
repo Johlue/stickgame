@@ -60,7 +60,7 @@ int main( int argc, char* args[] )
 	bool initSuccess = true;
 	//Start up SDL and create window
 	initSuccess = init();
-	Display display("windowName", 100, 100, 640, 480);
+	Display display("windowName", 100, 100, 1600, 900);
 	Writer writer;
 	writer.setup(&display);
 	GameEngine game(&display, &writer);

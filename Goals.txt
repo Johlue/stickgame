@@ -1,7 +1,6 @@
 Brush up on vector math for bullet movement (wall bounce)
 Basic enemies
   walking dudes
-    walkers can walk and fall
     things left to do:
       knockback / flinching
       various AIs
@@ -9,26 +8,10 @@ Basic enemies
           melee:
     flying robot things?
       make them killable (some of them anyway) visual indicator for unkillable ones
-      make different AI types for turrets
-        accurate: the current AI shoots at an equal fire rate straight at the player
-        semi-spread: shoots faster, but is less accurate, some randomness in aiming
-        full spread: basically a shotgun shoots a lot of bullets at once and at varying angles and speeds
-        ITS BEYBLADE!: spinny blades that tries to charge at you
-
-        stationary: floats in place
-        flight: flies around, doesn't go through walls - donzo
-        groundspin: moves across the ground in the players direction
-        noclip: flies thru walls and follows player forever
-          is horribly fixed now, some addition required
 UI and interface or whatever they're called (partially done)
 
 turns out you can actually rotate textures in sdl, so that's nice
 player attack
-  gigalazer
-    probs animate it somehow
-    also make it destroy bullets
-  gun mode and sword mode separately?
-    change between modes by pressing the associated attack button
   Melee attack exists
     combos?
 level loading, like from a file (it's done for now, but will need updating in the future)
@@ -77,7 +60,18 @@ Basic enemies
               after the player is within range they will try to hit him with a melee
               some AI types may also jump
           walking type (stand still or not)
-      flying robot things?
+    flying robot things?
+      make them killable (some of them anyway)
+      make different AI types for turrets
+        accurate: the current AI shoots at an equal fire rate straight at the player
+        semi-spread: shoots faster, but is less accurate, some randomness in aiming
+        full spread: basically a shotgun shoots a lot of bullets at once and at varying angles and speeds
+        ITS BEYBLADE!: spinny blades that tries to charge at you
+
+        stationary: floats in place
+        flight: flies around, doesn't go through walls - donzo
+        groundspin: moves across the ground in the players direction
+        noclip: flies thru walls and follows player forever
 Fixed boundary collisions sometimes not registering due to double inaccuracy
 jumping and gravity
 Player attack

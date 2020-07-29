@@ -66,29 +66,6 @@ bool ObjectMenu::mouseEvent(SDL_MouseButtonEvent& b)
       if((createObjectId >= 0 && createObjectId <= 2) || (createObjectId >= 1000 && createObjectId <= 1001)) // this needs to be regularily updated
       *createObject = createObjectId;
       clicked = true;
-
-/**
-      if(mState == OBJECTS) // if objects is open, on click choose clicked object from list as creatable
-      {
-        if(  !(mx < x ||  mx > x + squareWidth || my < y + 100 || my > y + 100 + squareHeight))
-        {
-          *createObject = EO_BOUNDARY;
-          clicked = true;
-        }
-        else if(  !(mx < x + squareWidth ||  mx > x + squareWidth*2 || my < y + 100 || my > y + 100 + squareHeight))
-        {
-          *createObject = EO_SPIKE;
-          clicked = true;
-        }
-      }
-      else if (mState == ENEMIES) // if enemies is open, -||-
-      {
-        if(  !(mx < x ||  mx > x + squareWidth || my < y + 100 || my > y + 100 + squareHeight))
-        {
-          *createObject = EO_WALKER_M;
-          clicked = true;
-        }
-      }**/
     }
   }
   else if(b.button == SDL_BUTTON_RIGHT)

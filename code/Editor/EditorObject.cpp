@@ -84,10 +84,12 @@ bool EditorObject::handleEvents(SDL_Event * e, int cameraX, int cameraY)
 {
   if(e->type == SDL_MOUSEBUTTONDOWN)
   {
+    std::cout << "DOWN " << index << std::endl;
     clickDrag(e->button, cameraX, cameraY);
   }
   if(e->type == SDL_MOUSEBUTTONUP )
   {
+    std::cout << "UP " << index << std::endl;
     trueClickDragged = false;
     clickDragged = false;
     clickDragNumber = 0;
