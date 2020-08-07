@@ -16,6 +16,9 @@ GameEngine::GameEngine(Display* display, Writer* writer)
   loadImageTexture("GigalazerCircleOutside.png", 1, 1); // 6
   loadImageTexture("GigalazerSquareInside.png", 1, 1);  // 7
   loadImageTexture("GigalazerSquareOutside.png", 1, 1); // 8
+  loadImageTexture("MOUSE_CREATE.png", 1, 1);           // 9
+  loadImageTexture("MOUSE_DRAG.png", 1, 1);             // 10
+  loadImageTexture("MOUSE_EDIT.png", 1, 1);             // 11
   /*
   mTextures.push_back(new ImageTexture());
   mTextures[0]->setRenderer(display->getRenderer());

@@ -37,9 +37,11 @@ public:
   void saveLevel();
   void loadLevel(); // this probs needs a string or something
 
+  bool clickedEdit(int cameraX, int cameraY); // when clicked while in edit mode
+  bool clickedDrag(int cameraX, int cameraY); // clicked in drag mode
+  void dragged(int offsetX, int offsetY, int cameraX, int cameraY); // what happens when this object is being dragged
   bool editorClick(SDL_MouseButtonEvent& b, int strings, std::string ** es); // a click while this is currentEditorObject (strings is amount of parameters in object)
   void applyChanges();
-  void clickDrag(SDL_MouseButtonEvent& b, int cameraX, int cameraY);
 
 protected:
   void constructStringInfo(); // creates a default list of EO_Strings depending on type
@@ -52,9 +54,7 @@ protected:
   int index; // the current location of the object in the object vector
   int openedMenu = -1; // which parameters menu is open (-1 means none are open)
 
-  bool clickDragged = false; // starting to click and drag chosen object
-  int clickDragNumber = 0; // delay between actually click and dragging and original click
-  bool trueClickDragged = false; // object is actually being clickand dragged
+  bool clickDragged = false; // object is being click and dragged
 
   std::vector<EO_String*> stringInfo; // contains the necessary info to contruct an object string for level files
 };

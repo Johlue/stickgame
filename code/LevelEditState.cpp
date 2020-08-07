@@ -40,22 +40,109 @@ void LevelEditState::handleEvents(SDL_Event* e)
 
   if(currentEditorObject == nullptr) editableString = nullptr; // no editing strings while not editing objects
 
-  // mouse stuff
+  // mouse stuff, specifically mouse button up things
   if(e->type == SDL_MOUSEBUTTONUP)
   {
-    if(menu.handleEvents(e))
-    {
-      clickMode = MOUSE_CREATE;
+    int mx; int my;
+    SDL_GetMouseState( &mx, &my );
 
-    }
-    // if no menu clickings happened
-    else
+    if(e->button.button == SDL_BUTTON_LEFT) // left mousebutton selects
     {
-      if(clickMode == MOUSE_EDIT)
+      if(menu.handleEvents(e))
       {
+        clickMode = MOUSE_CREATE;
 
       }
+      // if no menu clickings happened
+      else
+      {
+        if(clickMode == MOUSE_EDIT)
+        {
+          if(currentEditorObject == nullptr || !currentEditorObject->editorClick(e->button, currentEditorObject->getStringVector().size(), &editableString))
+          {
+            //choose a editable object
+            for(int i = 0; i < objects.size(); i++)
+            {
+              if(objects[i]->clickedEdit(cameraX, cameraY))
+              {
+                currentEditorObject = objects[i];
+                for(int i2 = 0; i2 < objects.size(); i2++) // close editor menus
+                {
+                  objects[i2]->setOpenedMenu(-1);
+                }
+              }
+            }
+          }
+        }
+
+        else if(clickMode == MOUSE_DRAG)
+        {
+          if(draggedIndex > -1)
+          {
+            draggedIndex = -1;
+          }
+          else
+          {
+            for(int i = 0; i < objects.size(); i++)
+            {
+              if(objects[i]->clickedDrag(cameraX, cameraY))
+              {
+                offsetX = mx - objects[i]->getX() + cameraX;
+                offsetY = my - objects[i]->getY() + cameraY;
+                draggedIndex = i;
+                break;
+              }
+            }
+          }
+        }
+
+        else if(clickMode == MOUSE_CREATE)
+        {
+          if(createObject != EO_NONE) // if creating an object
+          {
+            //add new object to list according to the createObject thingy
+            if(createObject == EO_BOUNDARY || createObject == EO_BOX) // for two click creatables
+            {
+              if(bx == -9999999 || by == -9999999)
+              {
+                bx = mx + cameraX; by = my + cameraY;
+              }
+              else if(createObject == EO_BOUNDARY)
+              {
+                if(abs(bx - (mx + cameraX)) > abs(by - (my + cameraY))) my = by - cameraY;
+                else mx = bx - cameraX;
+                createBoundary( mx + cameraX, my + cameraY, bx, by);
+                bx = -9999999; by = -9999999;
+              }
+              else if(createObject == EO_BOX)
+              {
+                createBoundary(mx + cameraX, my + cameraY, bx, my + cameraY);
+                createBoundary(mx + cameraX, my + cameraY, mx + cameraX, by);
+                createBoundary(bx, my + cameraY, bx, by);
+                createBoundary(mx + cameraX, by, bx, by);
+
+                bx = -9999999; by = -9999999;
+              }
+            }
+            else
+            {
+              objects.push_back(new EditorObject(createObject, mx + cameraX, my + cameraY, mDisplay));
+              objects[objects.size() - 1]->setIndex(objects.size() - 1); // set index of new object
+              bx = -9999999; by = -9999999;
+            }
+          }
+        }
+      }
     }
+    else if(e->button.button == SDL_BUTTON_RIGHT) // right mousebutton cancels
+    {
+      currentEditorObject = nullptr;
+      createObject = EO_NONE;
+      editableString = nullptr;
+      bx = -9999999;
+      by = -9999999;
+    }
+
   }
 
   /*
@@ -261,7 +348,11 @@ void LevelEditState::update()
       }
     }
   }
-  //std::cout << "x: " << cameraX << "    y: " << cameraY << std::endl;
+  if(draggedIndex > -1) // if currently dragging something
+  {
+    objects[draggedIndex]->dragged(offsetX, offsetY, cameraX, cameraY);
+    if(clickMode != MOUSE_DRAG) draggedIndex = -1;
+  }
 }
 
 void LevelEditState::render()
@@ -276,12 +367,30 @@ void LevelEditState::render()
     }
   }
 
+  // draw mouse mode icons
+  switch(clickMode)
+  {
+    case MOUSE_EDIT:
+    (*textureArray)[11]->render(70, 5, 0);
+    break;
+
+    case MOUSE_DRAG:
+    (*textureArray)[10]->render(70, 5, 0);
+    break;
+
+    case MOUSE_CREATE:
+    (*textureArray)[9]->render(70, 5, 0);
+    break;
+  }
+
   if(currentEditorObject != nullptr) // if an editable is chose create a box around it
   {
     int clr = 188;
     if(currentFrame % 30 > 15) clr = 0;
+
     // draw currently chosen object at the upper left corner
     currentEditorObject->render(currentEditorObject->getX()-5, currentEditorObject->getY()-5);
+
     // draw box around currently chosen object
     int cx = currentEditorObject->getX(); int cy = currentEditorObject->getY();
     int cw = currentEditorObject->getWidth(); int ch = currentEditorObject->getHeight();
@@ -529,6 +638,8 @@ bool LevelEditState::createObjectFromFile(std::string sourceString)
       objects.back()->getStringVector().at(i)->value = pieces[i];
       objects.back()->applyChanges();
     }
+    // this is for width/height
+    if(pieces[0] == "Boundary") objects.back()->setX2Y2(std::stoi(pieces[3]), std::stoi(pieces[4]));
   }
   else return false;
 

@@ -46,6 +46,10 @@ protected:
   std::vector<ImageTexture*>* textureArray;
   ObjectMenu menu;
   int bx = -9999999; int by = -9999999; // boundary x and y
+
+  int offsetX = 0; int offsetY = 0; // offset to where you are grabbing a dragged object
+  int draggedIndex = -1;
+
   int createObject = EO_NONE; // type of creatable object
   int speedMultiplier = 1; //  speed at which the camera is moving
   int yMovement = 0; int xMovement = 0;
