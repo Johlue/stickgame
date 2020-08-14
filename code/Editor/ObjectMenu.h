@@ -17,6 +17,8 @@ public:
   bool handleEvents(SDL_Event* e); // returns true if a successful click happened
   void setTextureArray(std::vector<ImageTexture*>* tA);
   void setPointers(EditorObject * ceo, int * co); // set all necessary pointers (except texarray, for some reason)
+  void setX(int o_x);
+  void setY(int o_y);
 protected:
   bool mouseEvent(SDL_MouseButtonEvent& b);// returns true if a successful click happened
   int mState = CLOSED; // is it open or closed and what open if it is open

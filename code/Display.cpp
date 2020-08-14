@@ -5,6 +5,8 @@ Display::Display(std::string windowName, int posX, int posY, int width, int heig
 {
   std::cout << mRenderer << "render initialization\n";
   std::cout << mWindow << "window intialization\n";
+  m_width = width;
+  m_height = height;
   init(windowName, posX, posY, width, height);
 }
 
@@ -17,6 +19,9 @@ void Display::freeMem(){
   mWindow = NULL;
   mRenderer = NULL;
 }
+
+int Display::getHeight(){return m_height;}
+int Display::getWidth(){return m_width;}
 
 bool Display::init(std::string windowName, int posX, int posY, int width, int height)
 {

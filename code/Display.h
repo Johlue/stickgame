@@ -19,9 +19,13 @@ public:
 
   SDL_Window* getWindow();
   SDL_Renderer* getRenderer();
+
+  int getHeight();
+  int getWidth();
 private:
   SDL_Window* mWindow = nullptr;
   SDL_Renderer* mRenderer = nullptr;
+  int m_height; int m_width;
 };
 
 

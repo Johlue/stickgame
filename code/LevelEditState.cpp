@@ -23,6 +23,7 @@ void LevelEditState::init()
 {
   menu.setPointers(currentEditorObject, &createObject);
   menu.setTextureArray(textureArray);
+  menu.setX(mDisplay->getWidth() - 170);
 }
 
 void LevelEditState::freeMem()
@@ -51,7 +52,7 @@ void LevelEditState::handleEvents(SDL_Event* e)
       if(menu.handleEvents(e))
       {
         clickMode = MOUSE_CREATE;
-
+        currentEditorObject = nullptr;
       }
       // if no menu clickings happened
       else
@@ -357,7 +358,7 @@ void LevelEditState::update()
 
 void LevelEditState::render()
 {
-  mWriter->render("X: " + (std::to_string(cameraX)), 55, 5);
+  mWriter->render("X: " + (std::to_string(cameraX)), 60, 5);
   mWriter->render("Y: " + (std::to_string(cameraY)), 135, 5);
   if(objects.size() > 0)
   {
@@ -371,15 +372,15 @@ void LevelEditState::render()
   switch(clickMode)
   {
     case MOUSE_EDIT:
-    (*textureArray)[11]->render(70, 5, 0);
+    (*textureArray)[11]->render(5, 5, 0);
     break;
 
     case MOUSE_DRAG:
-    (*textureArray)[10]->render(70, 5, 0);
+    (*textureArray)[10]->render(5, 5, 0);
     break;
 
     case MOUSE_CREATE:
-    (*textureArray)[9]->render(70, 5, 0);
+    (*textureArray)[9]->render(5, 5, 0);
     break;
   }
 
@@ -389,7 +390,7 @@ void LevelEditState::render()
     if(currentFrame % 30 > 15) clr = 0;
 
     // draw currently chosen object at the upper left corner
-    currentEditorObject->render(currentEditorObject->getX()-5, currentEditorObject->getY()-5);
+    currentEditorObject->render(currentEditorObject->getX()-5, currentEditorObject->getY()-65);
 
     // draw box around currently chosen object
     int cx = currentEditorObject->getX(); int cy = currentEditorObject->getY();
@@ -433,7 +434,7 @@ void LevelEditState::render()
       yMod = (currentEditorObject->getStringVector().size()-1) / 9; // how many rows
     }
     { // draw parameter editor box
-      SDL_Rect rectT = {0,  480 - ((EOProws+1)*44) - 2, 640, 480};
+      SDL_Rect rectT = {0,  mDisplay->getHeight() - ((EOProws+1)*44) - 2, mDisplay->getWidth(), mDisplay->getHeight()};
       SDL_SetRenderDrawColor( mDisplay->getRenderer(), 100, 100, 100, 0xFF );
       SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
     }
@@ -441,17 +442,17 @@ void LevelEditState::render()
     { // draws the info of each parameter (up to 9 parameters / row)
       yMod = i / 9; //which row are we on
       { // draw box around parameter types
-        SDL_Rect rectT = {5+((i%9)*70),  440 - (EOProws*44) + (yMod * 44), 64, 16};
+        SDL_Rect rectT = {5+((i%9)*70),  (mDisplay->getHeight() - 40) - (EOProws*44) + (yMod * 44), 64, 16};
         SDL_SetRenderDrawColor( mDisplay->getRenderer(), 188, 188, 188, 0xFF );
         SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
       }
-      mWriter->render(currentEditorObject->getStringVector().at(i)->type, 5+((i%9)*70), 440 - (EOProws*44) + (yMod * 44)); // draw parameter types
+      mWriter->render(currentEditorObject->getStringVector().at(i)->type, 5+((i%9)*70), (mDisplay->getHeight() - 40) - (EOProws*44) + (yMod * 44)); // draw parameter types
       { // draw box around parameter values
-        SDL_Rect rectT = {5+((i%9)*70),  460 - (EOProws*44) + (yMod * 44), 64, 16};
+        SDL_Rect rectT = {5+((i%9)*70),  (mDisplay->getHeight() - 20) - (EOProws*44) + (yMod * 44), 64, 16};
         SDL_SetRenderDrawColor( mDisplay->getRenderer(), 255, 255, 255, 0xFF );
         SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
       }
-      mWriter->render(currentEditorObject->getStringVector().at(i)->value, 5+((i%9)*70), 460 - (EOProws*44) + (yMod * 44));// draw parameter values
+      mWriter->render(currentEditorObject->getStringVector().at(i)->value, 5+((i%9)*70), (mDisplay->getHeight() - 20) - (EOProws*44) + (yMod * 44));// draw parameter values
     }
     // draw currently opened menu
     int om = currentEditorObject->getOpenedMenu();
@@ -466,18 +467,18 @@ void LevelEditState::render()
           { // draw box and then a smaller box and fill it with text
             // black box for outlines
             {
-              SDL_Rect rectT = {5+((om%9)*70)-1,  440 - (EOProws*44) + (yMod * 44) - (17 * i2)-1, 64+2, 16+2};
+              SDL_Rect rectT = {5+((om%9)*70)-1,  (mDisplay->getHeight() - 40) - (EOProws*44) + (yMod * 44) - (17 * i2)-1, 64+2, 16+2};
               SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0, 0, 0, 0xFF );
               SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
             }
             // actual text container
             {
-              SDL_Rect rectT = {5+((om%9)*70),  440 - (EOProws*44) + (yMod * 44) - (17 * i2), 64, 16};
+              SDL_Rect rectT = {5+((om%9)*70),  (mDisplay->getHeight() - 40) - (EOProws*44) + (yMod * 44) - (17 * i2), 64, 16};
               SDL_SetRenderDrawColor( mDisplay->getRenderer(), 255, 255, 255, 0xFF );
               SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
             }
             // draw options inside box
-            mWriter->render(tms[i2], 5+((om%9)*70),  440 - (EOProws*44) + (yMod * 44) - (17 * i2));
+            mWriter->render(tms[i2], 5+((om%9)*70),  (mDisplay->getHeight() - 40) - (EOProws*44) + (yMod * 44) - (17 * i2));
           }
         }
       }

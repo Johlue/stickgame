@@ -80,3 +80,6 @@ void ObjectMenu::setPointers(EditorObject * ceo, int * co)
   currentEditorObject = ceo;
   createObject = co;
 }
+
+void ObjectMenu::setX(int o_x){x = o_x;}
+void ObjectMenu::setY(int o_y){y = o_y;}

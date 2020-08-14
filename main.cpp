@@ -17,7 +17,9 @@
 #include <stdlib.h>
 #include <time.h>
 
-
+// global time!
+const int Screen_Width = 1280;
+const int Screen_Height = 720;
 
 enum LButtonSprite
 {
@@ -60,7 +62,7 @@ int main( int argc, char* args[] )
 	bool initSuccess = true;
 	//Start up SDL and create window
 	initSuccess = init();
-	Display display("windowName", 100, 100, 1600, 900);
+	Display display("windowName", 100, 100, Screen_Width, Screen_Height);
 	Writer writer;
 	writer.setup(&display);
 	GameEngine game(&display, &writer);
