@@ -137,6 +137,8 @@ void LevelEditState::handleEvents(SDL_Event* e)
     }
     else if(e->button.button == SDL_BUTTON_RIGHT) // right mousebutton cancels
     {
+      loadingMode = false;
+      savingMode = false;
       currentEditorObject = nullptr;
       createObject = EO_NONE;
       editableString = nullptr;
@@ -145,37 +147,6 @@ void LevelEditState::handleEvents(SDL_Event* e)
     }
 
   }
-
-  /*
-
-
-  clicked = false;
-
-  if(currentEditorObject != nullptr)
-  {
-    if(e->type == SDL_MOUSEBUTTONUP )
-    {
-      clicked = currentEditorObject->editorClick(e->button, currentEditorObject->getStringVector().size(), &editableString);
-    }
-  }
-
-  if(objects.size() != 0 && !clicked)
-  {
-    for(int i = 0; i < objects.size(); i++)
-    {
-      if(objects[i]->handleEvents(e, cameraX, cameraY))
-      {
-        currentEditorObject = objects[i]; // choose editor object for editing if it got clicked
-        clicked = true;
-        for(int i2 = 0; i2 < objects.size(); i2++) // close editor menus
-        {
-          objects[i2]->setOpenedMenu(-1);
-        }
-        break;
-      }
-    }
-  }
-  if(!clicked) clicked = menu.handleEvents(e);*/
 
   // camera movement controls
   if(e->type == SDL_KEYDOWN)
@@ -207,11 +178,15 @@ void LevelEditState::handleEvents(SDL_Event* e)
       break;
 
       case SDLK_s:
-      saveLevel("testLevel.txt");
+      loadingMode = false;
+      savingMode = true;
+      //saveLevel("testLevel.txt");
       break;
 
       case SDLK_l:
-      loadLevel("testLevel.txt");
+      savingMode = false;
+      loadingMode = true;
+      //loadLevel("testLevel.txt");
       break;
     }
 
@@ -484,6 +459,46 @@ void LevelEditState::render()
       }
     }
   }
+
+  // rendering load/save modes
+  if(loadingMode || savingMode)
+  {
+    {
+      SDL_Rect rectT = {(mDisplay->getWidth()/2)-250, (mDisplay->getHeight()/2)-125, 500, 250};
+      SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0, 0, 0, 0xFF );
+      SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
+    }
+    {
+      SDL_Rect rectT = {(mDisplay->getWidth()/2)-248, (mDisplay->getHeight()/2)-123, 496, 246};
+      SDL_SetRenderDrawColor( mDisplay->getRenderer(), 255, 255, 255, 0xFF );
+      SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
+    }
+
+    {
+      SDL_Rect rectT = {(mDisplay->getWidth()/2)-225, (mDisplay->getHeight()/2)-20, 450, 40};
+      SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0, 0, 0, 0xFF );
+      SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
+    }
+    {
+      SDL_Rect rectT = {(mDisplay->getWidth()/2)-223, (mDisplay->getHeight()/2)-18, 446, 36};
+      SDL_SetRenderDrawColor( mDisplay->getRenderer(), 255, 255, 255, 0xFF );
+      SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
+    }
+
+    std::string writeThisShitDown = "saveFileName";
+    writeThisShitDown.append(".txt");
+    mWriter->render(writeThisShitDown, (mDisplay->getWidth()/2)-220, (mDisplay->getHeight()/2)-8);
+
+    if(loadingMode)
+    {
+      mWriter->render("Load Level Name:", (mDisplay->getWidth()/2)-225, (mDisplay->getHeight()/2)-46);
+    }
+    else
+    {
+      mWriter->render("Save Level Name:", (mDisplay->getWidth()/2)-225, (mDisplay->getHeight()/2)-46);
+    }
+
+  }
 }
 
 void LevelEditState::changeState(int s)
@@ -491,63 +506,6 @@ void LevelEditState::changeState(int s)
   *currentState = s;
 }
 
-/*
-void LevelEditState::mouseEvent(SDL_MouseButtonEvent& b)
-{
-  int mx; int my;
-  SDL_GetMouseState( &mx, &my );
-
-  if(b.button == SDL_BUTTON_RIGHT)
-  {
-   currentEditorObject = nullptr;
-   editableString = nullptr;
-   clicked = true;
-   bx = -9999999; by = -9999999;
-   if(objects.size() > 0)
-   {
-     for(int i = 0; i < objects.size(); i++)
-     {
-       objects[i]->setOpenedMenu(-1);
-     }
-   }
-  }
-  else if(b.button == SDL_BUTTON_LEFT)
-  {
-    if(createObject != EO_NONE) // if creating an object
-    {
-      //add new object to list according to the createObject thingy
-      if(createObject == EO_BOUNDARY || createObject == EO_BOX) // for two click creatables
-      {
-        if(bx == -9999999 || by == -9999999)
-        {
-          bx = mx + cameraX; by = my + cameraY;
-        }
-        else if(createObject == EO_BOUNDARY)
-        {
-          if(abs(bx - (mx + cameraX)) > abs(by - (my + cameraY))) my = by - cameraY;
-          else mx = bx - cameraX;
-          createBoundary( mx + cameraX, my + cameraY, bx, by);
-          bx = -9999999; by = -9999999;
-        }
-        else if(createObject == EO_BOX)
-        {
-          createBoundary(mx + cameraX, my + cameraY, bx, my + cameraY);
-          createBoundary(mx + cameraX, my + cameraY, mx + cameraX, by);
-          createBoundary(bx, my + cameraY, bx, by);
-          createBoundary(mx + cameraX, by, bx, by);
-
-          bx = -9999999; by = -9999999;
-        }
-      }
-      else
-      {
-        objects.push_back(new EditorObject(createObject, mx + cameraX, my + cameraY, mDisplay));
-        objects[objects.size() - 1]->setIndex(objects.size() - 1); // set index of new object
-        bx = -9999999; by = -9999999;
-      }
-    }
-  }
-}*/
 
 void LevelEditState::createBoundary(int x, int y, int x2, int y2)
 {

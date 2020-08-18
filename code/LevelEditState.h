@@ -58,6 +58,10 @@ protected:
   int currentFrame = 0;
   int clickMode = MOUSE_EDIT; // this the choice of clicking. Drag, edit, create, etc.
   std::string * editableString = nullptr;
+
+  bool savingMode = false;
+  bool loadingMode = false;
+  std::string saveFileName = "";
 };
 
 #endif
