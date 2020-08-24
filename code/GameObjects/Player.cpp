@@ -26,8 +26,11 @@ Player::Player(double xl, double yl, bool * life, Display* display, std::vector<
   mAnimations.push_back(new Animation(15, false, textureArray, mDisplay));
   mAnimations[STAND]->addFrame(1, 0);
   mAnimations.push_back(new Animation(15, true, textureArray, mDisplay));
+  mAnimations[WALK]->addFrame(1, 1);
   mAnimations[WALK]->addFrame(1, 2);
   mAnimations[WALK]->addFrame(1, 3);
+  mAnimations[WALK]->addFrame(1, 4);
+  mAnimations[WALK]->addFrame(1, 5);
 }
 
 Player::~Player()
