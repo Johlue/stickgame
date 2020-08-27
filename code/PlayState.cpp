@@ -103,8 +103,8 @@ void PlayState::update()
     {
       if(currentPlayer != nullptr)
       {
-        cameraX = currentPlayer->getX() - 320+16;// -half.screenwidth +half.playerwidth
-        cameraY = currentPlayer->getY() - 240+32;
+        cameraX = currentPlayer->getX() - (mDisplay->getWidth()/2)+16;// -half.screenwidth +half.playerwidth
+        cameraY = currentPlayer->getY() - (mDisplay->getHeight()/2)+32;
         if(cameraX < 0) cameraX = 0;
         if(cameraY < 0) cameraY = 0;
       }

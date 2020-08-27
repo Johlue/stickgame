@@ -195,6 +195,7 @@ void LevelEditState::handleEvents(SDL_Event* e)
         case SDLK_m: saveFileName.append("m"); break;
         case SDLK_BACKSPACE:
         if(saveFileName.size() > 0) saveFileName.erase(saveFileName.end()-1, saveFileName.end());
+        break;
         case SDLK_RETURN:
         if(savingMode)
         {
