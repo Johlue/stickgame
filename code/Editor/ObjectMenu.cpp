@@ -63,7 +63,7 @@ bool ObjectMenu::mouseEvent(SDL_MouseButtonEvent& b)
       createObjectId += (mx - x)/squareWidth;
       createObjectId += ((my - (y+100))/squareHeight)*4;
 
-      if((createObjectId >= 0 && createObjectId <= 2) || (createObjectId >= 1000 && createObjectId <= 1001)) // this needs to be regularily updated
+      if((createObjectId >= 0 && createObjectId <= 2) || (createObjectId >= 1000 && createObjectId <= 1002)) // this needs to be regularily updated
       *createObject = createObjectId;
       clicked = true;
     }

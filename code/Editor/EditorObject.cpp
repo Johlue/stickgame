@@ -227,6 +227,10 @@ void EditorObject::constructStringInfo()
     stringInfo.push_back(new EO_String("T_STATIC", "t_move"));
     break;
 
+    case EO_PLAYER:
+    stringInfo[0]->value = "Player";
+    break;
+
   }
 }
 

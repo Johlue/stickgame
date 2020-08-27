@@ -12,9 +12,9 @@ enum EO_types
 
   EO_BOUNDARY, EO_SPIKE, EO_BOX,  // objects side of the menu | starts at 0
 
-  EO_WALKER_M = 1000, EO_TURRET,  // enemies menu | starts at 1000
+  EO_PLAYER = 1000, EO_WALKER_M, EO_TURRET,  // enemies menu | starts at 1000
 
-  EO_PLAYER = 9999 //add other stuff later
+  //EO_PLAYER = 9999 //add other stuff later
 };
 
 class EditorObject
