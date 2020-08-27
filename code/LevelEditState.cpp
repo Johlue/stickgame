@@ -151,72 +151,137 @@ void LevelEditState::handleEvents(SDL_Event* e)
   // camera movement controls
   if(e->type == SDL_KEYDOWN)
   {
-    switch(e->key.keysym.sym)
+
+    if(savingMode || loadingMode)
     {
-      case SDLK_ESCAPE:
-      *currentState = MENUSTATE; // escape to return to menu
-      break;
-
-      case SDLK_DOWN: // arrows to move camera
-      yMovement = 5;
-      break;
-
-      case SDLK_UP:
-      yMovement = -5;
-      break;
-
-      case SDLK_RIGHT:
-      xMovement = 5;
-      break;
-
-      case SDLK_LEFT:
-      xMovement = -5;
-      break;
-
-      case SDLK_RCTRL: // right ctrl to make camera movement faster
-      speedMultiplier = 3;
-      break;
-
-      case SDLK_s:
-      loadingMode = false;
-      savingMode = true;
-      //saveLevel("testLevel.txt");
-      break;
-
-      case SDLK_l:
-      savingMode = false;
-      loadingMode = true;
-      //loadLevel("testLevel.txt");
-      break;
+      // writing the saving and loading file names
+      switch(e->key.keysym.sym)
+      {
+        case SDLK_0: saveFileName.append("0"); break;
+        case SDLK_1: saveFileName.append("1"); break;
+        case SDLK_2: saveFileName.append("2"); break;
+        case SDLK_3: saveFileName.append("3"); break;
+        case SDLK_4: saveFileName.append("4"); break;
+        case SDLK_5: saveFileName.append("5"); break;
+        case SDLK_6: saveFileName.append("6"); break;
+        case SDLK_7: saveFileName.append("7"); break;
+        case SDLK_8: saveFileName.append("8"); break;
+        case SDLK_9: saveFileName.append("9"); break;
+        case SDLK_q: saveFileName.append("q"); break;
+        case SDLK_w: saveFileName.append("w"); break;
+        case SDLK_e: saveFileName.append("e"); break;
+        case SDLK_r: saveFileName.append("r"); break;
+        case SDLK_t: saveFileName.append("t"); break;
+        case SDLK_y: saveFileName.append("y"); break;
+        case SDLK_u: saveFileName.append("u"); break;
+        case SDLK_i: saveFileName.append("i"); break;
+        case SDLK_o: saveFileName.append("o"); break;
+        case SDLK_p: saveFileName.append("p"); break;
+        case SDLK_a: saveFileName.append("a"); break;
+        case SDLK_s: saveFileName.append("s"); break;
+        case SDLK_d: saveFileName.append("d"); break;
+        case SDLK_f: saveFileName.append("f"); break;
+        case SDLK_g: saveFileName.append("g"); break;
+        case SDLK_h: saveFileName.append("h"); break;
+        case SDLK_j: saveFileName.append("j"); break;
+        case SDLK_k: saveFileName.append("k"); break;
+        case SDLK_l: saveFileName.append("l"); break;
+        case SDLK_z: saveFileName.append("z"); break;
+        case SDLK_x: saveFileName.append("x"); break;
+        case SDLK_c: saveFileName.append("c"); break;
+        case SDLK_v: saveFileName.append("v"); break;
+        case SDLK_b: saveFileName.append("b"); break;
+        case SDLK_n: saveFileName.append("n"); break;
+        case SDLK_m: saveFileName.append("m"); break;
+        case SDLK_BACKSPACE:
+        if(saveFileName.size() > 0) saveFileName.erase(saveFileName.end()-1, saveFileName.end());
+        case SDLK_RETURN:
+        if(savingMode)
+        {
+          std::string savefilenameforreals = saveFileName;
+          savefilenameforreals.append(".txt");
+          saveLevel(savefilenameforreals);
+          savingMode = false;
+        }
+        else if(loadingMode)
+        {
+          std::string savefilenameforreals = saveFileName;
+          savefilenameforreals.append(".txt");
+          loadLevel(savefilenameforreals);
+          loadingMode = false;
+        }
+        break;
+      }
     }
-
-    // object editor thingy
-    if(editableString != nullptr) // can't put ifs in switch cases
+    else
     {
-      if(editableString->size() < 7) // too big for ints can't use
+      switch(e->key.keysym.sym)
       {
-        if(editableString->compare("0") == 0) {*editableString = "";} // removes 0 from the front of the string
+        case SDLK_ESCAPE:
+        *currentState = MENUSTATE; // escape to return to menu
+        break;
 
-        if(e->key.keysym.sym == SDLK_0)      editableString->append("0"); // add appropriate number to string
-        else if(e->key.keysym.sym == SDLK_1) editableString->append("1");
-        else if(e->key.keysym.sym == SDLK_2) editableString->append("2");
-        else if(e->key.keysym.sym == SDLK_3) editableString->append("3");
-        else if(e->key.keysym.sym == SDLK_4) editableString->append("4");
-        else if(e->key.keysym.sym == SDLK_5) editableString->append("5");
-        else if(e->key.keysym.sym == SDLK_6) editableString->append("6");
-        else if(e->key.keysym.sym == SDLK_7) editableString->append("7");
-        else if(e->key.keysym.sym == SDLK_8) editableString->append("8");
-        else if(e->key.keysym.sym == SDLK_9) editableString->append("9");
+        case SDLK_DOWN: // arrows to move camera
+        yMovement = 5;
+        break;
+
+        case SDLK_UP:
+        yMovement = -5;
+        break;
+
+        case SDLK_RIGHT:
+        xMovement = 5;
+        break;
+
+        case SDLK_LEFT:
+        xMovement = -5;
+        break;
+
+        case SDLK_RCTRL: // right ctrl to make camera movement faster
+        speedMultiplier = 3;
+        break;
+
+        case SDLK_s:
+        loadingMode = false;
+        savingMode = true;
+        //saveLevel("testLevel.txt");
+        break;
+
+        case SDLK_l:
+        savingMode = false;
+        loadingMode = true;
+        //loadLevel("testLevel.txt");
+        break;
       }
 
-      if(e->key.keysym.sym == SDLK_BACKSPACE) // remove last number from string
+      // object editor thingy
+      if(editableString != nullptr) // can't put ifs in switch cases
       {
-        if(editableString->size() > 0) editableString->erase(editableString->end()-1, editableString->end());
-        if(editableString->size() == 0) editableString->append("0");
-      }
+        if(editableString->size() < 7) // too big for ints can't use
+        {
+          if(editableString->compare("0") == 0) {*editableString = "";} // removes 0 from the front of the string
 
-      if(editableString->size() == 0) editableString->append("0"); // adds 0 if string is empty
-      if(editableString->size() > 0) currentEditorObject->applyChanges();
+          if(e->key.keysym.sym == SDLK_0)      editableString->append("0"); // add appropriate number to string
+          else if(e->key.keysym.sym == SDLK_1) editableString->append("1");
+          else if(e->key.keysym.sym == SDLK_2) editableString->append("2");
+          else if(e->key.keysym.sym == SDLK_3) editableString->append("3");
+          else if(e->key.keysym.sym == SDLK_4) editableString->append("4");
+          else if(e->key.keysym.sym == SDLK_5) editableString->append("5");
+          else if(e->key.keysym.sym == SDLK_6) editableString->append("6");
+          else if(e->key.keysym.sym == SDLK_7) editableString->append("7");
+          else if(e->key.keysym.sym == SDLK_8) editableString->append("8");
+          else if(e->key.keysym.sym == SDLK_9) editableString->append("9");
+        }
+
+        if(e->key.keysym.sym == SDLK_BACKSPACE) // remove last number from string
+        {
+          if(editableString->size() > 0) editableString->erase(editableString->end()-1, editableString->end());
+          if(editableString->size() == 0) editableString->append("0");
+        }
+
+        if(editableString->size() == 0) editableString->append("0"); // adds 0 if string is empty
+        if(editableString->size() > 0) currentEditorObject->applyChanges();
+      }
     }
   }
   else if(e->type == SDL_KEYUP)
@@ -255,17 +320,14 @@ void LevelEditState::handleEvents(SDL_Event* e)
       if(clickMode == MOUSE_EDIT)
       {
         clickMode = MOUSE_CREATE;
-        std::cout << "MOUSE_CREATE" << std::endl;
         break;
       }
       if(clickMode == MOUSE_CREATE)
       {
         clickMode = MOUSE_DRAG;
-        std::cout << "MOUSE_DRAG" << std::endl;
         break;
       }
       clickMode = MOUSE_EDIT;
-      std::cout << "MOUSE_EDIT" << std::endl;
       break;
 
       case SDLK_e:
@@ -274,17 +336,14 @@ void LevelEditState::handleEvents(SDL_Event* e)
       if(clickMode == MOUSE_EDIT)
       {
         clickMode = MOUSE_DRAG;
-        std::cout << "MOUSE_DRAG" << std::endl;
         break;
       }
       if(clickMode == MOUSE_CREATE)
       {
         clickMode = MOUSE_EDIT;
-        std::cout << "MOUSE_EDIT" << std::endl;
         break;
       }
       clickMode = MOUSE_CREATE;
-      std::cout << "MOUSE_CREATE" << std::endl;
       break;
 
       case SDLK_d: // dump some info to the console
@@ -484,8 +543,7 @@ void LevelEditState::render()
       SDL_SetRenderDrawColor( mDisplay->getRenderer(), 255, 255, 255, 0xFF );
       SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
     }
-
-    std::string writeThisShitDown = "saveFileName";
+    std::string writeThisShitDown = saveFileName;
     writeThisShitDown.append(".txt");
     mWriter->render(writeThisShitDown, (mDisplay->getWidth()/2)-220, (mDisplay->getHeight()/2)-8);
 
@@ -527,7 +585,7 @@ void LevelEditState::deleteObject(int ix)
 
 void LevelEditState::saveLevel(std::string lvlName)
 {
-  if(objects.size() > 0)
+  if(objects.size() > 0 && lvlName.size() > 0)
   {
     std::ofstream levelfile;
     levelfile.open(lvlName);
@@ -546,19 +604,22 @@ void LevelEditState::saveLevel(std::string lvlName)
 
 void LevelEditState::loadLevel(std::string lvlName)
 {
-  freeMem();
-  std::string line;
-  std::ifstream levelfile;
-  levelfile.open(lvlName);
-  if(levelfile.is_open())
+  if(lvlName.size() > 0)
   {
-    while(std::getline(levelfile, line))
+    freeMem();
+    std::string line;
+    std::ifstream levelfile;
+    levelfile.open(lvlName);
+    if(levelfile.is_open())
     {
-      createObjectFromFile(line);
+      while(std::getline(levelfile, line))
+      {
+        createObjectFromFile(line);
+      }
     }
+    else std::cout << "opening level file failed\n";
+    levelfile.close();
   }
-  else std::cout << "opening level file failed\n";
-  levelfile.close();
 }
 
 bool LevelEditState::createObjectFromFile(std::string sourceString)

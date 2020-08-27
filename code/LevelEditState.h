@@ -61,7 +61,7 @@ protected:
 
   bool savingMode = false;
   bool loadingMode = false;
-  std::string saveFileName = "";
+  std::string saveFileName = "save";
 };
 
 #endif
