@@ -10,8 +10,8 @@ GameEngine::GameEngine(Display* display, Writer* writer)
   loadImageTexture("menuButtons.png", 1, 9);            // 0
   loadImageTexture("chara.png", 10, 10);                // 1
   loadImageTexture("LevelEditMenu1.png", 1, 4);         // 2
-  loadImageTexture("LevelEditMenuEnemies.png", 1, 1);   // 3
-  loadImageTexture("LevelEditMenuObjects.png", 1, 1);   // 4
+  loadImageTexture("LevelEditMenuEnemies.png", 4, 3);   // 3
+  loadImageTexture("LevelEditMenuObjects.png", 4, 3);   // 4
   loadImageTexture("GigalazerCircleInside.png", 1, 1);  // 5
   loadImageTexture("GigalazerCircleOutside.png", 1, 1); // 6
   loadImageTexture("GigalazerSquareInside.png", 1, 1);  // 7

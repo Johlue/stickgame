@@ -11,8 +11,26 @@ void ObjectMenu::render()
   if(mState == CLOSED || mState == ENEMIES) (*textureArray)[2]->render(x, y+50, 1);
   else (*textureArray)[2]->render(x, y+50, 0);
 
-  if(mState == ENEMIES) (*textureArray)[3]->render(x, y+100, 0);
-  else if(mState == OBJECTS) (*textureArray)[4]->render(x, y+100, 0);
+  if(mState == ENEMIES)
+  {
+    for(int i = 0; i < 4; i++) // rows
+    {
+      for(int j = 0; j < 3; j++) // columns
+      {
+        (*textureArray)[3]->render(x+(39*i), y+100+(59*j), i+(j*4));
+      }
+    }
+  }
+  else if(mState == OBJECTS)
+  {
+    for(int i = 0; i < 4; i++) // rows
+    {
+      for(int j = 0; j < 3; j++) // columns
+      {
+        (*textureArray)[4]->render(x+(39*i), y+100+(59*j), i+(j*4));
+      }
+    }
+  }
 }
 
 bool ObjectMenu::handleEvents(SDL_Event* e)
@@ -63,7 +81,7 @@ bool ObjectMenu::mouseEvent(SDL_MouseButtonEvent& b)
       createObjectId += (mx - x)/squareWidth;
       createObjectId += ((my - (y+100))/squareHeight)*4;
 
-      if((createObjectId >= 0 && createObjectId <= 2) || (createObjectId >= 1000 && createObjectId <= 1002)) // this needs to be regularily updated
+      if((createObjectId >= 0 && createObjectId <= EO_OBJECT_LIST_END-1) || (createObjectId >= 1000 && createObjectId <= EO_ENEMY_LIST_END-1)) // this needs to be regularily updated
       *createObject = createObjectId;
       clicked = true;
     }

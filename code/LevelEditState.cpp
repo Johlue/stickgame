@@ -615,7 +615,7 @@ void LevelEditState::loadLevel(std::string lvlName)
     {
       while(std::getline(levelfile, line))
       {
-        createObjectFromFile(line);
+        if(line != "") createObjectFromFile(line);
       }
     }
     else std::cout << "opening level file failed\n";
@@ -647,8 +647,7 @@ bool LevelEditState::createObjectFromFile(std::string sourceString)
   }
   else if(pieces[0] == "Player")
   {
-    //objects.push_back(new EditorObject(EO_PLAYER, 0, 0, mDisplay));
-    return false; // for now
+    objects.push_back(new EditorObject(EO_PLAYER, 0, 0, mDisplay));
   }
   else return false;
 
