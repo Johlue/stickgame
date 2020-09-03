@@ -91,6 +91,7 @@ protected:
   Point gunPoint; // location of gun relative to player
   int hp = 255;
   int ammo = 0;
+  int gunFrame = 2;
 
   int lazerChargeMax = 9000;
   int lazerCharge = 0;

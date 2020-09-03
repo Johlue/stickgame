@@ -116,6 +116,11 @@ void EditorObject::render(int camX, int camY)
       SDL_RenderDrawLine(mDisplay->getRenderer(), x - camX, y + (abs(y - y2)/2) - camY, x - 5 - camX, y + (abs(y - y2)/2) - 5 - camY);
     }
   }
+  else if(type == EO_PLAYER)
+  {
+    (*textureArray)[1]->render(x, y, 0);
+    (*textureArray)[12]->render(x-8, y, 2);
+  }
   else
   {
     SDL_Rect rect2 = { x - camX, y - camY, width, height};
@@ -370,6 +375,10 @@ bool EditorObject::editorClick(SDL_MouseButtonEvent& b, int strings, std::string
     return rtValue;
 }
 
+void EditorObject::setTextureArray(std::vector<ImageTexture*>* tA)
+{
+  textureArray = tA;
+}
 
 void EditorObject::setOpenedMenu(int om)
 {

@@ -128,6 +128,7 @@ void LevelEditState::handleEvents(SDL_Event* e)
             else
             {
               objects.push_back(new EditorObject(createObject, mx + cameraX, my + cameraY, mDisplay));
+              objects[objects.size() - 1]->setTextureArray(textureArray);
               objects[objects.size() - 1]->setIndex(objects.size() - 1); // set index of new object
               bx = -9999999; by = -9999999;
             }
@@ -569,6 +570,7 @@ void LevelEditState::changeState(int s)
 void LevelEditState::createBoundary(int x, int y, int x2, int y2)
 {
   objects.push_back(new EditorObject(EO_BOUNDARY, x, y, mDisplay));
+  objects[objects.size() - 1]->setTextureArray(textureArray);
   objects[objects.size() - 1]->setIndex(objects.size() - 1);
   objects[objects.size() - 1]->setX2Y2(x2, y2);
 }
@@ -632,22 +634,27 @@ bool LevelEditState::createObjectFromFile(std::string sourceString)
   if(pieces[0] == "Boundary")
   {
     objects.push_back(new EditorObject(EO_BOUNDARY, 0, 0, mDisplay));
+    objects[objects.size() - 1]->setTextureArray(textureArray);
   }
   else if(pieces[0] == "Turret")
   {
     objects.push_back(new EditorObject(EO_TURRET, 0, 0, mDisplay));
+    objects[objects.size() - 1]->setTextureArray(textureArray);
   }
   else if(pieces[0] == "Hazard")
   {
     objects.push_back(new EditorObject(EO_SPIKE, 0, 0, mDisplay));
+    objects[objects.size() - 1]->setTextureArray(textureArray);
   }
   else if(pieces[0] == "Walker")
   {
     objects.push_back(new EditorObject(EO_WALKER_M, 0, 0, mDisplay));
+    objects[objects.size() - 1]->setTextureArray(textureArray);
   }
   else if(pieces[0] == "Player")
   {
     objects.push_back(new EditorObject(EO_PLAYER, 0, 0, mDisplay));
+    objects[objects.size() - 1]->setTextureArray(textureArray);
   }
   else return false;
 

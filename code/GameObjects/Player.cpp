@@ -295,13 +295,26 @@ bool Player::render(int cameraX, int cameraY, int priority)
 {
   if(priority >= 8)
   {
+    SDL_RendererFlip flip = SDL_FLIP_NONE;
+    if(!facingRight) flip = SDL_FLIP_HORIZONTAL;
     cameraY -= 1; // to get the player level with the ground
     renderTheLazer(cameraX, cameraY);
 
     // placeholder graphics for gun
+    /*
     SDL_Rect rect = {x + gunPoint.x - cameraX, y + gunPoint.y - cameraY, 2, 2};
     SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 102, 102, 0);
     SDL_RenderFillRect(mDisplay->getRenderer(), &rect);
+    */
+
+    //gun graphics
+    if(aimingUp && !aimingForward) gunFrame = 0;
+    else if(aimingUp && aimingForward) gunFrame = 1;
+    else if(!aimingUp && aimingForward && !aimingDown) gunFrame = 2;
+    else if(aimingForward && aimingDown) gunFrame = 3;
+    else if(!aimingForward && aimingDown) gunFrame = 4;
+
+    (*textureArray)[12]->render(x - 8 - cameraX, y - cameraY, gunFrame, NULL, NULL, NULL, flip);
 
     if(iframes > 0)
     {
@@ -310,13 +323,13 @@ bool Player::render(int cameraX, int cameraY, int priority)
 
     if(xVel < 1 && yVel > -1 && xVel > -1 && yVel < 1)
     {
-      mAnimations[STAND]->render(x, y, cameraX, cameraY);
+      mAnimations[STAND]->render(x, y, cameraX, cameraY, flip);
       mAnimations[STAND]->update();
       mAnimations[WALK]->reset();
     }
     else
     {
-      mAnimations[WALK]->render(x, y, cameraX, cameraY);
+      mAnimations[WALK]->render(x, y, cameraX, cameraY, flip);
       mAnimations[WALK]->update();
     }
 

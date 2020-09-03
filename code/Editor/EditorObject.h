@@ -42,6 +42,7 @@ public:
   void dragged(int offsetX, int offsetY, int cameraX, int cameraY); // what happens when this object is being dragged
   bool editorClick(SDL_MouseButtonEvent& b, int strings, std::string ** es); // a click while this is currentEditorObject (strings is amount of parameters in object)
   void applyChanges();
+  void setTextureArray(std::vector<ImageTexture*>* tA);
 
 protected:
   void constructStringInfo(); // creates a default list of EO_Strings depending on type
@@ -57,6 +58,7 @@ protected:
   bool clickDragged = false; // object is being click and dragged
 
   std::vector<EO_String*> stringInfo; // contains the necessary info to contruct an object string for level files
+  std::vector<ImageTexture*>* textureArray = nullptr;
 };
 
 #endif
