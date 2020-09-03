@@ -1,4 +1,3 @@
-Brush up on vector math for bullet movement (wall bounce)
 Basic enemies
   walking dudes
     things left to do:
@@ -19,6 +18,23 @@ Level Editor, I feel like it
   Actually adding various objects to the objects list
   maybe shapes of boundary objects
   Loading and Saving
+
+Graphics
+  Player
+    Sword hand animations
+    Fix bullet spawn location to be at the gun barrel
+  Enemys
+    Walky dood
+      Gun and aiming
+      Melee weapon animations
+    Turret
+      Damage indicator
+      invincibility indicator
+      different barrels for different shot types
+        an actual spinning blade graphic
+  Objects
+    Boundary
+    Hazard
 
 Custom keybindings ( should be relatively easy? )
 

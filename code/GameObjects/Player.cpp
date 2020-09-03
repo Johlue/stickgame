@@ -319,6 +319,8 @@ bool Player::render(int cameraX, int cameraY, int priority)
     if(iframes > 0)
     {
       mAnimations[STAND]->setTransparency(63, 1);
+      (*textureArray)[12]->setBlendMode(SDL_BLENDMODE_BLEND);
+      (*textureArray)[12]->setAlpha(63);
     }
 
     if(xVel < 1 && yVel > -1 && xVel > -1 && yVel < 1)
@@ -340,9 +342,11 @@ bool Player::render(int cameraX, int cameraY, int priority)
       SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0, 0, 255, 0xFF );
       SDL_RenderFillRect(mDisplay->getRenderer(), &rect2);
     }
-    if(iframes > 0)
+    if(iframes <= 0)
     {
       mAnimations[STAND]->setTransparency(255, 1);
+      (*textureArray)[12]->setBlendMode(SDL_BLENDMODE_BLEND);
+      (*textureArray)[12]->setAlpha(255);
     }
     return true;
   }
