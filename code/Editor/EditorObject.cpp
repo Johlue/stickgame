@@ -121,6 +121,11 @@ void EditorObject::render(int camX, int camY)
     (*textureArray)[1]->render(x, y, 0);
     (*textureArray)[12]->render(x-8, y, 2);
   }
+  else if(type == EO_TURRET)
+  {
+    SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
+    drawCircle(mDisplay->getRenderer(), x - camX, y - camY, 10);
+  }
   else
   {
     SDL_Rect rect2 = { x - camX, y - camY, width, height};
