@@ -56,8 +56,7 @@ void Slash::update()
     cd.damage = damage;
     cd.iframes = iframes;
     cd.knockback = knockback;
-    if(direction == 1) {cd.right = true; cd.left = false;}
-    else {cd.right = false; cd.left = true;}
+    if(direction == 1) cd.knockback = -knockback;
     if(!damageDealt) // can only deal damage once during it's lifecycle (but it is possible to multihit)
     {
       if(playerOwned == true)
