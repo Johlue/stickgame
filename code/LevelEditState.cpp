@@ -90,6 +90,11 @@ void LevelEditState::handleEvents(SDL_Event* e)
               {
                 offsetX = mx - objects[i]->getX() + cameraX;
                 offsetY = my - objects[i]->getY() + cameraY;
+                if(objects[i]->getType() == EO_TURRET)
+                {
+                  offsetX -= 10;
+                  offsetY -= 10;
+                }
                 draggedIndex = i;
                 break;
               }

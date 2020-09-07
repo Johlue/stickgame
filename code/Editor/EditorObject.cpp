@@ -118,8 +118,8 @@ void EditorObject::render(int camX, int camY)
   }
   else if(type == EO_PLAYER)
   {
-    (*textureArray)[1]->render(x, y, 0);
-    (*textureArray)[12]->render(x-8, y, 2);
+    (*textureArray)[1]->render(x - camX, y - camY, 0);
+    (*textureArray)[12]->render(x-8 - camX, y - camY, 2);
   }
   else if(type == EO_TURRET)
   {
@@ -142,7 +142,7 @@ bool EditorObject::clickedEdit(int cameraX, int cameraY)
   SDL_GetMouseState( &mx, &my );
   mx += cameraX; my += cameraY;
   if(type == EO_BOUNDARY){mx +=2; my +=2;} // adjust mouse location to make up for wonky hitbox
-
+  if(type == EO_TURRET){mx += 10; my += 10;}
   // if mouse is inside button return true;
   if( !( mx < x ||  mx > x + width || my < y || my > y + height)  )
   {
@@ -157,7 +157,10 @@ bool EditorObject::clickedDrag(int cameraX, int cameraY)
   int mx, my;
   SDL_GetMouseState( &mx, &my );
   mx += cameraX; my += cameraY;
-  if(type == EO_BOUNDARY){ std::cout << "bound"; mx +=2; my +=2;} // adjust mouse location to make up for wonky hitbox
+
+  // adjust mouse location to make up for wonky hitbox
+  if(type == EO_BOUNDARY){ std::cout << "bound"; mx +=2; my +=2;}
+  if(type == EO_TURRET){mx += 10; my += 10;}
 
   // if mouse is inside button return true;
   if( !( mx < x ||  mx > x + width || my < y || my > y + height)  )
@@ -177,6 +180,7 @@ bool EditorObject::mouseEvent(SDL_MouseButtonEvent& b, int cameraX, int cameraY)
   mx += cameraX; my += cameraY;
 
   if(type == EO_BOUNDARY){mx += 2; my += 2;} // adjust mouse location to make up for wonky hitbox
+  if(type == EO_TURRET){mx += 10; my += 10;}
 
   if(b.button == SDL_BUTTON_LEFT)
   {
@@ -246,7 +250,16 @@ void EditorObject::constructStringInfo()
 
 void EditorObject::setIndex(int i){index = i;}
 int EditorObject::getIndex(){return index;}
-int EditorObject::getX() {return x;} int EditorObject::getY(){return y;}
+int EditorObject::getX()
+{
+  if(type == EO_TURRET) return x - 10;
+  return x;
+}
+int EditorObject::getY()
+{
+  if(type == EO_TURRET) return y - 10;
+  return y;
+}
 int EditorObject::getWidth() {return width;} int EditorObject::getHeight(){return height;}
 int EditorObject::getType() {return type;}
 void EditorObject::setX2Y2(int xs, int ys)
