@@ -63,10 +63,8 @@ void Bullet::update()
         cd.damage = damage;
         cd.iframes = iframes;
         cd.knockback = knockback;
-        if(movement.x > 0) {cd.right = true; cd.left = false;}
-        else {cd.left = true; cd.right = false;}
+        if(movement.x > 0) cd.knockback = -knockback;
 
-        //TODO actual damage dealing
         Walker * wlk;
         wlk = dynamic_cast<Walker*>((*objects)[i]);
         wlk->damaged(cd);
@@ -85,8 +83,7 @@ void Bullet::update()
           cd.damage = damage;
           cd.knockback = knockback;
           cd.iframes = iframes;
-          if(movement.x > 0) {cd.right = true; cd.left = false;}
-          else {cd.left = true; cd.right = false;}
+          if(movement.x > 0) cd.knockback = -knockback;
 
           ptr->damaged(cd);
 
@@ -105,8 +102,7 @@ void Bullet::update()
         cd.knockback = knockback;
         cd.iframes = iframes;
 
-        if(movement.x > 0) {cd.right = true; cd.left = false;}
-        else {cd.left = true; cd.right = false;}
+        if(movement.x > 0) cd.knockback = -knockback;
 
         ptr->damaged(cd);
       }

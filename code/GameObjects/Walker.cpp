@@ -55,6 +55,8 @@ void Walker::update()
 {
   if(hp <= 0) alive = false;
 
+  if(flinched > 0) flinched--;
+
   if(meleeTellRemaining > 0) meleeTellRemaining--;
   if(meleeCooldownRemaining > 0 && meleeAttackRemaning <= 0) meleeCooldownRemaining--;
   if(meleeAttackRemaning > 0) meleeAttackRemaning--;
@@ -63,7 +65,7 @@ void Walker::update()
 
   while(gunAngle > 360) {gunAngle -= 360;}
   while(gunAngle < 0) {gunAngle += 360;}
-  // check if playrid is valid, if not fix it
+  // check if playerid is valid, if not fix it
   if(playerid > objects->size() - 1) playerid = 9999999;
   else if((*objects)[playerid]->getType() != PLAYER) playerid = 9999999;
 

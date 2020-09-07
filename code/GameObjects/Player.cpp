@@ -644,7 +644,6 @@ void Player::damaged(CollisionData hurt)
   {
     hp -= hurt.damage;
     iframes = hurt.iframes;
-    if(hurt.right) direct = 1;
     knockedBack(direct, hurt.knockback);
   }
 }

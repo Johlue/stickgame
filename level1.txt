@@ -3,7 +3,11 @@
 // Boundary: x y x2 y2 up down right left
 // Hazard x y width height angle damage subtype
 // Walker x y combatAI walkAI
+//  Walker combat AIs: MELEE M_STRONG M_QUICK RANGED R_QUICK R_MINIG R_BFG
+//  Walker move AIs: STAND INSTTURN WAIT
 // Turret x y combatAI moveAI
+//  turret combat AIs: T_SLOW T_FAST T_SPREAD T_BLADE
+//  turret move AIs: T_STATIC T_FLIGHT T_GROUND T_NOCLIP
 
 Boundary 34 240 250 240 T F F F
 Boundary 34 240 250 240 F T F F
@@ -23,15 +27,13 @@ Boundary 64 160 404 160 T F F F
 
 rHazard 200 110 50 50 0 64 SPIKE
 
-// turret combat AIs: T_SLOW T_FAST T_SPREAD T_BLADE
-// turret move AIs: T_STATIC T_FLIGHT T_GROUND T_NOCLIP
-gTurret 200 150 T_SLOW T_STATIC
-Turret 440 050 T_BLADE T_GROUND
-Turret 440 150 T_BLADE T_GROUND
+gTurret 200 150 T_SLOW T_GROUND
+sTurret 240 050 T_BLADE T_GROUND
+sTurret 440 150 T_BLADE T_STATIC
 a a a a Turret 500 220 T_BLADE T_NOCLIP
 lTurret 450 221 T_SLOW T_STATIC
 
-sWalker 160 100 R_QUICK WAIT
+Walker 160 100 RANGED WAIT
 sWalker 160 222 M_QUICK INSTTURN
 
 'Walker 450 100

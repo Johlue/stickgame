@@ -61,6 +61,8 @@ protected:
   double combatSpeed = 2;
   int damage = 8;
 
+  int flinched = 0;
+
   int meleeCooldown = 30; // total amount of time until a second melee attack can be unleashed
   int meleeCooldownRemaining = 0; // time remaining until next attack
   int meleeTell = 60; // amount of time spent posing until actually attacking
