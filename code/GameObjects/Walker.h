@@ -36,6 +36,7 @@ public:
 
   void damaged(CollisionData cd);
   CollisionData lineIntersection(double ox1, double oy1, double ox2, double oy2, double nx3, double ny3, double nx4, double ny4);
+  void knockedBack(int knockback, int dmg);
 
 protected:
   bool fallingCheck(); // check if there's floor underneath, and if not start falling
@@ -45,7 +46,7 @@ protected:
   bool detectPlayer();  // try and find the player
   double xVel = 0; double yVel = 0;
   int direction = 1; // 1 = right, -1 = left;
-  int hp = 40;
+  int hp = 400;
   bool falling = false;
   std::vector<GameObject*>* objects = nullptr; // contains objects to interact with
   Boundary* floorBeneath = nullptr; // the floor that your currently standing on

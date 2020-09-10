@@ -55,7 +55,10 @@ void Walker::update()
 {
   if(hp <= 0) alive = false;
 
-  if(flinched > 0) flinched--;
+  if(flinched > 0)
+  {
+    flinched--;
+  }
 
   if(meleeTellRemaining > 0) meleeTellRemaining--;
   if(meleeCooldownRemaining > 0 && meleeAttackRemaning <= 0) meleeCooldownRemaining--;
@@ -92,7 +95,7 @@ void Walker::update()
 
 
     if(falling) fallingCollisionCheck();
-    if(!falling)
+    if(!falling && flinched < 1)
     {
       xVel = moveSpeed;
       if(playerMemoryRemaining > 0)
@@ -128,6 +131,83 @@ void Walker::update()
           direction = direction * -1; // after the waiting is over turn around
         } else if(waiting > 1) xVel = 0;
       }
+
+      if(AIwalk == STANDING) xVel = 0;
+
+      if(detectPlayer()) // look for the player
+      {
+         playerDetected = true;
+         playerMemoryRemaining = playerMemory;
+         switch(AI)
+         {
+           case RANGED:
+           case RANGED_QUICK:
+
+           if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x)))
+           {
+             direction = direction * -1; // turn around if player is behind
+           }
+           //radians
+           aimAt(((atan2( x-((*objects)[playerid]->getX() +8) , ((*objects)[playerid]->getY()+8)-y)) * (180.0/3.14159265359)) + 180 - 90, 4);
+           rangedAIshoot();
+           break;
+
+           case MELEE:
+           case MELEE_STRONG:
+           if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x))
+            && meleeTellRemaining < 1 && meleeAttackRemaning < 1)
+           {
+             direction = direction * -1; // turn around if player is behind
+           } //TODO: some kind of delay me thinks
+
+           //if at melee range do an attack
+           meleeAttackSlow();
+           break;
+
+           case MELEE_QUICK:
+           if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x))
+            && meleeTellRemaining < 1 && meleeAttackRemaning < 1)
+            {
+              if(!falling) direction = direction * -1; // turn if player behind, while not midair
+            }
+            meleeAttackQuick();
+
+           break;
+
+         }
+      }
+      else
+      {
+        switch(AI)
+        {
+          int passiveAngle;// row row rowtate your gun
+          case RANGED:
+
+          if(!playerDetected) aimAt(90+(-20 * direction), 4); // point gun down if walker is not alert
+          else aimAt(90 + (-90 * direction), 4); // point forward if alert
+
+          break;
+
+          case MELEE:
+          if(meleeAttackInitiated) meleeAttackSlow();
+          break;
+        }
+        if(playerDetected)// if player was seen earlier and can't now, start forgetting
+        {
+          playerMemoryRemaining--;
+          //std::cout << "remaining memory: " << playerMemoryRemaining << std::endl;
+          if(playerMemoryRemaining < 1)
+          {
+            playerDetected = false;
+            //std::cout << "player forgotten" << std::endl;
+          }
+        }
+        else
+        {
+          initialShotDelay_t = initialShotDelay; //reset shotdelay due to lack of preparedness
+        }
+      }
+
     }
 
     if(wallCheck())
@@ -136,83 +216,10 @@ void Walker::update()
       else xVel = 0; // can see player, just wait
     }
 
-    if(AIwalk == STANDING) xVel = 0;
 
-    if(detectPlayer()) // look for the player
-    {
-       playerDetected = true;
-       playerMemoryRemaining = playerMemory;
-       switch(AI)
-       {
-         case RANGED:
-         case RANGED_QUICK:
 
-         if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x)))
-         {
-           direction = direction * -1; // turn around if player is behind
-         }
-         //radians
-         aimAt(((atan2( x-((*objects)[playerid]->getX() +8) , ((*objects)[playerid]->getY()+8)-y)) * (180.0/3.14159265359)) + 180 - 90, 4);
-         rangedAIshoot();
-         break;
 
-         case MELEE:
-         case MELEE_STRONG:
-         if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x))
-          && meleeTellRemaining < 1 && meleeAttackRemaning < 1)
-         {
-           direction = direction * -1; // turn around if player is behind
-         } //TODO: some kind of delay me thinks
-
-         //if at melee range do an attack
-         meleeAttackSlow();
-         break;
-
-         case MELEE_QUICK:
-         if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x))
-          && meleeTellRemaining < 1 && meleeAttackRemaning < 1)
-          {
-            if(!falling) direction = direction * -1; // turn if player behind, while not midair
-          }
-          meleeAttackQuick();
-
-         break;
-
-       }
-    }
-    else
-    {
-      switch(AI)
-      {
-        int passiveAngle;// row row rowtate your gun
-        case RANGED:
-
-        if(!playerDetected) aimAt(90+(-20 * direction), 4); // point gun down if walker is not alert
-        else aimAt(90 + (-90 * direction), 4); // point forward if alert
-
-        break;
-
-        case MELEE:
-        if(meleeAttackInitiated) meleeAttackSlow();
-        break;
-      }
-      if(playerDetected)// if player was seen earlier and can't now, start forgetting
-      {
-        playerMemoryRemaining--;
-        //std::cout << "remaining memory: " << playerMemoryRemaining << std::endl;
-        if(playerMemoryRemaining < 1)
-        {
-          playerDetected = false;
-          //std::cout << "player forgotten" << std::endl;
-        }
-      }
-      else
-      {
-        initialShotDelay_t = initialShotDelay; //reset shotdelay due to lack of preparedness
-      }
-    }
-
-    if((meleeAttackRemaning > 0 || meleeTellRemaining > 0) && (AI == MELEE || AI == MELEE_STRONG)) xVel = 0;
+    if(!falling && (meleeAttackRemaning > 0 || meleeTellRemaining > 0) && (AI == MELEE || AI == MELEE_STRONG)) xVel = 0;
 
     x += xVel * direction;
     gunPoint.x += xVel * direction;
@@ -402,7 +409,8 @@ bool Walker::detectPlayer()
 
 void Walker::rangedAIshoot()
 {
-  xVel = 0;
+  if(flinched > 0) return;
+  if(!falling) xVel = 0;
   if(initialShotDelay_t > 0) initialShotDelay_t--; //wait for itinialshot
   else
   {
@@ -430,6 +438,7 @@ void Walker::rangedAIshoot()
 
 void Walker::meleeAttackSlow()
 {
+  if(flinched > 0) return;
   if( (abs(((*objects)[playerid]->getX()+8) - (x + (width/2))) < meleeRange && // within melee range
   abs(((*objects)[playerid]->getY()+16) - (y + (height/2))) < 100) || meleeAttackInitiated )
   {
@@ -456,12 +465,13 @@ void Walker::meleeAttackSlow()
         }
       }
     }
-    xVel = 0; //also don't move, at least for the normal melee AI
+    if(!falling) xVel = 0; //also don't move, at least for the normal melee AI
   }
 }
 
 void Walker::meleeAttackQuick()
 {
+  if(flinched > 0) return;
   if( (abs(((*objects)[playerid]->getX()+8) - (x + (width/2))) < quickMeleeRange && // within jump range
   abs(((*objects)[playerid]->getY()+16) - (y + (height/2))) < 100) || meleeAttackInitiated )
   {
@@ -490,10 +500,18 @@ void Walker::damaged(CollisionData cd)
 {
   playerDetected = true;
   playerMemoryRemaining = playerMemory; // getting shot is fairly noticable after all
-  int direct = -1;
   hp -= cd.damage;
-  if(cd.right) direct = 1;
-  //knockedBack(direct, 1);
+  knockedBack(cd.knockback, cd.damage);
+}
+
+void Walker::knockedBack(int knockback, int dmg)
+{
+  falling = true;
+  flinched = dmg;
+  if(direction > 1) xVel = knockback;
+  else xVel = -knockback;
+  yVel = -1 - (std::abs(knockback) * .3);
+  y -= 2;
 }
 
 void Walker::aimAt(double target, double rotateSpeed)
