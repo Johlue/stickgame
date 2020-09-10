@@ -98,13 +98,14 @@ void Walker::update()
     if(falling) fallingCollisionCheck();
     if(!falling && flinched < 1)
     {
-      knockbackXVel = 0;
       xVel = moveSpeed;
       if(playerMemoryRemaining > 0)
       {
         xVel = combatSpeed; // move at combat speed if player is in line of sight
         if(jumping) xVel = jumpSpeed; // jump speed if jumping
       }
+      if(direction < 0) xVel = -xVel;
+
       if(floorBeneath != nullptr)
       {
         if(floorEndCheck())
@@ -237,16 +238,8 @@ void Walker::update()
 
     if(!falling && (meleeAttackRemaning > 0 || meleeTellRemaining > 0) && (AI == MELEE || AI == MELEE_STRONG)) xVel = 0;
 
-    if(falling && knockbackXVel != 0)
-    {
-      x += knockbackXVel;
-      gunPoint.x += knockbackXVel;
-    }
-    else
-    {
-      x += xVel * direction;
-      gunPoint.x += xVel * direction;
-    }
+    x += xVel;
+    gunPoint.x += xVel;
     y += yVel;
     gunPoint.y += yVel;
 
@@ -352,7 +345,7 @@ bool Walker::wallCheck()
       if((*objects)[i]->getType() == BOUNDARY)
       {
         ptr = dynamic_cast<Boundary*>((*objects)[i]);
-        if(direction > 0)
+        if(xVel > 0)
         {
           if(ptr->getLeft())
           {
@@ -368,16 +361,16 @@ bool Walker::wallCheck()
             }
           }
         }
-        else if(direction < 0)
+        else if(xVel < 0)
         {
           if(ptr->getRight())
           {
-            cd = ptr->lineIntersection(x + 1, y, x - xVel - 1, y,0,0,0,0);
+            cd = ptr->lineIntersection(x + 1, y, x + xVel - 1, y,0,0,0,0);
             if(cd.intersect)
             {
               return true;
             }
-            cd = ptr->lineIntersection(x + 1, y + height - 1, x - xVel - 1, y + height - 1 ,0,0,0,0);
+            cd = ptr->lineIntersection(x + 1, y + height - 1, x + xVel - 1, y + height - 1 ,0,0,0,0);
             if(cd.intersect)
             {
               return true;
@@ -532,7 +525,7 @@ void Walker::knockedBack(int knockback, int dmg)
 {
   falling = true;
   flinched = dmg;
-  knockbackXVel = -knockback;
+  xVel = -knockback;
   yVel = -1 - (std::abs(knockback) * .3);
   y -= 2;
   gunPoint.y -= 2;
