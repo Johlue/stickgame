@@ -298,25 +298,52 @@ void Walker::fallingCollisionCheck()
     if((*objects)[i]->getType() == BOUNDARY)
     {
       ptr = dynamic_cast<Boundary*>((*objects)[i]);
-      if(ptr->getUp())
+      if(yVel > 0)
       {
-        cd = ptr->lineIntersection(x, y + height - 1, x, y + height + yVel,0,0,0,0);
-        if(cd.intersect)
+        if(ptr->getUp())
         {
-          yVel = 0;
-          y = ptr->getY() - height;
-          falling = false;
-          floorBeneath = ptr;
-          return;
+          // left corner
+          cd = ptr->lineIntersection(x, y + height - 1, x, y + height + yVel,0,0,0,0);
+          if(cd.intersect)
+          {
+            yVel = 0;
+            y = ptr->getY() - height;
+            falling = false;
+            floorBeneath = ptr;
+            return;
+          }
+          // right corner
+          cd = ptr->lineIntersection(x + width, y + height - 1, x + width, y + height + yVel,0,0,0,0);
+          if(cd.intersect)
+          {
+            yVel = 0;
+            y = ptr->getY() - height;
+            falling = false;
+            floorBeneath = ptr;
+            return;
+          }
         }
-        cd = ptr->lineIntersection(x + width, y + height - 1, x + width, y + height + yVel,0,0,0,0);
-        if(cd.intersect)
+      }
+      else if(yVel < 0)
+      {
+        if(ptr->getDown())
         {
-          yVel = 0;
-          y = ptr->getY() - height;
-          falling = false;
-          floorBeneath = ptr;
-          return;
+          // left corner
+          cd = ptr->lineIntersection(x, y + height - 1, x, y + yVel,0,0,0,0);
+          if(cd.intersect)
+          {
+            yVel = 0;
+            y = ptr->getY();
+            return;
+          }
+          // right corner
+          cd = ptr->lineIntersection(x + width, y + height - 1, x + width, y + yVel,0,0,0,0);
+          if(cd.intersect)
+          {
+            yVel = 0;
+            y = ptr->getY();
+            return;
+          }
         }
       }
     }
