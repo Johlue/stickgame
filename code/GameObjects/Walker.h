@@ -45,6 +45,7 @@ protected:
   bool wallCheck();     //  see if wall is in front
   bool detectPlayer();  // try and find the player
   double xVel = 0; double yVel = 0;
+  double knockbackXVel = 0;
   int direction = 1; // 1 = right, -1 = left;
   int hp = 400;
   bool falling = false;

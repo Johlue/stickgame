@@ -60,6 +60,7 @@ void Walker::update()
     flinched--;
   }
 
+
   if(meleeTellRemaining > 0) meleeTellRemaining--;
   if(meleeCooldownRemaining > 0 && meleeAttackRemaning <= 0) meleeCooldownRemaining--;
   if(meleeAttackRemaning > 0) meleeAttackRemaning--;
@@ -97,6 +98,7 @@ void Walker::update()
     if(falling) fallingCollisionCheck();
     if(!falling && flinched < 1)
     {
+      knockbackXVel = 0;
       xVel = moveSpeed;
       if(playerMemoryRemaining > 0)
       {
@@ -141,6 +143,7 @@ void Walker::update()
          switch(AI)
          {
            case RANGED:
+           break;
            case RANGED_QUICK:
 
            if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x)))
@@ -153,9 +156,21 @@ void Walker::update()
            break;
 
            case MELEE:
+           if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x))
+            && meleeTellRemaining < 1 && meleeAttackRemaning < 1
+            && !falling && flinched < 1)
+           {
+             direction = direction * -1; // turn around if player is behind
+           } //TODO: some kind of delay me thinks
+
+           //if at melee range do an attack
+           meleeAttackSlow();
+           break;
+
            case MELEE_STRONG:
            if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x))
-            && meleeTellRemaining < 1 && meleeAttackRemaning < 1)
+            && meleeTellRemaining < 1 && meleeAttackRemaning < 1
+            && !falling && flinched < 1)
            {
              direction = direction * -1; // turn around if player is behind
            } //TODO: some kind of delay me thinks
@@ -166,7 +181,8 @@ void Walker::update()
 
            case MELEE_QUICK:
            if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x))
-            && meleeTellRemaining < 1 && meleeAttackRemaning < 1)
+            && meleeTellRemaining < 1 && meleeAttackRemaning < 1
+            && !falling && flinched < 1)
             {
               if(!falling) direction = direction * -1; // turn if player behind, while not midair
             }
@@ -221,8 +237,16 @@ void Walker::update()
 
     if(!falling && (meleeAttackRemaning > 0 || meleeTellRemaining > 0) && (AI == MELEE || AI == MELEE_STRONG)) xVel = 0;
 
-    x += xVel * direction;
-    gunPoint.x += xVel * direction;
+    if(falling && knockbackXVel != 0)
+    {
+      x += knockbackXVel;
+      gunPoint.x += knockbackXVel;
+    }
+    else
+    {
+      x += xVel * direction;
+      gunPoint.x += xVel * direction;
+    }
     y += yVel;
     gunPoint.y += yVel;
 
@@ -508,10 +532,10 @@ void Walker::knockedBack(int knockback, int dmg)
 {
   falling = true;
   flinched = dmg;
-  if(direction > 1) xVel = knockback;
-  else xVel = -knockback;
+  knockbackXVel = -knockback;
   yVel = -1 - (std::abs(knockback) * .3);
   y -= 2;
+  gunPoint.y -= 2;
 }
 
 void Walker::aimAt(double target, double rotateSpeed)
