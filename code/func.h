@@ -16,5 +16,6 @@ void splitString(const std::string &s, char delim, std::vector<std::string> &ele
 std::vector<std::string> splitString(const std::string &s, char delim); //split a string into words that are stored in a vector
 double pythagoras(double a, double b); // pythagoras triangle between a and b
 std::vector<std::string> menuOptions(std::string type); // returns menuoptions for a specified type
+void fillCircle(SDL_Renderer * renderer, double centreX, double centreY, double radius);
 
 #endif
