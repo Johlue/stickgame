@@ -24,7 +24,7 @@ public:
 
     Turret();
     // x location, y location, width, heigth, pointer to display
-    Turret(int xl, int yl, int cAI, int mAI, Display* display, std::vector<GameObject*>* obj);
+    Turret(int xl, int yl, int cAI, int mAI, Display* display, std::vector<GameObject*>* obj, int ohp = 60, int odamage = 20, int oknockback = 3, int obladeRadius = 38, int flightSpeed = 2, int groundSpeed = 7, bool oinvincible = false, int flightDistance = 90);
     ~Turret();
 
     void handleEvent(SDL_Event* e);
@@ -48,14 +48,12 @@ protected:
   double shootingAngle = 4; // at how close of an angle towards the player will the turret shoot
   int cooldown= 2;
   int shotFrequency = 30; // how often the gun shoots
-  int bulletDamage = 20;
+  int damage = 20;
   int bulletSpeed = 5;
-  int bulletKnockback = 3;
+  int knockback = 3;
   double bladeRadius = 38;
-  int bladeDamage = 40;
-  int bladeKnockback = 4;
   int playerid = 9999999;
-  int detectionRange = 500; // how far can it see
+  int detectionRange = 1600; // how far can it see
   double velocity = 0; // current speed of groundspinner
   double maxVelocity = 7; // max speed of groundspinner
   double fallVelocity = 0; // current speed of falling
@@ -67,7 +65,7 @@ protected:
   int hp = 60;
   int radius = 10; // how big it is, used for hitbox purposes
   int distanceFromPlayer = 90; // in case of a moving turret, this is the distance it will keep from the player
-  bool invincible = true;
+  bool invincible = false;
 
   int combatAI = TA_GUN_SEMI_SPREAD;
   int movementAI = TM_STATIONARY;

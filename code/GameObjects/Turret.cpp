@@ -342,6 +342,7 @@ void Turret::shoot()
 
 void Turret::damaged(CollisionData cd)
 {
+  if(invincible) return;
   int direct = -1;
   hp -= cd.damage;
   if(cd.right) direct = 1;
