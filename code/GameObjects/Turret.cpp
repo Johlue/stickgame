@@ -1,7 +1,7 @@
 #include "Turret.h"
 
 Turret::Turret(){type = TURRET;}
-Turret::Turret(int xl, int yl, int cAI, int mAI, Display* display, std::vector<GameObject*>* obj)
+Turret::Turret(int xl, int yl, int cAI, int mAI, Display* display, std::vector<GameObject*>* obj, int ohp, int odamage, int oknockback, int obladeRadius, int flightSpeed, int groundSpeed, bool oinvincible, int flightDistance)
 {
   objects = obj;
   type = TURRET;
@@ -287,7 +287,7 @@ void Turret::shoot()
     case TA_GUN_ACCURATE:
     {
     Vector2D bulletVector((angle-90) * (3.14159265359/180), bulletSpeed);
-    objects->push_back(new Bullet(x, y, bulletVector, mDisplay, objects, false, 10, 2));
+    objects->push_back(new Bullet(x, y, bulletVector, mDisplay, objects, false, damage, knockback));
     }
     break;
 
@@ -295,7 +295,7 @@ void Turret::shoot()
     {
     randomInt = rand() % 11 - 5;
     Vector2D bulletVector((angle-90+randomInt ) * (3.14159265359/180), bulletSpeed);
-    objects->push_back(new Bullet(x, y, bulletVector, mDisplay, objects, false, 10, 2));
+    objects->push_back(new Bullet(x, y, bulletVector, mDisplay, objects, false, damage, knockback));
     }
     break;
 
@@ -329,9 +329,9 @@ void Turret::shoot()
         Player * ptr;
         ptr = dynamic_cast<Player*>((*objects)[playerid]);
 
-        cd.damage = bladeDamage;
-        cd.knockback = bladeKnockback;
-        if(pcx > x) cd.knockback = -bladeKnockback;
+        cd.damage = damage;
+        cd.knockback = knockback;
+        if(pcx > x) cd.knockback = -knockback;
         cd.iframes = 120;
         ptr->damaged(cd);
       }
