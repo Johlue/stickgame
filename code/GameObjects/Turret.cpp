@@ -354,15 +354,12 @@ bool Turret::render(int cameraX, int cameraY, int priority)
 {
 
   // invincible turrets have a grey look to them
-  /*
   if(invincible)
   {
-    SDL_SetRenderDrawColor(mDisplay->getRenderer(), 200, 200, 200, SDL_ALPHA_OPAQUE);
-    fillCircle(mDisplay->getRenderer(), x - cameraX, y - cameraY, radius-2);
-  }*/
+    SDL_SetRenderDrawColor(mDisplay->getRenderer(), 100, 100, 100, SDL_ALPHA_OPAQUE);
+    fillCircle(mDisplay->getRenderer(), x - cameraX, y - cameraY, radius);
+  }
 
-  SDL_SetRenderDrawColor(mDisplay->getRenderer(), 100, 100, 100, SDL_ALPHA_OPAQUE);
-  fillCircle(mDisplay->getRenderer(), x - cameraX, y - cameraY, radius);
   SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
   drawCircle(mDisplay->getRenderer(), x - cameraX, y - cameraY, radius);
 

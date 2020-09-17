@@ -56,7 +56,6 @@ void drawCircle(SDL_Renderer * renderer, double centreX, double centreY, double 
 
 void fillCircle(SDL_Renderer * renderer, double centreX, double centreY, double radius)
 {
-
   const double diameter = (radius * 2);
 
   double x = (radius - 1);
@@ -64,22 +63,26 @@ void fillCircle(SDL_Renderer * renderer, double centreX, double centreY, double 
   double tx = 1;
   double ty = 1;
   double error = (tx - diameter);
-
+  int r = 0;
   while (x >= y)
   {
-    //  Each of the following renders an octant of the circle
-    SDL_RenderDrawLine(renderer, centreX + x, centreY - y, centreX + x, centreY + y);
-    //SDL_RenderDrawPoint(renderer, centreX + x, centreY - y);
-    //SDL_RenderDrawPoint(renderer, centreX + x, centreY + y);
-    SDL_RenderDrawLine(renderer, centreX - x, centreY - y, centreX - x, centreY + y);
-    //SDL_RenderDrawPoint(renderer, centreX - x, centreY - y);
-    //SDL_RenderDrawPoint(renderer, centreX - x, centreY + y);
-    SDL_RenderDrawLine(renderer, centreX + y, centreY - x, centreX + y, centreY + x);
-    //SDL_RenderDrawPoint(renderer, centreX + y, centreY - x);
-    //SDL_RenderDrawPoint(renderer, centreX + y, centreY + x);
-    SDL_RenderDrawLine(renderer, centreX - y, centreY - x, centreX - y, centreY + x);
-    //SDL_RenderDrawPoint(renderer, centreX - y, centreY - x);
-    //SDL_RenderDrawPoint(renderer, centreX - y, centreY + x);
+    r++;
+    if(r < radius)
+    {
+      //  Each of the following renders an octant of the circle
+      SDL_RenderDrawLine(renderer, centreX + x, centreY - y, centreX + x, centreY + y); // right side
+      //SDL_RenderDrawPoint(renderer, centreX + x, centreY - y);
+      //SDL_RenderDrawPoint(renderer, centreX + x, centreY + y);
+      SDL_RenderDrawLine(renderer, centreX - x, centreY - y, centreX - x, centreY + y); // left side
+      //SDL_RenderDrawPoint(renderer, centreX - x, centreY - y);
+      //SDL_RenderDrawPoint(renderer, centreX - x, centreY + y);
+      SDL_RenderDrawLine(renderer, centreX + y, centreY - x, centreX + y, centreY + x); //center right
+      //SDL_RenderDrawPoint(renderer, centreX + y, centreY - x);
+      //SDL_RenderDrawPoint(renderer, centreX + y, centreY + x);
+      SDL_RenderDrawLine(renderer, centreX - y, centreY - x, centreX - y, centreY + x); // center left
+      //SDL_RenderDrawPoint(renderer, centreX - y, centreY - x);
+      //SDL_RenderDrawPoint(renderer, centreX - y, centreY + x);
+    }
 
     if (error <= 0)
     {
