@@ -15,15 +15,16 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
   gunPoint.y = y + (height/5);
   if(AI == MELEE)
   {
-    meleeCooldown = 30;
-    meleeTell = 40;
-    meleeAttack = 30;
+    meleeCooldown = 10;
+    meleeTell = 20;
+    meleeAttack = 20;
   }
   else if(AI == MELEE_QUICK)
   {
     meleeAttack = 15;
     meleeCooldown = 10;
     combatSpeed = 3.5;
+    meleeRange = 60;
   }
   else if(AI == MELEE_STRONG){}
   else if(AI == RANGED)
@@ -53,6 +54,7 @@ Walker::~Walker(){}
 void Walker::handleEvent(SDL_Event* e){}
 void Walker::update()
 {
+
   if(hp <= 0) alive = false;
 
   if(flinched > 0)
@@ -135,8 +137,10 @@ void Walker::update()
         } else if(waiting > 1) xVel = 0;
       }
 
-      if(AIwalk == STANDING) xVel = 0;
-
+      if(AIwalk == STANDING)
+      {
+        xVel = 0;
+      }
       if(detectPlayer()) // look for the player
       {
          playerDetected = true;
@@ -224,7 +228,11 @@ void Walker::update()
           initialShotDelay_t = initialShotDelay; //reset shotdelay due to lack of preparedness
         }
       }
+    }
 
+    if(flinched < 1 && AI == MELEE_QUICK && jumping && meleeAttackInitiated)
+    {
+      meleeAttackQuick();
     }
 
     if(wallCheck())
@@ -527,9 +535,8 @@ void Walker::meleeAttackQuick()
       yVel = -1.3;
       meleeAttackInitiated = true;
     }
-    if(jumping &&
-      (abs(((*objects)[playerid]->getX()+8) - (x + (width/2))) < meleeRange &&
-    abs(((*objects)[playerid]->getY()+16) - (y + (height/2))) < 40) && meleeAttackInitiated)
+    if((abs(((*objects)[playerid]->getX()+8) - (x + (width/2))) < meleeRange &&
+      meleeAttackInitiated && jumping))
     {
       int slashXMod;
       if(direction == -1) slashXMod = -3 - width; // -slashwidth actually

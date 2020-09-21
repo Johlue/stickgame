@@ -280,9 +280,10 @@ void PlayState::walkerLoad(std::vector<std::string> bl) // walkers for the level
   else if(bl[3] ==  "R_MINIG") cAI = RANGED_MINIGUN;// minigun(duh), fast strong shooting, moves slowly
   else if(bl[3] ==  "R_BFG") cAI = RANGED_HYPERBEAM;
 
-  if(bl[4] == "STAND") wAI == STANDING; // stands still and only turns around if detects player
-  else if(bl[4] == "INSTTURN") wAI = INSTANTTURN; // turns as soon as edge is detected
-  else if(bl[4] == "WAIT") wAI = WAIT; // waits 2 seconds at edge of floor before turning around
+       if(bl[4] == "STAND")     wAI = STANDING; // stands still and only turns around if detects player
+  else if(bl[4] == "INSTTURN")  wAI = INSTANTTURN; // turns as soon as edge is detected
+  else if(bl[4] == "WAIT")      wAI = WAIT; // waits 2 seconds at edge of floor before turning around
+
   objects.push_back(new Walker(bx, by, cAI, wAI, mDisplay, &objects));
 }
 
