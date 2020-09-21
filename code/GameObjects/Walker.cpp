@@ -26,7 +26,13 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
     combatSpeed = 3.5;
     meleeRange = 60;
   }
-  else if(AI == MELEE_STRONG){}
+  else if(AI == MELEE_STRONG)
+  {
+    meleeAttack = 30;
+    meleeCooldown = 10;
+    meleeTell = 60;
+    meleeRange = 160;
+  }
   else if(AI == RANGED)
   {
     initialShotDelay = 60;
@@ -507,18 +513,29 @@ void Walker::meleeAttackSlow()
         if(meleeAttackRemaning == 0)
         {
           // start melee attack
-          meleeCooldownRemaining = meleeCooldown;
-          meleeAttackRemaning = meleeAttack;
-          int slashXMod;
-          if(direction == -1) slashXMod = -3 - width; // -slashwidth actually
-          else  slashXMod = width + 3;
-          objects->push_back(new Slash(&x, &y, slashXMod, (height/2) - (height/2), width, height, direction, false, objects, mDisplay)); // height/2 - slashHeight/2 actually
-          meleeAttackInitiated = false; // end of melee attack
+          if(AI == MELEE_STRONG)
+          {
+            meleeAttackStrong();
+          }
+          else
+          {
+            meleeCooldownRemaining = meleeCooldown;
+            meleeAttackRemaning = meleeAttack;
+            int slashXMod;
+            if(direction == -1) slashXMod = -3 - width; // -slashwidth actually
+            else  slashXMod = width + 3;
+            objects->push_back(new Slash(&x, &y, slashXMod, (height/2) - (height/2), width, height, direction, false, objects, mDisplay)); // height/2 - slashHeight/2 actually
+            meleeAttackInitiated = false; // end of melee attack
+          }
         }
       }
     }
     if(!falling) xVel = 0; //also don't move, at least for the normal melee AI
   }
+}
+
+void Walker::meleeAttackStrong()
+{
 }
 
 void Walker::meleeAttackQuick()

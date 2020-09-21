@@ -91,8 +91,9 @@ protected:
   void aimAt(double target, double rotateSpeed);  // rotate gunangle towards a target, at a speed
   void rotate(double ang);
 
-  void meleeAttackSlow(); // attack for MELEE and MELEE_STRONG
+  void meleeAttackSlow(); // attack for MELEE
   void meleeAttackQuick(); // attack for MELEE_QUICK
+  void meleeAttackStrong();// attack for MELEE_STRONG
 
 };
 
