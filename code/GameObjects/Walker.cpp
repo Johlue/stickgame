@@ -440,10 +440,11 @@ bool Walker::detectPlayer()
     }
   }
   // ignore direction if player already detected
+  // also double detection range
   if(playerDetected)
   {
-    if(std::abs((*objects)[playerid]->getX()+8 - (x+(width/2))) <= detectionRange
-        && std::abs((*objects)[playerid]->getY()+16 - (y+(height/6))) <= detectionRange)
+    if(std::abs((*objects)[playerid]->getX()+8 - (x+(width/2))) <= detectionRange * 2
+        && std::abs((*objects)[playerid]->getY()+16 - (y+(height/6))) <= detectionRange * 2)
     {
       return true;
     }
