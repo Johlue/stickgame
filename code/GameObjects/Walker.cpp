@@ -15,23 +15,23 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
   gunPoint.y = y + (height/5);
   if(AI == MELEE)
   {
-    meleeCooldown = 10;
+    meleeCooldown = 0;
     meleeTell = 20;
     meleeAttack = 20;
   }
   else if(AI == MELEE_QUICK)
   {
-    meleeAttack = 15;
+    meleeAttack = 0;
     meleeCooldown = 10;
     combatSpeed = 3.5;
     meleeRange = 60;
   }
   else if(AI == MELEE_STRONG)
   {
-    meleeAttack = 30;
-    meleeCooldown = 10;
-    meleeTell = 60;
-    meleeRange = 160;
+    meleeAttack = 90;
+    meleeCooldown = 90;
+    meleeTell = 90;
+    meleeRange = 999360;
   }
   else if(AI == RANGED)
   {
@@ -172,7 +172,7 @@ void Walker::update()
             && !falling && flinched < 1)
            {
              direction = direction * -1; // turn around if player is behind
-           } //TODO: some kind of delay me thinks
+           }
 
            //if at melee range do an attack
            meleeAttackSlow();
@@ -512,16 +512,19 @@ void Walker::meleeAttackSlow()
       {
         if(meleeAttackRemaning == 0)
         {
+          meleeCooldownRemaining = meleeCooldown;
+          meleeAttackRemaning = meleeAttack;
+          int slashXMod;
           // start melee attack
           if(AI == MELEE_STRONG)
           {
-            // do stuff
+            if(direction == -1) slashXMod = -3 - width; // -slashwidth actually
+            else  slashXMod = width + 3;
+            objects->push_back(new Slash(&x, &y, slashXMod, (height/2) - (height/2), width, height, direction, false, objects, mDisplay, S_FLAIL, 200)); // height/2 - slashHeight/2 actually
+            meleeAttackInitiated = false; // end of melee attack
           }
           else
           {
-            meleeCooldownRemaining = meleeCooldown;
-            meleeAttackRemaning = meleeAttack;
-            int slashXMod;
             if(direction == -1) slashXMod = -3 - width; // -slashwidth actually
             else  slashXMod = width + 3;
             objects->push_back(new Slash(&x, &y, slashXMod, (height/2) - (height/2), width, height, direction, false, objects, mDisplay)); // height/2 - slashHeight/2 actually
