@@ -93,7 +93,6 @@ protected:
 
   void meleeAttackSlow(); // attack for MELEE
   void meleeAttackQuick(); // attack for MELEE_QUICK
-  void meleeAttackStrong();// attack for MELEE_STRONG
 
 };
 

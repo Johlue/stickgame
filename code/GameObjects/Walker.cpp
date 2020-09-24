@@ -515,7 +515,7 @@ void Walker::meleeAttackSlow()
           // start melee attack
           if(AI == MELEE_STRONG)
           {
-            meleeAttackStrong();
+            // do stuff
           }
           else
           {
@@ -532,10 +532,6 @@ void Walker::meleeAttackSlow()
     }
     if(!falling) xVel = 0; //also don't move, at least for the normal melee AI
   }
-}
-
-void Walker::meleeAttackStrong()
-{
 }
 
 void Walker::meleeAttackQuick()

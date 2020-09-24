@@ -4,7 +4,7 @@ Slash::Slash()
 {
   type = PLAYERATTACK;
 }
-Slash::Slash(double * o_x, double * o_y, int o_rx, int o_ry, int o_width, int o_height, int o_direction, bool playerSlash, std::vector<GameObject*>* objs, Display* display)
+Slash::Slash(double * o_x, double * o_y, int o_rx, int o_ry, int o_width, int o_height, int o_direction, bool playerSlash, std::vector<GameObject*>* objs, Display* display, int mvtype, int duration, int dmg, int invfrm, double kb)
 {
   mDisplay = display;
   direction = o_direction;
@@ -16,12 +16,37 @@ Slash::Slash(double * o_x, double * o_y, int o_rx, int o_ry, int o_width, int o_
   height = o_height;
   objects = objs;
   playerOwned = playerSlash;
+  lifetime = duration;
+  damage = dmg;
+  iframes = invfrm;
+  moveType = mvtype;
+  knockback = kb;
+  flailspeed = flailspeed * direction;
 }
 Slash::~Slash(){}
 
 void Slash::handleEvent(SDL_Event* e){}
 void Slash::update()
 {
+  if(moveType == S_FLAIL)
+  {
+    if(flailreversal)
+    {
+      rx += flailspeed;
+      flailspeed += .1 * direction;
+    }
+    else
+    {
+      rx += flailspeed;
+      flailspeed -= .1 * direction;
+    }
+    if(closeEnough(flailspeed, 0))
+    {
+      if(flailreversal)   {lifetime = 0;}
+      flailspeed = -9 * direction;
+      flailreversal = true;
+    }
+  }
   if(lifetime > 0)
   {
     lifetime--;

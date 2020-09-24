@@ -98,8 +98,8 @@ void Player::handleEvent(SDL_Event* e)
           {
             int slashHeight = 40;
             int slashWidth = 40;
-            if(facingRight) objects->push_back(new Slash(&x, &y, width, height/2 - slashHeight/2, slashWidth, slashHeight, 1, true, objects, mDisplay));
-            else objects->push_back(new Slash(&x, &y, -slashWidth, height/2 - slashHeight/2, slashWidth, slashHeight,-1, true, objects, mDisplay));
+            if(facingRight) objects->push_back(new Slash(&x, &y, width, height/2 - slashHeight/2, slashWidth, slashHeight, 1, true, objects, mDisplay, S_FLAIL, 200));
+            else objects->push_back(new Slash(&x, &y, -slashWidth, height/2 - slashHeight/2, slashWidth, slashHeight,-1, true, objects, mDisplay, S_FLAIL, 200));
             meleeCooldown = 30;
           }
           break;
