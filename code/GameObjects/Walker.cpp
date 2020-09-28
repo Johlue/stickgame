@@ -32,6 +32,8 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
     meleeCooldown = 1;
     meleeTell = 90;
     meleeRange = 999360;
+    width = 30;
+    height = 60;
   }
   else if(AI == RANGED)
   {
@@ -575,6 +577,7 @@ void Walker::damaged(CollisionData cd)
 
 void Walker::knockedBack(int knockback, int dmg)
 {
+  if(AI == MELEE_STRONG){return;}
   falling = true;
   flinched = dmg;
   xVel = -knockback;
