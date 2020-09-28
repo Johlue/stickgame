@@ -18,6 +18,7 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
     meleeCooldown = 1;
     meleeTell = 20;
     meleeAttack = 20;
+    hp = 60;
   }
   else if(AI == MELEE_QUICK)
   {
@@ -25,6 +26,7 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
     meleeCooldown = 10;
     combatSpeed = 3.5;
     meleeRange = 60;
+    hp = 40;
   }
   else if(AI == MELEE_STRONG)
   {
@@ -34,6 +36,7 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
     meleeRange = 999360;
     width = 30;
     height = 60;
+    hp = 100;
   }
   else if(AI == RANGED)
   {
@@ -42,6 +45,8 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
     clipSize = 4;
     reloadSpeed = 60;
     damage = 25;
+    hp = 50;
+    gunSpread = 0;
   }
   else if(AI == RANGED_QUICK)
   {
@@ -50,8 +55,19 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
     clipSize = 16;
     reloadSpeed = 90;
     damage = 10;
+    hp = 30;
+    gunSpread = 2;
   }
-  else if(AI == RANGED_MINIGUN){}
+  else if(AI == RANGED_MINIGUN)
+  {
+    initialShotDelay = 60;
+    betweenShotsDelay = 0;
+    clipSize = 120;
+    reloadSpeed = 160;
+    damage = 30;
+    hp = 60;
+    gunSpread = 10;
+  }
   else if(AI == RANGED_HYPERBEAM){}
   initialShotDelay_t = initialShotDelay;
   reloadSpeed_t = reloadSpeed;
@@ -156,8 +172,8 @@ void Walker::update()
          switch(AI)
          {
            case RANGED:
-           break;
            case RANGED_QUICK:
+           case RANGED_MINIGUN:
 
            if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x)))
            {
@@ -480,7 +496,8 @@ void Walker::rangedAIshoot()
   {
     if(betweenShotsDelay_t <= 0 && shotsRemaining > 0) // SHOOT!
     {
-      Vector2D bulletVector((gunAngle) * (3.14159265359/180), 10); //angle and speed of bullet
+      Vector2D bulletVector((gunAngle) * (3.14159265359/180) +
+      randomDouble(-gunSpread * (3.14159265359/180), gunSpread * (3.14159265359/180)), 10); //angle and speed of bullet
       objects->push_back(new Bullet(gunPoint.x, gunPoint.y, bulletVector, mDisplay, objects, false, damage, 1));
       shotsRemaining--; // one less bullet
       betweenShotsDelay_t = betweenShotsDelay; // reset shotdelay

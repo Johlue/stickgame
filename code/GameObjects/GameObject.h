@@ -13,6 +13,7 @@
 #include "func.h"
 #include "Animation.h"
 #include <stdlib.h>
+#include <random>
 
 // identifier for what type of object it is
 enum ObjectTypes

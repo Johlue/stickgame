@@ -153,3 +153,8 @@ std::vector<std::string> menuOptions(std::string type)
   }
   return tms;
 }
+
+double randomDouble(double min, double max)
+{
+  return (max - min) * ( (double)rand() / (double)RAND_MAX ) + min;
+}
