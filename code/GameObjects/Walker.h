@@ -69,7 +69,7 @@ protected:
   int meleeTell = 60; // amount of time spent posing until actually attacking
   int meleeTellRemaining = 0; // time until end of posing
   int meleeAttack = 30; // amount of time the melee attack animation lasts for, (afterwards movement is possible again)
-  int meleeAttackRemaning = 0;
+  int meleeAttackRemaining = 0;
   bool meleeAttackInitiated = false;
   int meleeRange = 30; // how close to player to perform melee attack
 

@@ -15,7 +15,7 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
   gunPoint.y = y + (height/5);
   if(AI == MELEE)
   {
-    meleeCooldown = 0;
+    meleeCooldown = 1;
     meleeTell = 20;
     meleeAttack = 20;
   }
@@ -28,8 +28,8 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
   }
   else if(AI == MELEE_STRONG)
   {
-    meleeAttack = 90;
-    meleeCooldown = 90;
+    meleeAttack = 180;
+    meleeCooldown = 1;
     meleeTell = 90;
     meleeRange = 999360;
   }
@@ -70,10 +70,10 @@ void Walker::update()
 
 
   if(meleeTellRemaining > 0) meleeTellRemaining--;
-  if(meleeCooldownRemaining > 0 && meleeAttackRemaning <= 0) meleeCooldownRemaining--;
-  if(meleeAttackRemaning > 0) meleeAttackRemaning--;
+  if(meleeCooldownRemaining > 0 && meleeAttackRemaining <= 0) meleeCooldownRemaining--;
+  if(meleeAttackRemaining > 0) meleeAttackRemaining--;
 
-  //std::cout << "mTell: " << meleeTellRemaining << " mAtt: " << meleeAttackRemaning << " mCool: " << meleeCooldownRemaining << std::endl;
+  //std::cout << "mTell: " << meleeTellRemaining << " mAtt: " << meleeAttackRemaining << " mCool: " << meleeCooldownRemaining << std::endl;
 
   while(gunAngle > 360) {gunAngle -= 360;}
   while(gunAngle < 0) {gunAngle += 360;}
@@ -168,7 +168,7 @@ void Walker::update()
 
            case MELEE:
            if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x))
-            && meleeTellRemaining < 1 && meleeAttackRemaning < 1
+            && meleeTellRemaining < 1 && meleeAttackRemaining < 1
             && !falling && flinched < 1)
            {
              direction = direction * -1; // turn around if player is behind
@@ -180,7 +180,7 @@ void Walker::update()
 
            case MELEE_STRONG:
            if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x))
-            && meleeTellRemaining < 1 && meleeAttackRemaning < 1
+            && meleeTellRemaining < 1 && meleeAttackRemaining < 1
             && !falling && flinched < 1)
            {
              direction = direction * -1; // turn around if player is behind
@@ -192,7 +192,7 @@ void Walker::update()
 
            case MELEE_QUICK:
            if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x))
-            && meleeTellRemaining < 1 && meleeAttackRemaning < 1
+            && meleeTellRemaining < 1 && meleeAttackRemaining < 1
             && !falling && flinched < 1)
             {
               if(!falling) direction = direction * -1; // turn if player behind, while not midair
@@ -250,7 +250,10 @@ void Walker::update()
 
 
 
-    if(!falling && (meleeAttackRemaning > 0 || meleeTellRemaining > 0) && (AI == MELEE || AI == MELEE_STRONG)) xVel = 0;
+    if(!falling && (meleeAttackRemaining > 0 || meleeTellRemaining > 0) && (AI == MELEE || AI == MELEE_STRONG))
+    {
+      xVel = 0;
+    }
 
     x += xVel;
     gunPoint.x += xVel;
@@ -264,7 +267,7 @@ bool Walker::render(int cameraX, int cameraY, int priority)
   SDL_Rect rect2 = { x - cameraX, y - cameraY, width, height};
   SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0, 255, 0, 0xFF );
   if(meleeTellRemaining > 0) SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 0, 0, 0xFF);
-  if(meleeAttackRemaning > 0) SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 255, 0xFF);
+  if(meleeAttackRemaining > 0) SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 255, 0xFF);
   SDL_RenderFillRect(mDisplay->getRenderer(), &rect2);
   SDL_Rect rect3 = {gunPoint.x - cameraX, gunPoint.y - cameraY, 3, 3};
   SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 0, 0, 0xFF);
@@ -511,17 +514,15 @@ void Walker::meleeAttackSlow()
       }
       else if(meleeTellRemaining == 1) // attack if meleeTell has reached its end
       {
-        if(meleeAttackRemaning == 0)
+        if(meleeAttackRemaining == 0)
         {
           meleeCooldownRemaining = meleeCooldown;
-          meleeAttackRemaning = meleeAttack;
+          meleeAttackRemaining = meleeAttack;
           int slashXMod;
           // start melee attack
           if(AI == MELEE_STRONG)
           {
-            if(direction == -1) slashXMod = -3 - width; // -slashwidth actually
-            else  slashXMod = width + 3;
-            objects->push_back(new Slash(&x, &y, slashXMod, (height/2) - (height/2), width, height, direction, false, objects, mDisplay, S_FLAIL, 200)); // height/2 - slashHeight/2 actually
+            objects->push_back(new Slash(&x, &y, -10, (height/2) - (40/2), 40, 40, direction, false, objects, mDisplay, S_FLAIL, 200)); // height/2 - slashHeight/2 actually
             meleeAttackInitiated = false; // end of melee attack
           }
           else

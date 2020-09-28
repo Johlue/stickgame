@@ -43,7 +43,7 @@ void Slash::update()
     if(closeEnough(flailspeed, 0))
     {
       if(flailreversal)   {lifetime = 0;}
-      flailspeed = -9 * direction;
+      flailspeed = -8 * direction;
       flailreversal = true;
     }
   }
