@@ -74,6 +74,9 @@ void Slash::update()
     y = *oy + ry;
   }
 
+  if(damageTimer > 0){damageTimer--;} // reduce damagetimer
+
+  bool damageDealt = false;
   for(int i = 0; i < objects->size(); i++)
   {
     // if its the players slash, then do damage to enemies
@@ -84,7 +87,7 @@ void Slash::update()
     if(direction == 1) {cd.knockback = -knockback;}
     if(flailreversal) {cd.knockback = -cd.knockback;}
 
-    if(!damageDealt) // can only deal damage once during it's lifecycle (but it is possible to multihit)
+    if(damageTimer <= 0) // can only deal damage once during it's lifecycle (but it is possible to multihit)
     {
       if(playerOwned == true)
       {
@@ -133,6 +136,7 @@ void Slash::update()
       {tempPtr->kill();}
     }
   }
+  if(damageDealt){damageTimer = 30;}
 }
 bool Slash::render(int cameraX, int cameraY, int priority)
 {
