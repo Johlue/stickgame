@@ -413,15 +413,15 @@ void LevelEditState::render()
   switch(clickMode)
   {
     case MOUSE_EDIT:
-    (*textureArray)[11]->render(5, 5, 0);
+    (*textureArray)[TEX_LEVELEDIT_MOUSEMODE_EDIT]->render(5, 5, 0);
     break;
 
     case MOUSE_DRAG:
-    (*textureArray)[10]->render(5, 5, 0);
+    (*textureArray)[TEX_LEVELEDIT_MOUSEMODE_DRAG]->render(5, 5, 0);
     break;
 
     case MOUSE_CREATE:
-    (*textureArray)[9]->render(5, 5, 0);
+    (*textureArray)[TEX_LEVELEDIT_MOUSEMODE_CREATE]->render(5, 5, 0);
     break;
   }
 

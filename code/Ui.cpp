@@ -27,9 +27,9 @@ void Ui::render()
     SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, 0xFF);
     SDL_RenderFillRect(mDisplay->getRenderer(), &rect);
     // gun bar
-    SDL_Rect rect4 = {11, 35, std::max(player->getLazerCharge()/90, 0.0), 10};
-    SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 255, 255, 0xFF);
-    SDL_RenderFillRect(mDisplay->getRenderer(), &rect4);
+    //SDL_Rect rect4 = {11, 35, std::max(player->getLazerCharge()/90, 0.0), 10};
+    //SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 255, 255, 0xFF);
+    //SDL_RenderFillRect(mDisplay->getRenderer(), &rect4);
   }
 }
 

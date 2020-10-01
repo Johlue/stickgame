@@ -32,7 +32,6 @@ public:
 
   int getHP();
   int getAmmo();
-  double getLazerCharge();
 
   CollisionData lineIntersection(double ox1, double oy1, double ox2, double oy2, double nx3, double ny3, double nx4, double ny4);
 
@@ -43,8 +42,6 @@ protected:
   void boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool * collidingX, bool * collidingY, CollisionData * collisionPointX, CollisionData * collisionPointY, double * shortestDistanceX, double * shortestDistanceY);
   void hazardCollision(Hazard * hazardPtr);
   void rotate(double angl);
-  void fireTheLazer();
-  void renderTheLazer(int cx, int cy);
 
   bool movingRight = false;
   bool movingLeft = false;
@@ -92,14 +89,6 @@ protected:
   int hp = 255;
   int ammo = 0;
   int gunFrame = 2;
-
-  int lazerChargeMax = 9000;
-  int lazerCharge = 0;
-  int lazerDuration = 0;
-  int lazerDurationMax = 180;
-  bool lazerOnCooldown = false;
-  bool lazerIsCharging = false;
-  bool lazerIsFiring = false;
 };
 
 

@@ -24,13 +24,13 @@ Player::Player(double xl, double yl, bool * life, Display* display, std::vector<
 
   // Animations and their shenanigans
   mAnimations.push_back(new Animation(15, false, textureArray, mDisplay));
-  mAnimations[STAND]->addFrame(1, 0);
+  mAnimations[STAND]->addFrame(TEX_PLAYER_BODY, 0);
   mAnimations.push_back(new Animation(15, true, textureArray, mDisplay));
-  mAnimations[WALK]->addFrame(1, 1);
-  mAnimations[WALK]->addFrame(1, 2);
-  mAnimations[WALK]->addFrame(1, 3);
-  mAnimations[WALK]->addFrame(1, 4);
-  mAnimations[WALK]->addFrame(1, 5);
+  mAnimations[WALK]->addFrame(TEX_PLAYER_BODY, 1);
+  mAnimations[WALK]->addFrame(TEX_PLAYER_BODY, 2);
+  mAnimations[WALK]->addFrame(TEX_PLAYER_BODY, 3);
+  mAnimations[WALK]->addFrame(TEX_PLAYER_BODY, 4);
+  mAnimations[WALK]->addFrame(TEX_PLAYER_BODY, 5);
 }
 
 Player::~Player()
@@ -78,7 +78,7 @@ void Player::handleEvent(SDL_Event* e)
           break;
 
           case SDLK_j: // for now jump button
-          if(!falling && !lazerIsFiring)
+          if(!falling)
           {
             jumping = true;
             falling = true;
@@ -102,10 +102,6 @@ void Player::handleEvent(SDL_Event* e)
             else objects->push_back(new Slash(&x, &y, -slashWidth, height/2 - slashHeight/2, slashWidth, slashHeight,-1, true, objects, mDisplay));
             meleeCooldown = 30;
           }
-          break;
-
-          case SDLK_i: // gigalazer button
-          if(!lazerOnCooldown) lazerIsCharging = true;
           break;
         }
       }
@@ -135,17 +131,6 @@ void Player::handleEvent(SDL_Event* e)
 
         case SDLK_j:
         jumping = false;
-        break;
-
-        case SDLK_i:
-        lazerIsCharging = false;
-        if(lazerCharge == lazerChargeMax)
-        {
-          std::cout << "FIRE THE LAZER!\n";
-          lazerIsFiring = true;
-          lazerDuration = lazerDurationMax;
-          lazerOnCooldown = true;
-        }
         break;
       }
       break;
@@ -195,27 +180,6 @@ void Player::update()
     else if(gunAngle < 0) gunAngle += 360;
 
   }
-
-  // gigalazer things
-  if(lazerIsCharging) lazerCharge = std::min(lazerCharge + 90, lazerChargeMax);
-  else if(lazerOnCooldown)
-  {
-    lazerCharge = std::max(lazerCharge -15, 0);
-    if(lazerCharge == 0) lazerOnCooldown = false;
-  }
-  else lazerCharge = std::max(lazerCharge -180, 0);
-  if(lazerIsFiring)
-  {
-    fireTheLazer();
-    lazerDuration--;
-    if(lazerDuration < 1)
-    {
-      lazerIsFiring = false;
-      std::cout << "the firing of the lazer has been stopped\n";
-    }
-  }
-  else lazerDuration = 0;
-
 
   if(meleeCooldown > 0) meleeCooldown--;
   //std::cout << "yLoc: " << y << " jumping: " << jumping << " falling: " << falling << std::endl;
@@ -298,7 +262,6 @@ bool Player::render(int cameraX, int cameraY, int priority)
     SDL_RendererFlip flip = SDL_FLIP_NONE;
     if(!facingRight) flip = SDL_FLIP_HORIZONTAL;
     cameraY -= 1; // to get the player level with the ground
-    renderTheLazer(cameraX, cameraY);
 
     // placeholder graphics for gun
     /*
@@ -314,13 +277,13 @@ bool Player::render(int cameraX, int cameraY, int priority)
     else if(aimingForward && aimingDown) gunFrame = 3;
     else if(!aimingForward && aimingDown) gunFrame = 4;
 
-    (*textureArray)[12]->render(x - 8 - cameraX, y - cameraY, gunFrame, NULL, NULL, NULL, flip);
+    (*textureArray)[TEX_PLAYER_GUN]->render(x - 8 - cameraX, y - cameraY, gunFrame, NULL, NULL, NULL, flip);
 
     if(iframes > 0)
     {
       mAnimations[STAND]->setTransparency(63, 1);
-      (*textureArray)[12]->setBlendMode(SDL_BLENDMODE_BLEND);
-      (*textureArray)[12]->setAlpha(63);
+      (*textureArray)[TEX_PLAYER_GUN]->setBlendMode(SDL_BLENDMODE_BLEND);
+      (*textureArray)[TEX_PLAYER_GUN]->setAlpha(63);
     }
 
     if(xVel < 1 && yVel > -1 && xVel > -1 && yVel < 1)
@@ -345,8 +308,8 @@ bool Player::render(int cameraX, int cameraY, int priority)
     if(iframes <= 0)
     {
       mAnimations[STAND]->setTransparency(255, 1);
-      (*textureArray)[12]->setBlendMode(SDL_BLENDMODE_BLEND);
-      (*textureArray)[12]->setAlpha(255);
+      (*textureArray)[TEX_PLAYER_GUN]->setBlendMode(SDL_BLENDMODE_BLEND);
+      (*textureArray)[TEX_PLAYER_GUN]->setAlpha(255);
     }
     return true;
   }
@@ -637,8 +600,6 @@ void Player::knockedBack(int direction, int force)
 void Player::damaged(CollisionData hurt)
 {
   // all ongoing actions are cancelled
-  lazerIsFiring = false;
-  lazerIsCharging = false;
   int direct = -1;
   if(iframes <= 0)
   {
@@ -655,101 +616,6 @@ void Player::rotate(double angl) // rotate by angl degrees
   p.x = w1; p.y = h1;
   rotatePoint(angl, &gunPoint, p);
   gunAngle += angl;
-}
-
-double Player::getLazerCharge(){return lazerCharge;}
-
-void Player::fireTheLazer()
-{
-  // check for boundary collisions first and store distance of shortest collision point in beamEndPoint[a]
-  // run second collision for enemies etc. from beam origin to beam end
-  Point center; center.x = x + (width/2); center.y = y + (height/2);
-  beamEndPoint.clear();
-  beamStartPoint.clear();
-  Point beamStart;
-  Point beamEnd;
-  CollisionData cd;
-  CollisionData dmg;
-  dmg.damage = 1;
-  dmg.knockback = 0;
-  dmg.right = true;
-  for(int i = 0; i < 8; i++) // create 8 separate beams  and rotate them
-  {
-    beamEnd.x = x + 10024;
-    beamEnd.y = y + (i*4);
-    rotatePoint(gunAngle, &beamEnd, center);
-    beamStart.x = x + (width/2);
-    beamStart.y = y + (i*4);
-    rotatePoint(gunAngle, &beamStart, center);
-    beamEndPoint.push_back(beamEnd);
-    beamStartPoint.push_back(beamStart);
-    for(int i2 = 0; i2 < objects->size(); i2++)
-    {
-      if((*objects)[i2]->getType() == BOUNDARY) // check if any boundaries intersect with the beam
-      {
-        cd = ((*objects))[i2]->lineIntersection(beamStartPoint[i].x, beamStartPoint[i].y, beamEndPoint[i].x, beamEndPoint[i].y ,0,0,0,0);
-        if(cd.intersect) // in case of intersection set a new end point for beam
-        {
-          beamEndPoint[i].x = cd.x;
-          beamEndPoint[i].y = cd.y;
-        }
-      }
-    }
-  }
-  Point pointless = {0, 0};
-  for(int i = 0; i < beamStartPoint.size(); i++) // damage things go here
-  {
-    for(int i2 = 0; i2 < objects->size(); i2++)
-    {
-      if((*objects)[i2]->getType() == WALKER)
-      {
-        Walker * wptr;
-        wptr = dynamic_cast<Walker*>((*objects)[i2]);
-        cd = wptr->lineIntersection(
-          beamStartPoint[i].x,beamStartPoint[i].y,beamEndPoint[i].x,beamEndPoint[i].y,0,0,0,0);
-        cd.damage = 1;
-        if(cd.intersect) wptr->damaged(cd);
-      }
-      else if((*objects)[i2]->getType() == TURRET)
-      {
-        Turret * wptr;
-        wptr = dynamic_cast<Turret*>((*objects)[i2]);
-        cd = wptr->lineIntersection(
-          beamStartPoint[i].x,beamStartPoint[i].y,beamEndPoint[i].x,beamEndPoint[i].y,0,0,0,0);
-        cd.damage = 1;
-        if(cd.intersect) wptr->damaged(cd);
-      }
-    }
-  }
-}
-
-void Player::renderTheLazer(int cx, int cy)
-{
-  if(!lazerIsFiring) return;
-  Point drawPoint = {0, 0};
-  for(int i = 0; i < beamStartPoint.size(); i++) // drawing lazer outlines
-  {
-    SDL_Rect scl = {0,0, // strech beam graphic from beam start to beam end
-      pythagoras(abs(beamStartPoint[i].x - beamEndPoint[i].x), abs(beamStartPoint[i].y) - beamEndPoint[i].y) - 13 ,21};
-    SDL_Point center = {-10, 11};
-    (*textureArray)[8]->render(beamStartPoint[i].x + 10 - cx, beamStartPoint[i].y-11-cy, 0, &scl, gunAngle, &center );
-  }
-  for(int i= 0; i < beamStartPoint.size(); i++)
-  {
-    (*textureArray)[6]->render(beamEndPoint[i].x -15 - cx, beamEndPoint[i].y -15 - cy, 0); // beam end circles
-  }
-  for(int i = 0; i < beamStartPoint.size(); i++) // drawing lazer insides
-  {
-    SDL_Rect scl = {0,0, // strech beam graphic from beam start to beam end
-      pythagoras(abs(beamStartPoint[i].x - beamEndPoint[i].x), abs(beamStartPoint[i].y) - beamEndPoint[i].y) -13 ,17};
-    SDL_Point center = {-12, 9};
-    (*textureArray)[7]->render(beamStartPoint[i].x + 12 - cx, beamStartPoint[i].y - cy- 9, 0, &scl, gunAngle, &center );
-  }
-  for(int i= 0; i < beamStartPoint.size(); i++)
-  {
-    (*textureArray)[5]->render(beamEndPoint[i].x -15 - cx, beamEndPoint[i].y -15 - cy, 0); // beam end circles
-  }
-
 }
 
 CollisionData Player::lineIntersection(double ox1, double oy1, double ox2, double oy2, double nx3, double ny3, double nx4, double ny4)

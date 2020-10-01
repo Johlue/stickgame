@@ -12,15 +12,41 @@ GameEngine::GameEngine(Display* display, Writer* writer)
   loadImageTexture("LevelEditMenu1.png", 1, 4);         // 2
   loadImageTexture("LevelEditMenuEnemies.png", 4, 3);   // 3
   loadImageTexture("LevelEditMenuObjects.png", 4, 3);   // 4
+  /*
   loadImageTexture("GigalazerCircleInside.png", 1, 1);  // 5
   loadImageTexture("GigalazerCircleOutside.png", 1, 1); // 6
   loadImageTexture("GigalazerSquareInside.png", 1, 1);  // 7
   loadImageTexture("GigalazerSquareOutside.png", 1, 1); // 8
-  loadImageTexture("MOUSE_CREATE.png", 1, 1);           // 9
-  loadImageTexture("MOUSE_DRAG.png", 1, 1);             // 10
-  loadImageTexture("MOUSE_EDIT.png", 1, 1);             // 11
-  loadImageTexture("charaGunHand.png", 5, 1);           // 12
-  loadImageTexture("charaSwordHand.png", 3, 4);         // 13
+  */
+  loadImageTexture("MOUSE_CREATE.png", 1, 1);           // 5
+  loadImageTexture("MOUSE_DRAG.png", 1, 1);             // 6
+  loadImageTexture("MOUSE_EDIT.png", 1, 1);             // 7
+  loadImageTexture("charaGunHand.png", 5, 1);           // 8
+  loadImageTexture("charaSwordHand.png", 3, 4);         // 9
+  loadImageTexture("Enemy_Melee_Normal_Body.png", 8, 6);// 10
+/*
+____________________________________________________________________________________________________________
+
+
+
+          REMEMBER TO UPDATE THE TEXTURE ENUM IN IMAGETEXTURES WHEN ADDING STUFF
+
+
+____________________________________________________________________________________________________________
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
   /*
   mTextures.push_back(new ImageTexture());
   mTextures[0]->setRenderer(display->getRenderer());

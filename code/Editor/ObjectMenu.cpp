@@ -5,11 +5,11 @@ ObjectMenu::ObjectMenu()
 
 void ObjectMenu::render()
 {
-  if(mState == CLOSED || mState == OBJECTS) (*textureArray)[2]->render(x, y, 3);
-  else (*textureArray)[2]->render(x, y, 2);
+  if(mState == CLOSED || mState == OBJECTS) {(*textureArray)[TEX_LEVELEDIT_MENU]->render(x, y, 3);}
+  else {(*textureArray)[TEX_LEVELEDIT_MENU]->render(x, y, 2);}
 
-  if(mState == CLOSED || mState == ENEMIES) (*textureArray)[2]->render(x, y+50, 1);
-  else (*textureArray)[2]->render(x, y+50, 0);
+  if(mState == CLOSED || mState == ENEMIES) {(*textureArray)[TEX_LEVELEDIT_MENU]->render(x, y+50, 1);}
+  else {(*textureArray)[TEX_LEVELEDIT_MENU]->render(x, y+50, 0);}
 
   if(mState == ENEMIES)
   {
@@ -17,7 +17,7 @@ void ObjectMenu::render()
     {
       for(int j = 0; j < 3; j++) // columns
       {
-        (*textureArray)[3]->render(x+(39*i), y+100+(59*j), i+(j*4));
+        (*textureArray)[TEX_LEVELEDIT_MENU_ENEMIES]->render(x+(39*i), y+100+(59*j), i+(j*4));
       }
     }
   }
@@ -27,7 +27,7 @@ void ObjectMenu::render()
     {
       for(int j = 0; j < 3; j++) // columns
       {
-        (*textureArray)[4]->render(x+(39*i), y+100+(59*j), i+(j*4));
+        (*textureArray)[TEX_LEVELEDIT_MENU_OBJECTS]->render(x+(39*i), y+100+(59*j), i+(j*4));
       }
     }
   }

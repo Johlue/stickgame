@@ -17,9 +17,9 @@ MenuState::~MenuState()
 void MenuState::init()
 {
   // create new buttons
-  buttonArray.push_back( new MenuButton(160, 40, textureArray->at(0), 0));     // Start
-  buttonArray.push_back( new MenuButton(160, 340, textureArray->at(0), 1)); // ???
-  buttonArray.push_back( new MenuButton(160, 190, textureArray->at(0), 2));   // ???
+  buttonArray.push_back( new MenuButton(160, 40, textureArray->at(TEX_MENUBUTTONS), 0));     // Start
+  buttonArray.push_back( new MenuButton(160, 340, textureArray->at(TEX_MENUBUTTONS), 1)); // ???
+  buttonArray.push_back( new MenuButton(160, 190, textureArray->at(TEX_MENUBUTTONS), 2));   // ???
 }
 
 void MenuState::freeMem()

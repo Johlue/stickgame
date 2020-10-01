@@ -37,6 +37,7 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
     width = 30;
     height = 60;
     hp = 100;
+    moveSpeed = 1;
   }
   else if(AI == RANGED)
   {

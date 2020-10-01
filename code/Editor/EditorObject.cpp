@@ -118,8 +118,8 @@ void EditorObject::render(int camX, int camY)
   }
   else if(type == EO_PLAYER)
   {
-    (*textureArray)[1]->render(x - camX, y - camY, 0);
-    (*textureArray)[12]->render(x-8 - camX, y - camY, 2);
+    (*textureArray)[TEX_PLAYER_BODY]->render(x - camX, y - camY, 0);
+    (*textureArray)[TEX_PLAYER_GUN]->render(x-8 - camX, y - camY, 2);
   }
   else if(type == EO_TURRET)
   {
