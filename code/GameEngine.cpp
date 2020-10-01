@@ -20,6 +20,7 @@ GameEngine::GameEngine(Display* display, Writer* writer)
   loadImageTexture("MOUSE_DRAG.png", 1, 1);             // 10
   loadImageTexture("MOUSE_EDIT.png", 1, 1);             // 11
   loadImageTexture("charaGunHand.png", 5, 1);           // 12
+  loadImageTexture("charaSwordHand.png", 3, 4);         // 13
   /*
   mTextures.push_back(new ImageTexture());
   mTextures[0]->setRenderer(display->getRenderer());
