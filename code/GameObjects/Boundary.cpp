@@ -14,6 +14,10 @@ Boundary::Boundary(double x_1, double y_1, double x_2, double y_2, Display* disp
   facingRight = right;
   facingLeft = left;
   type = BOUNDARY;
+  if((!facingUp && !facingDown && !facingLeft && !facingRight))
+  {
+    goThrough = true;
+  }
   if(((x*x)/x) - ((x2*x2)/x2) != 0 && ((y*y)/y) - ((y2*y2)/y2) != 0)
   {
     sloped = true;
@@ -26,17 +30,22 @@ void Boundary::update(){}
 void Boundary::handleEvent(SDL_Event* e){}
 bool Boundary::render(int cameraX, int cameraY, int priority)
 {
-  int i = 3 - priority;
-  SDL_SetRenderDrawColor(mDisplay->getRenderer(), (i*70), (i*70), (i*70), SDL_ALPHA_OPAQUE);
-  if(facingUp)
-    SDL_RenderDrawLine(mDisplay->getRenderer(), x - cameraX, y+i - cameraY, x2 - cameraX, y2+i - cameraY);
-  else if(facingDown)
-    SDL_RenderDrawLine(mDisplay->getRenderer(), x - cameraX, y-i - cameraY, x2 - cameraX, y2-i - cameraY);
-  else if(facingRight)
-    SDL_RenderDrawLine(mDisplay->getRenderer(), x-i - cameraX, y - cameraY, x2-i - cameraX, y2 - cameraY);
-  else if(facingLeft)
-    SDL_RenderDrawLine(mDisplay->getRenderer(), x+i - cameraX, y - cameraY, x2+i - cameraX, y2 - cameraY);
-  if(priority >= 3) return true;
+  //int i = 3 - priority;
+  if(priority >= 3)
+  {
+    SDL_SetRenderDrawColor(mDisplay->getRenderer(), (0), (0), (0), SDL_ALPHA_OPAQUE);
+    if(goThrough) SDL_SetRenderDrawColor(mDisplay->getRenderer(), (200), (200), (200), SDL_ALPHA_OPAQUE);
+    //if(facingUp)
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x - cameraX, y - cameraY, x2 - cameraX, y2 - cameraY);
+    //else if(facingDown)
+    //  SDL_RenderDrawLine(mDisplay->getRenderer(), x - cameraX, y-i - cameraY, x2 - cameraX, y2-i - cameraY);
+    //else if(facingRight)
+    //  SDL_RenderDrawLine(mDisplay->getRenderer(), x-i - cameraX, y - cameraY, x2-i - cameraX, y2 - cameraY);
+    //else if(facingLeft)
+    //  SDL_RenderDrawLine(mDisplay->getRenderer(), x+i - cameraX, y - cameraY, x2+i - cameraX, y2 - cameraY);
+    //if(priority >= 3) return true;
+    return true;
+  }
   return false;
 }
 
@@ -65,7 +74,7 @@ CollisionData Boundary::lineIntersection(double ox1, double oy1, double ox2, dou
 
   CollisionData result{xr, yr};
 
-  if(!facingUp && !facingDown && !facingLeft && !facingRight)
+  if((!facingUp && !facingDown && !facingLeft && !facingRight) || goThrough)
   {
     result.intersect = false;
     return result;

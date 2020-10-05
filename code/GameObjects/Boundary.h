@@ -37,6 +37,7 @@ protected:
   bool facingRight;
   bool facingLeft;
   double speed = 1;
+  bool goThrough = false; // it's intangible and doesn't interfere with things
 };
 
 #endif
