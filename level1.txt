@@ -8,6 +8,8 @@
 // Turret x y combatAI moveAI
 //  turret combat AIs: T_SLOW T_FAST T_SPREAD T_BLADE
 //  turret move AIs: T_STATIC T_FLIGHT T_GROUND T_NOCLIP
+// pc: jump height = 80, jump distance ~ 190
+// 340 = magic number to fall through floor?
 
 Boundary 34 240 250 240 T F F F
 Boundary 34 240 250 240 F T F F

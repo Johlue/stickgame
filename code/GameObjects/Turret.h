@@ -47,7 +47,7 @@ protected:
   double rotationspeed = 2;
   double shootingAngle = 4; // at how close of an angle towards the player will the turret shoot
   int cooldown= 2;
-  int shotFrequency = 30; // how often the gun shoots
+  int shotFrequency = 50; // how often the gun shoots
   int damage = 20;
   int bulletSpeed = 5;
   int knockback = 3;

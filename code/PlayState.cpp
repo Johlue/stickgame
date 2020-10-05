@@ -194,7 +194,7 @@ void PlayState::loadLevel(int id)
   }
 
   std::ifstream levelFile;
-  levelFile.open("level1.txt");
+  levelFile.open("testlevel.txt");
   if(levelFile.is_open())
   {
     std::string line;

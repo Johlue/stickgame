@@ -251,6 +251,8 @@ void Player::update()
   x += xVel;
   y += yVel;
 
+  std::cout << "x: " << x << " y: " << y << std::endl;
+
   //if(y > 2000) hp -= 1000000;
 
 }
