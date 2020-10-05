@@ -14,15 +14,6 @@ Boundary::Boundary(double x_1, double y_1, double x_2, double y_2, Display* disp
   facingRight = right;
   facingLeft = left;
   type = BOUNDARY;
-  if((!facingUp && !facingDown && !facingLeft && !facingRight))
-  {
-    goThrough = true;
-  }
-  if(((x*x)/x) - ((x2*x2)/x2) != 0 && ((y*y)/y) - ((y2*y2)/y2) != 0)
-  {
-    sloped = true;
-    calculateSlopeSpeed();
-  }
 }
 Boundary::~Boundary(){}
 
@@ -53,17 +44,9 @@ bool Boundary::getUp(){return facingUp;}
 bool Boundary::getDown(){return facingDown;}
 bool Boundary::getRight(){return facingRight;}
 bool Boundary::getLeft(){return facingLeft;}
+void Boundary::setGoThrough(bool gt){goThrough = gt;}
+bool Boundary::getGoThrough(){return goThrough;}
 
-double Boundary::getSlopeSpeed() {return speed;} // get player speed on slope
-
-// math the players movement speed on this slope
-void Boundary::calculateSlopeSpeed()
-{
-  double angle = std::abs(atan2(y - y2, x2 - x) * (180 / pi())); // gets angle in degrees
-  while(angle > 90.0) angle -= 90.0;
-  while(angle < 0.0) angle += 90.0; // adjust angle to be between 0 and 90
-  speed = 1.0 - (pow(angle, 2) / pow(90.0, 2)); // do some math to get a speed
-}
 
 // xn and ny values can be whatever since they aren't used at all
 CollisionData Boundary::lineIntersection(double ox1, double oy1, double ox2, double oy2, double nx3, double ny3, double nx4, double ny4)
