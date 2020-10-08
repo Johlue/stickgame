@@ -316,9 +316,12 @@ void LevelEditState::handleEvents(SDL_Event* e)
       break;
 
       case SDLK_DELETE:
-      if(currentEditorObject == nullptr) break;
-      deleteObject(currentEditorObject->getIndex()); // remove currently chosen object
-      currentEditorObject = nullptr;
+      if(currentEditorObject != nullptr)
+      {
+        std::cout << currentEditorObject->getIndex();
+        deleteObject(currentEditorObject->getIndex()); // remove currently chosen object
+        currentEditorObject = nullptr;
+      }
       break;
 
       case SDLK_q:
@@ -640,26 +643,31 @@ bool LevelEditState::createObjectFromFile(std::string sourceString)
   {
     objects.push_back(new EditorObject(EO_BOUNDARY, 0, 0, mDisplay));
     objects[objects.size() - 1]->setTextureArray(textureArray);
+    objects[objects.size() - 1]->setIndex(objects.size() - 1); // set index of new object
   }
   else if(pieces[0] == "Turret")
   {
     objects.push_back(new EditorObject(EO_TURRET, 0, 0, mDisplay));
     objects[objects.size() - 1]->setTextureArray(textureArray);
+    objects[objects.size() - 1]->setIndex(objects.size() - 1); // set index of new object
   }
   else if(pieces[0] == "Hazard")
   {
     objects.push_back(new EditorObject(EO_SPIKE, 0, 0, mDisplay));
     objects[objects.size() - 1]->setTextureArray(textureArray);
+    objects[objects.size() - 1]->setIndex(objects.size() - 1); // set index of new object
   }
   else if(pieces[0] == "Walker")
   {
     objects.push_back(new EditorObject(EO_WALKER_M, 0, 0, mDisplay));
     objects[objects.size() - 1]->setTextureArray(textureArray);
+    objects[objects.size() - 1]->setIndex(objects.size() - 1); // set index of new object
   }
   else if(pieces[0] == "Player")
   {
     objects.push_back(new EditorObject(EO_PLAYER, 0, 0, mDisplay));
     objects[objects.size() - 1]->setTextureArray(textureArray);
+    objects[objects.size() - 1]->setIndex(objects.size() - 1); // set index of new object
   }
   else return false;
 

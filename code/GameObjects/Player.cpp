@@ -338,7 +338,7 @@ bool Player::fallingCheck()
         tempPoint.copy(bptr->lineIntersection(x+16, y + 31, x+16, y + 33,0,0,0,0));
         if(tempPoint.intersect)
         {
-          y = bptr->getY() - 32;
+          y = bptr->getY() - 32.01;
           return false;
         }
       }
@@ -483,31 +483,31 @@ void Player::boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool *
     // casting a Boundary so i can use boundary functions
 
     //positive xvel and left are collision
-    if(xVel < 0 && ptr->getRight()) *collidingX = true;
-    if(xVel > 0 && ptr->getLeft()) *collidingX = true;
+    if(xVel < 0 && ptr->getRight()) {*collidingX = true; right = true;}
+    if(xVel > 0 && ptr->getLeft()) {*collidingX = true; left = true;}
     //positive yvel and up are collision
-    if(yVel < 0 && ptr->getDown()) *collidingY = true;
-    if(yVel > 0 && ptr->getUp()) *collidingY = true;
+    if(yVel < 0 && ptr->getDown()) {*collidingY = true; down = true;}
+    if(yVel > 0 && ptr->getUp()) {*collidingY = true; up = true;}
 
     // check for intersections
     if(*collidingX || *collidingY)
     {
-      if (i2 == 0) // top left
+      if (i2 == 0 /*&& !(right && down)*/) // top left
       {
         xm = x; ym = y;
         *tempPoint = ptr->lineIntersection(x, y, x+xVel, y+yVel, 1, 1, 1, 1);
       }
-      if (i2 == 1) // top right
+      if (i2 == 1 /*&& !(down && left)*/) // top right
       {
         xm = x + width; ym = y;
         *tempPoint = ptr->lineIntersection(x + width, y, x+xVel + width, y+yVel, 1, 1, 1, 1);
       }
-      if (i2 == 2) //bottom left
+      if (i2 == 2 /*&& !(up && right)*/) //bottom left
       {
         xm = x; ym = y + height-1;
-        *tempPoint = ptr->lineIntersection(x, y + height, x+xVel, y+yVel + height-1, 1, 1, 1, 1);
+        *tempPoint = ptr->lineIntersection(x, y + height-1, x+xVel, y+yVel + height-1, 1, 1, 1, 1);
       }
-      if (i2 == 3) // bottom right
+      if (i2 == 3 /*&& !(up && left)*/) // bottom right
       {
         xm = x + width; ym = y + height-1;
         *tempPoint = ptr->lineIntersection(x + width, y + height-1, x+xVel + width, y+yVel + height-1, 1, 1, 1, 1);
@@ -524,19 +524,11 @@ void Player::boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool *
       // if intersecting multiple boundaries then check which one is closest and collide with that one
       if(*collidingX && tempDistance < *shortestDistanceX)
       {
-        up = ptr->getUp();
-        down = ptr->getDown();
-        right = ptr->getRight();
-        left = ptr->getLeft();
         *shortestDistanceX = tempDistance;
         collisionPointX->copy(*tempPoint);
       }
       if(*collidingY && tempDistance < *shortestDistanceY)
       {
-        up = ptr->getUp();
-        down = ptr->getDown();
-        right = ptr->getRight();
-        left = ptr->getLeft();
         *shortestDistanceY = tempDistance;
         collisionPointY->copy(*tempPoint);
       }
