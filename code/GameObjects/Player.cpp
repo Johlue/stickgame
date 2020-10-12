@@ -399,62 +399,19 @@ void Player::collisionCheck()
 bool Player::movementCollisionCheck()
 {
 
-  double shortestDistanceX = 999999.0;
-  double shortestDistanceY = 999999.0;
-  CollisionData tempPoint;
-  Boundary * ptr;
-  double xMod = 0;
-  double yMod = 0;
-  if(xVel > 0) xMod = width;
-  if(yVel > 0) yMod = height;
-  double xm = x + xMod;
-  double ym = y + yMod;
-  bool done = false;
-
   std::vector<int> collidables;
 
-  for(int i = 0; i < objects->size(); i++)
-  {
-    if((*objects)[i]->getType() == BOUNDARY)
-    {
-      done = false;
-      ptr = dynamic_cast<Boundary*>((*objects)[i]);
-      // check for y things
-      if(ptr->collisionCheck(0,0,0,0,BOUNDARY_X) == BOUNDARY_GO_THROUGH
-      || ptr->collisionCheck(0,0,0,0,BOUNDARY_X) == BOUNDARY_NON_DIRECTIONAL)
-      {
-        done = true;
-      }
+  collidables = getCollidableBoundaries();
 
-      for(int i2 = 0; i2 < width; i2++)
-      {
-        if(done){break;}
-        if(ptr->collisionCheck(xm+i2, ym, xm+xVel, ym+yVel, BOUNDARY_Y) == BOUNDARY_COLLISION)
-        {
-          collidables.push_back(i);
-          done = true;
-        }
-      }
-      for(int i3 = 0; i3 < height; i3++)
-      {
-        if(done) {break;}
-        if(ptr->collisionCheck(xm, ym+i3, xm+xVel, ym+yVel, BOUNDARY_X) == BOUNDARY_COLLISION)
-        {
-          collidables.push_back(i);
-          done = true;
-        }
-      }
-    }
-  }
+  if(collidables.size() == 0) {return false;} // no collisions happened
+
+  //actually colliding
   for(int i = 0; i < collidables.size(); i++)
   {
-    std::cout << collidables[i] << " ";
+    boundaryCollision(collidables);
   }
-  std::cout << "s:" << collidables.size() << std::endl;
+
   /*
-  // does a collision happen on either axis
-  bool collidingX;
-  bool collidingY;
   // closest points of collision for x and y axis
   CollisionData collisionPointX;
   CollisionData collisionPointY;
@@ -519,8 +476,31 @@ bool Player::movementCollisionCheck()
   return false;
 }
 
-void Player::boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool * collidingX, bool * collidingY, CollisionData * collisionPointX, CollisionData * collisionPointY, double * shortestDistanceX, double * shortestDistanceY)
+void Player::boundaryCollision(std::vector<int> collidables)
 {
+  Boundary * ptr;
+  double xMod = 0;
+  double yMod = 0;
+  if(xVel > 0) xMod = width;
+  if(yVel > 0) yMod = height;
+  double xm = x + xMod;
+  double ym = y + yMod;
+  bool done = false;
+
+  double shortestDistanceX = 999999.0;
+  double shortestDistanceY = 999999.0;
+  CollisionData tempPoint;
+
+  // do a simple collision check for the 1 boundary
+  if(collidables.size() == 1)
+  {
+
+  }
+  else
+  {
+
+  }
+
 
   /*
   bool up = false, down = false, left = false, right = false;
@@ -596,6 +576,58 @@ void Player::boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool *
     }
   }
   */
+}
+
+std::vector<int> Player::getCollidableBoundaries()
+{
+  Boundary * ptr;
+  double xMod = 0;
+  double yMod = 0;
+  if(xVel > 0) xMod = width;
+  if(yVel > 0) yMod = height;
+  double xm = x + xMod;
+  double ym = y + yMod;
+  bool done = false;
+  std::vector<int> collidables;
+
+  for(int i = 0; i < objects->size(); i++)
+  {
+    if((*objects)[i]->getType() == BOUNDARY)
+    {
+      done = false;
+      ptr = dynamic_cast<Boundary*>((*objects)[i]);
+
+      // check for uncollidable boundaries
+      if(ptr->collisionCheck(0,0,0,0,BOUNDARY_X) == BOUNDARY_GO_THROUGH
+      || ptr->collisionCheck(0,0,0,0,BOUNDARY_X) == BOUNDARY_NON_DIRECTIONAL)
+      {
+        done = true;
+      }
+
+      // y checks
+      for(int i2 = 0; i2 < width; i2++)
+      {
+        if(done){break;}
+        if(ptr->collisionCheck(xm+i2, ym, xm+xVel, ym+yVel, BOUNDARY_Y) == BOUNDARY_COLLISION)
+        {
+          collidables.push_back(i);
+          done = true;
+        }
+      }
+      // x checks
+      for(int i3 = 0; i3 < height; i3++)
+      {
+        if(done) {break;}
+        if(ptr->collisionCheck(xm, ym+i3, xm+xVel, ym+yVel, BOUNDARY_X) == BOUNDARY_COLLISION)
+        {
+          collidables.push_back(i);
+          done = true;
+        }
+      }
+    }
+  }
+
+  return collidables;
 }
 
 void Player::hazardCollision(Hazard * hazardPtr)

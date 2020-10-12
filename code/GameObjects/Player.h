@@ -36,10 +36,14 @@ public:
   CollisionData lineIntersection(double ox1, double oy1, double ox2, double oy2, double nx3, double ny3, double nx4, double ny4);
 
 protected:
+
+  //boundary collision stuff
+  std::vector<int> getCollidableBoundaries();
+
   void knockedBack(int direction, int force); //left(-1) or right(1) and how far/fast/long is knockbacked
   bool fallingCheck();
   bool roofCheck();
-  void boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool * collidingX, bool * collidingY, CollisionData * collisionPointX, CollisionData * collisionPointY, double * shortestDistanceX, double * shortestDistanceY);
+  void boundaryCollision(std::vector<int> collidables);
   void hazardCollision(Hazard * hazardPtr);
   void rotate(double angl);
 
