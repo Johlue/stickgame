@@ -4,6 +4,8 @@
 #include "GameObject.h"
 #include <iostream>
 
+enum collisionReturns {BOUNDARY_COLLISION, BOUNDARY_DISTANCE_LONG, BOUNDARY_NON_DIRECTIONAL, BOUNDARY_GO_THROUGH, BOUNDARY_X, BOUNDARY_Y};
+
 // this is a wall/ceiling/floor to ram into
 class Boundary : public GameObject
 {
@@ -25,6 +27,7 @@ public:
   void setGoThrough(bool gt);
   bool getGoThrough();
 
+  int collisionCheck(double ox1, double oy1, double ox2, double oy2, int checktype);
   //last 4 values are irrelevant since they are not used, first 4 are two points of the other line being checked
   CollisionData lineIntersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4);
 protected:

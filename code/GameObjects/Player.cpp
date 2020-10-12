@@ -398,18 +398,68 @@ void Player::collisionCheck()
 
 bool Player::movementCollisionCheck()
 {
+
   double shortestDistanceX = 999999.0;
   double shortestDistanceY = 999999.0;
+  CollisionData tempPoint;
+  Boundary * ptr;
+  double xMod = 0;
+  double yMod = 0;
+  if(xVel > 0) xMod = width;
+  if(yVel > 0) yMod = height;
+  double xm = x + xMod;
+  double ym = y + yMod;
+  bool done = false;
+
+  std::vector<int> collidables;
+
+  for(int i = 0; i < objects->size(); i++)
+  {
+    if((*objects)[i]->getType() == BOUNDARY)
+    {
+      done = false;
+      ptr = dynamic_cast<Boundary*>((*objects)[i]);
+      // check for y things
+      if(ptr->collisionCheck(0,0,0,0,BOUNDARY_X) == BOUNDARY_GO_THROUGH
+      || ptr->collisionCheck(0,0,0,0,BOUNDARY_X) == BOUNDARY_NON_DIRECTIONAL)
+      {
+        done = true;
+      }
+
+      for(int i2 = 0; i2 < width; i2++)
+      {
+        if(done){break;}
+        if(ptr->collisionCheck(xm+i2, ym, xm+xVel, ym+yVel, BOUNDARY_Y) == BOUNDARY_COLLISION)
+        {
+          collidables.push_back(i);
+          done = true;
+        }
+      }
+      for(int i3 = 0; i3 < height; i3++)
+      {
+        if(done) {break;}
+        if(ptr->collisionCheck(xm, ym+i3, xm+xVel, ym+yVel, BOUNDARY_X) == BOUNDARY_COLLISION)
+        {
+          collidables.push_back(i);
+          done = true;
+        }
+      }
+    }
+  }
+  for(int i = 0; i < collidables.size(); i++)
+  {
+    std::cout << collidables[i] << " ";
+  }
+  std::cout << "s:" << collidables.size() << std::endl;
+  /*
   // does a collision happen on either axis
   bool collidingX;
   bool collidingY;
-  CollisionData tempPoint;
   // closest points of collision for x and y axis
   CollisionData collisionPointX;
   CollisionData collisionPointY;
   collisionPointX.intersect = false;
   collisionPointY.intersect = false;
-  Boundary * ptr;
 
     // run through all gameobjects, and do stuff depending on their type
   for(int i = 0; i < objects->size(); i++)
@@ -465,12 +515,14 @@ bool Player::movementCollisionCheck()
     }
     roofCheck();
     return true;
-  }
+  }*/
   return false;
 }
 
 void Player::boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool * collidingX, bool * collidingY, CollisionData * collisionPointX, CollisionData * collisionPointY, double * shortestDistanceX, double * shortestDistanceY)
 {
+
+  /*
   bool up = false, down = false, left = false, right = false;
   double xm, ym;
   double tempDistance = 99999.0;
@@ -492,22 +544,22 @@ void Player::boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool *
     // check for intersections
     if(*collidingX || *collidingY)
     {
-      if (i2 == 0 /*&& !(right && down)*/) // top left
+      if (i2 == 0 ) // top left
       {
         xm = x; ym = y;
         *tempPoint = ptr->lineIntersection(x, y, x+xVel, y+yVel, 1, 1, 1, 1);
       }
-      if (i2 == 1 /*&& !(down && left)*/) // top right
+      if (i2 == 1) // top right
       {
         xm = x + width; ym = y;
         *tempPoint = ptr->lineIntersection(x + width, y, x+xVel + width, y+yVel, 1, 1, 1, 1);
       }
-      if (i2 == 2 /*&& !(up && right)*/) //bottom left
+      if (i2 == 2) //bottom left
       {
         xm = x; ym = y + height-1;
         *tempPoint = ptr->lineIntersection(x, y + height-1, x+xVel, y+yVel + height-1, 1, 1, 1, 1);
       }
-      if (i2 == 3 /*&& !(up && left)*/) // bottom right
+      if (i2 == 3) // bottom right
       {
         xm = x + width; ym = y + height-1;
         *tempPoint = ptr->lineIntersection(x + width, y + height-1, x+xVel + width, y+yVel + height-1, 1, 1, 1, 1);
@@ -543,6 +595,7 @@ void Player::boundaryCollision(Boundary * ptr, CollisionData * tempPoint, bool *
       }
     }
   }
+  */
 }
 
 void Player::hazardCollision(Hazard * hazardPtr)

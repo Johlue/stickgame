@@ -47,6 +47,29 @@ bool Boundary::getLeft(){return facingLeft;}
 void Boundary::setGoThrough(bool gt){goThrough = gt;}
 bool Boundary::getGoThrough(){return goThrough;}
 
+int Boundary::collisionCheck(double ox1, double oy1, double ox2, double oy2, int checkType)
+{
+  if(goThrough) {return BOUNDARY_GO_THROUGH;}
+
+  if((!facingUp && !facingDown && !facingLeft && !facingRight)){return BOUNDARY_NON_DIRECTIONAL;}
+
+  if(!facingUp && !facingDown && checkType == BOUNDARY_Y)
+    {return BOUNDARY_DISTANCE_LONG;}
+  if(facingUp || facingDown){
+    if(checkType == BOUNDARY_Y && (oy1 < y && oy1 < y2 && oy2 < y && oy2 < y2)
+                               || (oy1 > y && oy1 > y2 && oy2 > y && oy2 > y2))
+    {return BOUNDARY_DISTANCE_LONG;}}
+
+  if(!facingRight && !facingLeft && checkType == BOUNDARY_X)
+    {return BOUNDARY_DISTANCE_LONG;}
+  if(facingRight || facingLeft){
+    if(checkType == BOUNDARY_X && (ox1 > x && ox1 > x2 && ox2 > x && ox2 > x2)
+                               || (ox1 < x && ox1 < x2 && ox2 < x && ox2 < x2))
+    {return BOUNDARY_DISTANCE_LONG;}}
+
+
+  return BOUNDARY_COLLISION;
+}
 
 // xn and ny values can be whatever since they aren't used at all
 CollisionData Boundary::lineIntersection(double ox1, double oy1, double ox2, double oy2, double nx3, double ny3, double nx4, double ny4)
@@ -56,12 +79,17 @@ CollisionData Boundary::lineIntersection(double ox1, double oy1, double ox2, dou
   double yr = -9999;
 
   CollisionData result{xr, yr};
+  result.intersect = false;
 
   if((!facingUp && !facingDown && !facingLeft && !facingRight) || goThrough)
   {
-    result.intersect = false;
     return result;
   }
+
+  if(facingUp){if(oy1 < y && oy1 < y2 && oy2 < y && oy2 < y2) {return result;}}
+  else if(facingDown){if(oy1 > y && oy1 > y2 && oy2 > y && oy2 > y2) {return result;}}
+  else if(facingRight){if(ox1 > x && ox1 > x2 && ox2 > x && ox2 > x2) {return result;}}
+  else if(facingLeft){if(ox1 < x && ox1 < x2 && ox2 < x && ox2 < x2) {return result;}}
 
   double x3 = x;
   double y3 = y;
