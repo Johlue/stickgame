@@ -24,6 +24,9 @@ public:
   bool getRight();
   bool getLeft();
 
+  double getX2();
+  double getY2();
+
   void setGoThrough(bool gt);
   bool getGoThrough();
 

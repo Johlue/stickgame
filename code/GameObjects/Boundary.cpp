@@ -40,6 +40,8 @@ bool Boundary::render(int cameraX, int cameraY, int priority)
   return false;
 }
 
+double Boundary::getX2(){return x2;}
+double Boundary::getY2(){return y2;}
 bool Boundary::getUp(){return facingUp;}
 bool Boundary::getDown(){return facingDown;}
 bool Boundary::getRight(){return facingRight;}
@@ -86,10 +88,9 @@ CollisionData Boundary::lineIntersection(double ox1, double oy1, double ox2, dou
     return result;
   }
 
-  if(facingUp){if(oy1 < y && oy1 < y2 && oy2 < y && oy2 < y2) {return result;}}
-  else if(facingDown){if(oy1 > y && oy1 > y2 && oy2 > y && oy2 > y2) {return result;}}
-  else if(facingRight){if(ox1 > x && ox1 > x2 && ox2 > x && ox2 > x2) {return result;}}
-  else if(facingLeft){if(ox1 < x && ox1 < x2 && ox2 < x && ox2 < x2) {return result;}}
+  if((oy1 < y && oy1 < y2 && oy2 < y && oy2 < y2) || (oy1 > y && oy1 > y2 && oy2 > y && oy2 > y2)
+  || (ox1 > x && ox1 > x2 && ox2 > x && ox2 > x2) || (ox1 < x && ox1 < x2 && ox2 < x && ox2 < x2))
+  {return result;}
 
   double x3 = x;
   double y3 = y;

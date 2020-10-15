@@ -486,65 +486,62 @@ void Player::boundaryCollision(std::vector<int> collidables)
   double xm = x + xMod;
   double ym = y + yMod;
   bool done = false;
+  double tx; double ty;
+
+  Point returnPoint;
+  returnPoint.x = -9999; returnPoint.y = -9999;
 
   double shortestDistanceX = 999999.0;
   double shortestDistanceY = 999999.0;
-  CollisionData tempPoint;
+  CollisionData cd;
 
-  // do a simple collision check for the 1 boundary
-  if(collidables.size() == 1)
+  /*for(int i = 0; i < collidables.size(); i++)
   {
+    std::cout << collidables[i] << " ";
+  }
+  std::cout << "size: " << collidables.size() << std::endl;
+*/
+  for(int i = 0; i < collidables.size(); i++)
+  {
+    ptr = dynamic_cast<Boundary*>((*objects)[collidables[i]]);
+    for(int i2 = 0; i2 < height; i2++)
+    {
+      if(xVel == 0) {break;}
+
+      cd = ptr->lineIntersection(xm, ym + i2, xm +xVel, ym + i2 + yVel,0,0,0,0);
+      tx = cd.x;
+
+      if(tx > -9999 && std::abs(tx) < shortestDistanceX && (ptr->getRight() || ptr->getLeft()))
+      {
+        shortestDistanceX = std::abs(tx);
+        returnPoint.x = tx;
+      }
+    }
+    for(int i2 = 0; i2 < width; i2++)
+    {
+      if(yVel == 0) {break;}
+
+      cd = ptr->lineIntersection(xm + i2, ym, xm + i2 + xVel, ym + yVel,0,0,0,0);
+      ty = cd.y;
+
+      if(ty > -9999 && std::abs(ty) < shortestDistanceY && (ptr->getDown() || ptr->getUp()))
+      {
+        shortestDistanceY = std::abs(ty);
+        returnPoint.y = ty;
+      }
+    }
 
   }
-  else
-  {
 
-  }
+  std::cout << "y: " << returnPoint.y << " x: " << returnPoint.x << std::endl;
 
 
   /*
-  bool up = false, down = false, left = false, right = false;
-  double xm, ym;
-  double tempDistance = 99999.0;
-  //required? variables collidingX/Y, collisionPointX/Y, shortestDistanceX/Y
   for(int i2 = 0; i2 < 4; i2++)
   {
     *collidingX = false;
     *collidingY = false;
 
-    // casting a Boundary so i can use boundary functions
-
-    //positive xvel and left are collision
-    if(xVel < 0 && ptr->getRight()) {*collidingX = true; right = true;}
-    if(xVel > 0 && ptr->getLeft()) {*collidingX = true; left = true;}
-    //positive yvel and up are collision
-    if(yVel < 0 && ptr->getDown()) {*collidingY = true; down = true;}
-    if(yVel > 0 && ptr->getUp()) {*collidingY = true; up = true;}
-
-    // check for intersections
-    if(*collidingX || *collidingY)
-    {
-      if (i2 == 0 ) // top left
-      {
-        xm = x; ym = y;
-        *tempPoint = ptr->lineIntersection(x, y, x+xVel, y+yVel, 1, 1, 1, 1);
-      }
-      if (i2 == 1) // top right
-      {
-        xm = x + width; ym = y;
-        *tempPoint = ptr->lineIntersection(x + width, y, x+xVel + width, y+yVel, 1, 1, 1, 1);
-      }
-      if (i2 == 2) //bottom left
-      {
-        xm = x; ym = y + height-1;
-        *tempPoint = ptr->lineIntersection(x, y + height-1, x+xVel, y+yVel + height-1, 1, 1, 1, 1);
-      }
-      if (i2 == 3) // bottom right
-      {
-        xm = x + width; ym = y + height-1;
-        *tempPoint = ptr->lineIntersection(x + width, y + height-1, x+xVel + width, y+yVel + height-1, 1, 1, 1, 1);
-      }
-    }
 
     // Collisions happen here
     // if an intersection between the ray and the boundary happens do stuff
@@ -599,7 +596,9 @@ std::vector<int> Player::getCollidableBoundaries()
 
       // check for uncollidable boundaries
       if(ptr->collisionCheck(0,0,0,0,BOUNDARY_X) == BOUNDARY_GO_THROUGH
-      || ptr->collisionCheck(0,0,0,0,BOUNDARY_X) == BOUNDARY_NON_DIRECTIONAL)
+      || ptr->collisionCheck(0,0,0,0,BOUNDARY_X) == BOUNDARY_NON_DIRECTIONAL
+      || (xVel > 0 && ptr->getRight()) || (xVel < 0 && ptr->getLeft())
+      || (yVel > 0 && ptr->getDown())  || (yVel < 0 && ptr->getUp()))
       {
         done = true;
       }
