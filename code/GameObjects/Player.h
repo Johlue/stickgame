@@ -27,7 +27,6 @@ public:
   double getY();
 
   void collisionCheck(); //
-  bool movementCollisionCheck(); // checks if you ran into walls
   void damaged(CollisionData hurt); // take damage from a source that is the hurt CollisionData
 
   int getHP();
@@ -43,7 +42,8 @@ protected:
   void knockedBack(int direction, int force); //left(-1) or right(1) and how far/fast/long is knockbacked
   bool fallingCheck();
   bool roofCheck();
-  void boundaryCollision(std::vector<int> collidables);
+  Point movementCollisionCheck(); // checks if you ran into walls
+  Point boundaryCollision(std::vector<int> collidables);
   void hazardCollision(Hazard * hazardPtr);
   void rotate(double angl);
 

@@ -243,13 +243,25 @@ void Player::update()
   if(xVel > 0) moving = true; if(xVel < 0) moving = true; if(yVel < 0) moving = true; if(yVel > 0) moving = true;
   collisionCheck();
   if(iframes > 0) iframes -= 1;
+
+  Point pt; pt.x = -9999; pt.y = -9999;
   if(moving)
   {
-    // return true if a collision happened, and then x and y movement is taken care of in the function
-    if(movementCollisionCheck()) return;
+    pt = movementCollisionCheck();
   }
-  x += xVel;
-  y += yVel;
+
+  if(pt.x == -9999) {x += xVel;}
+  else
+  {
+    if(xVel > 0)      {x = pt.x - width;}
+    else if(xVel < 0) {x = pt.x;}
+  }
+  if(pt.y == -9999){y += yVel;}
+  else
+  {
+    if(yVel > 0)      {y = pt.y - height;}
+    else if(yVel < 0) {y = pt.y;}
+  }
 
   //if(y > 2000) hp -= 1000000;
 
@@ -396,87 +408,53 @@ void Player::collisionCheck()
   }
 }
 
-bool Player::movementCollisionCheck()
+Point Player::movementCollisionCheck()
 {
+  Point pt; pt.x = -9999; pt.y = -9999;
+  Point tpt;
+
+  if(xVel == 0 && yVel == 0) {return pt;}
 
   std::vector<int> collidables;
 
   collidables = getCollidableBoundaries();
 
-  if(collidables.size() == 0) {return false;} // no collisions happened
+  if(collidables.size() == 0) {return pt;} // no collisions happened
+
+  double collisionX;
+  if(xVel > 0) {collisionX = x + width;}
+  else {collisionX = x;}
+
+  double collisionY;
+  if(yVel > 0) {collisionY = y + height;}
+  else {collisionY = y;}
 
   //actually colliding
   for(int i = 0; i < collidables.size(); i++)
   {
-    boundaryCollision(collidables);
+    tpt = boundaryCollision(collidables);
+    if(tpt.x != -9999)
+    {
+      if(pt.x == -9999){pt.x = tpt.x;}
+      else if(std::abs(pt.x - collisionX) > std::abs(tpt.x - collisionX))
+      {
+        pt.x = tpt.x;
+      }
+    }
+    if(tpt.y != -9999)
+    {
+      if(pt.y == -9999){pt.y = tpt.y;}
+      else if(std::abs(pt.y - collisionY) > std::abs(tpt.y - collisionY))
+      {
+        pt.y = tpt.y;
+      }
+    }
   }
 
-  /*
-  // closest points of collision for x and y axis
-  CollisionData collisionPointX;
-  CollisionData collisionPointY;
-  collisionPointX.intersect = false;
-  collisionPointY.intersect = false;
-
-    // run through all gameobjects, and do stuff depending on their type
-  for(int i = 0; i < objects->size(); i++)
-  {
-    GameObject *tptr = (*objects)[i]; //pointer to store the current object for casting purposes
-    switch ((*objects)[i]->getType()) {
-      case BOUNDARY:
-      // colliding with the walls
-      //convert object to appropriate type
-      ptr = dynamic_cast<Boundary*>(tptr);
-      boundaryCollision(ptr, &tempPoint, &collidingX, &collidingY, &collisionPointX, &collisionPointY, &shortestDistanceX, &shortestDistanceY);
-      break;
-
-    }
-
-  } // this is where collision checking ends
-  //use the correct corner for the collision
-  if (collisionPointX.intersect || collisionPointY.intersect)
-  {
-    double oldX = x, oldY = y;
-    if(collisionPointX.intersect)
-    {
-      if(collisionPointX.right) x = collisionPointX.x;
-      else if(collisionPointX.left) x = collisionPointX.x - width;
-    }
-    if(collisionPointY.intersect)
-    {
-      if(collisionPointY.down)
-      {
-        y = collisionPointY.y;
-        //yVel = 0; // if colliding with a down facing boundary(a ceiling) then stop upward momentum, and jumping
-        //jumping = false;
-      }
-      else if(collisionPointY.up) y = collisionPointY.y - height;
-    }
-    // if it's not sloped then you don't stop the motion to the non-colliding direction
-    //if(!renderPoint.slope)
-    // if xvel is positive and x is less than old x, do normal movement
-    if(xVel > 0 && x < oldX) x = oldX + xVel;
-    if(xVel < 0 && x > oldX) x = oldX + xVel;
-    if(yVel > 0 && y < oldY) y = oldY + yVel;
-    if(yVel < 0 && y > oldY) y = oldY + yVel;
-    if(!(collisionPointX.intersect && collisionPointY.intersect))
-    {
-      if(shortestDistanceX < 999998.0)
-      {
-        y = oldY + yVel;
-      }
-      else if(shortestDistanceY < 999998.0)
-      {
-        x = oldX + xVel;
-      }
-    }
-    roofCheck();
-    return true;
-  }*/
-  return false;
+  return pt;
 }
 
-void Player::boundaryCollision(std::vector<int> collidables)
+Point Player::boundaryCollision(std::vector<int> collidables)
 {
   Boundary * ptr;
   double xMod = 0;
@@ -491,8 +469,6 @@ void Player::boundaryCollision(std::vector<int> collidables)
   Point returnPoint;
   returnPoint.x = -9999; returnPoint.y = -9999;
 
-  double shortestDistanceX = 999999.0;
-  double shortestDistanceY = 999999.0;
   CollisionData cd;
 
   /*for(int i = 0; i < collidables.size(); i++)
@@ -511,10 +487,10 @@ void Player::boundaryCollision(std::vector<int> collidables)
       cd = ptr->lineIntersection(xm, ym + i2, xm +xVel, ym + i2 + yVel,0,0,0,0);
       tx = cd.x;
 
-      if(tx > -9999 && std::abs(tx) < shortestDistanceX && (ptr->getRight() || ptr->getLeft()))
+      if(tx > -9999 && (ptr->getRight() || ptr->getLeft()))
       {
-        shortestDistanceX = std::abs(tx);
         returnPoint.x = tx;
+        break;
       }
     }
     for(int i2 = 0; i2 < width; i2++)
@@ -524,55 +500,17 @@ void Player::boundaryCollision(std::vector<int> collidables)
       cd = ptr->lineIntersection(xm + i2, ym, xm + i2 + xVel, ym + yVel,0,0,0,0);
       ty = cd.y;
 
-      if(ty > -9999 && std::abs(ty) < shortestDistanceY && (ptr->getDown() || ptr->getUp()))
+      if(ty > -9999 && (ptr->getDown() || ptr->getUp()))
       {
-        shortestDistanceY = std::abs(ty);
         returnPoint.y = ty;
+        break;
       }
     }
-
   }
 
   std::cout << "y: " << returnPoint.y << " x: " << returnPoint.x << std::endl;
 
-
-  /*
-  for(int i2 = 0; i2 < 4; i2++)
-  {
-    *collidingX = false;
-    *collidingY = false;
-
-
-    // Collisions happen here
-    // if an intersection between the ray and the boundary happens do stuff
-    if(tempPoint->intersect)
-    {
-      double pow1 = pow((xm - tempPoint->x), 2.0);
-      double pow2 = pow((ym - tempPoint->y), 2.0);
-      tempDistance = sqrt(pow1 + pow2);
-      // if intersecting multiple boundaries then check which one is closest and collide with that one
-      if(*collidingX && tempDistance < *shortestDistanceX)
-      {
-        *shortestDistanceX = tempDistance;
-        collisionPointX->copy(*tempPoint);
-      }
-      if(*collidingY && tempDistance < *shortestDistanceY)
-      {
-        *shortestDistanceY = tempDistance;
-        collisionPointY->copy(*tempPoint);
-      }
-      // if colliding with an up facing boundary, then falling = false
-      // also knockbacking ends upon collision  with the floor
-      if(up && (i2 == 2 || i2 == 3))
-      {
-        //if(knockback == true) stunned += 0;
-        knockback = false;
-        falling = false;
-        yVel = 0;
-      }
-    }
-  }
-  */
+  return returnPoint;
 }
 
 std::vector<int> Player::getCollidableBoundaries()
