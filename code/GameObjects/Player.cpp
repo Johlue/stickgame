@@ -214,19 +214,6 @@ void Player::update()
       currentJump += 1;
       if(currentJump > maxJump) jumping = false;
     }
-/**
-    if(movingDown && yVel <= yMov)
-    {
-      yVel += yMov;
-      if(yMov < yVel <= 2*yMov) yVel = yMov;
-    }
-    else if(movingUp && yVel >= -yMov)
-    {
-      yVel -= yMov;
-      if(-yMov > yVel >= -2 * yMov) yVel = -yMov;
-    }
-    else yVel = 0;
-    */
   }
 
   if(!falling) yVel = 0;
@@ -484,7 +471,7 @@ Point Player::boundaryCollision(std::vector<int> collidables)
     {
       if(xVel == 0) {break;}
 
-      cd = ptr->lineIntersection(xm, ym + i2, xm +xVel, ym + i2 + yVel,0,0,0,0);
+      cd = ptr->lineIntersection(xm, y + i2, xm +xVel, y + i2 + yVel,0,0,0,0);
       tx = cd.x;
 
       if(tx > -9999 && (ptr->getRight() || ptr->getLeft()))
@@ -497,7 +484,7 @@ Point Player::boundaryCollision(std::vector<int> collidables)
     {
       if(yVel == 0) {break;}
 
-      cd = ptr->lineIntersection(xm + i2, ym, xm + i2 + xVel, ym + yVel,0,0,0,0);
+      cd = ptr->lineIntersection(x + i2, ym, x + i2 + xVel, ym + yVel,0,0,0,0);
       ty = cd.y;
 
       if(ty > -9999 && (ptr->getDown() || ptr->getUp()))
