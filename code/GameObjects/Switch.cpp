@@ -1,7 +1,7 @@
 #include "Switch.h"
 
 Switch::Switch(){}
-Switch::Switch(int o_x, int o_y, Display display, std::vector<GameObject*>* obj, bool once , int reactivTime)
+Switch::Switch(double o_x, double o_y, Display* display, std::vector<GameObject*>* obj, bool once , int reactivTime)
 {
   x = o_x;
   y = o_y;
@@ -12,7 +12,7 @@ Switch::Switch(int o_x, int o_y, Display display, std::vector<GameObject*>* obj,
 }
 Switch::~Switch(){}
 
-void Switch::handleEvent(SDL_event* e){}
+void Switch::handleEvent(SDL_Event* e){}
 
 void Switch::update()
 {

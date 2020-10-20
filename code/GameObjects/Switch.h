@@ -8,7 +8,7 @@ class Switch : public GameObject
 {
 public:
   Switch();
-  Switch(int o_x, int o_y, Display display, std::vector<GameObject*>* obj, bool once = false, int reactivTime = 0);
+  Switch(double o_x, double o_y, Display* display, std::vector<GameObject*>* obj, bool once = false, int reactivTime = 0);
   ~Switch();
 
   void handleEvent(SDL_Event* e);
