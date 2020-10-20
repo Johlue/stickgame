@@ -43,6 +43,9 @@ public:
   double getX();
   double getY();
 
+  int getId();
+  void setId(int o_id);
+
   int getWidth();
   int getHeight();
 
@@ -56,6 +59,8 @@ protected:
   bool onScreen = true;
   bool alive = true;
   int type = 0;
+  int id = -1;
+
   double x;
   double y;
   int width;

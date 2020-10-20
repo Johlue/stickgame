@@ -28,3 +28,6 @@ double GameObject::getY(){return y;}
 
 int GameObject::getWidth(){return width;}
 int GameObject::getHeight(){return height;}
+
+int GameObject::getId(){return id;}
+void GameObject::setId(int o_id){id = o_id;}

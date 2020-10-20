@@ -21,36 +21,6 @@ PlayState::~PlayState()
 void PlayState::init()
 {
   loadLevel(1);
-  for(int i = 0; i < 1; i++)
-  {
-    //objects.push_back( new Boundary (365+i, 0, 365+i, 260, mDisplay, false, false, true, false)); // right facing
-  }
-  //objects.push_back( new Boundary(0, 400, 300, 300, mDisplay, true, false, false, true)); //diagonal up, left
-/*
-
-    objects.push_back( new Boundary(64, 200, 64, 160, mDisplay, false, false, false, true)); // left
-    objects.push_back( new Boundary(404, 200, 404, 160, mDisplay, false, false, true, false)); // right
-  objects.push_back( new Boundary(64, 200, 404, 200, mDisplay, false, true, false, false)); // down facing line
-  objects.push_back( new Boundary(64, 160, 404, 160, mDisplay, true, false, false, false)); // up facing line
-
-    objects.push_back( new Boundary(64, 300, 64, 260, mDisplay, false, false, true, false)); // left
-    objects.push_back( new Boundary(404, 300, 404, 260, mDisplay, false, false, false, true)); // right
-  objects.push_back( new Boundary(64, 300, 404, 300, mDisplay, true, false, false, false)); // down facing line
-  objects.push_back( new Boundary(64, 260, 404, 260, mDisplay, false, true, false, false)); // up facing line
-
-
-  objects.push_back (new Hazard(200, 110, 50, 50, SPIKE, UP, 64, mDisplay));
-  objects.push_back (new Hazard(800, 110, 150, 150, SPIKE, UP, 64, mDisplay));
-  objects.push_back (new Turret(100, 250, mDisplay, &objects));
-  objects.push_back (new Turret(400, 250, mDisplay, &objects));
-  objects.push_back (new Turret(400, 150, mDisplay, &objects));
-  objects.push_back (new Turret(400, 350, mDisplay, &objects));
-//  objects.push_back (new Turret(600, 250, mDisplay, &objects));
-//  objects.push_back (new Turret(600, 150, mDisplay, &objects));
-  objects.push_back (new Turret(300, 361, mDisplay, &objects));
-*/
-
-  //objects.push_back( new Player(101, 101, &playerAlive, mDisplay, &objects, textureArray));
 
   for(int i2 = 0; i2 < objects.size(); i2++)
   {
@@ -75,6 +45,14 @@ void PlayState::freeMem()
 
 void PlayState::update()
 {
+  for(int i = 0; i < objects.size(); i++)
+  {
+    if(objects[i]->getId() == -1)
+    {
+      objects[i]->setId(objectId);
+      objectId++;
+    }
+  }
   //std::cout << "currently existing objects: " << objects.size() << std::endl;
   for(int i = 0; i < objects.size(); i++)
   {

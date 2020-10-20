@@ -55,6 +55,8 @@ protected:
   Player * currentPlayer;
   int playerVectorLocation;
 
+  int objectId = 0;
+
 };
 
 #endif
