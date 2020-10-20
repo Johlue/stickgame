@@ -182,7 +182,7 @@ void Player::update()
   }
 
   if(meleeCooldown > 0) meleeCooldown--;
-  //std::cout << "yLoc: " << y << " jumping: " << jumping << " falling: " << falling << std::endl;
+
   if(!jumping) falling = fallingCheck(); // is the player falling or not
   if(!falling)
   {
@@ -327,18 +327,14 @@ bool Player::fallingCheck()
       CollisionData tempPoint;
       if(bptr->getUp())
       {
-        tempPoint.copy(bptr->lineIntersection(x, y + 31, x, y + 33,0,0,0,0));
-        if(tempPoint.intersect)
+        for(int i2 = 0; i2 < width; i2++)
         {
-          // if there is a collision with the ground set the player on that object
-          y = bptr->getY() - 32.01;
-          return false;
-        }
-        tempPoint.copy(bptr->lineIntersection(x+16, y + 31, x+16, y + 33,0,0,0,0));
-        if(tempPoint.intersect)
-        {
-          y = bptr->getY() - 32.01;
-          return false;
+          tempPoint.copy(bptr->lineIntersection(x + i2, y + height - 1, x + i2, y + height + 2,0,0,0,0));
+          if(tempPoint.intersect)
+          {
+            y = bptr->getY() - height - .01;
+            return false;
+          }
         }
       }
     }
@@ -346,34 +342,23 @@ bool Player::fallingCheck()
   return true;
 }
 
-bool Player::roofCheck()
+bool Player::roofCheck(int collidableIndex)
 {
   // checks if theres any down facing boundaries directly above the player
-  for(int i = 0; i < objects->size(); i++)
+  for(int i = 0; i < width; i++)
   {
-    if((*objects)[i]->getType() == BOUNDARY)
+    Boundary * bptr;
+    bptr = dynamic_cast<Boundary*>((*objects)[collidableIndex]);
+    CollisionData tempPoint;
+    if(bptr->getDown())
     {
-      Boundary * bptr;
-      bptr = dynamic_cast<Boundary*>((*objects)[i]);
-      CollisionData tempPoint;
-      if(bptr->getDown())
+      tempPoint.copy(bptr->lineIntersection(x + i, y - 1, x + i, y + 1,0,0,0,0));
+      if(tempPoint.intersect)
       {
-        tempPoint.copy(bptr->lineIntersection(x, y - 1, x, y + 1,0,0,0,0));
-        if(tempPoint.intersect)
-        {
-          // if there is a collision with the roof, stop jumping and moving up
-          jumping = false;
-          if(yVel < 0) yVel = 0;
-          return false;
-        }
-        tempPoint.copy(bptr->lineIntersection(x+16, y - 1, x+16, y + 1,0,0,0,0));
-        if(tempPoint.intersect)
-        {
-          // if there is a collision with the roof, stop jumping and moving up
-          jumping = false;
-          if(yVel < 0) yVel = 0;
-          return false;
-        }
+        // if there is a collision with the roof, stop jumping and moving up
+        jumping = false;
+        if(yVel < 0) yVel = 0;
+        return false;
       }
     }
   }
@@ -436,6 +421,7 @@ Point Player::movementCollisionCheck()
         pt.y = tpt.y;
       }
     }
+    if(yVel < 0) {roofCheck(collidables[i]);}
   }
 
   return pt;
@@ -458,12 +444,6 @@ Point Player::boundaryCollision(std::vector<int> collidables)
 
   CollisionData cd;
 
-  /*for(int i = 0; i < collidables.size(); i++)
-  {
-    std::cout << collidables[i] << " ";
-  }
-  std::cout << "size: " << collidables.size() << std::endl;
-*/
   for(int i = 0; i < collidables.size(); i++)
   {
     ptr = dynamic_cast<Boundary*>((*objects)[collidables[i]]);
@@ -494,8 +474,6 @@ Point Player::boundaryCollision(std::vector<int> collidables)
       }
     }
   }
-
-  std::cout << "y: " << returnPoint.y << " x: " << returnPoint.x << std::endl;
 
   return returnPoint;
 }

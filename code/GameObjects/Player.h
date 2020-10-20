@@ -41,7 +41,7 @@ protected:
 
   void knockedBack(int direction, int force); //left(-1) or right(1) and how far/fast/long is knockbacked
   bool fallingCheck();
-  bool roofCheck();
+  bool roofCheck(int collidableIndex);
   Point movementCollisionCheck(); // checks if you ran into walls
   Point boundaryCollision(std::vector<int> collidables);
   void hazardCollision(Hazard * hazardPtr);
