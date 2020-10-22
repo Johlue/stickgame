@@ -49,6 +49,7 @@ void PlayState::update()
   {
     if(objects[i]->getId() == -1)
     {
+      //std::cout << objectId << " " << objects.size() << std::endl;
       objects[i]->setId(objectId);
       objectId++;
     }
@@ -159,6 +160,7 @@ void PlayState::handleEvents(SDL_Event* e)
 
 void PlayState::loadLevel(int id)
 {
+  objectId = 0;
   //delete the player just in case?
   playerAlive = false;
   for(int i = 0; i < objects.size(); i++)
@@ -189,6 +191,7 @@ void PlayState::loadLevel(int id)
         else if(strVec[0] == "Hazard") hazardLoad(strVec);
         else if(strVec[0] == "Turret") turretLoad(strVec);
         else if(strVec[0] == "Walker") walkerLoad(strVec);
+        else if(strVec[0] == "Switch") switchLoad(strVec);
         else if(strVec[0] == "Player")
         {
           objects.push_back(new Player(std::stoi(strVec[1]), std::stoi(strVec[2]), &playerAlive, mDisplay, &objects, textureArray));
@@ -263,6 +266,28 @@ void PlayState::walkerLoad(std::vector<std::string> bl) // walkers for the level
   else if(bl[4] == "WAIT")      wAI = WAIT; // waits 2 seconds at edge of floor before turning around
 
   objects.push_back(new Walker(bx, by, cAI, wAI, mDisplay, &objects));
+}
+
+void PlayState::switchLoad(std::vector<std::string> bl)
+{
+  int bx; int by; int switchType; bool once; int reactivTime;
+  bx = std::stoi(bl[1]); by = std::stoi(bl[2]);
+       if(bl[3] == "S_WALL") {switchType = SWITCH_WALL;}
+  else if(bl[3] == "S_FLOOR"){switchType = SWITCH_FLOOR;}
+
+  if(bl[4] == "T") {once = true;} else {once = false;}
+  reactivTime = std::stoi(bl[5]);
+
+  objects.push_back(new Switch(bx, by, mDisplay, &objects, switchType, once, reactivTime));
+
+  std::vector<std::string> gl;
+  gl = splitString(bl[6], '|');
+  Switch * ptr;
+  for(int i = 0; i < gl.size(); i++)
+  {
+    ptr = dynamic_cast<Switch*>(objects.back());
+    ptr->addActivatable(std::stoi(gl[i]));
+  }
 }
 
 void PlayState::deleteLevel()

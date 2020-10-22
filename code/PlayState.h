@@ -13,6 +13,7 @@
 #include "Turret.h"
 #include "Bullet.h"
 #include "Walker.h"
+#include "Switch.h"
 
 
 class PlayState : public GameState
@@ -39,6 +40,7 @@ protected:
   void hazardLoad(std::vector<std::string> bl);
   void turretLoad(std::vector<std::string> bl);
   void walkerLoad(std::vector<std::string> bl);
+  void switchLoad(std::vector<std::string> bl);
 
   void deleteLevel();
 
