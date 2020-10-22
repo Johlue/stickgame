@@ -58,7 +58,7 @@ bool Switch::render(int cameraX, int cameraY, int priority)
         if(onlyOnce && activated){SDL_SetRenderDrawColor(mDisplay->getRenderer(), 100, 100, 100, 0xFF);}
         if(activated) {SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 255, 0, 0xFF);}
         else {SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 0, 0, 0xFF);}
-        SDL_Rect rect = { x + 1 - cameraX, y + 1 - cameraY, width - 2, height - 2};
+        SDL_Rect rect = { x + 1 - cameraX, y + 1 - cameraY, width - 1, height - 1};
         SDL_RenderFillRect(mDisplay->getRenderer(), &rect);
       }
       break;
@@ -86,6 +86,14 @@ void Switch::activate(bool reactivate)
   {
     reactivationTimeRemaining = reactivationTime;
     activated = true;
+  }
+}
+
+void Switch::activateObjects(bool on)
+{
+  for(int i = 0; i < activatableObjects.size(); i++)
+  {
+    
   }
 }
 

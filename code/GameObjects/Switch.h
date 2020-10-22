@@ -24,6 +24,8 @@ public:
 
   void activate(bool reactivate = false);
 protected:
+  void activateObjects(bool on);
+
   bool onlyOnce = false;
 
   int switchType = SWITCH_WALL;
