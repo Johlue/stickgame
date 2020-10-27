@@ -49,6 +49,15 @@ bool Boundary::getLeft(){return facingLeft;}
 void Boundary::setGoThrough(bool gt){goThrough = gt;}
 bool Boundary::getGoThrough(){return goThrough;}
 
+int Boundary::activateThisObject(bool on)
+{
+  if(on != activated)
+  {
+    activated = !activated;
+    goThrough = !goThrough;
+  }
+}
+
 int Boundary::collisionCheck(double ox1, double oy1, double ox2, double oy2, int checkType)
 {
   if(goThrough) {return BOUNDARY_GO_THROUGH;}

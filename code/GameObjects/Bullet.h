@@ -19,6 +19,7 @@ public:
 
   // also other collision is handled by it
   virtual CollisionData lineIntersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4);
+  int activateThisObject(bool on);
 protected:
   bool playerBullet = false;
   int damage = 4, iframes = 10;

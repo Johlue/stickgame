@@ -163,3 +163,5 @@ CollisionData Slash::lineIntersection(double x1, double y1, double x2, double y2
 
 double Slash::getX(){return x;}
 double Slash::getY(){return y;}
+
+int Slash::activateThisObject(bool on){}

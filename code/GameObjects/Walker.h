@@ -38,6 +38,8 @@ public:
   CollisionData lineIntersection(double ox1, double oy1, double ox2, double oy2, double nx3, double ny3, double nx4, double ny4);
   void knockedBack(int knockback, int dmg);
 
+  int activateThisObject(bool on);
+
 protected:
   bool fallingCheck(); // check if there's floor underneath, and if not start falling
   void fallingCollisionCheck(); // if falling check if collided with floor

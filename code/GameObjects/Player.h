@@ -33,6 +33,7 @@ public:
   int getAmmo();
 
   CollisionData lineIntersection(double ox1, double oy1, double ox2, double oy2, double nx3, double ny3, double nx4, double ny4);
+  int activateThisObject(bool on);
 
 protected:
 

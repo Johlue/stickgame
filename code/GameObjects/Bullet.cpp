@@ -117,4 +117,6 @@ bool Bullet::render(int cameraX, int cameraY, int priority)
   return true;
 }
 
+int Bullet::activateThisObject(bool on){}
+
 CollisionData Bullet::lineIntersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4){}

@@ -27,14 +27,18 @@ void Switch::handleEvent(SDL_Event* e){}
 
 void Switch::update()
 {
-    if(reactivationTimeRemaining > 0)
+  if(reactivationTimeRemaining > 0)
+  {
+    reactivationTimeRemaining--;
+    if(reactivationTimeRemaining == 0)
     {
-      reactivationTimeRemaining--;
-      if(reactivationTimeRemaining == 0)
-      {
-        activate(true);
-      }
+      activate(true);
     }
+  }
+  if(cooldown > 0)
+  {
+    cooldown--;
+  }
 }
 
 bool Switch::render(int cameraX, int cameraY, int priority)
@@ -74,6 +78,11 @@ bool Switch::render(int cameraX, int cameraY, int priority)
   return false;
 }
 
+int Switch::activateThisObject(bool on)
+{
+  activate();
+}
+
 void Switch::activate(bool reactivate)
 {
   if(onlyOnce && activated){return;}
@@ -82,6 +91,8 @@ void Switch::activate(bool reactivate)
     activated = false;
     return;
   }
+
+  cooldown = 60;
   if(reactivationTime > 0 && !reactivate)
   {
     reactivationTimeRemaining = reactivationTime;
@@ -93,7 +104,14 @@ void Switch::activateObjects(bool on)
 {
   for(int i = 0; i < activatableObjects.size(); i++)
   {
-    
+    for(int i2 = 0; i2 < objects->size(); i2++)
+    {
+      if((*objects)[i2]->getId() == activatableObjects[i])
+      {
+        (*objects)[i2]->activateThisObject(on);
+        break;
+      }
+    }
   }
 }
 

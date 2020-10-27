@@ -22,6 +22,7 @@ bool GameObject::isAlive(){return alive;}
 void GameObject::kill(){alive = false;}
 
 CollisionData GameObject::lineIntersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4){}
+int GameObject::activateThisObject(bool on){}
 
 double GameObject::getX(){return x;}
 double GameObject::getY(){return y;}

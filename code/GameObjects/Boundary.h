@@ -33,6 +33,7 @@ public:
   int collisionCheck(double ox1, double oy1, double ox2, double oy2, int checktype);
   //last 4 values are irrelevant since they are not used, first 4 are two points of the other line being checked
   CollisionData lineIntersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4);
+  int activateThisObject(bool on);
 protected:
   double x2;
   double y2;

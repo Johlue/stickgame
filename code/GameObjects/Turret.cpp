@@ -351,6 +351,15 @@ void Turret::damaged(CollisionData cd)
 
 int Turret::getRadius(){return radius;}
 
+int Turret::activateThisObject(bool on)
+{
+  if(on != activated)
+  {
+    activated = !activated;
+    // more TODOs to be protected
+  }
+}
+
 bool Turret::render(int cameraX, int cameraY, int priority)
 {
 

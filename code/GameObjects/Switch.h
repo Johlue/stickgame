@@ -23,6 +23,7 @@ public:
   void addActivatable(int o_id);
 
   void activate(bool reactivate = false);
+  int activateThisObject(bool on);
 protected:
   void activateObjects(bool on);
 
@@ -30,7 +31,7 @@ protected:
 
   int switchType = SWITCH_WALL;
 
-  bool activated = false;
+  int cooldown = 10;
 
   int reactivationTime = 0;
   int reactivationTimeRemaining = -1;

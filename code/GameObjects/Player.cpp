@@ -668,3 +668,5 @@ CollisionData Player::lineIntersection(double ox1, double oy1, double ox2, doubl
   }
   return result;
 }
+
+int Player::activateThisObject(bool on){}

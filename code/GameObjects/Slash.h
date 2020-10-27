@@ -32,6 +32,7 @@ public:
   int getType();
   // checks if two lines intersect based on two points each(x1, y1),(x2, y2) and (x3, y3),(x4, y4)
   virtual CollisionData lineIntersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4);
+  int activateThisObject(bool on);
 protected:
   int damageTimer = 0; // becomes true upon dealing damage to something, can't deal damage again afterwards
   int rx, ry;

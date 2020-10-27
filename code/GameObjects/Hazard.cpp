@@ -52,6 +52,15 @@ void Hazard::rotate(double angle)
   rotatePoint(angle, &bottomRightPoint, center);
 }
 
+int Hazard::activateThisObject(bool on)
+{
+  if(activated != on)
+  {
+    activated = !activated;
+    // the TODOs must be protected
+  }
+}
+
 CollisionData Hazard::lineIntersection(double ox1, double oy1, double ox2, double oy2, double nx3, double ny3, double nx4, double ny4)
 {
 
