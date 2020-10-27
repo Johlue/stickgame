@@ -26,6 +26,7 @@ public:
   int activateThisObject(bool on);
 protected:
   void activateObjects(bool on);
+  bool detectCollision();
 
   bool onlyOnce = false;
 

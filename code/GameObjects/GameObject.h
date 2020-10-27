@@ -25,7 +25,8 @@ enum ObjectTypes
   TURRET = 4,
   BULLET = 5,
   PLAYERATTACK = 6,
-  WALKER = 7
+  WALKER = 7,
+  SWITCH = 8
 };
 // Parent to all gameobjects
 class GameObject

@@ -3,6 +3,7 @@
 Switch::Switch(){}
 Switch::Switch(double o_x, double o_y, Display* display, std::vector<GameObject*>* obj, int switch_Type, bool once , int reactivTime)
 {
+  type == SWITCH;
   x = o_x;
   y = o_y;
   mDisplay = display;
@@ -39,6 +40,44 @@ void Switch::update()
   {
     cooldown--;
   }
+  else
+  {
+    if(detectCollision())
+    {
+      activate();
+    }
+  }
+}
+
+bool Switch::detectCollision()
+{
+  for(int i = 0; i < objects->size(); i++)
+  {
+    if(switchType == SWITCH_WALL)
+    {
+      if((*objects)[i]->getType() == BULLET)
+      {
+        if (!(x + width < (*objects)[i]->getX() || (*objects)[i]->getX() < x
+        || y + height < (*objects)[i]->getY() || (*objects)[i]->getY() < y))
+        {
+          return true;
+        }
+      }
+      else if((*objects)[i]->getType() == PLAYERATTACK)
+      {
+        if (!(x + width < (*objects)[i]->getX() || (*objects)[i]->getX() + (*objects)[i]->getWidth() < x
+        || y + height < (*objects)[i]->getY() || (*objects)[i]->getY() + (*objects)[i]->getHeight() < y))
+        {
+          std::cout << x + width << " < " << (*objects)[i]->getX() << " || \n";
+          std::cout << (*objects)[i]->getX() + (*objects)[i]->getWidth() << " < " << x << " || \n";
+          std::cout << y + height << " < " << (*objects)[i]->getY() << " || \n";
+          std::cout << (*objects)[i]->getY() + (*objects)[i]->getHeight() << " < " << y << std::endl;
+          return true;
+        }
+      }
+    }
+  }
+  return false;
 }
 
 bool Switch::render(int cameraX, int cameraY, int priority)
@@ -85,6 +124,7 @@ int Switch::activateThisObject(bool on)
 
 void Switch::activate(bool reactivate)
 {
+  std::cout << "activation\n";
   if(onlyOnce && activated){return;}
   if(reactivate)
   {

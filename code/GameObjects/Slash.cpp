@@ -6,6 +6,7 @@ Slash::Slash()
 }
 Slash::Slash(double * o_x, double * o_y, int o_rx, int o_ry, int o_width, int o_height, int o_direction, bool playerSlash, std::vector<GameObject*>* objs, Display* display, int mvtype, int duration, int dmg, int invfrm, double kb)
 {
+  type = PLAYERATTACK;
   mDisplay = display;
   direction = o_direction;
   ox = o_x;
