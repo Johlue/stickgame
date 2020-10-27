@@ -23,6 +23,8 @@ Slash::Slash(double * o_x, double * o_y, int o_rx, int o_ry, int o_width, int o_
   moveType = mvtype;
   knockback = kb;
   flailspeed = flailspeed * direction;
+  x = *ox + rx;
+  y = *oy + ry;
 }
 Slash::~Slash(){}
 
