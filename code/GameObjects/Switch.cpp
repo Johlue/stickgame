@@ -28,6 +28,8 @@ void Switch::handleEvent(SDL_Event* e){}
 
 void Switch::update()
 {
+  if(onlyOnce && activated){return;}
+
   if(reactivationTimeRemaining > 0)
   {
     reactivationTimeRemaining--;
@@ -68,10 +70,6 @@ bool Switch::detectCollision()
         if (!(x + width < (*objects)[i]->getX() || (*objects)[i]->getX() + (*objects)[i]->getWidth() < x
         || y + height < (*objects)[i]->getY() || (*objects)[i]->getY() + (*objects)[i]->getHeight() < y))
         {
-          std::cout << x + width << " < " << (*objects)[i]->getX() << " || \n";
-          std::cout << (*objects)[i]->getX() + (*objects)[i]->getWidth() << " < " << x << " || \n";
-          std::cout << y + height << " < " << (*objects)[i]->getY() << " || \n";
-          std::cout << (*objects)[i]->getY() + (*objects)[i]->getHeight() << " < " << y << std::endl;
           return true;
         }
       }
@@ -99,7 +97,7 @@ bool Switch::render(int cameraX, int cameraY, int priority)
           x - cameraX, y + height - cameraY, x + width - cameraX, y + height - cameraY);
 
         if(onlyOnce && activated){SDL_SetRenderDrawColor(mDisplay->getRenderer(), 100, 100, 100, 0xFF);}
-        if(activated) {SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 255, 0, 0xFF);}
+        else if(activated) {SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 255, 0, 0xFF);}
         else {SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 0, 0, 0xFF);}
         SDL_Rect rect = { x + 1 - cameraX, y + 1 - cameraY, width - 1, height - 1};
         SDL_RenderFillRect(mDisplay->getRenderer(), &rect);
@@ -124,11 +122,12 @@ int Switch::activateThisObject(bool on)
 
 void Switch::activate(bool reactivate)
 {
-  std::cout << "activation\n";
   if(onlyOnce && activated){return;}
+  std::cout << "activation\n";
   if(reactivate)
   {
     activated = false;
+    activateObjects(activated);
     return;
   }
 
@@ -137,6 +136,12 @@ void Switch::activate(bool reactivate)
   {
     reactivationTimeRemaining = reactivationTime;
     activated = true;
+    activateObjects(activated);
+  }
+  if(reactivationTime <= 0)
+  {
+    activated = !activated;
+    activateObjects(activated);
   }
 }
 
