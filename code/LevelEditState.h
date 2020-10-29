@@ -8,7 +8,7 @@
 
 enum mouseModes
 {
-  MOUSE_EDIT, MOUSE_DRAG, MOUSE_CREATE
+  MOUSE_EDIT, MOUSE_DRAG, MOUSE_CREATE, MOUSE_CONNECT
 };
 
 class LevelEditState : public GameState
@@ -24,10 +24,18 @@ public:
 
   // deal with user input
   void handleEvents(SDL_Event* e);
+    void clickEdit(int mx, int my, SDL_Event* e);
+    void clickCreate(int mx, int my);
+    void clickDrag(int mx, int my);
   // do frame update stuff
   void update();
   // draw the things
   void render();
+    void renderClickMode();
+    void renderCurrentObject();
+    void renderDoublePointObject();
+    void renderEditMenu();
+    void renderLoadSave();
 
   //tells the GameEngine to change game states
   void changeState(int s);

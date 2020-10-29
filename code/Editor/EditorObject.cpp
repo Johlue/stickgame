@@ -85,52 +85,91 @@ bool EditorObject::handleEvents(SDL_Event * e, int cameraX, int cameraY)
 
 void EditorObject::render(int camX, int camY)
 {
-  if(type == EO_BOUNDARY) // 5 = up | 6 = down | 7 = -> | 8 = <-
-  {
-    SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, 0xFF);
-    SDL_RenderDrawLine(mDisplay->getRenderer(), x - camX, y - camY, x2 - camX, y2 - camY);
-    // draw an arrow towards the direction that is inpassable at the middle of the boundary
-    // repeated 4 times cause I'm lazy
-    if(stringInfo[5]->value == "T")
-    {
-      SDL_RenderDrawLine(mDisplay->getRenderer(), x + (abs(x - x2)/2) - camX, y - camY, x + (abs(x - x2)/2) - camX, y - 20 - camY);
-      SDL_RenderDrawLine(mDisplay->getRenderer(), x + (abs(x - x2)/2) - camX, y - camY, x + (abs(x - x2)/2) + 5 - camX, y - 5 - camY);
-      SDL_RenderDrawLine(mDisplay->getRenderer(), x + (abs(x - x2)/2) - camX, y - camY, x + (abs(x - x2)/2) - 5 - camX, y - 5 - camY);
-    }
-    if(stringInfo[6]->value == "T")
-    {
-      SDL_RenderDrawLine(mDisplay->getRenderer(), x + (abs(x - x2)/2) - camX, y - camY, x + (abs(x - x2)/2) - camX, y + 20 - camY);
-      SDL_RenderDrawLine(mDisplay->getRenderer(), x + (abs(x - x2)/2) - camX, y - camY, x + (abs(x - x2)/2) + 5 - camX, y + 5 - camY);
-      SDL_RenderDrawLine(mDisplay->getRenderer(), x + (abs(x - x2)/2) - camX, y - camY, x + (abs(x - x2)/2) - 5 - camX, y + 5 - camY);
-    }
-    if(stringInfo[7]->value == "T")
-    {
-      SDL_RenderDrawLine(mDisplay->getRenderer(), x - camX, y + (abs(y - y2)/2) - camY, x + 20 - camX, y + (abs(y - y2)/2) - camY);
-      SDL_RenderDrawLine(mDisplay->getRenderer(), x - camX, y + (abs(y - y2)/2) - camY, x + 5 - camX, y + (abs(y - y2)/2) + 5 - camY);
-      SDL_RenderDrawLine(mDisplay->getRenderer(), x - camX, y + (abs(y - y2)/2) - camY, x + 5 - camX, y + (abs(y - y2)/2) - 5 - camY);
-    }
-    if(stringInfo[8]->value == "T")
-    {
-      SDL_RenderDrawLine(mDisplay->getRenderer(), x - camX, y + (abs(y - y2)/2) - camY, x - 20 - camX, y + (abs(y - y2)/2) - camY);
-      SDL_RenderDrawLine(mDisplay->getRenderer(), x - camX, y + (abs(y - y2)/2) - camY, x - 5 - camX, y + (abs(y - y2)/2) + 5 - camY);
-      SDL_RenderDrawLine(mDisplay->getRenderer(), x - camX, y + (abs(y - y2)/2) - camY, x - 5 - camX, y + (abs(y - y2)/2) - 5 - camY);
-    }
-  }
-  else if(type == EO_PLAYER)
-  {
-    (*textureArray)[TEX_PLAYER_BODY]->render(x - camX, y - camY, 0);
-    (*textureArray)[TEX_PLAYER_GUN]->render(x-8 - camX, y - camY, 2);
-  }
-  else if(type == EO_TURRET)
-  {
-    SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
-    drawCircle(mDisplay->getRenderer(), x - camX, y - camY, 10);
-  }
+  if(type == EO_BOUNDARY){boundaryRender(camX, camY);}
+  else if(type == EO_PLAYER){playerRender(camX, camY);}
+  else if(type == EO_TURRET){turretRender(camX, camY);}
+  else if(type == EO_SWITCH){switchRender(camX, camY);}
   else
   {
     SDL_Rect rect2 = { x - camX, y - camY, width, height};
     SDL_SetRenderDrawColor( mDisplay->getRenderer(), type * 50, type * 33, type * 100, 0xFF );
     SDL_RenderFillRect(mDisplay->getRenderer(), &rect2);
+  }
+}
+
+void EditorObject::switchRender(int camX, int camY)
+{
+  int switchType = 0;
+  switch(switchType)
+  {
+    case 0:
+    {
+      SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, 0xFF);
+      SDL_RenderDrawLine(mDisplay->getRenderer(),
+        x - camX, y - camY, x + 16 - camX, y - camY);
+      SDL_RenderDrawLine(mDisplay->getRenderer(),
+        x - camX, y - camY, x - camX, y + 16 - camY);
+      SDL_RenderDrawLine(mDisplay->getRenderer(),
+        x + 16 - camX, y - camY, x + 16 - camX, y + 16 - camY);
+      SDL_RenderDrawLine(mDisplay->getRenderer(),
+        x - camX, y + 16 - camY, x + 16 - camX, y + 16 - camY);
+
+      SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 0, 0, 0xFF);
+      SDL_Rect rect = { x + 1 - camX, y + 1 - camY, 16 - 1, 16 - 1};
+      SDL_RenderFillRect(mDisplay->getRenderer(), &rect);
+    }
+    break;
+
+    case 1:
+    {
+
+    }
+    break;
+  }
+}
+
+void EditorObject::turretRender(int camX, int camY)
+{
+  SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
+  drawCircle(mDisplay->getRenderer(), x - camX, y - camY, 10);
+}
+
+void EditorObject::playerRender(int camX, int camY)
+{
+  (*textureArray)[TEX_PLAYER_BODY]->render(x - camX, y - camY, 0);
+  (*textureArray)[TEX_PLAYER_GUN]->render(x-8 - camX, y - camY, 2);
+}
+
+void EditorObject::boundaryRender(int camX, int camY)
+{
+  // 5 = up | 6 = down | 7 = -> | 8 = <-
+  SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, 0xFF);
+  SDL_RenderDrawLine(mDisplay->getRenderer(), x - camX, y - camY, x2 - camX, y2 - camY);
+  // draw an arrow towards the direction that is inpassable at the middle of the boundary
+  // repeated 4 times cause I'm lazy
+  if(stringInfo[5]->value == "T")
+  {
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x + (abs(x - x2)/2) - camX, y - camY, x + (abs(x - x2)/2) - camX, y - 20 - camY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x + (abs(x - x2)/2) - camX, y - camY, x + (abs(x - x2)/2) + 5 - camX, y - 5 - camY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x + (abs(x - x2)/2) - camX, y - camY, x + (abs(x - x2)/2) - 5 - camX, y - 5 - camY);
+  }
+  if(stringInfo[6]->value == "T")
+  {
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x + (abs(x - x2)/2) - camX, y - camY, x + (abs(x - x2)/2) - camX, y + 20 - camY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x + (abs(x - x2)/2) - camX, y - camY, x + (abs(x - x2)/2) + 5 - camX, y + 5 - camY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x + (abs(x - x2)/2) - camX, y - camY, x + (abs(x - x2)/2) - 5 - camX, y + 5 - camY);
+  }
+  if(stringInfo[7]->value == "T")
+  {
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x - camX, y + (abs(y - y2)/2) - camY, x + 20 - camX, y + (abs(y - y2)/2) - camY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x - camX, y + (abs(y - y2)/2) - camY, x + 5 - camX, y + (abs(y - y2)/2) + 5 - camY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x - camX, y + (abs(y - y2)/2) - camY, x + 5 - camX, y + (abs(y - y2)/2) - 5 - camY);
+  }
+  if(stringInfo[8]->value == "T")
+  {
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x - camX, y + (abs(y - y2)/2) - camY, x - 20 - camX, y + (abs(y - y2)/2) - camY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x - camX, y + (abs(y - y2)/2) - camY, x - 5 - camX, y + (abs(y - y2)/2) + 5 - camY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x - camX, y + (abs(y - y2)/2) - camY, x - 5 - camX, y + (abs(y - y2)/2) - 5 - camY);
   }
 }
 
@@ -240,6 +279,14 @@ void EditorObject::constructStringInfo()
     stringInfo.push_back(new EO_String("T_SLOW", "t_atk"));
     stringInfo.push_back(new EO_String("T_STATIC", "t_move"));
     break;
+
+    case EO_SWITCH:
+    stringInfo[0]->value = "Switch";
+    stringInfo.push_back(new EO_String("S_WALL", "s_type"));
+    stringInfo.push_back(new EO_String("F", "one_time"));
+    stringInfo.push_back(new EO_String("0", "timer"));
+    stringInfo.push_back(new EO_String("", "connect"));
+
 
     case EO_PLAYER:
     stringInfo[0]->value = "Player";
@@ -355,7 +402,7 @@ bool EditorObject::editorClick(SDL_MouseButtonEvent& b, int strings, std::string
         // if value is a number
         if(stringInfo[i]->type == "x" || stringInfo[i]->type == "y" || stringInfo[i]->type == "x2" ||
            stringInfo[i]->type == "y2" || stringInfo[i]->type == "width" || stringInfo[i]->type == "height" ||
-           stringInfo[i]->type == "angle" || stringInfo[i]->type == "damage")
+           stringInfo[i]->type == "angle" || stringInfo[i]->type == "damage" || stringInfo[i]->type == "timer")
         {
           *es = &(stringInfo[i]->value);
            //do number things
@@ -363,18 +410,22 @@ bool EditorObject::editorClick(SDL_MouseButtonEvent& b, int strings, std::string
         }
         // if value is a boolean
         else if(stringInfo[i]->type == "face ->" || stringInfo[i]->type == "face <-" ||
-        stringInfo[i]->type == "face v" || stringInfo[i]->type == "face ^")
+        stringInfo[i]->type == "face v" || stringInfo[i]->type == "face ^" ||
+        stringInfo[i]->type == "one_time")
         {
           if(stringInfo[i]->value == "F") // if false clicked becomes true, others become false
           {
             for(int i2 = 0; i2 < strings; i2++)
             {
               if(stringInfo[i2]->type == "face ->" || stringInfo[i2]->type == "face <-" || // set all to faces to false
-              stringInfo[i2]->type == "face v" || stringInfo[i2]->type == "face ^") stringInfo[i2]->value = "F";
+              stringInfo[i2]->type == "face v" || stringInfo[i2]->type == "face ^")
+              {
+                stringInfo[i2]->value = "F";
+              }
             }
             stringInfo[i]->value = "T";
           }
-          else stringInfo[i]->value = "F"; // if false becomes true
+          else {stringInfo[i]->value = "F";} // if false becomes true
 
           openedMenu = -1; // close other menus
           *es = nullptr;

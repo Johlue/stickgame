@@ -59,85 +59,25 @@ void LevelEditState::handleEvents(SDL_Event* e)
       {
         if(clickMode == MOUSE_EDIT)
         {
-          if(currentEditorObject == nullptr || !currentEditorObject->editorClick(e->button, currentEditorObject->getStringVector().size(), &editableString))
-          {
-            //choose a editable object
-            for(int i = 0; i < objects.size(); i++)
-            {
-              if(objects[i]->clickedEdit(cameraX, cameraY))
-              {
-                currentEditorObject = objects[i];
-                for(int i2 = 0; i2 < objects.size(); i2++) // close editor menus
-                {
-                  objects[i2]->setOpenedMenu(-1);
-                }
-              }
-            }
-          }
+          clickEdit(mx, my, e);
         }
 
         else if(clickMode == MOUSE_DRAG)
         {
-          if(draggedIndex > -1)
-          {
-            draggedIndex = -1;
-          }
-          else
-          {
-            for(int i = 0; i < objects.size(); i++)
-            {
-              if(objects[i]->clickedDrag(cameraX, cameraY))
-              {
-                offsetX = mx - objects[i]->getX() + cameraX;
-                offsetY = my - objects[i]->getY() + cameraY;
-                if(objects[i]->getType() == EO_TURRET)
-                {
-                  offsetX -= 10;
-                  offsetY -= 10;
-                }
-                draggedIndex = i;
-                break;
-              }
-            }
-          }
+          clickDrag(mx, my);
         }
 
         else if(clickMode == MOUSE_CREATE)
         {
           if(createObject != EO_NONE) // if creating an object
           {
-            //add new object to list according to the createObject thingy
-            if(createObject == EO_BOUNDARY || createObject == EO_BOX) // for two click creatables
-            {
-              if(bx == -9999999 || by == -9999999)
-              {
-                bx = mx + cameraX; by = my + cameraY;
-              }
-              else if(createObject == EO_BOUNDARY)
-              {
-                if(abs(bx - (mx + cameraX)) > abs(by - (my + cameraY))) my = by - cameraY;
-                else mx = bx - cameraX;
-                createBoundary( mx + cameraX, my + cameraY, bx, by);
-                bx = -9999999; by = -9999999;
-              }
-              else if(createObject == EO_BOX)
-              {
-                createBoundary(mx + cameraX, my + cameraY, bx, my + cameraY);
-                createBoundary(mx + cameraX, my + cameraY, mx + cameraX, by);
-                createBoundary(bx, my + cameraY, bx, by);
-                createBoundary(mx + cameraX, by, bx, by);
-
-                bx = -9999999; by = -9999999;
-              }
-            }
-            else
-            {
-              objects.push_back(new EditorObject(createObject, mx + cameraX, my + cameraY, mDisplay));
-              objects[objects.size() - 1]->setTextureArray(textureArray);
-              objects[objects.size() - 1]->setIndex(objects.size() - 1); // set index of new object
-              bx = -9999999; by = -9999999;
-            }
+            clickCreate(mx, my);
           }
+        }
+
+        else if (clickMode == MOUSE_CONNECT)
+        {
+
         }
       }
     }
@@ -371,6 +311,86 @@ void LevelEditState::handleEvents(SDL_Event* e)
   }*/
 }
 
+void LevelEditState::clickCreate(int mx, int my)
+{
+  //add new object to list according to the createObject thingy
+  if(createObject == EO_BOUNDARY || createObject == EO_BOX) // for two click creatables
+  {
+    if(bx == -9999999 || by == -9999999)
+    {
+      bx = mx + cameraX; by = my + cameraY;
+    }
+    else if(createObject == EO_BOUNDARY)
+    {
+      if(abs(bx - (mx + cameraX)) > abs(by - (my + cameraY))) my = by - cameraY;
+      else mx = bx - cameraX;
+      createBoundary( mx + cameraX, my + cameraY, bx, by);
+      bx = -9999999; by = -9999999;
+    }
+    else if(createObject == EO_BOX)
+    {
+      createBoundary(mx + cameraX, my + cameraY, bx, my + cameraY);
+      createBoundary(mx + cameraX, my + cameraY, mx + cameraX, by);
+      createBoundary(bx, my + cameraY, bx, by);
+      createBoundary(mx + cameraX, by, bx, by);
+
+      bx = -9999999; by = -9999999;
+    }
+  }
+  else
+  {
+    objects.push_back(new EditorObject(createObject, mx + cameraX, my + cameraY, mDisplay));
+    objects[objects.size() - 1]->setTextureArray(textureArray);
+    objects[objects.size() - 1]->setIndex(objects.size() - 1); // set index of new object
+    bx = -9999999; by = -9999999;
+  }
+}
+
+void LevelEditState::clickDrag(int mx, int my)
+{
+  if(draggedIndex > -1)
+  {
+    draggedIndex = -1;
+  }
+  else
+  {
+    for(int i = 0; i < objects.size(); i++)
+    {
+      if(objects[i]->clickedDrag(cameraX, cameraY))
+      {
+        offsetX = mx - objects[i]->getX() + cameraX;
+        offsetY = my - objects[i]->getY() + cameraY;
+        if(objects[i]->getType() == EO_TURRET)
+        {
+          offsetX -= 10;
+          offsetY -= 10;
+        }
+        draggedIndex = i;
+        break;
+      }
+    }
+  }
+}
+
+void LevelEditState::clickEdit(int mx, int my, SDL_Event* e)
+{
+  if(currentEditorObject == nullptr || !currentEditorObject->editorClick(e->button, currentEditorObject->getStringVector().size(), &editableString))
+  {
+    //choose a editable object
+    for(int i = 0; i < objects.size(); i++)
+    {
+      if(objects[i]->clickedEdit(cameraX, cameraY))
+      {
+        currentEditorObject = objects[i];
+        for(int i2 = 0; i2 < objects.size(); i2++) // close editor menus
+        {
+          objects[i2]->setOpenedMenu(-1);
+        }
+      }
+    }
+  }
+}
+
 void LevelEditState::update()
 {
   currentFrame += 1;
@@ -412,6 +432,172 @@ void LevelEditState::render()
     }
   }
 
+  renderClickMode();
+
+  if(currentEditorObject != nullptr) // if an editable is chose create a box around it
+  {
+    renderCurrentObject();
+  }
+
+  if(bx != -9999999 && by != -9999999) // drawing 2 point objects, line, box etc
+  {
+    renderDoublePointObject();
+  }
+
+  menu.render(); // object choosing menu
+
+  if(currentEditorObject != nullptr) // for drawing the object editing menu
+  {
+    renderEditMenu();
+  }
+
+  // rendering load/save modes
+  if(loadingMode || savingMode)
+  {
+    renderLoadSave();
+  }
+}
+
+void LevelEditState::renderLoadSave()
+{
+  {
+    SDL_Rect rectT = {(mDisplay->getWidth()/2)-250, (mDisplay->getHeight()/2)-125, 500, 250};
+    SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0, 0, 0, 0xFF );
+    SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
+  }
+  {
+    SDL_Rect rectT = {(mDisplay->getWidth()/2)-248, (mDisplay->getHeight()/2)-123, 496, 246};
+    SDL_SetRenderDrawColor( mDisplay->getRenderer(), 255, 255, 255, 0xFF );
+    SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
+  }
+
+  {
+    SDL_Rect rectT = {(mDisplay->getWidth()/2)-225, (mDisplay->getHeight()/2)-20, 450, 40};
+    SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0, 0, 0, 0xFF );
+    SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
+  }
+  {
+    SDL_Rect rectT = {(mDisplay->getWidth()/2)-223, (mDisplay->getHeight()/2)-18, 446, 36};
+    SDL_SetRenderDrawColor( mDisplay->getRenderer(), 255, 255, 255, 0xFF );
+    SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
+  }
+  std::string writeThisShitDown = saveFileName;
+  writeThisShitDown.append(".txt");
+  mWriter->render(writeThisShitDown, (mDisplay->getWidth()/2)-220, (mDisplay->getHeight()/2)-8);
+
+  if(loadingMode)
+  {
+    mWriter->render("Load Level Name:", (mDisplay->getWidth()/2)-225, (mDisplay->getHeight()/2)-46);
+  }
+  else
+  {
+    mWriter->render("Save Level Name:", (mDisplay->getWidth()/2)-225, (mDisplay->getHeight()/2)-46);
+  }
+}
+
+void LevelEditState::renderEditMenu()
+{
+  int yMod = 0;
+  int EOProws = 0;
+  if(currentEditorObject->getStringVector().size() > 9)
+  {
+    EOProws = (currentEditorObject->getStringVector().size()-1) / 9; //9+ = 1, 18+ = 2 etc.
+    yMod = (currentEditorObject->getStringVector().size()-1) / 9; // how many rows
+  }
+  { // draw parameter editor box
+    SDL_Rect rectT = {0,  mDisplay->getHeight() - ((EOProws+1)*44) - 2, mDisplay->getWidth(), mDisplay->getHeight()};
+    SDL_SetRenderDrawColor( mDisplay->getRenderer(), 100, 100, 100, 0xFF );
+    SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
+  }
+  for(int i = 0; i < currentEditorObject->getStringVector().size(); i++) // go thru each EO_String
+  { // draws the info of each parameter (up to 9 parameters / row)
+    yMod = i / 9; //which row are we on
+    { // draw box around parameter types
+      SDL_Rect rectT = {5+((i%9)*70),  (mDisplay->getHeight() - 40) - (EOProws*44) + (yMod * 44), 64, 16};
+      SDL_SetRenderDrawColor( mDisplay->getRenderer(), 188, 188, 188, 0xFF );
+      SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
+    }
+    mWriter->render(currentEditorObject->getStringVector().at(i)->type, 5+((i%9)*70), (mDisplay->getHeight() - 40) - (EOProws*44) + (yMod * 44)); // draw parameter types
+    { // draw box around parameter values
+      SDL_Rect rectT = {5+((i%9)*70),  (mDisplay->getHeight() - 20) - (EOProws*44) + (yMod * 44), 64, 16};
+      SDL_SetRenderDrawColor( mDisplay->getRenderer(), 255, 255, 255, 0xFF );
+      SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
+    }
+    mWriter->render(currentEditorObject->getStringVector().at(i)->value, 5+((i%9)*70), (mDisplay->getHeight() - 20) - (EOProws*44) + (yMod * 44));// draw parameter values
+  }
+  // draw currently opened menu
+  int om = currentEditorObject->getOpenedMenu();
+  if(om != -1) // if a multiple choice menu is open
+  {
+    yMod = om/9;
+    std::vector<std::string> tms = menuOptions(currentEditorObject->getStringVector()[om]->type);
+    if(tms.size() > 0)
+    {
+      for(int i2 = 0; i2 < tms.size(); i2++)
+      {
+        { // draw box and then a smaller box and fill it with text
+          // black box for outlines
+          {
+            SDL_Rect rectT = {5+((om%9)*70)-1,  (mDisplay->getHeight() - 40) - (EOProws*44) + (yMod * 44) - (17 * i2)-1, 64+2, 16+2};
+            SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0, 0, 0, 0xFF );
+            SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
+          }
+          // actual text container
+          {
+            SDL_Rect rectT = {5+((om%9)*70),  (mDisplay->getHeight() - 40) - (EOProws*44) + (yMod * 44) - (17 * i2), 64, 16};
+            SDL_SetRenderDrawColor( mDisplay->getRenderer(), 255, 255, 255, 0xFF );
+            SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
+          }
+          // draw options inside box
+          mWriter->render(tms[i2], 5+((om%9)*70),  (mDisplay->getHeight() - 40) - (EOProws*44) + (yMod * 44) - (17 * i2));
+        }
+      }
+    }
+  }
+}
+
+void LevelEditState::renderDoublePointObject()
+{
+  SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, 0xFF);
+  int mx; int my;
+  SDL_GetMouseState( &mx, &my );
+
+  if(createObject == EO_BOUNDARY)
+  {
+    if(abs(bx - (mx + cameraX)) > abs(by - (my + cameraY))) my = by - cameraY; // if x is longer draw the line only on x axis, else y
+    else mx = bx - cameraX;
+
+    SDL_RenderDrawLine(mDisplay->getRenderer(), bx - cameraX, by - cameraY, mx, my);
+  }
+  else if(createObject == EO_BOX)
+  {
+    SDL_RenderDrawLine(mDisplay->getRenderer(), mx, by - cameraY, mx, my);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), bx - cameraX, my, mx, my);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), bx - cameraX, by - cameraY, mx, by - cameraY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), bx - cameraX, by - cameraY, bx - cameraX, my);
+  }
+}
+
+void LevelEditState::renderCurrentObject()
+{
+  int clr = 188;
+  if(currentFrame % 30 > 15) clr = 0;
+
+  // draw currently chosen object at the upper left corner
+  currentEditorObject->render(currentEditorObject->getX()-5, currentEditorObject->getY()-65);
+
+  // draw box around currently chosen object
+  int cx = currentEditorObject->getX(); int cy = currentEditorObject->getY();
+  int cw = currentEditorObject->getWidth(); int ch = currentEditorObject->getHeight();
+  SDL_SetRenderDrawColor( mDisplay->getRenderer(), clr, clr, clr, 0xFF );
+  SDL_RenderDrawLine(mDisplay->getRenderer(), cx-cameraX-2   , cy-cameraY-2   , cx+cw-cameraX+1, cy-cameraY-2   );
+  SDL_RenderDrawLine(mDisplay->getRenderer(), cx-cameraX-2   , cy-cameraY-2   , cx-cameraX-2   , cy+ch-cameraY+1);
+  SDL_RenderDrawLine(mDisplay->getRenderer(), cx+cw-cameraX+1, cy-cameraY-2   , cx+cw-cameraX+1, cy+ch-cameraY+1);
+  SDL_RenderDrawLine(mDisplay->getRenderer(), cx-cameraX-2   , cy+ch-cameraY+1, cx+cw-cameraX+1, cy+ch-cameraY+1);
+}
+
+void LevelEditState::renderClickMode()
+{
   // draw mouse mode icons
   switch(clickMode)
   {
@@ -426,146 +612,10 @@ void LevelEditState::render()
     case MOUSE_CREATE:
     (*textureArray)[TEX_LEVELEDIT_MOUSEMODE_CREATE]->render(5, 5, 0);
     break;
-  }
 
-  if(currentEditorObject != nullptr) // if an editable is chose create a box around it
-  {
-    int clr = 188;
-    if(currentFrame % 30 > 15) clr = 0;
+    case MOUSE_CONNECT:
 
-    // draw currently chosen object at the upper left corner
-    currentEditorObject->render(currentEditorObject->getX()-5, currentEditorObject->getY()-65);
-
-    // draw box around currently chosen object
-    int cx = currentEditorObject->getX(); int cy = currentEditorObject->getY();
-    int cw = currentEditorObject->getWidth(); int ch = currentEditorObject->getHeight();
-    SDL_SetRenderDrawColor( mDisplay->getRenderer(), clr, clr, clr, 0xFF );
-    SDL_RenderDrawLine(mDisplay->getRenderer(), cx-cameraX-2   , cy-cameraY-2   , cx+cw-cameraX+1, cy-cameraY-2   );
-    SDL_RenderDrawLine(mDisplay->getRenderer(), cx-cameraX-2   , cy-cameraY-2   , cx-cameraX-2   , cy+ch-cameraY+1);
-    SDL_RenderDrawLine(mDisplay->getRenderer(), cx+cw-cameraX+1, cy-cameraY-2   , cx+cw-cameraX+1, cy+ch-cameraY+1);
-    SDL_RenderDrawLine(mDisplay->getRenderer(), cx-cameraX-2   , cy+ch-cameraY+1, cx+cw-cameraX+1, cy+ch-cameraY+1);
-  }
-  if(bx != -9999999 && by != -9999999) // drawing 2 point objects, line, box etc
-  {
-    SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, 0xFF);
-    int mx; int my;
-    SDL_GetMouseState( &mx, &my );
-
-    if(createObject == EO_BOUNDARY)
-    {
-      if(abs(bx - (mx + cameraX)) > abs(by - (my + cameraY))) my = by - cameraY; // if x is longer draw the line only on x axis, else y
-      else mx = bx - cameraX;
-
-      SDL_RenderDrawLine(mDisplay->getRenderer(), bx - cameraX, by - cameraY, mx, my);
-    }
-    else if(createObject == EO_BOX)
-    {
-      SDL_RenderDrawLine(mDisplay->getRenderer(), mx, by - cameraY, mx, my);
-      SDL_RenderDrawLine(mDisplay->getRenderer(), bx - cameraX, my, mx, my);
-      SDL_RenderDrawLine(mDisplay->getRenderer(), bx - cameraX, by - cameraY, mx, by - cameraY);
-      SDL_RenderDrawLine(mDisplay->getRenderer(), bx - cameraX, by - cameraY, bx - cameraX, my);
-    }
-  }
-  menu.render(); // object choosing menu
-
-  if(currentEditorObject != nullptr) // for drawing the object editing menu
-  {
-    int yMod = 0;
-    int EOProws = 0;
-    if(currentEditorObject->getStringVector().size() > 9)
-    {
-      EOProws = (currentEditorObject->getStringVector().size()-1) / 9; //9+ = 1, 18+ = 2 etc.
-      yMod = (currentEditorObject->getStringVector().size()-1) / 9; // how many rows
-    }
-    { // draw parameter editor box
-      SDL_Rect rectT = {0,  mDisplay->getHeight() - ((EOProws+1)*44) - 2, mDisplay->getWidth(), mDisplay->getHeight()};
-      SDL_SetRenderDrawColor( mDisplay->getRenderer(), 100, 100, 100, 0xFF );
-      SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
-    }
-    for(int i = 0; i < currentEditorObject->getStringVector().size(); i++) // go thru each EO_String
-    { // draws the info of each parameter (up to 9 parameters / row)
-      yMod = i / 9; //which row are we on
-      { // draw box around parameter types
-        SDL_Rect rectT = {5+((i%9)*70),  (mDisplay->getHeight() - 40) - (EOProws*44) + (yMod * 44), 64, 16};
-        SDL_SetRenderDrawColor( mDisplay->getRenderer(), 188, 188, 188, 0xFF );
-        SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
-      }
-      mWriter->render(currentEditorObject->getStringVector().at(i)->type, 5+((i%9)*70), (mDisplay->getHeight() - 40) - (EOProws*44) + (yMod * 44)); // draw parameter types
-      { // draw box around parameter values
-        SDL_Rect rectT = {5+((i%9)*70),  (mDisplay->getHeight() - 20) - (EOProws*44) + (yMod * 44), 64, 16};
-        SDL_SetRenderDrawColor( mDisplay->getRenderer(), 255, 255, 255, 0xFF );
-        SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
-      }
-      mWriter->render(currentEditorObject->getStringVector().at(i)->value, 5+((i%9)*70), (mDisplay->getHeight() - 20) - (EOProws*44) + (yMod * 44));// draw parameter values
-    }
-    // draw currently opened menu
-    int om = currentEditorObject->getOpenedMenu();
-    if(om != -1) // if a multiple choice menu is open
-    {
-      yMod = om/9;
-      std::vector<std::string> tms = menuOptions(currentEditorObject->getStringVector()[om]->type);
-      if(tms.size() > 0)
-      {
-        for(int i2 = 0; i2 < tms.size(); i2++)
-        {
-          { // draw box and then a smaller box and fill it with text
-            // black box for outlines
-            {
-              SDL_Rect rectT = {5+((om%9)*70)-1,  (mDisplay->getHeight() - 40) - (EOProws*44) + (yMod * 44) - (17 * i2)-1, 64+2, 16+2};
-              SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0, 0, 0, 0xFF );
-              SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
-            }
-            // actual text container
-            {
-              SDL_Rect rectT = {5+((om%9)*70),  (mDisplay->getHeight() - 40) - (EOProws*44) + (yMod * 44) - (17 * i2), 64, 16};
-              SDL_SetRenderDrawColor( mDisplay->getRenderer(), 255, 255, 255, 0xFF );
-              SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
-            }
-            // draw options inside box
-            mWriter->render(tms[i2], 5+((om%9)*70),  (mDisplay->getHeight() - 40) - (EOProws*44) + (yMod * 44) - (17 * i2));
-          }
-        }
-      }
-    }
-  }
-
-  // rendering load/save modes
-  if(loadingMode || savingMode)
-  {
-    {
-      SDL_Rect rectT = {(mDisplay->getWidth()/2)-250, (mDisplay->getHeight()/2)-125, 500, 250};
-      SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0, 0, 0, 0xFF );
-      SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
-    }
-    {
-      SDL_Rect rectT = {(mDisplay->getWidth()/2)-248, (mDisplay->getHeight()/2)-123, 496, 246};
-      SDL_SetRenderDrawColor( mDisplay->getRenderer(), 255, 255, 255, 0xFF );
-      SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
-    }
-
-    {
-      SDL_Rect rectT = {(mDisplay->getWidth()/2)-225, (mDisplay->getHeight()/2)-20, 450, 40};
-      SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0, 0, 0, 0xFF );
-      SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
-    }
-    {
-      SDL_Rect rectT = {(mDisplay->getWidth()/2)-223, (mDisplay->getHeight()/2)-18, 446, 36};
-      SDL_SetRenderDrawColor( mDisplay->getRenderer(), 255, 255, 255, 0xFF );
-      SDL_RenderFillRect(mDisplay->getRenderer(), &rectT);
-    }
-    std::string writeThisShitDown = saveFileName;
-    writeThisShitDown.append(".txt");
-    mWriter->render(writeThisShitDown, (mDisplay->getWidth()/2)-220, (mDisplay->getHeight()/2)-8);
-
-    if(loadingMode)
-    {
-      mWriter->render("Load Level Name:", (mDisplay->getWidth()/2)-225, (mDisplay->getHeight()/2)-46);
-    }
-    else
-    {
-      mWriter->render("Save Level Name:", (mDisplay->getWidth()/2)-225, (mDisplay->getHeight()/2)-46);
-    }
-
+    break;
   }
 }
 
@@ -666,6 +716,12 @@ bool LevelEditState::createObjectFromFile(std::string sourceString)
   else if(pieces[0] == "Player")
   {
     objects.push_back(new EditorObject(EO_PLAYER, 0, 0, mDisplay));
+    objects[objects.size() - 1]->setTextureArray(textureArray);
+    objects[objects.size() - 1]->setIndex(objects.size() - 1); // set index of new object
+  }
+  else if(pieces[0] == "Switch")
+  {
+    objects.push_back(new EditorObject(EO_SWITCH, 0, 0, mDisplay));
     objects[objects.size() - 1]->setTextureArray(textureArray);
     objects[objects.size() - 1]->setIndex(objects.size() - 1); // set index of new object
   }

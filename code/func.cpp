@@ -151,6 +151,11 @@ std::vector<std::string> menuOptions(std::string type)
     tms.push_back("T_GROUND");
     tms.push_back("T_NOCLIP");
   }
+  else if(type == "s_type")
+  {
+    tms.push_back("S_WALL");
+    tms.push_back("S_FLOOR");
+  }
   return tms;
 }
 
