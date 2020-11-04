@@ -77,7 +77,7 @@ void LevelEditState::handleEvents(SDL_Event* e)
 
         else if (clickMode == MOUSE_CONNECT)
         {
-
+          clickConnect(mx, my);
         }
       }
     }
@@ -309,6 +309,45 @@ void LevelEditState::handleEvents(SDL_Event* e)
   {
     mouseEvent(e->button); // used to determite which mouse button was pressed
   }*/
+}
+
+void LevelEditState::clickConnect(int mx, int my)
+{
+  mx = mx + cameraX; my = my + cameraY;
+  if(currentEditorObject == nullptr) {return;}
+  
+  for(int i = 0; i < objects.size(); i++)
+  {
+    if(i != currentEditorObject->getIndex())
+    {
+      if(!( mx < objects[i]->getX()
+      ||  mx > objects[i]->getX() + objects[i]->getWidth()
+      ||  my < objects[i]->getY()
+      ||  my > objects[i]->getY() + objects[i]->getHeight()))
+      {
+        // get the index of the connect string thingy in the currently edited object
+        int ceoStringNum = 0;
+        for(int i2 = 0; i2 < currentEditorObject->getStringVector().size(); i2++)
+        {
+          if(currentEditorObject->getStringVector()[i2]->type == "connect")
+          {
+            ceoStringNum = i2;
+          }
+        }
+        // if there are no earlier connections just add this connection
+        if(currentEditorObject->getStringVector()[ceoStringNum]->value == "")
+        {
+          currentEditorObject->getStringVector()[ceoStringNum]->value += std::to_string(i);
+          break;
+        }
+        // if there are earlier connections then things get more complicated
+        else
+        {
+
+        }
+      }
+    }
+  }
 }
 
 void LevelEditState::clickCreate(int mx, int my)
