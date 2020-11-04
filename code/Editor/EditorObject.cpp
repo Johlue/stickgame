@@ -347,7 +347,7 @@ void EditorObject::applyChanges()
   }
 }
 
-bool EditorObject::editorClick(SDL_MouseButtonEvent& b, int strings, std::string ** es)
+int EditorObject::editorClick(SDL_MouseButtonEvent& b, int strings, std::string ** es)
 {
 
     if(b.button == SDL_BUTTON_RIGHT)
@@ -356,7 +356,7 @@ bool EditorObject::editorClick(SDL_MouseButtonEvent& b, int strings, std::string
       openedMenu = -1;
       return false;
     }
-    bool rtValue = false;
+    int rtValue = ECR_CLICK_FALSE;
     //Get mouse position
     int mx, my;
     SDL_GetMouseState( &mx, &my );
@@ -383,7 +383,7 @@ bool EditorObject::editorClick(SDL_MouseButtonEvent& b, int strings, std::string
             && my < (mDisplay->getHeight() - 40) - (EOProws*44) + (yMod * 44) - (17 * i2) - 1 + 16 + 2)
           {
             stringInfo[openedMenu]->value = tms[i2]; // change value to chosen one
-            rtValue = true; // also a click happened
+            rtValue = ECR_CLICK_TRUE; // also a click happened
             break;
           }
         }
@@ -391,7 +391,7 @@ bool EditorObject::editorClick(SDL_MouseButtonEvent& b, int strings, std::string
     }
 
     // return true or false?
-    if(my > mDisplay->getHeight() - ((EOProws+1)*44) - 2) rtValue = true;
+    if(my > mDisplay->getHeight() - ((EOProws+1)*44) - 2) rtValue = ECR_CLICK_TRUE;
 
     for(int i = 0; i < strings; i++)
     {
@@ -430,6 +430,12 @@ bool EditorObject::editorClick(SDL_MouseButtonEvent& b, int strings, std::string
           openedMenu = -1; // close other menus
           *es = nullptr;
         }
+        // if value is a multi-connector thingy
+        else if(stringInfo[i]->type == "connect")
+        {
+          rtValue = ECR_CLICK_CONNECTION;
+          openedMenu = -1;
+        }
         // value is multiple choice
         else
         {
@@ -440,7 +446,7 @@ bool EditorObject::editorClick(SDL_MouseButtonEvent& b, int strings, std::string
 
       }
     }
-
+    std::cout << "rtValue: " << rtValue << std::endl;
     return rtValue;
 }
 

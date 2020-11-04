@@ -16,6 +16,10 @@ enum EO_types
 
   //EO_PLAYER = 9999 //add other stuff later
 };
+enum EditorClickReturns
+{
+  ECR_CLICK_TRUE, ECR_CLICK_FALSE, ECR_CLICK_CONNECTION
+};
 
 class EditorObject
 {
@@ -44,7 +48,7 @@ public:
   bool clickedEdit(int cameraX, int cameraY); // when clicked while in edit mode
   bool clickedDrag(int cameraX, int cameraY); // clicked in drag mode
   void dragged(int offsetX, int offsetY, int cameraX, int cameraY); // what happens when this object is being dragged
-  bool editorClick(SDL_MouseButtonEvent& b, int strings, std::string ** es); // a click while this is currentEditorObject (strings is amount of parameters in object)
+  int editorClick(SDL_MouseButtonEvent& b, int strings, std::string ** es); // a click while this is currentEditorObject (strings is amount of parameters in object)
   void applyChanges();
   void setTextureArray(std::vector<ImageTexture*>* tA);
 

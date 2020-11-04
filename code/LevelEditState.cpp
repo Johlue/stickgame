@@ -374,7 +374,12 @@ void LevelEditState::clickDrag(int mx, int my)
 
 void LevelEditState::clickEdit(int mx, int my, SDL_Event* e)
 {
-  if(currentEditorObject == nullptr || !currentEditorObject->editorClick(e->button, currentEditorObject->getStringVector().size(), &editableString))
+  int ecrValue = ECR_CLICK_FALSE;
+  if(currentEditorObject != nullptr)
+  {
+    ecrValue = currentEditorObject->editorClick(e->button, currentEditorObject->getStringVector().size(), &editableString);
+  }
+  if(ecrValue == ECR_CLICK_FALSE)
   {
     //choose a editable object
     for(int i = 0; i < objects.size(); i++)
@@ -388,6 +393,10 @@ void LevelEditState::clickEdit(int mx, int my, SDL_Event* e)
         }
       }
     }
+  }
+  if(ecrValue == ECR_CLICK_CONNECTION)
+  {
+    clickMode = MOUSE_CONNECT;
   }
 }
 
