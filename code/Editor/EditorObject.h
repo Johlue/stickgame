@@ -33,7 +33,7 @@ public:
     void playerRender(int camX, int camY);
     void turretRender(int camX, int camY);
     void switchRender(int camX, int camY);
-  void update(int cameraX, int cameraY);
+  void update();
   void setIndex(int i);
   int getIndex();
   std::vector<EO_String*> getStringVector();

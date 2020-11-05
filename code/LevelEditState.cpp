@@ -497,13 +497,8 @@ void LevelEditState::update()
   currentFrame += 1;
   cameraX += xMovement * speedMultiplier;
   cameraY += yMovement * speedMultiplier;
-  if(objects.size() > 0)
-  {
-    for(int i = 0; i < objects.size(); i++)
-    {
-      objects[i]->update(cameraX, cameraY);
-    }
-  }
+
+  
   if(currentEditorObject == nullptr) // close editor menus if no object is chosen
   {
     if(objects.size() > 0)
@@ -781,6 +776,10 @@ void LevelEditState::loadLevel(std::string lvlName)
     }
     else std::cout << "opening level file failed\n";
     levelfile.close();
+    for(int i = 0; i < objects.size(); i++)
+    {
+      objects[i]->update();
+    }
   }
 }
 

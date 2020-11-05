@@ -62,9 +62,55 @@ void EditorObject::dragged(int offsetX, int offsetY, int cameraX, int cameraY)
   }
 }
 
-void EditorObject::update(int cameraX, int cameraY)
+void EditorObject::update()
 {
+  std::cout << "this shit work!?";
+  if(stringInfo[0]->value == "Walker")
+  {
+    std::cout << "walker";
+    // 3 is combatAI
+    if(stringInfo[3]->value == "M_STRONG" || stringInfo[3]->value == "R_MINIG")
+    {
+      //big guys
+      width = 30;
+      height = 60;
+    }
+    else
+    {
+      std::cout << "smol walker";
+      width = 20;
+      height = 40;
+    }
+  }
+  else if(stringInfo[0]->value == "Hazard")
+  {
+  }
+  else if(stringInfo[0]->value == "Turret")
+  {
+    std::cout << "gungungun!";
+    width = 20;
+    height = 20;
+  }
+  else if(stringInfo[0]->value == "Switch")
+  {
+    std::cout << "wxditsc";
+    if(stringInfo[3]->value == "S_WALL")
+    {
+      std::cout << " on a wall";
+      width = 16;
+      height = 16;
+    }
+    else if(stringInfo[3]->value == "S_FLOOR")
+    {
 
+    }
+  }
+  else if(stringInfo[0]->value == "Player")
+  {
+    std::cout << "pureiaa";
+    width = 16;
+    height = 32;
+  }
 }
 
 bool EditorObject::handleEvents(SDL_Event * e, int cameraX, int cameraY)
@@ -384,6 +430,7 @@ int EditorObject::editorClick(SDL_MouseButtonEvent& b, int strings, std::string 
           {
             stringInfo[openedMenu]->value = tms[i2]; // change value to chosen one
             rtValue = ECR_CLICK_TRUE; // also a click happened
+            update();
             break;
           }
         }

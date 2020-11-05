@@ -61,6 +61,8 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
   }
   else if(AI == RANGED_MINIGUN)
   {
+    width = 30;
+    height = 60;
     initialShotDelay = 60;
     betweenShotsDelay = 0;
     clipSize = 120;
