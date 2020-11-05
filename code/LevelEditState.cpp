@@ -199,9 +199,16 @@ void LevelEditState::handleEvents(SDL_Event* e)
         loadingMode = true;
         //loadLevel("testLevel.txt");
         break;
+
+        case SDLK_BACKSPACE:
+        if(clickMode == MOUSE_CONNECT && currentEditorObject != nullptr)
+        {
+          unconnect();
+        }
+        break;
       }
 
-      // object editor thingy
+      // object string editor thingy
       if(editableString != nullptr) // can't put ifs in switch cases
       {
         if(editableString->size() < 7) // too big for ints can't use
@@ -353,6 +360,35 @@ void LevelEditState::clickConnect(int mx, int my)
   }
 }
 
+void LevelEditState::unconnect()
+{
+  int ceoStringNum = 0;
+
+  for(int i = 0; i < currentEditorObject->getStringVector().size(); i++)
+  {
+    if(currentEditorObject->getStringVector()[i]->type == "connect")
+    {ceoStringNum = i;}
+  }
+
+  if(ceoStringNum == 0){return;}
+
+  if(currentEditorObject->getStringVector()[ceoStringNum]->value == ""){return;}
+
+  int lastIndex = -1;
+  for(int i = currentEditorObject->getStringVector()[ceoStringNum]->value.size(); i > 0; i--)
+  {
+    if(currentEditorObject->getStringVector()[ceoStringNum]->value[i] == '|')
+    {
+      lastIndex = i;
+      break;
+    }
+  }
+
+  if(lastIndex == -1){currentEditorObject->getStringVector()[ceoStringNum]->value = "";}
+  else {currentEditorObject->getStringVector()[ceoStringNum]->value.erase(lastIndex);}
+
+}
+
 void LevelEditState::connectToMany(int objectIndex, int connectIndex)
 {
   std::vector<std::string> strVec;
@@ -362,6 +398,7 @@ void LevelEditState::connectToMany(int objectIndex, int connectIndex)
   {
     if(std::stoi(strVec[i]) == objectIndex){return;}
   }
+
   currentEditorObject->getStringVector()[connectIndex]->value += "|";
   currentEditorObject->getStringVector()[connectIndex]->value += std::to_string(objectIndex);
 }

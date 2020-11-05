@@ -29,6 +29,7 @@ public:
     void clickDrag(int mx, int my);
     void clickConnect(int mx, int my);
       void connectToMany(int objectIndex, int connectIndex);
+      void unconnect();
   // do frame update stuff
   void update();
   // draw the things
