@@ -315,7 +315,7 @@ void LevelEditState::clickConnect(int mx, int my)
 {
   mx = mx + cameraX; my = my + cameraY;
   if(currentEditorObject == nullptr) {return;}
-  
+
   for(int i = 0; i < objects.size(); i++)
   {
     if(i != currentEditorObject->getIndex())
@@ -334,6 +334,9 @@ void LevelEditState::clickConnect(int mx, int my)
             ceoStringNum = i2;
           }
         }
+
+        if(ceoStringNum == 0){return;} // if connect string isn't found, cancel operation
+
         // if there are no earlier connections just add this connection
         if(currentEditorObject->getStringVector()[ceoStringNum]->value == "")
         {
@@ -343,11 +346,24 @@ void LevelEditState::clickConnect(int mx, int my)
         // if there are earlier connections then things get more complicated
         else
         {
-
+          connectToMany(i, ceoStringNum);
         }
       }
     }
   }
+}
+
+void LevelEditState::connectToMany(int objectIndex, int connectIndex)
+{
+  std::vector<std::string> strVec;
+  strVec = splitString(currentEditorObject->getStringVector()[connectIndex]->value, '|');
+
+  for(int i = 0; i < strVec.size(); i++)
+  {
+    if(std::stoi(strVec[i]) == objectIndex){return;}
+  }
+  currentEditorObject->getStringVector()[connectIndex]->value += "|";
+  currentEditorObject->getStringVector()[connectIndex]->value += std::to_string(objectIndex);
 }
 
 void LevelEditState::clickCreate(int mx, int my)
