@@ -39,6 +39,7 @@ public:
     void renderDoublePointObject();
     void renderEditMenu();
     void renderLoadSave();
+    void renderSwitchConnections();
 
   //tells the GameEngine to change game states
   void changeState(int s);

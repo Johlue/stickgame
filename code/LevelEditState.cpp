@@ -90,6 +90,7 @@ void LevelEditState::handleEvents(SDL_Event* e)
       editableString = nullptr;
       bx = -9999999;
       by = -9999999;
+      if(clickMode == MOUSE_CONNECT) {clickMode = MOUSE_EDIT;}
     }
 
   }
@@ -498,7 +499,7 @@ void LevelEditState::update()
   cameraX += xMovement * speedMultiplier;
   cameraY += yMovement * speedMultiplier;
 
-  
+
   if(currentEditorObject == nullptr) // close editor menus if no object is chosen
   {
     if(objects.size() > 0)
@@ -711,7 +712,35 @@ void LevelEditState::renderClickMode()
 
     case MOUSE_CONNECT:
 
+    renderSwitchConnections();
     break;
+  }
+}
+
+void LevelEditState::renderSwitchConnections()
+{
+  if(currentEditorObject == nullptr){return;}
+
+  int ceoStringNum = 0;
+  for(int i2 = 0; i2 < currentEditorObject->getStringVector().size(); i2++)
+  {
+    if(currentEditorObject->getStringVector()[i2]->type == "connect")
+    {
+      ceoStringNum = i2;
+    }
+  }
+
+  std::vector<std::string> strVec;
+  strVec = splitString(currentEditorObject->getStringVector()[ceoStringNum]->value, '|');
+
+  for(int i = 0; i < strVec.size(); i++)
+  {
+    SDL_SetRenderDrawColor(mDisplay->getRenderer(), 200, 0, 200, 0xFF);
+    SDL_RenderDrawLine(mDisplay->getRenderer(),
+      currentEditorObject->getX() + (currentEditorObject->getWidth() / 2) - cameraX,
+      currentEditorObject->getY() + (currentEditorObject->getHeight() / 2) - cameraY,
+      objects[std::stoi(strVec[i])]->getX() + (objects[std::stoi(strVec[i])]->getWidth() / 2) - cameraX,
+      objects[std::stoi(strVec[i])]->getY() + (objects[std::stoi(strVec[i])]->getHeight() / 2) - cameraY);
   }
 }
 

@@ -64,10 +64,8 @@ void EditorObject::dragged(int offsetX, int offsetY, int cameraX, int cameraY)
 
 void EditorObject::update()
 {
-  std::cout << "this shit work!?";
   if(stringInfo[0]->value == "Walker")
   {
-    std::cout << "walker";
     // 3 is combatAI
     if(stringInfo[3]->value == "M_STRONG" || stringInfo[3]->value == "R_MINIG")
     {
@@ -77,7 +75,6 @@ void EditorObject::update()
     }
     else
     {
-      std::cout << "smol walker";
       width = 20;
       height = 40;
     }
@@ -87,16 +84,13 @@ void EditorObject::update()
   }
   else if(stringInfo[0]->value == "Turret")
   {
-    std::cout << "gungungun!";
     width = 20;
     height = 20;
   }
   else if(stringInfo[0]->value == "Switch")
   {
-    std::cout << "wxditsc";
     if(stringInfo[3]->value == "S_WALL")
     {
-      std::cout << " on a wall";
       width = 16;
       height = 16;
     }
@@ -107,7 +101,6 @@ void EditorObject::update()
   }
   else if(stringInfo[0]->value == "Player")
   {
-    std::cout << "pureiaa";
     width = 16;
     height = 32;
   }
@@ -332,7 +325,7 @@ void EditorObject::constructStringInfo()
     stringInfo.push_back(new EO_String("F", "one_time"));
     stringInfo.push_back(new EO_String("0", "timer"));
     stringInfo.push_back(new EO_String("", "connect"));
-
+    break;
 
     case EO_PLAYER:
     stringInfo[0]->value = "Player";

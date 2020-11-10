@@ -30,6 +30,8 @@ void Switch::update()
 {
   if(onlyOnce && activated){return;}
 
+  activatedThisFrame = false;
+
   if(reactivationTimeRemaining > 0)
   {
     reactivationTimeRemaining--;
@@ -122,6 +124,8 @@ int Switch::activateThisObject(bool on)
 
 void Switch::activate(bool reactivate)
 {
+  if(activatedThisFrame) {return;}
+  activatedThisFrame = true;
   if(onlyOnce && activated){return;}
   std::cout << "activation\n";
   if(reactivate)

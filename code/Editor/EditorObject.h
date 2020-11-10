@@ -33,6 +33,7 @@ public:
     void playerRender(int camX, int camY);
     void turretRender(int camX, int camY);
     void switchRender(int camX, int camY);
+      void switchConnectionsRender(int camX, int camY);
   void update();
   void setIndex(int i);
   int getIndex();

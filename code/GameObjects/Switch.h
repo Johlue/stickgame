@@ -28,6 +28,8 @@ protected:
   void activateObjects(bool on);
   bool detectCollision();
 
+  bool activatedThisFrame = false;
+
   bool onlyOnce = false;
 
   int switchType = SWITCH_WALL;
