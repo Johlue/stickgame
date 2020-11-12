@@ -104,21 +104,15 @@ void EditorObject::update()
     width = 16;
     height = 32;
   }
+  else if(stringInfo[0]->value == "Exit")
+  {
+    width = 40;
+    height = 100;
+  }
 }
 
 bool EditorObject::handleEvents(SDL_Event * e, int cameraX, int cameraY)
 {
-  /*if(e->type == SDL_MOUSEBUTTONDOWN)
-  {
-    std::cout << "DOWN " << index << std::endl;
-    clickDrag(e->button, cameraX, cameraY);
-  }
-  if(e->type == SDL_MOUSEBUTTONUP )
-  {
-    std::cout << "UP " << index << std::endl;
-    clickDragged = false;
-    return mouseEvent(e->button, cameraX, cameraY);
-  }*/
   return false;
 }
 
@@ -327,11 +321,18 @@ void EditorObject::constructStringInfo()
     stringInfo.push_back(new EO_String("", "connect"));
     break;
 
+    case EO_EXIT:
+    stringInfo[0]->value = "Exit";
+    stringInfo.push_back(new EO_String("level", "LvlName"));
+    stringInfo.push_back(new EO_String("F", "active"));
+    break;
+
     case EO_PLAYER:
     stringInfo[0]->value = "Player";
     break;
 
   }
+  update();
 }
 
 void EditorObject::setIndex(int i){index = i;}

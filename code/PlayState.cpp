@@ -192,6 +192,7 @@ void PlayState::loadLevel(int id)
         else if(strVec[0] == "Turret") turretLoad(strVec);
         else if(strVec[0] == "Walker") walkerLoad(strVec);
         else if(strVec[0] == "Switch") switchLoad(strVec);
+        else if(strVec[0] == "Exit")   exitLoad(strVec);
         else if(strVec[0] == "Player")
         {
           objects.push_back(new Player(std::stoi(strVec[1]), std::stoi(strVec[2]), &playerAlive, mDisplay, &objects, textureArray));
@@ -205,6 +206,18 @@ void PlayState::loadLevel(int id)
     levelFile.close();
 
   } else std::cout << "level opening error is a thing that happened";
+}
+
+void PlayState::exitLoad(std::vector<std::string> bl)
+{
+  int bx, by;
+  bx = std::stoi(bl[1]); by = std::stoi(bl[2]);
+  std::string exitName = bl[3];
+  bool activ;
+  if(bl[4] == "T"){activ = true;}
+  else            {activ = false;}
+
+  objects.push_back(new LevelExit(bx, by, exitName, activ, mDisplay));
 }
 
 void PlayState::turretLoad(std::vector<std::string> bl)
