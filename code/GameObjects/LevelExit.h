@@ -3,6 +3,8 @@
 
 #include "GameObject.h"
 
+// this object is just a nameholder, actual exit functionality is in playstate
+
 class LevelExit : public GameObject
 {
 public:
@@ -14,12 +16,12 @@ public:
   virtual void update();
   virtual bool render(int cameraX, int cameraY, int priority);
 
+  std::string getExitName();
+
   virtual CollisionData lineIntersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4);
   int activateThisObject(bool on);
 protected:
-
   std::string exitName;
-  std::string getExitName();
 };
 
 #endif

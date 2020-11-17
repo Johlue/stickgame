@@ -151,6 +151,26 @@ void PlayState::handleEvents(SDL_Event* e)
       }
       break;
 
+      case SDLK_UP:
+      {
+        for(int i = 0; i < objects.size(); i++)
+        {
+          if(objects[i]->getType() == EXIT)
+          {
+            LevelExit * ext;
+            ext = dynamic_cast<LevelExit*>(objects[i]);
+            if(currentPlayer->getX() > ext->getX()
+            && currentPlayer->getX() + currentPlayer->getWidth() < ext->getX() + ext->getWidth()
+            && (currentPlayer->getY() > ext->getY()
+             || currentPlayer->getY() + currentPlayer->getHeight() < ext->getY() + ext->getHeight()))
+                {
+                    std::cout << ext->getExitName();
+                }
+          }
+        }
+      }
+      break;
+
       case SDLK_ESCAPE:
       *currentState = MENUSTATE;
       break;
