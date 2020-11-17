@@ -42,6 +42,7 @@ public:
   void setX2Y2(int xs, int ys);
   int getOpenedMenu();
   void setOpenedMenu(int om);
+  void objectDeleted(int dl);
 
   void saveLevel();
   void loadLevel(); // this probs needs a string or something

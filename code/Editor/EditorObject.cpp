@@ -24,6 +24,35 @@ EditorObject::~EditorObject()
   }
 }
 
+void EditorObject::objectDeleted(int dl)
+{
+  for(int i = 0; i < stringInfo.size(); i++)
+  {
+    if(stringInfo[i]->type == "connect" && stringInfo[i]->value.size() > 0)
+    {
+      std::vector<std::string> strVec;
+      strVec = splitString(stringInfo[i]->value, '|');
+
+      int deleteConnection = -1;
+
+      // add stuff to newValue based on ...stuff, and then replace value with newValue
+      std::string newValue = "";
+      for(int i2 = 0; i2 < strVec.size(); i2++)
+      {
+        if(std::stoi(strVec[i2]) == dl){deleteConnection = i2;}
+        else
+        {
+          if(i2 > 0) {newValue += "|";}
+          if(std::stoi(strVec[i2]) > dl) {newValue += std::to_string(std::stoi(strVec[i2])-1);}
+          else {newValue += strVec[i2];}
+        }
+      }
+
+      stringInfo[i]->value = newValue;
+    }
+  }
+}
+
 void EditorObject::dragged(int offsetX, int offsetY, int cameraX, int cameraY)
 {
   if(type != EO_BOUNDARY)

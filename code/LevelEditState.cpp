@@ -266,9 +266,14 @@ void LevelEditState::handleEvents(SDL_Event* e)
       case SDLK_DELETE:
       if(currentEditorObject != nullptr)
       {
-        std::cout << currentEditorObject->getIndex();
+        int tempIndex = currentEditorObject->getIndex();
         deleteObject(currentEditorObject->getIndex()); // remove currently chosen object
         currentEditorObject = nullptr;
+
+        for(int i = 0; i < objects.size(); i++)
+        {
+          objects[i]->objectDeleted(tempIndex);
+        }
       }
       break;
 
