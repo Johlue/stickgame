@@ -20,7 +20,7 @@ PlayState::~PlayState()
 
 void PlayState::init()
 {
-  loadLevel(1);
+  loadLevel();
 
   for(int i2 = 0; i2 < objects.size(); i2++)
   {
@@ -131,8 +131,7 @@ void PlayState::handleEvents(SDL_Event* e)
         }
       }
       */
-      deleteLevel();
-      loadLevel(1);
+      loadLevel();
 
       //objects.push_back( new Player(101, 101, &playerAlive, mDisplay, &objects, textureArray));
       playerAlive = true;
@@ -165,6 +164,8 @@ void PlayState::handleEvents(SDL_Event* e)
              || currentPlayer->getY() + currentPlayer->getHeight() < ext->getY() + ext->getHeight()))
                 {
                     std::cout << ext->getExitName();
+                    currentLevel = ext->getExitName() + ".txt";
+                    loadLevel();
                 }
           }
         }
@@ -178,8 +179,9 @@ void PlayState::handleEvents(SDL_Event* e)
   }
 }
 
-void PlayState::loadLevel(int id)
+void PlayState::loadLevel()
 {
+  deleteLevel();
   objectId = 0;
   //delete the player just in case?
   playerAlive = false;
@@ -194,7 +196,7 @@ void PlayState::loadLevel(int id)
   }
 
   std::ifstream levelFile;
-  levelFile.open("testlevel.txt");
+  levelFile.open(currentLevel);
   if(levelFile.is_open())
   {
     std::string line;

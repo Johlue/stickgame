@@ -34,7 +34,7 @@ public:
   // draw the things
   void render();
 
-  void loadLevel(int id); // load a level based on the contents of a text file
+  void loadLevel(); // load a level based on the contents of a text file
 
 protected:
   void boundaryLoad(std::vector<std::string> bl); //boundary portion of level loading
@@ -60,6 +60,8 @@ protected:
   int playerVectorLocation;
 
   int objectId = 0;
+
+  std::string currentLevel = "testlevel.txt";
 
 };
 
