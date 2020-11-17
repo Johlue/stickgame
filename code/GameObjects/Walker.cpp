@@ -121,7 +121,7 @@ void Walker::update()
     {
       if(fallingCheck()) falling = true;
     }
-    if(falling && yVel < 5) yVel += .05;
+    if(falling && yVel < 5) yVel += .15;
 
 
     if(falling) fallingCollisionCheck();
