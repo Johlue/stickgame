@@ -26,7 +26,6 @@ Graphics
       Gun and aiming
       Melee weapon animations
     Turret
-      Damage indicator
       invincibility indicator
       different barrels for different shot types
         an actual spinning blade graphic
@@ -76,6 +75,7 @@ Basic enemies
               some AI types may also jump
           walking type (stand still or not)
     flying robot things?
+      Damage indicator
       make them killable (some of them anyway)
       make different AI types for turrets
         accurate: the current AI shoots at an equal fire rate straight at the player
