@@ -23,7 +23,6 @@ Graphics
       Gun and aiming
       Melee weapon animations
     Turret
-      different barrels for different shot types
         an actual spinning blade graphic
   Objects
     Boundary
@@ -79,6 +78,7 @@ Basic enemies
         semi-spread: shoots faster, but is less accurate, some randomness in aiming
         full spread: basically a shotgun shoots a lot of bullets at once and at varying angles and speeds
         ITS BEYBLADE!: spinny blades that tries to charge at you
+          different barrels for different shot types
 
         stationary: floats in place
         flight: flies around, doesn't go through walls - donzo
