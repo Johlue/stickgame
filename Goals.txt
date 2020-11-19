@@ -12,10 +12,8 @@ turns out you can actually rotate textures in sdl, so that's nice
 player attack
   Melee attack exists
     combos?
-  Getting rid of that super lazer, as much as I like it it's kinda crappy
 level loading, like from a file (it's done for now, but will need updating in the future)
 Level Editor, I feel like it
-  Loading and Saving
 Switches
   floor standable switches
 
@@ -116,6 +114,7 @@ Level Editor
     could also make an array of (String String typeofdata) objects instead of multiple strings
   object editor menu
   some text editing thing for numbers
+  Loading and Saving
 Switches
   only once
   auto deactivating

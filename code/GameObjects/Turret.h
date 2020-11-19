@@ -30,6 +30,7 @@ public:
     void handleEvent(SDL_Event* e);
     void update();
     bool render(int cameraX, int cameraY, int priority);
+      void prepareCrackGraphics();
     void move(double xm, double ym);
     void turretMove(double distanceToPlayer, bool los);
     void shoot();
@@ -64,12 +65,15 @@ protected:
 
   double moveSpeed = 2;
   int hp = 60;
+  int maxHP;
   int radius = 10; // how big it is, used for hitbox purposes
   int distanceFromPlayer = 90; // in case of a moving turret, this is the distance it will keep from the player
   bool invincible = false;
 
   int combatAI = TA_GUN_SEMI_SPREAD;
   int movementAI = TM_STATIONARY;
+
+  Point crack1_1, crack1_2, crack1_3, crack1_4, crack2_3, crack2_1, crack2_2, crack2_4, crack3_3, crack3_1, crack3_2;
 };
 
 #endif

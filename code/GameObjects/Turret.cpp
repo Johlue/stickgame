@@ -11,6 +11,9 @@ Turret::Turret(int xl, int yl, int cAI, int mAI, Display* display, std::vector<G
   combatAI = cAI;
   movementAI = mAI;
 
+  hp = ohp;
+  maxHP = hp;
+
   switch(combatAI)
   {
     case TA_GUN_ACCURATE:
@@ -36,14 +39,53 @@ Turret::Turret(int xl, int yl, int cAI, int mAI, Display* display, std::vector<G
   cannonBottomRight.x = x + 4;
   cannonBottomRight.y = y - 9;
 
+  prepareCrackGraphics();
+
   mDisplay = display;
 }
 Turret::~Turret(){}
+
+void Turret::prepareCrackGraphics()
+{
+  Point p; // this is the centerpoint of rotation
+  p.x = x; p.y = y;
+
+  crack1_1.x = x;
+  crack1_1.y = y - radius + 1;
+  crack1_2.x = x;
+  crack1_2.y = y - radius + 4;
+  crack1_3.x = x - 3;
+  crack1_3.y = y - radius + 8;
+  crack1_4.x = x + 5;
+  crack1_4.y = y - radius + 6;
+  crack2_1.x = x;
+  crack2_1.y = y - radius;
+  rotatePoint(120, &crack2_1, p);
+  crack2_2.x = x + 2;
+  crack2_2.y = y - radius + 5;
+  rotatePoint(120, &crack2_2, p);
+  crack2_3.x = x - 5;
+  crack2_3.y = y - radius + 8;
+  rotatePoint(120, &crack2_3, p);
+  crack2_4.x = x + 7;
+  crack2_4.y = y - radius + 7;
+  rotatePoint(120, &crack2_4, p);
+  crack3_1.x = x;
+  crack3_1.y = y - radius;
+  rotatePoint(240, &crack3_1, p);
+  crack3_2.x = x;
+  crack3_2.y = y - radius + 3;
+  rotatePoint(240, &crack3_2, p);
+  crack3_3.x = x - 4;
+  crack3_3.y = y - radius + 6;
+  rotatePoint(240, &crack3_3, p);
+}
 
 void Turret::move(double xo, double yo)
 {
   x += xo;
   y += yo;
+
   cannonTopLeft.x += xo;
   cannonTopLeft.y += yo;
   cannonTopRight.x += xo;
@@ -52,6 +94,29 @@ void Turret::move(double xo, double yo)
   cannonBottomLeft.y += yo;
   cannonBottomRight.x += xo;
   cannonBottomRight.y += yo;
+
+  crack1_1.x += xo;
+  crack1_1.y += xo;
+  crack1_2.x += xo;
+  crack1_2.y += xo;
+  crack1_3.x += xo;
+  crack1_3.y += xo;
+  crack1_4.x += xo;
+  crack1_4.y += xo;
+  crack2_1.x += xo;
+  crack2_1.y += xo;
+  crack2_2.x += xo;
+  crack2_2.y += xo;
+  crack2_3.x += xo;
+  crack2_3.y += xo;
+  crack2_4.x += xo;
+  crack2_4.y += xo;
+  crack3_1.x += xo;
+  crack3_1.y += xo;
+  crack3_2.x += xo;
+  crack3_2.y += xo;
+  crack3_3.x += xo;
+  crack3_3.y += xo;
 }
 
 void Turret::rotate(double angl)
@@ -362,6 +427,25 @@ int Turret::activateThisObject(bool on)
 
 bool Turret::render(int cameraX, int cameraY, int priority)
 {
+
+  SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
+  if(hp < maxHP)
+  {
+    SDL_RenderDrawLine(mDisplay->getRenderer(), crack1_1.x - cameraX, crack1_1.y - cameraY, crack1_2.x - cameraX, crack1_2.y - cameraY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), crack2_1.x - cameraX, crack2_1.y - cameraY, crack2_2.x - cameraX, crack2_2.y - cameraY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), crack3_1.x - cameraX, crack3_1.y - cameraY, crack3_2.x - cameraX, crack3_2.y - cameraY);
+    if(hp < (maxHP / 1.5))
+    {
+      SDL_RenderDrawLine(mDisplay->getRenderer(), crack1_2.x - cameraX, crack1_2.y - cameraY, crack1_3.x - cameraX, crack1_3.y - cameraY);
+      SDL_RenderDrawLine(mDisplay->getRenderer(), crack2_2.x - cameraX, crack2_2.y - cameraY, crack2_3.x - cameraX, crack2_3.y - cameraY);
+      SDL_RenderDrawLine(mDisplay->getRenderer(), crack3_2.x - cameraX, crack3_2.y - cameraY, crack3_3.x - cameraX, crack3_3.y - cameraY);
+      if(hp < (maxHP / 3))
+      {
+        SDL_RenderDrawLine(mDisplay->getRenderer(), crack1_2.x - cameraX, crack1_2.y - cameraY, crack1_4.x - cameraX, crack1_4.y - cameraY);
+        SDL_RenderDrawLine(mDisplay->getRenderer(), crack2_2.x - cameraX, crack2_2.y - cameraY, crack2_4.x - cameraX, crack2_4.y - cameraY);
+      }
+    }
+  }
 
   // invincible turrets have a grey look to them
   if(invincible)
