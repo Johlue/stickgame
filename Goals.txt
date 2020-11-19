@@ -18,7 +18,6 @@ Switches
 Graphics
   Player
     Sword hand animations
-    Fix bullet spawn location to be at the gun barrel
   Enemys
     Walky dood
       Gun and aiming
@@ -91,6 +90,7 @@ Player attack
   melee done
   Shots
     aiming is just diagonals and straight lines
+    Fix bullet spawn location to be at the gun barrel
   gigalazer
     chargeup is Done
     actual laze code thou?

@@ -11,36 +11,63 @@ Turret::Turret(int xl, int yl, int cAI, int mAI, Display* display, std::vector<G
   combatAI = cAI;
   movementAI = mAI;
 
-  hp = ohp;
   maxHP = hp;
 
   switch(combatAI)
   {
     case TA_GUN_ACCURATE:
+    cannonTopLeft.x = x - 3;
+    cannonTopLeft.y = y - 24;
+    cannonTopRight.x = x + 3;
+    cannonTopRight.y = y - 24;
+    cannonBottomLeft.x = x - 3;
+    cannonBottomLeft.y = y - 10;
+    cannonBottomRight.x = x + 3;
+    cannonBottomRight.y = y - 10;
+
+    bulletSpawn.x = x;
+    bulletSpawn.y = y - 18;
     break;
     case TA_GUN_SEMI_SPREAD:
     shootingAngle = 8;
     shotFrequency = 15;
+
+    cannonTopLeft.x = x - 4;
+    cannonTopLeft.y = y - 20;
+    cannonTopRight.x = x + 4;
+    cannonTopRight.y = y - 20;
+    cannonBottomLeft.x = x - 4;
+    cannonBottomLeft.y = y - 9;
+    cannonBottomRight.x = x + 4;
+    cannonBottomRight.y = y - 9;
+
+    bulletSpawn.x = x;
+    bulletSpawn.y = y - 12;
     break;
     case TA_GUN_FULL_SPREAD:
     shootingAngle = 8;
     shotFrequency = 60;
+
+    cannonTopLeft.x = x - 8;
+    cannonTopLeft.y = y - 19;
+    cannonTopRight.x = x + 8;
+    cannonTopRight.y = y - 19;
+    cannonBottomLeft.x = x - 6;
+    cannonBottomLeft.y = y - 8;
+    cannonBottomRight.x = x + 6;
+    cannonBottomRight.y = y - 8;
+
+    bulletSpawn.x = x;
+    bulletSpawn.y = y - 12;
     break;
   }
 
+  cannonBottomMiddle.x = x;
+  cannonBottomMiddle.y = y - 10;
+  cannonTopMiddle.x = x;
+  cannonTopMiddle.y = cannonTopRight.y;
+
   cooldown = shotFrequency;
-
-  bulletSpawn.x = x;
-  bulletSpawn.y = y - 11;
-
-  cannonTopLeft.x = x - 4;
-  cannonTopLeft.y = y - 20;
-  cannonTopRight.x = x + 4;
-  cannonTopRight.y = y - 20;
-  cannonBottomLeft.x = x - 4;
-  cannonBottomLeft.y = y - 9;
-  cannonBottomRight.x = x + 4;
-  cannonBottomRight.y = y - 9;
 
   prepareCrackGraphics();
 
@@ -130,6 +157,8 @@ void Turret::rotate(double angl)
   rotatePoint(angl, &cannonTopRight, p);
   rotatePoint(angl, &cannonBottomLeft, p);
   rotatePoint(angl, &cannonBottomRight, p);
+  rotatePoint(angl, &cannonBottomMiddle, p);
+  rotatePoint(angl, &cannonTopMiddle, p);
   rotatePoint(angl, &bulletSpawn, p);
   angle += angl;
 }
@@ -467,6 +496,10 @@ bool Turret::render(int cameraX, int cameraY, int priority)
     SDL_RenderDrawLine(mDisplay->getRenderer(), cannonBottomLeft.x - cameraX, cannonBottomLeft.y - cameraY, cannonTopLeft.x - cameraX, cannonTopLeft.y - cameraY);
     SDL_RenderDrawLine(mDisplay->getRenderer(), cannonTopRight.x - cameraX, cannonTopRight.y - cameraY, cannonTopLeft.x - cameraX, cannonTopLeft.y - cameraY);
     SDL_RenderDrawLine(mDisplay->getRenderer(), cannonTopRight.x - cameraX, cannonTopRight.y - cameraY, cannonBottomRight.x - cameraX, cannonBottomRight.y - cameraY);
+    if(combatAI == TA_GUN_SEMI_SPREAD)
+    {
+      SDL_RenderDrawLine(mDisplay->getRenderer(), cannonTopMiddle.x - cameraX, cannonTopMiddle.y - cameraY, cannonBottomMiddle.x - cameraX, cannonBottomMiddle.y - cameraY);
+    }
   }
   else
   {

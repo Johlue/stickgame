@@ -11,13 +11,13 @@ Boundary 321 339 585 339 T F F F
 Walker 462 296 RANGED WAIT 
 Boundary 760 339 1090 339 T F F F 
 Player 16 196 
-Boundary 4 5 4 232 F F T F 
+Boundary 4 0 4 232 F F T F 
 Boundary 760 339 760 450 F F F T 
 Boundary 600 450 760 450 T F F F 
 Boundary 600 395 600 450 F F T F 
 Boundary 585 395 600 395 T F F F 
 Boundary 585 339 585 395 F F T F 
-Boundary 1090 200 1090 451 F F T F 
+Boundary 1090 0 1090 451 F F T F 
 Boundary 1090 452 1387 452 T F F F 
 Turret 1360 432 T_SLOW T_STATIC 
 Boundary 1388 412 1388 452 F F F T 
@@ -28,8 +28,8 @@ Boundary 1728 251 1728 331 F F F T
 Boundary 1728 251 1739 251 T F F F 
 Boundary 1738 171 1738 251 F F F T 
 Boundary 1738 171 2018 171 T F F F 
-Boundary 1404 192 1404 354 F F F T 
-Boundary 1409 192 1409 354 F F T F 
+Boundary 1404 0 1404 354 F F F T 
+Boundary 1409 0 1409 354 F F T F 
 Boundary 1404 354 1408 354 F T F F 
 Boundary 1399 354 1414 354 T F F F 
 Boundary 1414 355 1414 410 F F T F 
@@ -38,5 +38,5 @@ Boundary 5 232 118 232 T F F F
 Switch 1380 350 S_WALL F 0 35|34|33 
 Turret 1676 195 T_SLOW T_STATIC 
 Walker 1455 364 MELEE INSTTURN 
-Exit 1946 72 level1 F 
-Turret 166 272 T_SLOW T_STATIC 
+Exit 1924 56 level1 F 
+Boundary 2019 0 2019 171 F F F T 

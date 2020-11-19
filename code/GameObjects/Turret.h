@@ -45,7 +45,7 @@ public:
 protected:
   double angle = 0; // angle that the gun is currently facing in // -90 is up facing
   std::vector<GameObject*>* objects = nullptr; // contains objects to interact with
-  Point cannonTopLeft, cannonTopRight, cannonBottomLeft, cannonBottomRight, bulletSpawn;
+  Point cannonTopLeft, cannonTopRight, cannonBottomLeft, cannonBottomRight, cannonBottomMiddle, cannonTopMiddle, bulletSpawn;
   double rotationspeed = 2;
   double shootingAngle = 4; // at how close of an angle towards the player will the turret shoot
   int cooldown= 2;
