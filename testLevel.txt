@@ -8,7 +8,7 @@ Boundary 290 278 290 308 F F T F
 Boundary 290 308 320 308 T F F F 
 Boundary 321 308 321 339 F F T F 
 Boundary 321 339 585 339 T F F F 
-Walker 462 296 MELEE WAIT 
+Walker 462 296 RANGED WAIT 
 Boundary 760 339 1090 339 T F F F 
 Player 16 196 
 Boundary 4 5 4 232 F F T F 

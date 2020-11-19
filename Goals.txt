@@ -4,8 +4,6 @@ Basic enemies
       various AIs
         attack type (melee or ranged)
           melee:
-    flying robot things?
-      make them killable (some of them anyway) visual indicator for unkillable ones
 UI and interface or whatever they're called (partially done)
 
 turns out you can actually rotate textures in sdl, so that's nice
@@ -26,7 +24,6 @@ Graphics
       Gun and aiming
       Melee weapon animations
     Turret
-      invincibility indicator
       different barrels for different shot types
         an actual spinning blade graphic
   Objects
@@ -77,6 +74,7 @@ Basic enemies
     flying robot things?
       Damage indicator
       make them killable (some of them anyway)
+        visual indicator for unkillable ones
       make different AI types for turrets
         accurate: the current AI shoots at an equal fire rate straight at the player
         semi-spread: shoots faster, but is less accurate, some randomness in aiming

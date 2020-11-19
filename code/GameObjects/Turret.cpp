@@ -30,6 +30,9 @@ Turret::Turret(int xl, int yl, int cAI, int mAI, Display* display, std::vector<G
 
   cooldown = shotFrequency;
 
+  bulletSpawn.x = x;
+  bulletSpawn.y = y - 11;
+
   cannonTopLeft.x = x - 4;
   cannonTopLeft.y = y - 20;
   cannonTopRight.x = x + 4;
@@ -127,6 +130,7 @@ void Turret::rotate(double angl)
   rotatePoint(angl, &cannonTopRight, p);
   rotatePoint(angl, &cannonBottomLeft, p);
   rotatePoint(angl, &cannonBottomRight, p);
+  rotatePoint(angl, &bulletSpawn, p);
   angle += angl;
 }
 
@@ -352,7 +356,7 @@ void Turret::shoot()
     case TA_GUN_ACCURATE:
     {
     Vector2D bulletVector((angle-90) * (3.14159265359/180), bulletSpeed);
-    objects->push_back(new Bullet(x, y, bulletVector, mDisplay, objects, false, damage, knockback));
+    objects->push_back(new Bullet(bulletSpawn.x, bulletSpawn.y, bulletVector, mDisplay, objects, false, damage, knockback));
     }
     break;
 
@@ -360,7 +364,7 @@ void Turret::shoot()
     {
     randomInt = rand() % 11 - 5;
     Vector2D bulletVector((angle-90+randomInt ) * (3.14159265359/180), bulletSpeed);
-    objects->push_back(new Bullet(x, y, bulletVector, mDisplay, objects, false, damage, knockback));
+    objects->push_back(new Bullet(bulletSpawn.x, bulletSpawn.y, bulletVector, mDisplay, objects, false, damage, knockback));
     }
     break;
 
@@ -371,7 +375,7 @@ void Turret::shoot()
         randomInt = rand() % 31 - 15;
         randomInt2 = rand() % 3 - 1;
         Vector2D bulletVector((angle-90+randomInt) * (3.14159265359/180), bulletSpeed + randomInt2);
-        objects->push_back(new Bullet(x, y, bulletVector, mDisplay, objects, false, 10, 2));
+        objects->push_back(new Bullet(bulletSpawn.x, bulletSpawn.y, bulletVector, mDisplay, objects, false, 10, 2));
       }
     }
     break;
