@@ -500,6 +500,11 @@ void LevelEditState::clickEdit(int mx, int my, SDL_Event* e)
 
 void LevelEditState::update()
 {
+  for(int i = 0; i < objects.size(); i++)
+  {
+    objects[i]->update();
+  }
+
   currentFrame += 1;
   cameraX += xMovement * speedMultiplier;
   cameraY += yMovement * speedMultiplier;

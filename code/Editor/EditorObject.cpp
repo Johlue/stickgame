@@ -110,6 +110,10 @@ void EditorObject::update()
   }
   else if(stringInfo[0]->value == "Hazard")
   {
+    width = std::stoi(stringInfo[3]->value);
+    if(width < 10) {width = 10;}
+    height = std::stoi(stringInfo[4]->value);
+    if(height < 10) {height = 10;}
   }
   else if(stringInfo[0]->value == "Turret")
   {
@@ -151,12 +155,24 @@ void EditorObject::render(int camX, int camY)
   else if(type == EO_PLAYER){playerRender(camX, camY);}
   else if(type == EO_TURRET){turretRender(camX, camY);}
   else if(type == EO_SWITCH){switchRender(camX, camY);}
+  else if(type == EO_SPIKE) {hazardRender(camX, camY);}
   else
   {
     SDL_Rect rect2 = { x - camX, y - camY, width, height};
     SDL_SetRenderDrawColor( mDisplay->getRenderer(), type * 50, type * 33, type * 100, 0xFF );
     SDL_RenderFillRect(mDisplay->getRenderer(), &rect2);
   }
+}
+
+void EditorObject::hazardRender(int camX, int camY)
+{
+  int topX = x + (width/2) - camX; int topY = y            - camY;
+  int rightX = x + width   - camX; int rightY = y + height - camY;
+  int leftX = x            - camX; int leftY = y + height  - camY;
+  SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, 0xFF);
+  SDL_RenderDrawLine(mDisplay->getRenderer(), topX, topY, rightX, rightY);
+  SDL_RenderDrawLine(mDisplay->getRenderer(), topX, topY, leftX, leftY);
+  SDL_RenderDrawLine(mDisplay->getRenderer(), rightX, rightY, leftX, leftY);
 }
 
 void EditorObject::switchRender(int camX, int camY)
@@ -329,8 +345,8 @@ void EditorObject::constructStringInfo()
 
     case EO_SPIKE:
     stringInfo[0]->value = "Hazard";
-    stringInfo.push_back(new EO_String("50", "width"));
-    stringInfo.push_back(new EO_String("50", "height"));
+    stringInfo.push_back(new EO_String("30", "width"));
+    stringInfo.push_back(new EO_String("30", "height"));
     stringInfo.push_back(new EO_String("0", "angle"));
     stringInfo.push_back(new EO_String("50", "damage"));
     stringInfo.push_back(new EO_String("SPIKE", "subtype"));

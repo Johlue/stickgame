@@ -27,6 +27,8 @@ Turret::Turret(int xl, int yl, int cAI, int mAI, Display* display, std::vector<G
 
     bulletSpawn.x = x;
     bulletSpawn.y = y - 18;
+
+    distanceFromPlayer = 140;
     break;
     case TA_GUN_SEMI_SPREAD:
     shootingAngle = 8;
@@ -41,8 +43,15 @@ Turret::Turret(int xl, int yl, int cAI, int mAI, Display* display, std::vector<G
     cannonBottomRight.x = x + 4;
     cannonBottomRight.y = y - 9;
 
+    cannonBottomMiddle.x = x;
+    cannonBottomMiddle.y = y - 10;
+    cannonTopMiddle.x = x;
+    cannonTopMiddle.y = cannonTopRight.y;
+
     bulletSpawn.x = x;
     bulletSpawn.y = y - 12;
+
+    distanceFromPlayer = 120;
     break;
     case TA_GUN_FULL_SPREAD:
     shootingAngle = 8;
@@ -59,13 +68,22 @@ Turret::Turret(int xl, int yl, int cAI, int mAI, Display* display, std::vector<G
 
     bulletSpawn.x = x;
     bulletSpawn.y = y - 12;
+
+    distanceFromPlayer = 90;
+    break;
+
+    case TA_BEYBLADE:
+    cannonTopMiddle.x = x;
+    cannonTopMiddle.y = y - (bladeRadius);
+    cannonBottomLeft.x = x - 4;
+    cannonBottomLeft.y = y - 9;
+    cannonBottomRight.x = x + 4;
+    cannonBottomRight.y = y - 9;
+
+    distanceFromPlayer = 10;
     break;
   }
 
-  cannonBottomMiddle.x = x;
-  cannonBottomMiddle.y = y - 10;
-  cannonTopMiddle.x = x;
-  cannonTopMiddle.y = cannonTopRight.y;
 
   cooldown = shotFrequency;
 
@@ -124,29 +142,36 @@ void Turret::move(double xo, double yo)
   cannonBottomLeft.y += yo;
   cannonBottomRight.x += xo;
   cannonBottomRight.y += yo;
+  cannonTopMiddle.x += xo;
+  cannonTopMiddle.y += yo;
+  cannonBottomMiddle.x += xo;
+  cannonBottomMiddle.y += yo;
+
+  bulletSpawn.x += xo;
+  bulletSpawn.y += yo;
 
   crack1_1.x += xo;
-  crack1_1.y += xo;
+  crack1_1.y += yo;
   crack1_2.x += xo;
-  crack1_2.y += xo;
+  crack1_2.y += yo;
   crack1_3.x += xo;
-  crack1_3.y += xo;
+  crack1_3.y += yo;
   crack1_4.x += xo;
-  crack1_4.y += xo;
+  crack1_4.y += yo;
   crack2_1.x += xo;
-  crack2_1.y += xo;
+  crack2_1.y += yo;
   crack2_2.x += xo;
-  crack2_2.y += xo;
+  crack2_2.y += yo;
   crack2_3.x += xo;
-  crack2_3.y += xo;
+  crack2_3.y += yo;
   crack2_4.x += xo;
-  crack2_4.y += xo;
+  crack2_4.y += yo;
   crack3_1.x += xo;
-  crack3_1.y += xo;
+  crack3_1.y += yo;
   crack3_2.x += xo;
-  crack3_2.y += xo;
+  crack3_2.y += yo;
   crack3_3.x += xo;
-  crack3_3.y += xo;
+  crack3_3.y += yo;
 }
 
 void Turret::rotate(double angl)
@@ -212,7 +237,7 @@ void Turret::update()
 
     turretMove(distanceToPlayer, lineofsight); // prelos movement
 
-    if(lineofsight && combatAI != TA_BEYBLADE) //if player is visible shoot and or rotate turret
+    if(lineofsight) //if player is visible shoot and or rotate turret
     {
       double angleToPlayer = atan2( x-((*objects)[playerid]->getX() +8) , ((*objects)[playerid]->getY()+16)-y);
       //radians
@@ -229,7 +254,7 @@ void Turret::update()
       }
       else rotate(zerodPangle);
 
-      if(zerodPangle < shootingAngle && zerodPangle > -shootingAngle && cooldown < 1 && lineofsight)
+      if(zerodPangle < shootingAngle && zerodPangle > -shootingAngle && cooldown < 1 && lineofsight && combatAI != TA_BEYBLADE)
       // might change the 4s to rotation speed or something like that later
       {
         shoot();
@@ -503,8 +528,31 @@ bool Turret::render(int cameraX, int cameraY, int priority)
   }
   else
   {
-    SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 0, 0, SDL_ALPHA_OPAQUE);
-    drawCircle(mDisplay->getRenderer(), x - cameraX, y - cameraY, bladeRadius);
+    SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
+    Point p; // this is the centerpoint of rotation
+    p.x = x; p.y = y;
+    for(int i = 0; i < 9; i++)
+    {
+      rotatePoint((360/6), &cannonBottomLeft, p);
+      rotatePoint((360/6), &cannonBottomRight, p);
+      rotatePoint((360/6), &cannonTopMiddle, p);
+      SDL_RenderDrawLine(mDisplay->getRenderer(), cannonBottomLeft.x - cameraX, cannonBottomLeft.y - cameraY, cannonTopMiddle.x - cameraX, cannonTopMiddle.y - cameraY);
+      SDL_RenderDrawLine(mDisplay->getRenderer(), cannonBottomRight.x - cameraX, cannonBottomRight.y - cameraY, cannonTopMiddle.x - cameraX, cannonTopMiddle.y - cameraY);
+    }
+    rotatePoint(18, &cannonBottomLeft, p);
+    rotatePoint(18, &cannonBottomRight, p);
+    rotatePoint(18, &cannonTopMiddle, p);
+    spinReset++;
+    if(spinReset > 360/18)
+    {
+      cannonTopMiddle.x = x;
+      cannonTopMiddle.y = y - (bladeRadius);
+      cannonBottomLeft.x = x - 4;
+      cannonBottomLeft.y = y - 9;
+      cannonBottomRight.x = x + 4;
+      cannonBottomRight.y = y - 9;
+      spinReset = 0;
+    }
   }
   //draw a ball at x, y
   // rotating cannon pipe thing

@@ -63,6 +63,8 @@ protected:
   bool falling = true;
   //maybe some other parameters of the bullet in question
 
+  int spinReset = 0;
+
   double moveSpeed = 2;
   int hp = 60;
   int maxHP;
