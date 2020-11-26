@@ -4,7 +4,7 @@
 #include "GameState.h"
 #include "Display.h"
 #include "ImageTexture.h"
-#include "MenuButton.h"
+#include "LevelButton.h"
 #include <vector>
 
 class LevelSelectState : public GameState
@@ -27,7 +27,7 @@ public:
   private:
     // arrays to hold things
     std::vector<ImageTexture*>* textureArray;
-    std::vector<MenuButton*> buttonArray;
+    std::vector<LevelButton*> buttonArray;
 
     std::string* loadableLevel;
 
