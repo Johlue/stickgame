@@ -17,7 +17,8 @@ enum GameStates
 {
   MENUSTATE = 0,
   PLAYSTATE = 1,
-  LEVELEDITSTATE = 2
+  LEVELEDITSTATE = 2,
+  LEVELSELECTSTATE = 3
 };
 
 class GameState

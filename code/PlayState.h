@@ -21,7 +21,7 @@ class PlayState : public GameState
 {
 public:
   PlayState();
-  PlayState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, Writer* texS);
+  PlayState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, Writer* texS, std::string* lvl);
   ~PlayState();
 
   void init();
@@ -62,6 +62,7 @@ protected:
   int objectId = 0;
 
   std::string currentLevel = "testlevel.txt";
+  std::string* loadableLevel;
 
 };
 

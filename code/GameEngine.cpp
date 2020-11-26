@@ -12,12 +12,6 @@ GameEngine::GameEngine(Display* display, Writer* writer)
   loadImageTexture("LevelEditMenu1.png", 1, 4);         // 2
   loadImageTexture("LevelEditMenuEnemies.png", 4, 3);   // 3
   loadImageTexture("LevelEditMenuObjects.png", 4, 3);   // 4
-  /*
-  loadImageTexture("GigalazerCircleInside.png", 1, 1);  // 5
-  loadImageTexture("GigalazerCircleOutside.png", 1, 1); // 6
-  loadImageTexture("GigalazerSquareInside.png", 1, 1);  // 7
-  loadImageTexture("GigalazerSquareOutside.png", 1, 1); // 8
-  */
   loadImageTexture("MOUSE_CREATE.png", 1, 1);           // 5
   loadImageTexture("MOUSE_DRAG.png", 1, 1);             // 6
   loadImageTexture("MOUSE_EDIT.png", 1, 1);             // 7
@@ -34,18 +28,6 @@ ________________________________________________________________________________
 
 ____________________________________________________________________________________________________________
 */
-
-
-
-
-
-
-
-
-
-
-
-
 
   /*
   mTextures.push_back(new ImageTexture());
@@ -79,8 +61,9 @@ void GameEngine::loadImageTexture(std::string name, int spriteRow, int spriteCol
 void GameEngine::init()
 {
   states.push_back(new MenuState(mDisplay, &mTextures, &currentState, mWriter));
-  states.push_back(new PlayState(mDisplay, &mTextures, &currentState, mWriter));
+  states.push_back(new PlayState(mDisplay, &mTextures, &currentState, mWriter, &loadableLevel));
   states.push_back(new LevelEditState(mDisplay, &mTextures, &currentState, mWriter));
+  states.push_back(new LevelSelectState(mDisplay, &mTextures, &currentState, mWriter, &loadableLevel));
   //std::cout << states.size() << std::endl;
   mRunning = true;
   currentState = MENUSTATE;

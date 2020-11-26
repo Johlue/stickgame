@@ -37,11 +37,11 @@ void MenuState::handleEvents(SDL_Event* e)
 {
   for(int i = 0; i < buttonArray.size(); i++)
   {
-    if(buttonArray[i]->handleEvent( e ) == 0)
+    if(buttonArray[i]->handleEvent(e) == START)
     {
       changeState(PLAYSTATE);
     }
-    if(buttonArray[i]->handleEvent(e) == 2)
+    if(buttonArray[i]->handleEvent(e) == EDIT)
     {
       changeState(LEVELEDITSTATE);
     }

@@ -9,6 +9,7 @@
 #include "MenuState.h"
 #include "PlayState.h"
 #include "LevelEditState.h"
+#include "LevelSelectState.h"
 #include "TextTexture.h"
 
 class GameEngine
@@ -34,6 +35,7 @@ private:
   bool mRunning;
   // which state is currently running
   int currentState = 0;
+  std::string loadableLevel = "testlevel.txt";
   std::vector<GameState*> states;
   // contains textures and is going to be given to gamestates so they... can use... them...
   std::vector<ImageTexture*> mTextures;

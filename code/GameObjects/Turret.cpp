@@ -1,7 +1,7 @@
 #include "Turret.h"
 
 Turret::Turret(){type = TURRET;}
-Turret::Turret(int xl, int yl, int cAI, int mAI, Display* display, std::vector<GameObject*>* obj, int ohp, int odamage, int oknockback, int obladeRadius, int flightSpeed, int groundSpeed, bool oinvincible, int flightDistance)
+Turret::Turret(int xl, int yl, int cAI, int mAI, Display* display, std::vector<GameObject*>* obj, bool oinvincible, int ohp)
 {
   objects = obj;
   type = TURRET;
@@ -11,6 +11,8 @@ Turret::Turret(int xl, int yl, int cAI, int mAI, Display* display, std::vector<G
   combatAI = cAI;
   movementAI = mAI;
 
+  hp = ohp;
+  invincible = oinvincible;
   maxHP = hp;
 
   switch(combatAI)

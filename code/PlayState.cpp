@@ -4,8 +4,9 @@
 PlayState::PlayState()
 {}
 
-PlayState::PlayState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, Writer* texS)
+PlayState::PlayState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, Writer* texS, std::string* lvl)
 {
+  loadableLevel = lvl;
   currentState = cs;
   mDisplay = dis;
   textureArray = texA;
@@ -45,6 +46,12 @@ void PlayState::freeMem()
 
 void PlayState::update()
 {
+  if(*loadableLevel != currentLevel)
+  {
+    currentLevel = *loadableLevel;
+    loadLevel();
+  }
+
   for(int i = 0; i < objects.size(); i++)
   {
     if(objects[i]->getId() == -1)
@@ -165,6 +172,7 @@ void PlayState::handleEvents(SDL_Event* e)
                 {
                     std::cout << ext->getExitName();
                     currentLevel = ext->getExitName() + ".txt";
+                    *loadableLevel = currentLevel;
                     loadLevel();
                 }
           }
