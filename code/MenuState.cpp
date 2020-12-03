@@ -17,9 +17,10 @@ MenuState::~MenuState()
 void MenuState::init()
 {
   // create new buttons
-  buttonArray.push_back( new MenuButton(160, 40, textureArray->at(TEX_MENUBUTTONS), 0));     // Start
-  buttonArray.push_back( new MenuButton(160, 340, textureArray->at(TEX_MENUBUTTONS), 1)); // ???
-  buttonArray.push_back( new MenuButton(160, 190, textureArray->at(TEX_MENUBUTTONS), 2));   // ???
+  buttonArray.push_back( new MenuButton(160, 40, textureArray->at(TEX_MENUBUTTONS), START));     // Start
+  buttonArray.push_back( new MenuButton(160, 490, textureArray->at(TEX_MENUBUTTONS), QUIT)); // ???
+  buttonArray.push_back( new MenuButton(160, 190, textureArray->at(TEX_MENUBUTTONS), EDIT));   // ???
+  buttonArray.push_back( new MenuButton(160, 340, textureArray->at(TEX_MENUBUTTONS), LEVEL_SELECT));   // ???
 }
 
 void MenuState::freeMem()
@@ -44,6 +45,10 @@ void MenuState::handleEvents(SDL_Event* e)
     if(buttonArray[i]->handleEvent(e) == EDIT)
     {
       changeState(LEVELEDITSTATE);
+    }
+    if(buttonArray[i]->handleEvent(e) == LEVEL_SELECT)
+    {
+      changeState(LEVELSELECTSTATE);
     }
   }
 }

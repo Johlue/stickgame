@@ -16,6 +16,14 @@ void rotatePoint(double angle, Point * origin, Point center)
 
 }
 
+void drawRectangle(SDL_Renderer * renderer, double x1, double y1, double x2, double y2)
+{
+  SDL_RenderDrawLine(renderer, x1, y1, x1, y2);
+  SDL_RenderDrawLine(renderer, x1, y1, x2, y1);
+  SDL_RenderDrawLine(renderer, x2, y2, x1, y2);
+  SDL_RenderDrawLine(renderer, x2, y2, x2, y1);
+}
+
 void drawCircle(SDL_Renderer * renderer, double centreX, double centreY, double radius)
 {
   const double diameter = (radius * 2);

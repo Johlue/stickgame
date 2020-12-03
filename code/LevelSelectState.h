@@ -30,6 +30,7 @@ public:
     std::vector<LevelButton*> buttonArray;
 
     std::string* loadableLevel;
+    std::vector<std::string> levelArray;
 
 };
 

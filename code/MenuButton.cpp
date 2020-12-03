@@ -64,13 +64,10 @@ int MenuButton::handleEvent(SDL_Event* e)
             SDL_PushEvent(&sdlevent);
             break;
 
-          case START:
+          default:
             return mButtonType;
             break;
 
-          case EDIT:
-            return mButtonType;
-            break;
         }
         break;
 

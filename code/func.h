@@ -8,6 +8,7 @@
 #include <string>
 #include <cmath>
 
+void drawRectangle(SDL_Renderer * renderer, double x1, double y1, double x2, double y2);
 void drawCircle(SDL_Renderer * renderer, double centreX, double centreY, double radius);
 void rotatePoint(double angle, Point * origin, Point center); // rotate a point (origin) around a (center) point
 double pi();
