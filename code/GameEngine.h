@@ -41,6 +41,8 @@ private:
   std::vector<ImageTexture*> mTextures;
   // letters and symbols and whatnot
   std::vector<TextTexture*> mSymbols;
+  // list of levels with images
+  std::vector<bool> levelImages;
   Display* mDisplay = nullptr;
   Writer* mWriter = nullptr;
 };

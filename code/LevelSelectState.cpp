@@ -2,8 +2,9 @@
 #include "GameState.h"
 #include <vector>
 
-LevelSelectState::LevelSelectState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, Writer* texS, std::string* lvl)
+LevelSelectState::LevelSelectState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, Writer* texS, std::string* lvl, std::vector<bool>* lvlImg)
 {
+  levelImages = lvlImg;
   loadableLevel = lvl;
   currentState = cs;
   mDisplay = dis;
@@ -24,11 +25,7 @@ void LevelSelectState::init()
     std::string line;
     while ( std::getline(levelList, line) )
     {
-      levelArray.push_back(line);
-    }
-    for(int i = 0; i < levelArray.size(); i++)
-    {
-      std::cout << levelArray[i] << std::endl;
+      if(line != "") {levelArray.push_back(line);}
     }
   }
 }
@@ -61,13 +58,26 @@ void LevelSelectState::update(){}
 
 void LevelSelectState::render()
 {
-  for(int i = 0; i < 36/*levelArray.size()*/; i++)
+  int currentLevelImage = 0;
+  for(int i = levelPage*36; (i < (levelPage+1)) || (i < levelArray.size()) * 36; i++)
   {
-    SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, 0);
     int xMod = (i%6)*200;
     int yMod = ((i/6)%4)*150;
+    if(levelImages->at(i) == true)
+    {
+      (*textureArray)[TEX_FIRST_LEVEL_IMAGE + currentLevelImage]->render(40 + xMod, 40 + yMod);
+      currentLevelImage++;
+    }
+    else
+    {
+      (*textureArray)[TEX_404]->render(40 + xMod, 40 + yMod);
+    }
+    SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, 0);
     drawRectangle(mDisplay->getRenderer(), 40 + xMod, 40 + yMod, 220 + xMod, 150 + yMod);
+    mWriter->render(levelArray[i], xMod + 60, yMod + 160);
   }
+  // page SELECT
+  // level images
 }
 
 void LevelSelectState::changeState(int s)

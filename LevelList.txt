@@ -1,2 +1,2 @@
-level1.txt
-testlevel.txt
+level1
+testlevel

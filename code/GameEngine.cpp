@@ -18,6 +18,26 @@ GameEngine::GameEngine(Display* display, Writer* writer)
   loadImageTexture("charaGunHand.png", 5, 1);           // 8
   loadImageTexture("charaSwordHand.png", 3, 4);         // 9
   loadImageTexture("Enemy_Melee_Normal_Body.png", 8, 6);// 10
+  loadImageTexture("404.png", 1, 1);
+
+  // this mess autoloads level images
+  std::ifstream levelList;
+  levelList.open("LevelList.txt");
+  if(levelList.is_open())
+  {
+    std::string line;
+    while ( std::getline(levelList, line) )
+    {
+      if(line != "")
+      {
+        int oldSize = mTextures.size();
+        line = line + ".png";
+        loadImageTexture(line, 1, 1);
+        if(mTextures.size() == oldSize) {levelImages.push_back(false);}
+        else {levelImages.push_back(true);}
+      }
+    }
+  }
 /*
 ____________________________________________________________________________________________________________
 
@@ -54,7 +74,12 @@ void GameEngine::loadImageTexture(std::string name, int spriteRow, int spriteCol
 {
   mTextures.push_back(new ImageTexture());
   mTextures.back()->setRenderer(mDisplay->getRenderer());
-  if(!mTextures.back()->loadFromFile(name)) std::cout << "Failed to load texture: " << name << std::endl;
+  if(!mTextures.back()->loadFromFile(name))
+  {
+    std::cout << "Failed to load texture: " << name << std::endl << mTextures.size();
+    mTextures.pop_back(); // deletes the failed texture and vector slot
+    return;
+  }
   if(spriteRow > 1 || spriteCol > 1) mTextures.back()->useSpriteSheet(spriteRow, spriteCol);
 }
 
@@ -63,7 +88,7 @@ void GameEngine::init()
   states.push_back(new MenuState(mDisplay, &mTextures, &currentState, mWriter));
   states.push_back(new PlayState(mDisplay, &mTextures, &currentState, mWriter, &loadableLevel));
   states.push_back(new LevelEditState(mDisplay, &mTextures, &currentState, mWriter));
-  states.push_back(new LevelSelectState(mDisplay, &mTextures, &currentState, mWriter, &loadableLevel));
+  states.push_back(new LevelSelectState(mDisplay, &mTextures, &currentState, mWriter, &loadableLevel, &levelImages));
   //std::cout << states.size() << std::endl;
   mRunning = true;
   currentState = MENUSTATE;

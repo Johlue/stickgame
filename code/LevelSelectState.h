@@ -10,7 +10,7 @@
 class LevelSelectState : public GameState
 {
 public:
-    LevelSelectState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, Writer* texS, std::string* lvl);
+    LevelSelectState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, Writer* texS, std::string* lvl, std::vector<bool>* lvlImg);
     ~LevelSelectState();
 
     void init();
@@ -25,12 +25,15 @@ public:
     //tells the GameEngine to change game states
     void changeState(int s);
   private:
+    int levelPage = 0;
+
     // arrays to hold things
     std::vector<ImageTexture*>* textureArray;
     std::vector<LevelButton*> buttonArray;
 
     std::string* loadableLevel;
     std::vector<std::string> levelArray;
+    std::vector<bool>* levelImages;
 
 };
 
