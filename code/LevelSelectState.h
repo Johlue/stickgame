@@ -25,7 +25,8 @@ public:
     //tells the GameEngine to change game states
     void changeState(int s);
   private:
-    int levelPage = 0;
+    int levelPage = 1;
+    int maxPage;
 
     // arrays to hold things
     std::vector<ImageTexture*>* textureArray;

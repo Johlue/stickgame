@@ -28,6 +28,7 @@ void LevelSelectState::init()
       if(line != "") {levelArray.push_back(line);}
     }
   }
+  maxPage = ((levelArray.size()-1) / 24) + 1;
 }
 
 void LevelSelectState::freeMem()
@@ -50,6 +51,32 @@ void LevelSelectState::handleEvents(SDL_Event* e)
       case SDLK_ESCAPE:
       *currentState = MENUSTATE;
       break;
+
+      case SDLK_RIGHT:
+      if(levelPage < maxPage){levelPage++;}
+      break;
+
+      case SDLK_LEFT:
+      if(levelPage > 1){levelPage--;}
+      break;
+    }
+  }
+  if(e->type == SDL_MOUSEBUTTONUP)
+  {
+    int x, y;
+    SDL_GetMouseState( &x, &y );
+
+    for(int i = (levelPage-1)*24; (i < (levelPage*24)) && (i < levelArray.size()); i++)
+    {
+      int xMod = (i%6)*200;
+      int yMod = ((i/6)%4)*150;
+
+  		if(!(x < 40 + xMod ||  x > 40 + xMod + 160 || y < 40+ yMod || y > 40 + yMod + 110))
+      {
+        std::cout << i << std::endl;
+        *loadableLevel = levelArray[i] + ".txt";
+        *currentState = PLAYSTATE;
+      }
     }
   }
 }
@@ -59,7 +86,7 @@ void LevelSelectState::update(){}
 void LevelSelectState::render()
 {
   int currentLevelImage = 0;
-  for(int i = levelPage*36; (i < (levelPage+1)) || (i < levelArray.size()) * 36; i++)
+  for(int i = (levelPage-1)*24; (i < (levelPage*24)) && (i < levelArray.size()); i++)
   {
     int xMod = (i%6)*200;
     int yMod = ((i/6)%4)*150;
@@ -78,6 +105,8 @@ void LevelSelectState::render()
   }
   // page SELECT
   // level images
+  std::string pages = levelPage + " / " + maxPage;
+  mWriter->render(std::to_string(levelPage) + " / " + std::to_string(maxPage), 500, 620);
 }
 
 void LevelSelectState::changeState(int s)
