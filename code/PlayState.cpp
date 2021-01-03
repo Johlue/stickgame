@@ -22,16 +22,6 @@ PlayState::~PlayState()
 void PlayState::init()
 {
   loadLevel();
-
-  for(int i2 = 0; i2 < objects.size(); i2++)
-  {
-    if(objects[i2]->getType() == PLAYER)
-    {
-      currentPlayer = dynamic_cast<Player*>(objects[i2]);
-      ui.setPlayer(currentPlayer);
-      break;
-    }
-  }
 }
 
 void PlayState::freeMem()
@@ -143,18 +133,6 @@ void PlayState::handleEvents(SDL_Event* e)
       //objects.push_back( new Player(101, 101, &playerAlive, mDisplay, &objects, textureArray));
       playerAlive = true;
 
-      // find player and add his location to the variable tracking thing
-      for(int i2 = 0; i2 < objects.size(); i2++)
-      {
-        if(objects[i2]->getType() == PLAYER)
-        {
-          playerVectorLocation = i2;
-          currentPlayer = dynamic_cast<Player*>(objects[i2]);
-          ui.setPlayer(currentPlayer);
-          ui.setDeadPlayer(false);
-          break;
-        }
-      }
       break;
 
       case SDLK_UP:
@@ -234,6 +212,19 @@ void PlayState::loadLevel()
       //std::cout << strVec[0] << strVec[2] << std::endl;
     }
     levelFile.close();
+
+    // find player and add his location to the variable tracking thing
+    for(int i2 = 0; i2 < objects.size(); i2++)
+    {
+      if(objects[i2]->getType() == PLAYER)
+      {
+        playerVectorLocation = i2;
+        currentPlayer = dynamic_cast<Player*>(objects[i2]);
+        ui.setPlayer(currentPlayer);
+        ui.setDeadPlayer(false);
+        break;
+      }
+    }
 
   } else std::cout << "level opening error is a thing that happened";
 }

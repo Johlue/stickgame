@@ -7,18 +7,18 @@ GameEngine::GameEngine(Display* display, Writer* writer)
   mDisplay = display;
   //TODO all the things, basically create a display and initialize gamestates and whatever
   // load a texture to the thingy
-  loadImageTexture("menuButtons.png", 1, 12);            // 0
-  loadImageTexture("chara.png", 10, 10);                // 1
-  loadImageTexture("LevelEditMenu1.png", 1, 4);         // 2
-  loadImageTexture("LevelEditMenuEnemies.png", 4, 3);   // 3
-  loadImageTexture("LevelEditMenuObjects.png", 4, 3);   // 4
-  loadImageTexture("MOUSE_CREATE.png", 1, 1);           // 5
-  loadImageTexture("MOUSE_DRAG.png", 1, 1);             // 6
-  loadImageTexture("MOUSE_EDIT.png", 1, 1);             // 7
-  loadImageTexture("charaGunHand.png", 5, 1);           // 8
-  loadImageTexture("charaSwordHand.png", 3, 4);         // 9
-  loadImageTexture("Enemy_Melee_Normal_Body.png", 8, 6);// 10
-  loadImageTexture("404.png", 1, 1);
+  loadImageTexture("graphics/menuButtons.png", 1, 12);            // 0
+  loadImageTexture("graphics/chara.png", 10, 10);                // 1
+  loadImageTexture("graphics/LevelEditMenu1.png", 1, 4);         // 2
+  loadImageTexture("graphics/LevelEditMenuEnemies.png", 4, 3);   // 3
+  loadImageTexture("graphics/LevelEditMenuObjects.png", 4, 3);   // 4
+  loadImageTexture("graphics/MOUSE_CREATE.png", 1, 1);           // 5
+  loadImageTexture("graphics/MOUSE_DRAG.png", 1, 1);             // 6
+  loadImageTexture("graphics/MOUSE_EDIT.png", 1, 1);             // 7
+  loadImageTexture("graphics/charaGunHand.png", 5, 1);           // 8
+  loadImageTexture("graphics/charaSwordHand.png", 3, 2);         // 9
+  loadImageTexture("graphics/Enemy_Melee_Normal_Body.png", 8, 6);// 10
+  loadImageTexture("graphics/404.png", 1, 1);
 
   // this mess autoloads level images
   std::ifstream levelList;

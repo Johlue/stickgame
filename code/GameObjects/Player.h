@@ -65,8 +65,8 @@ protected:
   double xVel = 0;
   double yVel = 0;
 
-  // amount of frames until player can use melee again
-  int meleeCooldown = 0;
+  // amount of frames remaining in melee animation
+  int slashFrame = 0;
   //is the player falling or not
   bool falling = false;
   // increase of yVel per frame while falling
