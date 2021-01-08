@@ -90,6 +90,7 @@ protected:
   double gunSpread = 0;
   double gunAngle = 0;
   Point gunPoint;
+  Point gunCenter;
   void rangedAIshoot(); // shooting function for the ranged Ai type
   void aimAt(double target, double rotateSpeed);  // rotate gunangle towards a target, at a speed
   void rotate(double ang);

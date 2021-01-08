@@ -28,6 +28,7 @@ public:
 
   void collisionCheck(); //
   void damaged(CollisionData hurt); // take damage from a source that is the hurt CollisionData
+  void shoot();
 
   int getHP();
   int getAmmo();
@@ -65,8 +66,10 @@ protected:
   double xVel = 0;
   double yVel = 0;
 
-  // amount of frames remaining in melee animation
-  int slashFrame = 0;
+  // time till refiring is possible
+  int gunDelay = 0;
+  // is shoot button held down
+  bool gunButtonDown = false;
   //is the player falling or not
   bool falling = false;
   // increase of yVel per frame while falling

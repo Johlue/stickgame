@@ -13,6 +13,8 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
   type = WALKER;
   gunPoint.x = x + (width/2) + 20;
   gunPoint.y = y + (height/5);
+  gunCenter.x = x + (width/2)+0.5;
+  gunCenter.y = y + (height/5)+0.5;
   if(AI == MELEE)
   {
     meleeCooldown = 1;
@@ -70,6 +72,10 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
     damage = 30;
     hp = 60;
     gunSpread = 10;
+    gunPoint.x = x + (width/2) + 30;
+    gunPoint.y = y + 40;
+    gunCenter.x = x + (width/2);
+    gunCenter.y = y + 40;
   }
   else if(AI == RANGED_HYPERBEAM){}
   initialShotDelay_t = initialShotDelay;
@@ -176,7 +182,6 @@ void Walker::update()
          {
            case RANGED:
            case RANGED_QUICK:
-           case RANGED_MINIGUN:
 
            if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x)))
            {
@@ -186,6 +191,15 @@ void Walker::update()
            aimAt(((atan2( x-((*objects)[playerid]->getX() +8) , ((*objects)[playerid]->getY()+8)-y)) * (180.0/3.14159265359)) + 180 - 90, 4);
            rangedAIshoot();
            break;
+
+           case RANGED_MINIGUN:
+            if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x)))
+            {
+              direction = direction * -1; // turn around if player is behind
+            }
+            aimAt(90 + (-90 * direction), 180);
+            rangedAIshoot();
+            break;
 
            case MELEE:
            if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x))
@@ -278,8 +292,10 @@ void Walker::update()
 
     x += xVel;
     gunPoint.x += xVel;
+    gunCenter.x += xVel;
     y += yVel;
     gunPoint.y += yVel;
+    gunCenter.y += yVel;
 
   }
 }
@@ -604,6 +620,7 @@ void Walker::knockedBack(int knockback, int dmg)
   yVel = -1 - (std::abs(knockback) * .3);
   y -= 2;
   gunPoint.y -= 2;
+  gunCenter.y -= 2;
 }
 
 void Walker::aimAt(double target, double rotateSpeed)
@@ -626,7 +643,7 @@ void Walker::rotate(double angl) // rotate by angl degrees
   int w1 = (width/2)+0.5; int h1 = (height/5)+0.5;
   Point p; // this is the centerpoint of rotation
   p.x = x + w1; p.y = y + h1;
-  rotatePoint(angl, &gunPoint, p);
+  rotatePoint(angl, &gunPoint, gunCenter);
   gunAngle += angl;
 }
 

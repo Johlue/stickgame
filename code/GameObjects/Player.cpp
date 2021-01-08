@@ -2,7 +2,7 @@
 #include <iostream>
 #include <cmath>
 
-enum Animations {STAND = 0, WALK = 1, SWORD_STILL = 2, SWORD_SLASH = 3};
+enum Animations {STAND = 0, WALK = 1};
 
 Player::Player(){}
 
@@ -31,13 +31,6 @@ Player::Player(double xl, double yl, bool * life, Display* display, std::vector<
   mAnimations[WALK]->addFrame(TEX_PLAYER_BODY, 3);
   mAnimations[WALK]->addFrame(TEX_PLAYER_BODY, 4);
   mAnimations[WALK]->addFrame(TEX_PLAYER_BODY, 5);
-  mAnimations.push_back(new Animation(15, false, textureArray, mDisplay));
-  mAnimations[SWORD_STILL]->addFrame(TEX_PLAYER_SWORD, 0);
-  mAnimations.push_back(new Animation(7, false, textureArray, mDisplay));
-  mAnimations[SWORD_SLASH]->addFrame(TEX_PLAYER_SWORD, 1);
-  mAnimations[SWORD_SLASH]->addFrame(TEX_PLAYER_SWORD, 2);
-  mAnimations[SWORD_SLASH]->addFrame(TEX_PLAYER_SWORD, 3);
-  mAnimations[SWORD_SLASH]->addFrame(TEX_PLAYER_SWORD, 4);
 }
 
 Player::~Player()
@@ -94,12 +87,13 @@ void Player::handleEvent(SDL_Event* e)
 
           case SDLK_l: // for now shoot button
           {
-            Vector2D bulletVector((gunAngle) * (3.14159265359/180), 10); //angle and speed of bullet
-            objects->push_back(new Bullet(gunPoint.x + x, gunPoint.y + y + 6, bulletVector, mDisplay, objects, true, 10, 1));
+            shoot();
+            gunButtonDown = true;
           }
           break;
 
           case SDLK_k: // for now melee button
+          /**
           if(slashFrame > 0) break;
           // do an attack (add animation later)
           {
@@ -108,7 +102,7 @@ void Player::handleEvent(SDL_Event* e)
             int slashWidth = 40;
             if(facingRight) objects->push_back(new Slash(&x, &y, width, height/2 - slashHeight/2, slashWidth, slashHeight, 1, true, objects, mDisplay));
             else objects->push_back(new Slash(&x, &y, -slashWidth, height/2 - slashHeight/2, slashWidth, slashHeight,-1, true, objects, mDisplay));
-          }
+          }*/
           break;
         }
       }
@@ -138,6 +132,10 @@ void Player::handleEvent(SDL_Event* e)
 
         case SDLK_j:
         jumping = false;
+        break;
+
+        case SDLK_l:
+        gunButtonDown = false;
         break;
       }
       break;
@@ -188,7 +186,9 @@ void Player::update()
 
   }
 
-  if(slashFrame > 0) slashFrame--;
+  if(gunDelay > 0) gunDelay--;
+
+  if(gunButtonDown){shoot();}
 
   if(!jumping) falling = fallingCheck(); // is the player falling or not
   if(!falling)
@@ -282,8 +282,6 @@ bool Player::render(int cameraX, int cameraY, int priority)
     {
       mAnimations[STAND]->setTransparency(63, 1);
       mAnimations[WALK]->setTransparency(63, 1);
-      mAnimations[SWORD_SLASH]->setTransparency(63, 1);
-      mAnimations[SWORD_STILL]->setTransparency(63, 1);
       (*textureArray)[TEX_PLAYER_GUN]->setBlendMode(SDL_BLENDMODE_BLEND);
       (*textureArray)[TEX_PLAYER_GUN]->setAlpha(63);
     }
@@ -300,25 +298,6 @@ bool Player::render(int cameraX, int cameraY, int priority)
       mAnimations[WALK]->update();
     }
 
-    if(slashFrame <= 0)
-    {
-      if(flip)
-      {mAnimations[SWORD_STILL]->render(x-20, y-10, cameraX, cameraY, flip);}
-      else
-      {mAnimations[SWORD_STILL]->render(x-12, y-10, cameraX, cameraY, flip);}
-      mAnimations[SWORD_STILL]->update();
-      mAnimations[SWORD_SLASH]->reset();
-    }
-    else
-    {
-      if(flip)
-      {mAnimations[SWORD_SLASH]->render(x-20, y-10, cameraX, cameraY, flip);}
-      else
-      {mAnimations[SWORD_SLASH]->render(x-12, y-10, cameraX, cameraY, flip);}
-
-      mAnimations[SWORD_SLASH]->update();
-    }
-
   // collision test rectangle, mouse based
     if(renderPoint.intersect)
     {
@@ -330,8 +309,6 @@ bool Player::render(int cameraX, int cameraY, int priority)
     {
       mAnimations[STAND]->setTransparency(255, 1);
       mAnimations[WALK]->setTransparency(255, 1);
-      mAnimations[SWORD_SLASH]->setTransparency(255, 1);
-      mAnimations[SWORD_STILL]->setTransparency(255, 1);
       (*textureArray)[TEX_PLAYER_GUN]->setBlendMode(SDL_BLENDMODE_BLEND);
       (*textureArray)[TEX_PLAYER_GUN]->setAlpha(255);
     }
@@ -365,6 +342,16 @@ bool Player::fallingCheck()
     }
   }
   return true;
+}
+
+void Player::shoot()
+{
+  if(gunDelay <= 0)
+  {
+    Vector2D bulletVector((gunAngle) * (3.14159265359/180), 10); //angle and speed of bullet
+    objects->push_back(new Bullet(gunPoint.x + x, gunPoint.y + y + 6, bulletVector, mDisplay, objects, true, 10, 1));
+    gunDelay = 10;
+  }
 }
 
 bool Player::roofCheck(int collidableIndex)
