@@ -70,7 +70,6 @@ void MenuState::render()
   (*mSymbols)[5]->render(60, 30);
   (*mSymbols)[9]->render(75, 30);
   (*mSymbols)[13]->render(90, 30);*/
-  mWriter->render("Some text ere *^!#)=", 0, 80);
 }
 
 void MenuState::changeState(int s)

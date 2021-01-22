@@ -27,7 +27,7 @@ class Walker : public GameObject
 public:
   Walker();
   // x location, y location, width, heigth, AI, walkAI, pointer to display
-  Walker(int x, int y, int combatAI, int movementAI, Display* disp, std::vector<GameObject*>* objs);
+  Walker(int x, int y, int combatAI, int movementAI, Display* disp, std::vector<GameObject*>* objs, std::vector<ImageTexture*>* texs);
   ~Walker();
 
   void handleEvent(SDL_Event* e);
@@ -51,6 +51,7 @@ protected:
   int hp = 400;
   bool falling = false;
   std::vector<GameObject*>* objects = nullptr; // contains objects to interact with
+  std::vector<Animation*> mAnimations;
   Boundary* floorBeneath = nullptr; // the floor that your currently standing on
   int playerid = 9999999;
   bool playerDetected = false; // has the player been seen

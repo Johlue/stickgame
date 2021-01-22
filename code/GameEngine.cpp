@@ -7,7 +7,7 @@ GameEngine::GameEngine(Display* display, Writer* writer)
   mDisplay = display;
   //TODO all the things, basically create a display and initialize gamestates and whatever
   // load a texture to the thingy
-  loadImageTexture("graphics/menuButtons.png", 1, 12);            // 0
+  loadImageTexture("graphics/menuButtons.png", 1, 12);           // 0
   loadImageTexture("graphics/chara.png", 10, 10);                // 1
   loadImageTexture("graphics/LevelEditMenu1.png", 1, 4);         // 2
   loadImageTexture("graphics/LevelEditMenuEnemies.png", 4, 3);   // 3
@@ -17,8 +17,12 @@ GameEngine::GameEngine(Display* display, Writer* writer)
   loadImageTexture("graphics/MOUSE_EDIT.png", 1, 1);             // 7
   loadImageTexture("graphics/charaGunHand.png", 5, 1);           // 8
   loadImageTexture("graphics/charaSwordHand.png", 3, 2);         // 9
-  loadImageTexture("graphics/Enemy_Melee_Normal_Body.png", 8, 6);// 10
-  loadImageTexture("graphics/404.png", 1, 1);
+  loadImageTexture("graphics/Enemy_Normal_Body.png", 6, 1);      // 10
+  loadImageTexture("graphics/Enemy_Pistol_Hand.png", 1, 1);      // 11
+  loadImageTexture("graphics/Enemy_Large_Body.png", 6, 2);       // 12
+
+
+  loadImageTexture("graphics/404.png", 1, 1);                    // n+1
 
   // this mess autoloads level images
   std::ifstream levelList;

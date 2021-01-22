@@ -59,8 +59,6 @@ protected:
   bool * alive; // is the player alive or not
   std::vector<GameObject*>* objects = nullptr; // contains objects to interact with
   std::vector<Animation*> mAnimations;
-  std::vector<Point> beamEndPoint; // alternates between start point and end point
-  std::vector<Point> beamStartPoint;
   //temp test thingy for intersection math
   CollisionData renderPoint;
   double xVel = 0;

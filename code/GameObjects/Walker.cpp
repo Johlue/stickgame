@@ -1,20 +1,42 @@
 #include "Walker.h"
 
+enum walker_anims{WALKER_NORMAL_STAND = 0, WALKER_NORMAL_RUN, WALKER_LARGE_STAND, WALKER_LARGE_RUN};
+
 Walker::Walker(){}
-Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, std::vector<GameObject*>* objs)
+Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, std::vector<GameObject*>* objs, std::vector<ImageTexture*>* texs)
 {
+  textureArray = texs;
   AI = combatAI;
   AIwalk = movementAI;
   objects = objs;
   x = o_x; y = o_y;
   mDisplay = disp;
   width = 20;
-  height = 40;
+  height = 38;
   type = WALKER;
   gunPoint.x = x + (width/2) + 20;
   gunPoint.y = y + (height/5);
   gunCenter.x = x + (width/2)+0.5;
   gunCenter.y = y + (height/5)+0.5;
+
+  mAnimations.push_back(new Animation(15, false, textureArray, mDisplay)); // normie guy standing
+  mAnimations[WALKER_NORMAL_STAND]->addFrame(TEX_ENEMY_NORMAL_BODY, 0);
+  mAnimations.push_back(new Animation(15, true, textureArray, mDisplay)); // normie guy runnin
+  mAnimations[WALKER_NORMAL_RUN]->addFrame(TEX_ENEMY_NORMAL_BODY, 1);
+  mAnimations[WALKER_NORMAL_RUN]->addFrame(TEX_ENEMY_NORMAL_BODY, 2);
+  mAnimations[WALKER_NORMAL_RUN]->addFrame(TEX_ENEMY_NORMAL_BODY, 3);
+  mAnimations[WALKER_NORMAL_RUN]->addFrame(TEX_ENEMY_NORMAL_BODY, 4);
+  mAnimations[WALKER_NORMAL_RUN]->addFrame(TEX_ENEMY_NORMAL_BODY, 5);
+  mAnimations.push_back(new Animation(15, false, textureArray, mDisplay)); // Big guy standing
+  mAnimations[WALKER_LARGE_STAND]->addFrame(TEX_ENEMY_LARGE_BODY, 0);
+  mAnimations.push_back(new Animation(15, true, textureArray, mDisplay));  // Big guy walkin
+  mAnimations[WALKER_LARGE_RUN]->addFrame(TEX_ENEMY_LARGE_BODY, 1);
+  mAnimations[WALKER_LARGE_RUN]->addFrame(TEX_ENEMY_LARGE_BODY, 2);
+  mAnimations[WALKER_LARGE_RUN]->addFrame(TEX_ENEMY_LARGE_BODY, 3);
+  mAnimations[WALKER_LARGE_RUN]->addFrame(TEX_ENEMY_LARGE_BODY, 4);
+  mAnimations[WALKER_LARGE_RUN]->addFrame(TEX_ENEMY_LARGE_BODY, 5);
+  mAnimations[WALKER_LARGE_RUN]->addFrame(TEX_ENEMY_LARGE_BODY, 6);
+
   if(AI == MELEE)
   {
     meleeCooldown = 1;
@@ -82,7 +104,15 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
   reloadSpeed_t = reloadSpeed;
   shotsRemaining = clipSize;
 }
-Walker::~Walker(){}
+Walker::~Walker()
+{
+  for(int i = 0; i < mAnimations.size(); i++)
+  {
+    delete mAnimations[i];
+    mAnimations[i] = nullptr;
+  }
+  mAnimations.clear();
+}
 
 void Walker::handleEvent(SDL_Event* e){}
 void Walker::update()
@@ -123,6 +153,10 @@ void Walker::update()
 
   if(playerid != 9999999) //don't do things if playerid is not valid
   {
+
+    double playerCenterX = (*objects)[playerid]->getX() - 8;
+    double playerCenterY = (*objects)[playerid]->getY() - 16;
+
     if(!falling)
     {
       if(fallingCheck()) falling = true;
@@ -183,7 +217,7 @@ void Walker::update()
            case RANGED:
            case RANGED_QUICK:
 
-           if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x)))
+           if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x + (width/2)) || (direction == -1 && (*objects)[playerid]->getX()+8 < x + (width/2))))
            {
              direction = direction * -1; // turn around if player is behind
            }
@@ -193,7 +227,7 @@ void Walker::update()
            break;
 
            case RANGED_MINIGUN:
-            if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x)))
+            if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x + (width/2)) || (direction == -1 && (*objects)[playerid]->getX()+8 < x + (width/2))))
             {
               direction = direction * -1; // turn around if player is behind
             }
@@ -202,7 +236,7 @@ void Walker::update()
             break;
 
            case MELEE:
-           if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x))
+           if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x + (width/2)) || (direction == -1 && (*objects)[playerid]->getX()+8 < x + (width/2)))
             && meleeTellRemaining < 1 && meleeAttackRemaining < 1
             && !falling && flinched < 1)
            {
@@ -214,7 +248,7 @@ void Walker::update()
            break;
 
            case MELEE_STRONG:
-           if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x))
+           if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x + (width/2)) || (direction == -1 && (*objects)[playerid]->getX()+8 < x + (width/2)))
             && meleeTellRemaining < 1 && meleeAttackRemaining < 1
             && !falling && flinched < 1)
            {
@@ -226,7 +260,7 @@ void Walker::update()
            break;
 
            case MELEE_QUICK:
-           if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x))
+           if(!((direction == 1 && (*objects)[playerid]->getX()+8 > x + (width/2)) || (direction == -1 && (*objects)[playerid]->getX()+8 < x + (width/2)))
             && meleeTellRemaining < 1 && meleeAttackRemaining < 1
             && !falling && flinched < 1)
             {
@@ -244,10 +278,16 @@ void Walker::update()
         {
           int passiveAngle;// row row rowtate your gun
           case RANGED:
+          case RANGED_QUICK:
 
           if(!playerDetected) aimAt(90+(-20 * direction), 4); // point gun down if walker is not alert
           else aimAt(90 + (-90 * direction), 4); // point forward if alert
+          break;
 
+          case RANGED_MINIGUN:
+          case RANGED_HYPERBEAM:
+
+          aimAt(90 + (-90 * direction), 180);
           break;
 
           case MELEE:
@@ -301,6 +341,54 @@ void Walker::update()
 }
 bool Walker::render(int cameraX, int cameraY, int priority)
 {
+  SDL_RendererFlip flip = SDL_FLIP_NONE;
+  SDL_Point center1 = {10, 12};
+  if(direction == -1)
+  {
+    flip = SDL_FLIP_HORIZONTAL;
+    center1 = {33 - 10, 12};
+  }
+
+  if(AI == RANGED)
+  {
+    if(flip == SDL_FLIP_NONE){(*textureArray)[TEX_ENEMY_PISTOL_HAND]->render(x - cameraX, y - cameraY, 0, NULL, gunAngle, &center1, flip);}
+    else{(*textureArray)[TEX_ENEMY_PISTOL_HAND]->render(x - 13 - cameraX, y - cameraY, 0, NULL, gunAngle - 180, &center1, flip);}
+  }
+
+  bool largeWalker = false;
+  if(AI == MELEE_STRONG || AI == RANGED_MINIGUN){largeWalker = true;}
+
+  if(!closeEnough(0, xVel) && !falling)
+  {
+    if(largeWalker)
+    {
+      mAnimations[WALKER_LARGE_RUN]->render(x, y, cameraX, cameraY, flip);
+      mAnimations[WALKER_LARGE_RUN]->update();
+    }
+    else
+    {
+      mAnimations[WALKER_NORMAL_RUN]->render(x, y, cameraX, cameraY, flip);
+      mAnimations[WALKER_NORMAL_RUN]->update();
+    }
+
+  }
+  else
+  {
+    if(largeWalker)
+    {
+      mAnimations[WALKER_LARGE_STAND]->render(x, y, cameraX, cameraY, flip);
+      mAnimations[WALKER_LARGE_STAND]->update();
+      mAnimations[WALKER_LARGE_RUN]->reset();
+    }
+    else
+    {
+      mAnimations[WALKER_NORMAL_STAND]->render(x, y, cameraX, cameraY, flip);
+      mAnimations[WALKER_NORMAL_STAND]->update();
+      mAnimations[WALKER_NORMAL_RUN]->reset();
+    }
+
+  }
+  /*
   SDL_Rect rect2 = { x - cameraX, y - cameraY, width, height};
   SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0, 255, 0, 0xFF );
   if(meleeTellRemaining > 0) SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 0, 0, 0xFF);
@@ -308,7 +396,7 @@ bool Walker::render(int cameraX, int cameraY, int priority)
   SDL_RenderFillRect(mDisplay->getRenderer(), &rect2);
   SDL_Rect rect3 = {gunPoint.x - cameraX, gunPoint.y - cameraY, 3, 3};
   SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 0, 0, 0xFF);
-  SDL_RenderFillRect(mDisplay->getRenderer(), &rect3);
+  SDL_RenderFillRect(mDisplay->getRenderer(), &rect3);*/
   return true;
 }
 
@@ -490,7 +578,7 @@ bool Walker::detectPlayer()
     }
   }
   // facing the right direction
-  if((direction == 1 && (*objects)[playerid]->getX()+8 > x) || (direction == -1 && (*objects)[playerid]->getX()+8 < x))
+  if((direction == 1 && (*objects)[playerid]->getX()+8 > x + (width/2)) || (direction == -1 && (*objects)[playerid]->getX()+8 < x + (width/2)))
   {
      // 45 degrees or less angle
     if(std::abs((*objects)[playerid]->getY()+16 - y) < std::abs((*objects)[playerid]->getX()+8 - x + (width/2)))
