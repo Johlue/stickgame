@@ -19,7 +19,10 @@ GameEngine::GameEngine(Display* display, Writer* writer)
   loadImageTexture("graphics/charaSwordHand.png", 3, 2);         // 9
   loadImageTexture("graphics/Enemy_Normal_Body.png", 6, 1);      // 10
   loadImageTexture("graphics/Enemy_Pistol_Hand.png", 1, 1);      // 11
-  loadImageTexture("graphics/Enemy_Large_Body.png", 6, 2);       // 12
+  loadImageTexture("graphics/Enemy_Large_Body.png", 7, 1);       // 12
+  loadImageTexture("graphics/Enemy_Minigun_Hand.png", 1, 1);     // 13
+  loadImageTexture("graphics/Enemy_SMG_Hand.png", 1, 1);         // 14
+  loadImageTexture("graphics/Enemy_Sword_Hand.png", 4, 2);       // 15
 
 
   loadImageTexture("graphics/404.png", 1, 1);                    // n+1

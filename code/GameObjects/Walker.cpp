@@ -1,6 +1,6 @@
 #include "Walker.h"
 
-enum walker_anims{WALKER_NORMAL_STAND = 0, WALKER_NORMAL_RUN, WALKER_LARGE_STAND, WALKER_LARGE_RUN};
+enum walker_anims{WALKER_NORMAL_STAND = 0, WALKER_NORMAL_RUN, WALKER_LARGE_STAND, WALKER_LARGE_RUN, WALKER_SWORD_STILL, WALKER_SWORD_CHARGE, WALKER_SWORD_ATTACK};
 
 Walker::Walker(){}
 Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, std::vector<GameObject*>* objs, std::vector<ImageTexture*>* texs)
@@ -36,6 +36,17 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
   mAnimations[WALKER_LARGE_RUN]->addFrame(TEX_ENEMY_LARGE_BODY, 4);
   mAnimations[WALKER_LARGE_RUN]->addFrame(TEX_ENEMY_LARGE_BODY, 5);
   mAnimations[WALKER_LARGE_RUN]->addFrame(TEX_ENEMY_LARGE_BODY, 6);
+  mAnimations.push_back(new Animation(15, false, textureArray, mDisplay));
+  mAnimations[WALKER_SWORD_STILL]->addFrame(TEX_ENEMY_SWORD_HAND, 0);
+  mAnimations.push_back(new Animation(3, false, textureArray, mDisplay));
+  mAnimations[WALKER_SWORD_CHARGE]->addFrame(TEX_ENEMY_SWORD_HAND, 1);
+  mAnimations[WALKER_SWORD_CHARGE]->addFrame(TEX_ENEMY_SWORD_HAND, 2);
+  mAnimations[WALKER_SWORD_CHARGE]->addFrame(TEX_ENEMY_SWORD_HAND, 3);
+  mAnimations[WALKER_SWORD_CHARGE]->addFrame(TEX_ENEMY_SWORD_HAND, 4);
+  mAnimations[WALKER_SWORD_CHARGE]->addFrame(TEX_ENEMY_SWORD_HAND, 5);
+  mAnimations[WALKER_SWORD_CHARGE]->addFrame(TEX_ENEMY_SWORD_HAND, 6);
+  mAnimations.push_back(new Animation(15, false, textureArray, mDisplay));
+  mAnimations[WALKER_SWORD_ATTACK]->addFrame(TEX_ENEMY_SWORD_HAND, 7);
 
   if(AI == MELEE)
   {
@@ -94,10 +105,10 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
     damage = 30;
     hp = 60;
     gunSpread = 10;
-    gunPoint.x = x + (width/2) + 30;
-    gunPoint.y = y + 40;
+    gunPoint.x = x + (width/2) + 20;
+    gunPoint.y = y + 34;
     gunCenter.x = x + (width/2);
-    gunCenter.y = y + 40;
+    gunCenter.y = y + 34;
   }
   else if(AI == RANGED_HYPERBEAM){}
   initialShotDelay_t = initialShotDelay;
@@ -349,12 +360,8 @@ bool Walker::render(int cameraX, int cameraY, int priority)
     center1 = {33 - 10, 12};
   }
 
-  if(AI == RANGED)
-  {
-    if(flip == SDL_FLIP_NONE){(*textureArray)[TEX_ENEMY_PISTOL_HAND]->render(x - cameraX, y - cameraY, 0, NULL, gunAngle, &center1, flip);}
-    else{(*textureArray)[TEX_ENEMY_PISTOL_HAND]->render(x - 13 - cameraX, y - cameraY, 0, NULL, gunAngle - 180, &center1, flip);}
-  }
 
+  // Body graphics
   bool largeWalker = false;
   if(AI == MELEE_STRONG || AI == RANGED_MINIGUN){largeWalker = true;}
 
@@ -386,7 +393,48 @@ bool Walker::render(int cameraX, int cameraY, int priority)
       mAnimations[WALKER_NORMAL_STAND]->update();
       mAnimations[WALKER_NORMAL_RUN]->reset();
     }
+  }
 
+  // Weapon Graphics
+  switch(AI)
+  {
+    case RANGED:
+    if(flip == SDL_FLIP_NONE){(*textureArray)[TEX_ENEMY_PISTOL_HAND]->render(x - cameraX, y - cameraY, 0, NULL, gunAngle, &center1, flip);}
+    else{(*textureArray)[TEX_ENEMY_PISTOL_HAND]->render(x - 13 - cameraX, y - cameraY, 0, NULL, gunAngle - 180, &center1, flip);}
+    break;
+
+    case RANGED_MINIGUN:
+    (*textureArray)[TEX_ENEMY_MINIGUN_HAND]->render(x - 10 - cameraX, y - cameraY, 0, NULL, NULL, NULL, flip);
+    break;
+
+    case RANGED_QUICK:
+    if(flip == SDL_FLIP_NONE){(*textureArray)[TEX_ENEMY_SMG_HAND]->render(x - cameraX, y - cameraY, 0, NULL, gunAngle, &center1, flip);}
+    else{(*textureArray)[TEX_ENEMY_SMG_HAND]->render(x - 13 - cameraX, y - cameraY, 0, NULL, gunAngle - 180, &center1, flip);}
+    break;
+
+    case MELEE:
+    if(meleeTellRemaining < 1 && meleeAttackRemaining < 1)
+    {
+      mAnimations[WALKER_SWORD_STILL]->render(x - 10, y - 20, cameraX, cameraY, flip);
+      mAnimations[WALKER_SWORD_STILL]->update();
+      mAnimations[WALKER_SWORD_ATTACK]->reset();
+      mAnimations[WALKER_SWORD_CHARGE]->reset();
+    }
+    else if(meleeTellRemaining > 0)
+    {
+
+      mAnimations[WALKER_SWORD_CHARGE]->render(x - 10, y - 20, cameraX, cameraY, flip);
+      mAnimations[WALKER_SWORD_CHARGE]->update();
+    }
+    else if(meleeAttackRemaining > 0)
+    {
+
+      mAnimations[WALKER_SWORD_ATTACK]->render(x - 10, y - 20, cameraX, cameraY, flip);
+      mAnimations[WALKER_SWORD_ATTACK]->update();
+      mAnimations[WALKER_SWORD_CHARGE]->reset();
+    }
+
+    break;
   }
   /*
   SDL_Rect rect2 = { x - cameraX, y - cameraY, width, height};
