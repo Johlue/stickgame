@@ -1,6 +1,7 @@
 #include "Walker.h"
 
-enum walker_anims{WALKER_NORMAL_STAND = 0, WALKER_NORMAL_RUN, WALKER_LARGE_STAND, WALKER_LARGE_RUN, WALKER_SWORD_STILL, WALKER_SWORD_CHARGE, WALKER_SWORD_ATTACK};
+enum walker_anims{WALKER_NORMAL_STAND = 0, WALKER_NORMAL_RUN, WALKER_LARGE_STAND, WALKER_LARGE_RUN, WALKER_SWORD_STILL, WALKER_SWORD_CHARGE, WALKER_SWORD_ATTACK,
+  WALKER_BALL_STILL, WALKER_BALL_CHARGE, WALKER_BALL_ATTACK};
 
 Walker::Walker(){}
 Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, std::vector<GameObject*>* objs, std::vector<ImageTexture*>* texs)
@@ -47,6 +48,12 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
   mAnimations[WALKER_SWORD_CHARGE]->addFrame(TEX_ENEMY_SWORD_HAND, 6);
   mAnimations.push_back(new Animation(15, false, textureArray, mDisplay));
   mAnimations[WALKER_SWORD_ATTACK]->addFrame(TEX_ENEMY_SWORD_HAND, 7);
+  mAnimations.push_back(new Animation(15, false, textureArray, mDisplay));
+  mAnimations[WALKER_BALL_STILL]->addFrame(TEX_ENEMY_BALL_HAND, 0);
+  mAnimations.push_back(new Animation(15, false, textureArray, mDisplay));
+  mAnimations[WALKER_BALL_CHARGE]->addFrame(TEX_ENEMY_BALL_HAND, 1);
+  mAnimations.push_back(new Animation(15, false, textureArray, mDisplay));
+  mAnimations[WALKER_BALL_ATTACK]->addFrame(TEX_ENEMY_BALL_HAND, 2);
 
   if(AI == MELEE)
   {
@@ -433,8 +440,31 @@ bool Walker::render(int cameraX, int cameraY, int priority)
       mAnimations[WALKER_SWORD_ATTACK]->update();
       mAnimations[WALKER_SWORD_CHARGE]->reset();
     }
-
     break;
+
+    case MELEE_STRONG:
+    if(meleeTellRemaining < 1 && meleeAttackRemaining < 1)
+    {
+      mAnimations[WALKER_BALL_STILL]->render(x - 15, y, cameraX, cameraY, flip);
+      mAnimations[WALKER_BALL_STILL]->update();
+      mAnimations[WALKER_BALL_ATTACK]->reset();
+      mAnimations[WALKER_BALL_CHARGE]->reset();
+    }
+    else if(meleeTellRemaining > 0)
+    {
+
+      mAnimations[WALKER_BALL_CHARGE]->render(x - 15, y, cameraX, cameraY, flip);
+      mAnimations[WALKER_BALL_CHARGE]->update();
+    }
+    else if(meleeAttackRemaining > 0)
+    {
+
+      mAnimations[WALKER_BALL_ATTACK]->render(x - 15, y, cameraX, cameraY, flip);
+      mAnimations[WALKER_BALL_ATTACK]->update();
+      mAnimations[WALKER_BALL_CHARGE]->reset();
+    }
+    break;
+
   }
   /*
   SDL_Rect rect2 = { x - cameraX, y - cameraY, width, height};
@@ -696,14 +726,14 @@ void Walker::meleeAttackSlow()
           // start melee attack
           if(AI == MELEE_STRONG)
           {
-            objects->push_back(new Slash(&x, &y, -10, (height/2) - (40/2), 40, 40, direction, false, objects, mDisplay, S_FLAIL, 200)); // height/2 - slashHeight/2 actually
+            objects->push_back(new Slash(&x, &y, -10, (height/2) - (40/2), 34, 34, direction, false, objects, mDisplay, S_FLAIL, 200)); // height/2 - slashHeight/2 actually
             meleeAttackInitiated = false; // end of melee attack
           }
           else
           {
-            if(direction == -1) slashXMod = -3 - width; // -slashwidth actually
-            else  slashXMod = width + 3;
-            objects->push_back(new Slash(&x, &y, slashXMod, (height/2) - (height/2), width, height, direction, false, objects, mDisplay)); // height/2 - slashHeight/2 actually
+            if(direction == -1) slashXMod = 13 - width; // -slashwidth actually
+            else  slashXMod = width -3;
+            objects->push_back(new Slash(&x, &y, slashXMod, -5, width/2, height, direction, false, objects, mDisplay)); // height/2 - slashHeight/2 actually
             meleeAttackInitiated = false; // end of melee attack
           }
         }
