@@ -23,7 +23,7 @@ GameEngine::GameEngine(Display* display, Writer* writer)
   loadImageTexture("graphics/Enemy_Minigun_Hand.png", 1, 1);     // 13
   loadImageTexture("graphics/Enemy_SMG_Hand.png", 1, 1);         // 14
   loadImageTexture("graphics/Enemy_Sword_Hand.png", 4, 2);       // 15
-  loadImageTexture("graphics/Enemy_Ball_Hand.png", 4, 1);        // 16
+  loadImageTexture("graphics/Enemy_Ball_Hand.png", 5, 1);        // 16
 
 
   loadImageTexture("graphics/404.png", 1, 1);                    // n+1

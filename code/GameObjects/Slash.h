@@ -17,7 +17,8 @@ class Slash : public GameObject
 public:
   Slash();
   // rx and ry are relative to player location (x = player x + prx)
-  Slash(double * o_x, double * o_y, int rx, int ry, int width, int height, int direction, bool playerSlash,std::vector<GameObject*>* objs, Display* display, int mvtype = S_NONE, int duration = 20, int dmg = 20, int invfrm = 40, double kb = 3);
+  Slash(double * o_x, double * o_y, int rx, int ry, int width, int height, int direction, bool playerSlash,std::vector<GameObject*>* objs,
+    Display* display, std::vector<ImageTexture*>* texs, int mvtype = S_NONE, int duration = 20, int dmg = 20, int invfrm = 40, double kb = 3);
   ~Slash();
 
   void handleEvent(SDL_Event* e);

@@ -4,8 +4,10 @@ Slash::Slash()
 {
   type = PLAYERATTACK;
 }
-Slash::Slash(double * o_x, double * o_y, int o_rx, int o_ry, int o_width, int o_height, int o_direction, bool playerSlash, std::vector<GameObject*>* objs, Display* display, int mvtype, int duration, int dmg, int invfrm, double kb)
+Slash::Slash(double * o_x, double * o_y, int o_rx, int o_ry, int o_width, int o_height, int o_direction, bool playerSlash,
+  std::vector<GameObject*>* objs, Display* display, std::vector<ImageTexture*>* texs, int mvtype, int duration, int dmg, int invfrm, double kb)
 {
+  textureArray = texs;
   type = PLAYERATTACK;
   mDisplay = display;
   direction = o_direction;
@@ -147,6 +149,16 @@ bool Slash::render(int cameraX, int cameraY, int priority)
     SDL_Rect rect = { x - cameraX, y - cameraY, width, height};
     SDL_SetRenderDrawColor( mDisplay->getRenderer(), 255, 0, 0, 0xFF );
     SDL_RenderFillRect(mDisplay->getRenderer(), &rect);
+
+    if(moveType == S_FLAIL)
+    {
+      (*textureArray)[TEX_ENEMY_BALL_HAND]->render(x - cameraX, y - cameraY, 3);
+      for(int i = 30; i < std::abs(rx); i += 30)
+      {
+        (*textureArray)[TEX_ENEMY_BALL_HAND]->render(*ox + (i*direction) - cameraX, y - cameraY, 4);
+      }
+    }
+
     return true;
 }
 

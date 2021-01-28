@@ -726,14 +726,14 @@ void Walker::meleeAttackSlow()
           // start melee attack
           if(AI == MELEE_STRONG)
           {
-            objects->push_back(new Slash(&x, &y, -10, (height/2) - (40/2), 34, 34, direction, false, objects, mDisplay, S_FLAIL, 200)); // height/2 - slashHeight/2 actually
+            objects->push_back(new Slash(&x, &y, -10, (height/2) - (40/2), 34, 34, direction, false, objects, mDisplay, textureArray, S_FLAIL, 200)); // height/2 - slashHeight/2 actually
             meleeAttackInitiated = false; // end of melee attack
           }
           else
           {
             if(direction == -1) slashXMod = 13 - width; // -slashwidth actually
             else  slashXMod = width -3;
-            objects->push_back(new Slash(&x, &y, slashXMod, -5, width/2, height, direction, false, objects, mDisplay)); // height/2 - slashHeight/2 actually
+            objects->push_back(new Slash(&x, &y, slashXMod, -5, width/2, height, direction, false, objects, mDisplay, textureArray)); // height/2 - slashHeight/2 actually
             meleeAttackInitiated = false; // end of melee attack
           }
         }
@@ -763,7 +763,7 @@ void Walker::meleeAttackQuick()
       int slashXMod;
       if(direction == -1) slashXMod = -3 - width; // -slashwidth actually
       else  slashXMod = width + 3;
-      objects->push_back(new Slash(&x, &y, slashXMod, (height/2) - (height/4), width, height/2, direction, false, objects, mDisplay)); // height/2 - slashHeight/2 actually
+      objects->push_back(new Slash(&x, &y, slashXMod, (height/2) - (height/4), width, height/2, direction, false, objects, mDisplay, textureArray)); // height/2 - slashHeight/2 actually
       meleeAttackInitiated = false; // end of melee attack
     }
   }
