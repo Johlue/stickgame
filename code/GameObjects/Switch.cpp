@@ -19,6 +19,8 @@ Switch::Switch(double o_x, double o_y, Display* display, std::vector<GameObject*
     break;
 
     case SWITCH_FLOOR:
+    width = 32;
+    height = 8;
     break;
   }
 }
@@ -28,6 +30,7 @@ void Switch::handleEvent(SDL_Event* e){}
 
 void Switch::update()
 {
+
   if(onlyOnce && activated){return;}
 
   activatedThisFrame = false;
@@ -76,6 +79,21 @@ bool Switch::detectCollision()
         }
       }
     }
+    else if(switchType == SWITCH_FLOOR)
+    {
+      if((*objects)[i]->getType() == PLAYER || (*objects)[i]->getType() == WALKER)
+      {
+        double gx = (*objects)[i]->getX();
+        double gy = (*objects)[i]->getY();
+        double gw = (*objects)[i]->getWidth();
+        double gh = (*objects)[i]->getHeight();
+
+        if (!(x + width < gx || x > gx + gw) && !(y + height < gy || y > gy + gh))
+        {
+          return true;
+        }
+      }
+    }
   }
   return false;
 }
@@ -84,34 +102,33 @@ bool Switch::render(int cameraX, int cameraY, int priority)
 {
   if(priority >= 7)
   {
-    switch(switchType)
+    if(switchType == SWITCH_FLOOR)
     {
-      case SWITCH_WALL:
-      {
-        SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, 0xFF);
-        SDL_RenderDrawLine(mDisplay->getRenderer(),
-          x - cameraX, y - cameraY, x + width - cameraX, y - cameraY);
-        SDL_RenderDrawLine(mDisplay->getRenderer(),
-          x - cameraX, y - cameraY, x - cameraX, y + height - cameraY);
-        SDL_RenderDrawLine(mDisplay->getRenderer(),
-          x + width - cameraX, y - cameraY, x + width - cameraX, y + height - cameraY);
-        SDL_RenderDrawLine(mDisplay->getRenderer(),
-          x - cameraX, y + height - cameraY, x + width - cameraX, y + height - cameraY);
-
-        if(onlyOnce && activated){SDL_SetRenderDrawColor(mDisplay->getRenderer(), 100, 100, 100, 0xFF);}
-        else if(activated) {SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 255, 0, 0xFF);}
-        else {SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 0, 0, 0xFF);}
-        SDL_Rect rect = { x + 1 - cameraX, y + 1 - cameraY, width - 1, height - 1};
-        SDL_RenderFillRect(mDisplay->getRenderer(), &rect);
-      }
-      break;
-
-      case SWITCH_FLOOR:
-      {
-
-      }
-      break;
+      if(activated){height = 4; y += 4;}
+      else{height = 8;}
     }
+    SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, 0xFF);
+    SDL_RenderDrawLine(mDisplay->getRenderer(),
+      x - cameraX, y - cameraY, x + width - cameraX, y - cameraY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(),
+      x - cameraX, y - cameraY, x - cameraX, y + height - cameraY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(),
+      x + width - cameraX, y - cameraY, x + width - cameraX, y + height - cameraY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(),
+      x - cameraX, y + height - cameraY, x + width - cameraX, y + height - cameraY);
+
+    if(onlyOnce && activated){SDL_SetRenderDrawColor(mDisplay->getRenderer(), 100, 100, 100, 0xFF);}
+    else if(activated) {SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 255, 0, 0xFF);}
+    else {SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 0, 0, 0xFF);}
+    SDL_Rect rect = { x + 1 - cameraX, y + 1 - cameraY, width - 1, height - 1};
+    SDL_RenderFillRect(mDisplay->getRenderer(), &rect);
+
+    if(switchType == SWITCH_FLOOR)
+    {
+      if(activated){y -= 4;}
+      height = 8;
+    }
+
     return true;
   }
   return false;

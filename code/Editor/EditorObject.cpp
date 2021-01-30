@@ -129,7 +129,8 @@ void EditorObject::update()
     }
     else if(stringInfo[3]->value == "S_FLOOR")
     {
-
+      width = 32;
+      height = 8;
     }
   }
   else if(stringInfo[0]->value == "Player")
@@ -156,12 +157,32 @@ void EditorObject::render(int camX, int camY)
   else if(type == EO_TURRET){turretRender(camX, camY);}
   else if(type == EO_SWITCH){switchRender(camX, camY);}
   else if(type == EO_SPIKE) {hazardRender(camX, camY);}
+  else if(type == EO_WALKER_M){walkerRender(camX, camY);}
   else
   {
     SDL_Rect rect2 = { x - camX, y - camY, width, height};
     SDL_SetRenderDrawColor( mDisplay->getRenderer(), type * 50, type * 33, type * 100, 0xFF );
     SDL_RenderFillRect(mDisplay->getRenderer(), &rect2);
   }
+}
+
+void EditorObject::walkerRender(int camX, int camY)
+{
+  if(stringInfo[3]->value == "M_STRONG" || stringInfo[3]->value == "R_MINIG")
+  {
+    (*textureArray)[TEX_ENEMY_LARGE_BODY]->render(x - camX, y - camY, 0);
+  }
+  else
+  {
+    (*textureArray)[TEX_ENEMY_NORMAL_BODY]->render(x - camX, y - camY, 0);
+  }
+
+  if(     stringInfo[3]->value == "MELEE")     {(*textureArray)[TEX_ENEMY_SWORD_HAND]->render(x - camX, y - camY, 0);}
+  else if(stringInfo[3]->value ==  "M_QUICK")  {(*textureArray)[TEX_ENEMY_DAGGER_HAND]->render(x - camX, y - camY, 0);}
+  else if(stringInfo[3]->value ==  "M_STRONG") {(*textureArray)[TEX_ENEMY_BALL_HAND]->render(x - camX, y - camY, 0);}
+  else if(stringInfo[3]->value ==  "RANGED")   {(*textureArray)[TEX_ENEMY_PISTOL_HAND]->render(x - camX, y - camY, 0);}
+  else if(stringInfo[3]->value ==  "R_QUICK")  {(*textureArray)[TEX_ENEMY_SMG_HAND]->render(x - camX, y - camY, 0);}
+  else if(stringInfo[3]->value ==  "R_MINIG")  {(*textureArray)[TEX_ENEMY_MINIGUN_HAND]->render(x - camX, y - camY, 0);}
 }
 
 void EditorObject::hazardRender(int camX, int camY)
@@ -177,33 +198,19 @@ void EditorObject::hazardRender(int camX, int camY)
 
 void EditorObject::switchRender(int camX, int camY)
 {
-  int switchType = 0;
-  switch(switchType)
-  {
-    case 0:
-    {
-      SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, 0xFF);
-      SDL_RenderDrawLine(mDisplay->getRenderer(),
-        x - camX, y - camY, x + 16 - camX, y - camY);
-      SDL_RenderDrawLine(mDisplay->getRenderer(),
-        x - camX, y - camY, x - camX, y + 16 - camY);
-      SDL_RenderDrawLine(mDisplay->getRenderer(),
-        x + 16 - camX, y - camY, x + 16 - camX, y + 16 - camY);
-      SDL_RenderDrawLine(mDisplay->getRenderer(),
-        x - camX, y + 16 - camY, x + 16 - camX, y + 16 - camY);
+  SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, 0xFF);
+  SDL_RenderDrawLine(mDisplay->getRenderer(),
+    x - camX, y - camY, x + width - camX, y - camY);
+  SDL_RenderDrawLine(mDisplay->getRenderer(),
+    x - camX, y - camY, x - camX, y + height - camY);
+  SDL_RenderDrawLine(mDisplay->getRenderer(),
+    x + width - camX, y - camY, x + width - camX, y + height - camY);
+  SDL_RenderDrawLine(mDisplay->getRenderer(),
+    x - camX, y + height - camY, x + width - camX, y + height - camY);
 
-      SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 0, 0, 0xFF);
-      SDL_Rect rect = { x + 1 - camX, y + 1 - camY, 16 - 1, 16 - 1};
-      SDL_RenderFillRect(mDisplay->getRenderer(), &rect);
-    }
-    break;
-
-    case 1:
-    {
-
-    }
-    break;
-  }
+  SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 0, 0, 0xFF);
+  SDL_Rect rect = { x + 1 - camX, y + 1 - camY, width - 1, height - 1};
+  SDL_RenderFillRect(mDisplay->getRenderer(), &rect);
 }
 
 void EditorObject::turretRender(int camX, int camY)

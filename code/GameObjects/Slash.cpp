@@ -145,10 +145,6 @@ void Slash::update()
 }
 bool Slash::render(int cameraX, int cameraY, int priority)
 {
-  // temp code to actually be able to see the attack
-    SDL_Rect rect = { x - cameraX, y - cameraY, width, height};
-    SDL_SetRenderDrawColor( mDisplay->getRenderer(), 255, 0, 0, 0xFF );
-    SDL_RenderFillRect(mDisplay->getRenderer(), &rect);
 
     if(moveType == S_FLAIL)
     {

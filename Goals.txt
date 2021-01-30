@@ -22,6 +22,16 @@ Level Editor, I feel like it
 Switches
   floor standable switches
 
+
+Custom keybindings ( should be relatively easy? )
+
+Level design
+Boss fights
+
+
+
+
+Done stuff
 Graphics
   Player
     Sword hand animations
@@ -34,16 +44,6 @@ Graphics
   Objects
     Boundary
     Hazard
-
-Custom keybindings ( should be relatively easy? )
-
-Level design
-Boss fights
-
-
-
-
-Done stuff
 Move menu things from main to MenuState
 Create a texture vector pointer thingy to pass to all the children in the land so they may have textures
 Create a somewhat functioning PlayState

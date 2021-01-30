@@ -1,7 +1,7 @@
 #include "Walker.h"
 
 enum walker_anims{WALKER_NORMAL_STAND = 0, WALKER_NORMAL_RUN, WALKER_LARGE_STAND, WALKER_LARGE_RUN, WALKER_SWORD_STILL, WALKER_SWORD_CHARGE, WALKER_SWORD_ATTACK,
-  WALKER_BALL_STILL, WALKER_BALL_CHARGE, WALKER_BALL_ATTACK};
+  WALKER_BALL_STILL, WALKER_BALL_CHARGE, WALKER_BALL_ATTACK, WALKER_DAGGER_STILL, WALKER_DAGGER_ATTACK};
 
 Walker::Walker(){}
 Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, std::vector<GameObject*>* objs, std::vector<ImageTexture*>* texs)
@@ -54,6 +54,11 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
   mAnimations[WALKER_BALL_CHARGE]->addFrame(TEX_ENEMY_BALL_HAND, 1);
   mAnimations.push_back(new Animation(15, false, textureArray, mDisplay));
   mAnimations[WALKER_BALL_ATTACK]->addFrame(TEX_ENEMY_BALL_HAND, 2);
+  mAnimations.push_back(new Animation(15, false, textureArray, mDisplay));
+  mAnimations[WALKER_DAGGER_STILL]->addFrame(TEX_ENEMY_DAGGER_HAND, 0);
+  mAnimations.push_back(new Animation(20, false, textureArray, mDisplay));
+  mAnimations[WALKER_DAGGER_ATTACK]->addFrame(TEX_ENEMY_DAGGER_HAND, 1);
+  mAnimations[WALKER_DAGGER_ATTACK]->addFrame(TEX_ENEMY_DAGGER_HAND, 2);
 
   if(AI == MELEE)
   {
@@ -465,6 +470,22 @@ bool Walker::render(int cameraX, int cameraY, int priority)
     }
     break;
 
+    case MELEE_QUICK:
+    if(meleeAttackInitiated){mAnimations[WALKER_DAGGER_ATTACK]->reset();}
+    if(!jumping)
+    {
+      mAnimations[WALKER_DAGGER_STILL]->render(x - 10, y, cameraX, cameraY, flip);
+      mAnimations[WALKER_DAGGER_STILL]->update();
+      mAnimations[WALKER_DAGGER_ATTACK]->reset();
+    }
+    else
+    {
+
+      mAnimations[WALKER_DAGGER_ATTACK]->render(x - 10, y, cameraX, cameraY, flip);
+      mAnimations[WALKER_DAGGER_ATTACK]->update();
+    }
+    break;
+
   }
   /*
   SDL_Rect rect2 = { x - cameraX, y - cameraY, width, height};
@@ -754,8 +775,9 @@ void Walker::meleeAttackQuick()
       // if not jumping and close enough to player start jump
       jumping = true;
       falling = true;
-      yVel = -1.3;
+      yVel = -2.3;
       meleeAttackInitiated = true;
+      mAnimations[WALKER_DAGGER_ATTACK]->reset();
     }
     if((abs(((*objects)[playerid]->getX()+8) - (x + (width/2))) < meleeRange &&
       meleeAttackInitiated && jumping))
