@@ -22,7 +22,7 @@ public:
   int activateThisObject(bool on);
 protected:
   bool playerBullet = false;
-  int damage = 4, iframes = 10;
+  int damage = 4, iframes = 45;
   double knockback = 1;
   Vector2D movement;
   int lifeTime = 300;

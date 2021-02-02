@@ -8,7 +8,7 @@ GameEngine::GameEngine(Display* display, Writer* writer)
   //TODO all the things, basically create a display and initialize gamestates and whatever
   // load a texture to the thingy
   loadImageTexture("graphics/menuButtons.png", 1, 12);           // 0
-  loadImageTexture("graphics/chara.png", 10, 10);                // 1
+  loadImageTexture("graphics/chara.png", 10, 1);                // 1
   loadImageTexture("graphics/LevelEditMenu1.png", 1, 4);         // 2
   loadImageTexture("graphics/LevelEditMenuEnemies.png", 4, 3);   // 3
   loadImageTexture("graphics/LevelEditMenuObjects.png", 4, 3);   // 4

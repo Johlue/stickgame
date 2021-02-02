@@ -177,12 +177,12 @@ void EditorObject::walkerRender(int camX, int camY)
     (*textureArray)[TEX_ENEMY_NORMAL_BODY]->render(x - camX, y - camY, 0);
   }
 
-  if(     stringInfo[3]->value == "MELEE")     {(*textureArray)[TEX_ENEMY_SWORD_HAND]->render(x - camX, y - camY, 0);}
-  else if(stringInfo[3]->value ==  "M_QUICK")  {(*textureArray)[TEX_ENEMY_DAGGER_HAND]->render(x - camX, y - camY, 0);}
-  else if(stringInfo[3]->value ==  "M_STRONG") {(*textureArray)[TEX_ENEMY_BALL_HAND]->render(x - camX, y - camY, 0);}
+  if(     stringInfo[3]->value == "MELEE")     {(*textureArray)[TEX_ENEMY_SWORD_HAND]->render(x - 10 - camX, y - 20 - camY, 0);}
+  else if(stringInfo[3]->value ==  "M_QUICK")  {(*textureArray)[TEX_ENEMY_DAGGER_HAND]->render(x - 10 - camX, y - camY, 0);}
+  else if(stringInfo[3]->value ==  "M_STRONG") {(*textureArray)[TEX_ENEMY_BALL_HAND]->render(x - 15 - camX, y - camY, 0);}
   else if(stringInfo[3]->value ==  "RANGED")   {(*textureArray)[TEX_ENEMY_PISTOL_HAND]->render(x - camX, y - camY, 0);}
   else if(stringInfo[3]->value ==  "R_QUICK")  {(*textureArray)[TEX_ENEMY_SMG_HAND]->render(x - camX, y - camY, 0);}
-  else if(stringInfo[3]->value ==  "R_MINIG")  {(*textureArray)[TEX_ENEMY_MINIGUN_HAND]->render(x - camX, y - camY, 0);}
+  else if(stringInfo[3]->value ==  "R_MINIG")  {(*textureArray)[TEX_ENEMY_MINIGUN_HAND]->render(x - 10 - camX, y - camY, 0);}
 }
 
 void EditorObject::hazardRender(int camX, int camY)

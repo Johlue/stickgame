@@ -18,7 +18,7 @@ public:
   Slash();
   // rx and ry are relative to player location (x = player x + prx)
   Slash(double * o_x, double * o_y, int rx, int ry, int width, int height, int direction, bool playerSlash,std::vector<GameObject*>* objs,
-    Display* display, std::vector<ImageTexture*>* texs, int mvtype = S_NONE, int duration = 20, int dmg = 20, int invfrm = 40, double kb = 3);
+    Display* display, std::vector<ImageTexture*>* texs, int mvtype = S_NONE, int duration = 20, int dmg = 52, int invfrm = 60, double kb = 3);
   ~Slash();
 
   void handleEvent(SDL_Event* e);
@@ -42,8 +42,8 @@ protected:
   int playerid = 9999999;
   bool playerOwned;
   int lifetime = 20;
-  int damage = 20;
-  int iframes = 40;
+  int damage = 52;
+  int iframes = 60;
   int moveType = S_NONE;
   double knockback = 3;
 

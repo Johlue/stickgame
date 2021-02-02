@@ -70,6 +70,7 @@ protected:
   int currentFrame = 0;
   int clickMode = MOUSE_EDIT; // this the choice of clicking. Drag, edit, create, etc.
   std::string * editableString = nullptr;
+  int xLimit = 1000; int yLimit = 640;
 
   bool savingMode = false;
   bool loadingMode = false;

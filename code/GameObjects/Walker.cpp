@@ -92,7 +92,7 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
     betweenShotsDelay = 20;
     clipSize = 4;
     reloadSpeed = 60;
-    damage = 25;
+    damage = 26;
     hp = 50;
     gunSpread = 0;
   }
@@ -102,7 +102,7 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
     betweenShotsDelay = 4;
     clipSize = 16;
     reloadSpeed = 90;
-    damage = 10;
+    damage = 26;
     hp = 30;
     gunSpread = 2;
   }
@@ -114,7 +114,7 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
     betweenShotsDelay = 0;
     clipSize = 120;
     reloadSpeed = 160;
-    damage = 30;
+    damage = 52;
     hp = 60;
     gunSpread = 10;
     gunPoint.x = x + (width/2) + 20;

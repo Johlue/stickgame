@@ -529,6 +529,14 @@ void LevelEditState::update()
 
 void LevelEditState::render()
 {
+  SDL_SetRenderDrawColor( mDisplay->getRenderer(), 160, 160, 160, 0xFF );
+  SDL_RenderClear( mDisplay->getRenderer() );
+
+  SDL_SetRenderDrawColor( mDisplay->getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF );
+  SDL_Rect rect2{0 - cameraX, 0 - cameraY, xLimit, yLimit};
+  SDL_RenderFillRect(mDisplay->getRenderer(), &rect2);
+
+
   mWriter->render("X: " + (std::to_string(cameraX)), 60, 5);
   mWriter->render("Y: " + (std::to_string(cameraY)), 135, 5);
   if(objects.size() > 0)
