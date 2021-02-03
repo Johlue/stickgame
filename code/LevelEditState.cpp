@@ -41,14 +41,25 @@ void LevelEditState::handleEvents(SDL_Event* e)
 
   if(currentEditorObject == nullptr) editableString = nullptr; // no editing strings while not editing objects
 
+  int mx; int my;
+  SDL_GetMouseState( &mx, &my );
+
+  if(e->type == SDL_MOUSEBUTTONDOWN)
+  {
+    if(e->button.button == SDL_BUTTON_LEFT)
+    {
+      if(mx + cameraX < xLimit + 11 && mx + cameraX > xLimit){xLimitDrag = true;}
+      if(my + cameraY < yLimit + 11 && my + cameraY > yLimit){yLimitDrag = true;}
+    }
+  }
   // mouse stuff, specifically mouse button up things
   if(e->type == SDL_MOUSEBUTTONUP)
   {
-    int mx; int my;
-    SDL_GetMouseState( &mx, &my );
 
     if(e->button.button == SDL_BUTTON_LEFT) // left mousebutton selects
     {
+      xLimitDrag = false; yLimitDrag = false;
+
       if(menu.handleEvents(e))
       {
         clickMode = MOUSE_CREATE;
@@ -57,27 +68,32 @@ void LevelEditState::handleEvents(SDL_Event* e)
       // if no menu clickings happened
       else
       {
-        if(clickMode == MOUSE_EDIT)
+        if(mx + cameraX > xLimit || my + cameraY > yLimit)
         {
-          clickEdit(mx, my, e);
         }
-
-        else if(clickMode == MOUSE_DRAG)
+        else
         {
-          clickDrag(mx, my);
-        }
-
-        else if(clickMode == MOUSE_CREATE)
-        {
-          if(createObject != EO_NONE) // if creating an object
+          if(clickMode == MOUSE_EDIT)
           {
-            clickCreate(mx, my);
+            clickEdit(mx, my, e);
           }
-        }
 
-        else if (clickMode == MOUSE_CONNECT)
-        {
-          clickConnect(mx, my);
+          else if(clickMode == MOUSE_DRAG)
+          {
+            clickDrag(mx, my);
+          }
+
+          else if(clickMode == MOUSE_CREATE)
+          {
+            if(createObject != EO_NONE) // if creating an object
+            {
+              clickCreate(mx, my);
+            }
+          }
+          else if (clickMode == MOUSE_CONNECT)
+          {
+            clickConnect(mx, my);
+          }
         }
       }
     }
@@ -500,6 +516,11 @@ void LevelEditState::clickEdit(int mx, int my, SDL_Event* e)
 
 void LevelEditState::update()
 {
+  int mx; int my;
+  SDL_GetMouseState(&mx, &my);
+  if(xLimitDrag){xLimit = mx + cameraX;}
+  if(yLimitDrag){yLimit = my + cameraY;}
+
   for(int i = 0; i < objects.size(); i++)
   {
     objects[i]->update();

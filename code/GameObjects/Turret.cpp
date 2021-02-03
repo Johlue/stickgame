@@ -489,17 +489,17 @@ bool Turret::render(int cameraX, int cameraY, int priority)
 {
 
   SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
-  if(hp < maxHP)
+  if(hp <= 35)
   {
     SDL_RenderDrawLine(mDisplay->getRenderer(), crack1_1.x - cameraX, crack1_1.y - cameraY, crack1_2.x - cameraX, crack1_2.y - cameraY);
     SDL_RenderDrawLine(mDisplay->getRenderer(), crack2_1.x - cameraX, crack2_1.y - cameraY, crack2_2.x - cameraX, crack2_2.y - cameraY);
     SDL_RenderDrawLine(mDisplay->getRenderer(), crack3_1.x - cameraX, crack3_1.y - cameraY, crack3_2.x - cameraX, crack3_2.y - cameraY);
-    if(hp < (maxHP / 1.5))
+    if(hp < 25)
     {
       SDL_RenderDrawLine(mDisplay->getRenderer(), crack1_2.x - cameraX, crack1_2.y - cameraY, crack1_3.x - cameraX, crack1_3.y - cameraY);
       SDL_RenderDrawLine(mDisplay->getRenderer(), crack2_2.x - cameraX, crack2_2.y - cameraY, crack2_3.x - cameraX, crack2_3.y - cameraY);
       SDL_RenderDrawLine(mDisplay->getRenderer(), crack3_2.x - cameraX, crack3_2.y - cameraY, crack3_3.x - cameraX, crack3_3.y - cameraY);
-      if(hp < (maxHP / 3))
+      if(hp < 15)
       {
         SDL_RenderDrawLine(mDisplay->getRenderer(), crack1_2.x - cameraX, crack1_2.y - cameraY, crack1_4.x - cameraX, crack1_4.y - cameraY);
         SDL_RenderDrawLine(mDisplay->getRenderer(), crack2_2.x - cameraX, crack2_2.y - cameraY, crack2_4.x - cameraX, crack2_4.y - cameraY);

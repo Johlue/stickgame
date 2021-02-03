@@ -24,7 +24,7 @@ public:
 
     Turret();
     // x location, y location, width, heigth, pointer to display
-    Turret(int xl, int yl, int cAI, int mAI, Display* display, std::vector<GameObject*>* obj, bool oinvincible = false, int ohp = 60);
+    Turret(int xl, int yl, int cAI, int mAI, Display* display, std::vector<GameObject*>* obj, bool oinvincible = false, int ohp = 40);
     ~Turret();
 
     void handleEvent(SDL_Event* e);
@@ -66,7 +66,7 @@ protected:
   int spinReset = 0;
 
   double moveSpeed = 2;
-  int hp = 60;
+  int hp = 40;
   int maxHP;
   int radius = 10; // how big it is, used for hitbox purposes
   int distanceFromPlayer = 90; // in case of a moving turret, this is the distance it will keep from the player
