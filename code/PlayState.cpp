@@ -81,8 +81,16 @@ void PlayState::update()
       {
         cameraX = currentPlayer->getX() - (mDisplay->getWidth()/2)+16;// -half.screenwidth +half.playerwidth
         cameraY = currentPlayer->getY() - (mDisplay->getHeight()/2)+32;
-        if(cameraX < 0) cameraX = 0;
-        if(cameraY < 0) cameraY = 0;
+        if(cameraX > levelSizeX - mDisplay->getWidth()) {cameraX = levelSizeX - mDisplay->getWidth();}
+        if(cameraY > levelSizeY - mDisplay->getHeight()) {cameraY = levelSizeY - mDisplay->getHeight();}
+        if(cameraX < 0) {cameraX = 0;}
+        if(cameraY < 0) {cameraY = 0;}
+        if(currentPlayer->getY() > levelSizeY + 100)
+        {
+          CollisionData tempPoint;
+          tempPoint.damage = 1000;
+          currentPlayer->damaged(tempPoint);
+        }
       }
     }
   }
@@ -195,6 +203,11 @@ void PlayState::loadLevel()
       if(strVec.size() > 0) // non empty string
       {
         if(strVec[0] == "//"); // do nothing if a comment is here
+        else if(strVec[0] == "size")
+        {
+          levelSizeX = std::stoi(strVec[1]); levelSizeY = std::stoi(strVec[2]);
+          if(levelSizeY < mDisplay->getHeight()) {levelSizeY = mDisplay->getHeight();}
+        }
         else if(strVec[0] == "Boundary") boundaryLoad(strVec);
         else if(strVec[0] == "Hazard") hazardLoad(strVec);
         else if(strVec[0] == "Turret") turretLoad(strVec);
@@ -323,6 +336,9 @@ void PlayState::switchLoad(std::vector<std::string> bl)
     ptr->addActivatable(std::stoi(gl[i]));
   }
 }
+
+int PlayState::getLevelLimitX(){return levelSizeX;}
+int PlayState::getLevelLimitY(){return levelSizeY;}
 
 void PlayState::deleteLevel()
 {

@@ -1,45 +1,13 @@
-// objects.push_back( new Boundary(64, 200, 404, 200, mDisplay, false, true, false, false)); // down facing line
-// Template: Type x y (x2 y2) other
-// Boundary: x y x2 y2 up down right left
-// Hazard x y width height angle damage subtype
-// Walker x y combatAI walkAI
-//  Walker combat AIs: MELEE M_STRONG M_QUICK RANGED R_QUICK R_MINIG R_BFG
-//  Walker move AIs: STAND INSTTURN WAIT
-// Turret x y combatAI moveAI
-//  turret combat AIs: T_SLOW T_FAST T_SPREAD T_BLADE
-//  turret move AIs: T_STATIC T_FLIGHT T_GROUND T_NOCLIP
-// pc: jump height = 80, jump distance ~ 190
-
-Boundary 34 240 250 240 T F F F
-Boundary 34 240 250 240 F T F F
-Boundary 10 310 900 310 T F F F
-
-Boundary 64 200 64 160 F F F T
-Boundary 264 200 264 160 F F F T
-Boundary 264 260 264 360 F F T F
-Boundary 564 260 564 360 F F F T
-Boundary 64 200 404 200 F T F F
-Boundary 404 200 404 160 F F T F
-Boundary 64 160 404 160 T F F F
-
-// Boundary 64 300 64 260 F F T F
-// Boundary 404 300 404 260 F F F T
-// Boundary 64 300 404 300 T F F F
-// Boundary 64 260 404 260 F T F F
-
-rHazard 200 110 50 50 0 64 SPIKE
-
-sTurret 200 150 T_FAST T_BLADE
-sTurret 240 050 T_BLADE T_GROUND
-sTurret 440 150 T_BLADE T_STATIC
-a a a a Turret 500 220 T_BLADE T_NOCLIP
-lTurret 450 221 T_SLOW T_STATIC
-
-Walker 160 100 R_MINIG INSTTURN
-sWalker 160 222 M_QUICK INSTTURN
-
-'Walker 450 100
-dWalker 450 -200
-gWalker 450 -600
-
-Player 101 101
+size 1269 1107
+Boundary 34 240 250 240 T F F F 
+Boundary 34 240 250 240 F T F F 
+Boundary 10 310 900 310 T F F F 
+Boundary 64 160 64 200 F F F T 
+Boundary 264 160 264 200 F F F T 
+Boundary 264 260 264 360 F F T F 
+Boundary 564 260 564 360 F F F T 
+Boundary 64 200 404 200 F T F F 
+Boundary 404 160 404 200 F F T F 
+Boundary 64 160 404 160 T F F F 
+Walker 160 100 R_MINIG INSTTURN 
+Player 101 101 

@@ -36,6 +36,9 @@ public:
 
   void loadLevel(); // load a level based on the contents of a text file
 
+  int getLevelLimitX();
+  int getLevelLimitY();
+
 protected:
   void boundaryLoad(std::vector<std::string> bl); //boundary portion of level loading
   void hazardLoad(std::vector<std::string> bl);

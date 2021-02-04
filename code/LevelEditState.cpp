@@ -816,6 +816,9 @@ void LevelEditState::saveLevel(std::string lvlName)
     levelfile.open(lvlName);
     for(int i = 0; i < objects.size(); i++)
     {
+      // level size
+      if(i == 0){levelfile  << "size " << std::to_string(xLimit) << " " << std::to_string(yLimit) << "\n";}
+
       for(int i2 = 0; i2 < objects[i]->getStringVector().size(); i2++)
       {
         levelfile << objects[i]->getStringVector().at(i2)->value;
@@ -842,6 +845,9 @@ void LevelEditState::loadLevel(std::string lvlName)
     {
       while(std::getline(levelfile, line))
       {
+        std::vector<std::string> strVec;
+        strVec = splitString(line, ' ');
+        if(strVec[0] == "size"){xLimit = std::stoi(strVec[1]); yLimit = std::stoi(strVec[2]);}
         if(line != "") createObjectFromFile(line);
       }
     }
