@@ -1,3 +1,4 @@
+size 2101 640
 Boundary 118 218 118 231 F F F T 
 Boundary 118 218 230 218 T F F F 
 Boundary 230 218 230 248 F F T F 

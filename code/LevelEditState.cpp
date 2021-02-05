@@ -164,6 +164,7 @@ void LevelEditState::handleEvents(SDL_Event* e)
         {
           std::string savefilenameforreals = saveFileName;
           savefilenameforreals.append(".txt");
+          savefilenameforreals = "levels/" + savefilenameforreals;
           saveLevel(savefilenameforreals);
           savingMode = false;
         }
@@ -835,6 +836,7 @@ void LevelEditState::saveLevel(std::string lvlName)
 
 void LevelEditState::loadLevel(std::string lvlName)
 {
+  lvlName = "levels/" + lvlName;
   if(lvlName.size() > 0)
   {
     freeMem();

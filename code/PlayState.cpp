@@ -157,7 +157,7 @@ void PlayState::handleEvents(SDL_Event* e)
              || currentPlayer->getY() + currentPlayer->getHeight() < ext->getY() + ext->getHeight()))
                 {
                     std::cout << ext->getExitName();
-                    currentLevel = ext->getExitName() + ".txt";
+                    currentLevel = "levels/" + ext->getExitName() + ".txt";
                     *loadableLevel = currentLevel;
                     loadLevel();
                 }

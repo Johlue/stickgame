@@ -74,7 +74,7 @@ void LevelSelectState::handleEvents(SDL_Event* e)
   		if(!(x < 40 + xMod ||  x > 40 + xMod + 160 || y < 40+ yMod || y > 40 + yMod + 110))
       {
         std::cout << i << std::endl;
-        *loadableLevel = levelArray[i] + ".txt";
+        *loadableLevel = "levels/" + levelArray[i] + ".txt";
         *currentState = PLAYSTATE;
       }
     }
