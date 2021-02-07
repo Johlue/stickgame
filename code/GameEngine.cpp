@@ -40,7 +40,7 @@ GameEngine::GameEngine(Display* display, Writer* writer)
       if(line != "")
       {
         int oldSize = mTextures.size();
-        line = line + ".png";
+        line = "levels/" + line + ".png";
         loadImageTexture(line, 1, 1);
         if(mTextures.size() == oldSize) {levelImages.push_back(false);}
         else {levelImages.push_back(true);}

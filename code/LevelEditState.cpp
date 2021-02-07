@@ -68,7 +68,7 @@ void LevelEditState::handleEvents(SDL_Event* e)
       // if no menu clickings happened
       else
       {
-        if(mx + cameraX > xLimit || my + cameraY > yLimit)
+        if(mx + cameraX < xLimit + 11 && mx + cameraX > xLimit || my + cameraY < yLimit + 11 && my + cameraY > yLimit)
         {
         }
         else

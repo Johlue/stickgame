@@ -67,6 +67,8 @@ protected:
   int index; // the current location of the object in the object vector
   int openedMenu = -1; // which parameters menu is open (-1 means none are open)
 
+  SDL_RendererFlip flip = SDL_FLIP_HORIZONTAL;
+
   bool clickDragged = false; // object is being click and dragged
 
   std::vector<EO_String*> stringInfo; // contains the necessary info to contruct an object string for level files

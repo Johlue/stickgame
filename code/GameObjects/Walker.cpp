@@ -4,8 +4,9 @@ enum walker_anims{WALKER_NORMAL_STAND = 0, WALKER_NORMAL_RUN, WALKER_LARGE_STAND
   WALKER_BALL_STILL, WALKER_BALL_CHARGE, WALKER_BALL_ATTACK, WALKER_DAGGER_STILL, WALKER_DAGGER_ATTACK};
 
 Walker::Walker(){}
-Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, std::vector<GameObject*>* objs, std::vector<ImageTexture*>* texs)
+Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, std::vector<GameObject*>* objs, std::vector<ImageTexture*>* texs, int direct)
 {
+  direction = direct;
   textureArray = texs;
   AI = combatAI;
   AIwalk = movementAI;

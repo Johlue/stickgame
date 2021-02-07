@@ -170,19 +170,35 @@ void EditorObject::walkerRender(int camX, int camY)
 {
   if(stringInfo[3]->value == "M_STRONG" || stringInfo[3]->value == "R_MINIG")
   {
-    (*textureArray)[TEX_ENEMY_LARGE_BODY]->render(x - camX, y - camY, 0);
+    (*textureArray)[TEX_ENEMY_LARGE_BODY]->render(x - camX, y - camY, 0, NULL, NULL, NULL, flip);
   }
   else
   {
-    (*textureArray)[TEX_ENEMY_NORMAL_BODY]->render(x - camX, y - camY, 0);
+    (*textureArray)[TEX_ENEMY_NORMAL_BODY]->render(x - camX, y - camY, 0, NULL, NULL, NULL, flip);
   }
 
-  if(     stringInfo[3]->value == "MELEE")     {(*textureArray)[TEX_ENEMY_SWORD_HAND]->render(x - 10 - camX, y - 20 - camY, 0);}
-  else if(stringInfo[3]->value ==  "M_QUICK")  {(*textureArray)[TEX_ENEMY_DAGGER_HAND]->render(x - 10 - camX, y - camY, 0);}
-  else if(stringInfo[3]->value ==  "M_STRONG") {(*textureArray)[TEX_ENEMY_BALL_HAND]->render(x - 15 - camX, y - camY, 0);}
-  else if(stringInfo[3]->value ==  "RANGED")   {(*textureArray)[TEX_ENEMY_PISTOL_HAND]->render(x - camX, y - camY, 0);}
-  else if(stringInfo[3]->value ==  "R_QUICK")  {(*textureArray)[TEX_ENEMY_SMG_HAND]->render(x - camX, y - camY, 0);}
-  else if(stringInfo[3]->value ==  "R_MINIG")  {(*textureArray)[TEX_ENEMY_MINIGUN_HAND]->render(x - 10 - camX, y - camY, 0);}
+  if(     stringInfo[3]->value == "MELEE")     {(*textureArray)[TEX_ENEMY_SWORD_HAND]->render(x - 10 - camX, y - 20 - camY, 0, NULL, NULL, NULL, flip);}
+  else if(stringInfo[3]->value ==  "M_QUICK")  {(*textureArray)[TEX_ENEMY_DAGGER_HAND]->render(x - 10 - camX, y - camY, 0, NULL, NULL, NULL, flip);}
+  else if(stringInfo[3]->value ==  "M_STRONG") {(*textureArray)[TEX_ENEMY_BALL_HAND]->render(x - 15 - camX, y - camY, 0, NULL, NULL, NULL, flip);}
+  else if(stringInfo[3]->value ==  "RANGED")   {(*textureArray)[TEX_ENEMY_PISTOL_HAND]->render(x - 13 - camX, y - camY, 0, NULL, NULL, NULL, flip);}
+  else if(stringInfo[3]->value ==  "R_QUICK")  {(*textureArray)[TEX_ENEMY_SMG_HAND]->render(x - 13 - camX, y - camY, 0, NULL, NULL, NULL, flip);}
+  else if(stringInfo[3]->value ==  "R_MINIG")  {(*textureArray)[TEX_ENEMY_MINIGUN_HAND]->render(x - 10 - camX, y - camY, 0, NULL, NULL, NULL, flip);}
+
+  SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 0, 0, 0xFF);
+  int cx = x + (width/2) - camX;
+  int cy = y + 5 - camY;
+  if(     stringInfo[5]->value == "RIGHT")
+  {
+    SDL_RenderDrawLine(mDisplay->getRenderer(), cx, cy, cx + 20, cy);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), cx + 20, cy, cx + 15, cy + 5);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), cx + 20, cy, cx + 15, cy - 5);
+  }
+  else if(stringInfo[5]->value == "LEFT")
+  {
+    SDL_RenderDrawLine(mDisplay->getRenderer(), cx, cy, cx - 20, cy);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), cx - 20, cy, cx - 15, cy + 5);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), cx - 20, cy, cx - 15, cy - 5);
+  }
 }
 
 void EditorObject::hazardRender(int camX, int camY)
@@ -348,6 +364,7 @@ void EditorObject::constructStringInfo()
     stringInfo[0]->value = "Walker";
     stringInfo.push_back(new EO_String("MELEE", "combatAI"));
     stringInfo.push_back(new EO_String("WAIT", "walkAI"));
+    stringInfo.push_back(new EO_String("LEFT", "facing"));
     break;
 
     case EO_SPIKE:
@@ -522,6 +539,12 @@ int EditorObject::editorClick(SDL_MouseButtonEvent& b, int strings, std::string 
 
           openedMenu = -1; // close other menus
           *es = nullptr;
+        }
+        // value is direction (this gets its own category cause Im lazy)
+        else if(stringInfo[i]->type == "facing")
+        {
+          if(stringInfo[i]->value == "LEFT") stringInfo[i]->value = "RIGHT";
+          else stringInfo[i]->value = "LEFT";
         }
         // if value is a multi-connector thingy
         else if(stringInfo[i]->type == "connect")

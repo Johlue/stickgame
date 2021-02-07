@@ -27,7 +27,7 @@ class Walker : public GameObject
 public:
   Walker();
   // x location, y location, width, heigth, AI, walkAI, pointer to display
-  Walker(int x, int y, int combatAI, int movementAI, Display* disp, std::vector<GameObject*>* objs, std::vector<ImageTexture*>* texs);
+  Walker(int x, int y, int combatAI, int movementAI, Display* disp, std::vector<GameObject*>* objs, std::vector<ImageTexture*>* texs, int direct);
   ~Walker();
 
   void handleEvent(SDL_Event* e);
@@ -47,7 +47,7 @@ protected:
   bool wallCheck();     //  see if wall is in front
   bool detectPlayer();  // try and find the player
   double xVel = 0; double yVel = 0;
-  int direction = 1; // 1 = right, -1 = left;
+  int direction = -1; // 1 = right, -1 = left;
   int hp = 400;
   bool falling = false;
   std::vector<GameObject*>* objects = nullptr; // contains objects to interact with

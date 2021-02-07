@@ -298,7 +298,7 @@ void PlayState::boundaryLoad(std::vector<std::string> bl) // boundary portion of
 
 void PlayState::walkerLoad(std::vector<std::string> bl) // walkers for the level load
 {
-  int bx; int by; int cAI; int wAI;
+  int bx; int by; int cAI; int wAI; int direct;
   bx = std::stoi(bl[1]); by = std::stoi(bl[2]);
   if(bl[3] == "MELEE") cAI = MELEE;
   else if(bl[3] ==  "M_QUICK") cAI = MELEE_QUICK; // fast, weak, jumps
@@ -312,7 +312,10 @@ void PlayState::walkerLoad(std::vector<std::string> bl) // walkers for the level
   else if(bl[4] == "INSTTURN")  wAI = INSTANTTURN; // turns as soon as edge is detected
   else if(bl[4] == "WAIT")      wAI = WAIT; // waits 2 seconds at edge of floor before turning around
 
-  objects.push_back(new Walker(bx, by, cAI, wAI, mDisplay, &objects, textureArray));
+  if(bl[5] == "LEFT") direct = -1;
+  else                direct = 1;
+
+  objects.push_back(new Walker(bx, by, cAI, wAI, mDisplay, &objects, textureArray, direct));
 }
 
 void PlayState::switchLoad(std::vector<std::string> bl)
