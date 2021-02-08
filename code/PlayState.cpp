@@ -256,6 +256,7 @@ void PlayState::exitLoad(std::vector<std::string> bl)
 
 void PlayState::turretLoad(std::vector<std::string> bl)
 {
+  bool inv;
   int bx, by, cai, mai;
   bx = std::stoi(bl[1]); by = std::stoi(bl[2]);
   if(bl[3] == "T_SLOW") cai = TA_GUN_ACCURATE;
@@ -270,7 +271,10 @@ void PlayState::turretLoad(std::vector<std::string> bl)
   else if(bl[4] == "T_NOCLIP") mai = TM_NOCLIP;
   else mai = 0;
 
-  objects.push_back(new Turret(bx, by, cai, mai, mDisplay, &objects));
+  if(bl[5] == "F") {inv = false;}
+  else             {inv = true;}
+
+  objects.push_back(new Turret(bx, by, cai, mai, mDisplay, &objects, inv));
 }
 
 void PlayState::hazardLoad(std::vector<std::string> bl)

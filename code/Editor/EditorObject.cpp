@@ -231,8 +231,47 @@ void EditorObject::switchRender(int camX, int camY)
 
 void EditorObject::turretRender(int camX, int camY)
 {
+  if(stringInfo[5]->value == "T")
+  {
+    SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 100, 255, SDL_ALPHA_OPAQUE);
+    drawCircle(mDisplay->getRenderer(), x - camX, y - camY, 10 + 2);
+  }
   SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
   drawCircle(mDisplay->getRenderer(), x - camX, y - camY, 10);
+
+  if(stringInfo[3]->value == "T_SLOW")
+  {
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x-3- camX, y-24- camY, x+3- camX, y-24- camY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x-3- camX, y-24- camY, x-3- camX, y-10- camY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x+3- camX, y-24- camY, x+3- camX, y-10- camY);
+  }
+  else if(stringInfo[3]->value == "T_FAST")
+  {
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x-4- camX, y-20- camY, x+4- camX, y-20- camY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x-4- camX, y-20- camY, x-4- camX, y-9- camY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x+4- camX, y-20- camY, x+4- camX, y-9- camY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x- camX, y-20- camY, x- camX, y-9- camY);
+  }
+  else if(stringInfo[3]->value == "T_SPREAD")
+  {
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x-8- camX, y-19- camY, x+8- camX, y-19- camY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x-8- camX, y-19- camY, x-6- camX, y-8- camY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x+8- camX, y-19- camY, x+6- camX, y-8- camY);
+  }
+  else if(stringInfo[3]->value == "T_BLADE")
+  {
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x- camX, y-38- camY, x-4- camX, y-9- camY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x- camX, y-38- camY, x+4- camX, y-9- camY);
+
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x- camX, y+38- camY, x+4- camX, y+9- camY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x- camX, y+38- camY, x-4- camX, y+9- camY);
+
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x-38- camX, y- camY, x-9- camX, y-4- camY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x-38- camX, y- camY, x-9- camX, y+4- camY);
+
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x+38- camX, y- camY, x+9- camX, y+4- camY);
+    SDL_RenderDrawLine(mDisplay->getRenderer(), x+38- camX, y- camY, x+9- camX, y-4- camY);
+  }
 }
 
 void EditorObject::playerRender(int camX, int camY)
@@ -380,6 +419,7 @@ void EditorObject::constructStringInfo()
     stringInfo[0]->value = "Turret";
     stringInfo.push_back(new EO_String("T_SLOW", "t_atk"));
     stringInfo.push_back(new EO_String("T_STATIC", "t_move"));
+    stringInfo.push_back(new EO_String("F", "invincib"));
     break;
 
     case EO_SWITCH:
@@ -521,7 +561,7 @@ int EditorObject::editorClick(SDL_MouseButtonEvent& b, int strings, std::string 
         // if value is a boolean
         else if(stringInfo[i]->type == "face ->" || stringInfo[i]->type == "face <-" ||
         stringInfo[i]->type == "face v" || stringInfo[i]->type == "face ^" ||
-        stringInfo[i]->type == "one_time")
+        stringInfo[i]->type == "one_time" || stringInfo[i]->type == "invincib")
         {
           if(stringInfo[i]->value == "F") // if false clicked becomes true, others become false
           {
