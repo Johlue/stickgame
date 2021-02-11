@@ -1,8 +1,9 @@
 #include "Switch.h"
 
 Switch::Switch(){}
-Switch::Switch(double o_x, double o_y, Display* display, std::vector<GameObject*>* obj, int switch_Type, bool once , int reactivTime)
+Switch::Switch(double o_x, double o_y, Display* display, std::vector<GameObject*>* obj, int switch_Type, bool once , int reactivTime, bool activ)
 {
+  activated = activ;
   type == SWITCH;
   x = o_x;
   y = o_y;

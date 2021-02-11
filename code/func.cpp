@@ -129,6 +129,22 @@ double pythagoras(double a, double b)
   return r;
 }
 
+std::vector<std::string> getLevelArray()
+{
+  std::vector<std::string> levelArray;
+  std::ifstream levelList;
+  levelList.open("LevelList.txt");
+  if(levelList.is_open())
+  {
+    std::string line;
+    while ( std::getline(levelList, line) )
+    {
+      if(line != "") {levelArray.push_back(line);}
+    }
+  }
+  return levelArray;
+}
+
 std::vector<std::string> menuOptions(std::string type)
 {
   std::vector<std::string> tms;
@@ -163,6 +179,13 @@ std::vector<std::string> menuOptions(std::string type)
   {
     tms.push_back("S_WALL");
     tms.push_back("S_FLOOR");
+  }
+  else if(type == "LvlName")
+  {
+    for(int i = 0; i < getLevelArray().size(); i++)
+    {
+      tms.push_back(getLevelArray()[i]);
+    }
   }
   return tms;
 }

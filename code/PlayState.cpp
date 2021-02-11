@@ -256,7 +256,7 @@ void PlayState::exitLoad(std::vector<std::string> bl)
 
 void PlayState::turretLoad(std::vector<std::string> bl)
 {
-  bool inv;
+  bool inv; bool activ;
   int bx, by, cai, mai;
   bx = std::stoi(bl[1]); by = std::stoi(bl[2]);
   if(bl[3] == "T_SLOW") cai = TA_GUN_ACCURATE;
@@ -273,8 +273,9 @@ void PlayState::turretLoad(std::vector<std::string> bl)
 
   if(bl[5] == "F") {inv = false;}
   else             {inv = true;}
+  if(bl[6] == "T") {activ = true;} else {activ = false;}
 
-  objects.push_back(new Turret(bx, by, cai, mai, mDisplay, &objects, inv));
+  objects.push_back(new Turret(bx, by, cai, mai, mDisplay, &objects, inv, activ));
 }
 
 void PlayState::hazardLoad(std::vector<std::string> bl)
@@ -324,15 +325,16 @@ void PlayState::walkerLoad(std::vector<std::string> bl) // walkers for the level
 
 void PlayState::switchLoad(std::vector<std::string> bl)
 {
-  int bx; int by; int switchType; bool once; int reactivTime;
+  int bx; int by; int switchType; bool once; int reactivTime; bool activ;
   bx = std::stoi(bl[1]); by = std::stoi(bl[2]);
        if(bl[3] == "S_WALL") {switchType = SWITCH_WALL;}
   else if(bl[3] == "S_FLOOR"){switchType = SWITCH_FLOOR;}
 
   if(bl[4] == "T") {once = true;} else {once = false;}
   reactivTime = std::stoi(bl[5]);
+  if(bl[7] == "T") {activ = true;} else {activ = false;}
 
-  objects.push_back(new Switch(bx, by, mDisplay, &objects, switchType, once, reactivTime));
+  objects.push_back(new Switch(bx, by, mDisplay, &objects, switchType, once, reactivTime, activ));
 
   std::vector<std::string> gl;
   gl = splitString(bl[6], '|');

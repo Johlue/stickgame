@@ -13,7 +13,7 @@ class Switch : public GameObject
 {
 public:
   Switch();
-  Switch(double o_x, double o_y, Display* display, std::vector<GameObject*>* obj, int switch_Type, bool once = false, int reactivTime = 0);
+  Switch(double o_x, double o_y, Display* display, std::vector<GameObject*>* obj, int switch_Type, bool once = false, int reactivTime = 0, bool activ = false);
   ~Switch();
 
   void handleEvent(SDL_Event* e);

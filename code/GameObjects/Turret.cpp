@@ -1,12 +1,14 @@
 #include "Turret.h"
 
 Turret::Turret(){type = TURRET;}
-Turret::Turret(int xl, int yl, int cAI, int mAI, Display* display, std::vector<GameObject*>* obj, bool oinvincible, int ohp)
+Turret::Turret(int xl, int yl, int cAI, int mAI, Display* display, std::vector<GameObject*>* obj, bool oinvincible, int ohp, bool activ)
 {
   objects = obj;
   type = TURRET;
   x = xl;
   y = yl;
+
+  activated = activ;
 
   combatAI = cAI;
   movementAI = mAI;
@@ -239,7 +241,7 @@ void Turret::update()
 
     turretMove(distanceToPlayer, lineofsight); // prelos movement
 
-    if(lineofsight) //if player is visible shoot and or rotate turret
+    if(lineofsight && activated) //if player is visible shoot and or rotate turret
     {
       double angleToPlayer = atan2( x-((*objects)[playerid]->getX() +8) , ((*objects)[playerid]->getY()+16)-y);
       //radians
@@ -275,7 +277,7 @@ void Turret::turretMove(double distanceToPlayer, bool los)
 
     case TM_FLIGHT:
     // flies but not through walls
-    if(los)
+    if(los && activated)
     {
       Vector2D moveVector((angle-90) * (3.14159265359/180), moveSpeed);
       bool cx, cy;
@@ -293,13 +295,16 @@ void Turret::turretMove(double distanceToPlayer, bool los)
     case TM_NOCLIP:
     // flies and also goes through wall
     {
-      double angleToPlayer = atan2( x-((*objects)[playerid]->getX() +8) , ((*objects)[playerid]->getY()+16)-y);
-      //radians
-      angleToPlayer = angleToPlayer * (180.0/3.14159265359) + 180; // degrees
-      Vector2D moveVector(x, y, ((*objects)[playerid]->getX()+8), ((*objects)[playerid]->getY()+16), moveSpeed);
-      if(distanceToPlayer > distanceFromPlayer) move(moveVector.x, moveVector.y);
-      else if(distanceToPlayer > distanceFromPlayer - 2);
-      else move(-moveVector.x, -moveVector.y);
+      if(activated)
+      {
+        double angleToPlayer = atan2( x-((*objects)[playerid]->getX() +8) , ((*objects)[playerid]->getY()+16)-y);
+        //radians
+        angleToPlayer = angleToPlayer * (180.0/3.14159265359) + 180; // degrees
+        Vector2D moveVector(x, y, ((*objects)[playerid]->getX()+8), ((*objects)[playerid]->getY()+16), moveSpeed);
+        if(distanceToPlayer > distanceFromPlayer) move(moveVector.x, moveVector.y);
+        else if(distanceToPlayer > distanceFromPlayer - 2);
+        else move(-moveVector.x, -moveVector.y);
+      }
     }
     break;
 
@@ -333,7 +338,7 @@ void Turret::turretMove(double distanceToPlayer, bool los)
 
     if(fallVelocity == 0) falling = false;
 
-    if(!los) // if player isn't seen slow down
+    if(!los || !activated) // if player isn't seen slow down
     {
       if(velocity < -0.1) velocity += 0.05;
       else if(velocity > 0.1) velocity -= 0.05;
@@ -403,6 +408,7 @@ bool Turret::collisionCheck(double xm, double ym)
 
 void Turret::shoot()
 {
+  if(!activated) {return;}
   cooldown = shotFrequency;
   int randomInt;
   int randomInt2;
@@ -541,19 +547,22 @@ bool Turret::render(int cameraX, int cameraY, int priority)
       SDL_RenderDrawLine(mDisplay->getRenderer(), cannonBottomLeft.x - cameraX, cannonBottomLeft.y - cameraY, cannonTopMiddle.x - cameraX, cannonTopMiddle.y - cameraY);
       SDL_RenderDrawLine(mDisplay->getRenderer(), cannonBottomRight.x - cameraX, cannonBottomRight.y - cameraY, cannonTopMiddle.x - cameraX, cannonTopMiddle.y - cameraY);
     }
-    rotatePoint(18, &cannonBottomLeft, p);
-    rotatePoint(18, &cannonBottomRight, p);
-    rotatePoint(18, &cannonTopMiddle, p);
-    spinReset++;
-    if(spinReset > 360/18)
+    if(activated)
     {
-      cannonTopMiddle.x = x;
-      cannonTopMiddle.y = y - (bladeRadius);
-      cannonBottomLeft.x = x - 4;
-      cannonBottomLeft.y = y - 9;
-      cannonBottomRight.x = x + 4;
-      cannonBottomRight.y = y - 9;
-      spinReset = 0;
+      rotatePoint(18, &cannonBottomLeft, p);
+      rotatePoint(18, &cannonBottomRight, p);
+      rotatePoint(18, &cannonTopMiddle, p);
+      spinReset++;
+      if(spinReset > 360/18)
+      {
+        cannonTopMiddle.x = x;
+        cannonTopMiddle.y = y - (bladeRadius);
+        cannonBottomLeft.x = x - 4;
+        cannonBottomLeft.y = y - 9;
+        cannonBottomRight.x = x + 4;
+        cannonBottomRight.y = y - 9;
+        spinReset = 0;
+      }
     }
   }
   //draw a ball at x, y

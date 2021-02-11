@@ -7,6 +7,8 @@
 #include <sstream>
 #include <string>
 #include <cmath>
+#include <fstream>
+#include <iostream>
 
 void drawRectangle(SDL_Renderer * renderer, double x1, double y1, double x2, double y2);
 void drawCircle(SDL_Renderer * renderer, double centreX, double centreY, double radius);
@@ -19,5 +21,6 @@ double pythagoras(double a, double b); // pythagoras triangle between a and b
 std::vector<std::string> menuOptions(std::string type); // returns menuoptions for a specified type
 void fillCircle(SDL_Renderer * renderer, double centreX, double centreY, double radius);
 double randomDouble(double min, double max);
+std::vector<std::string> getLevelArray();
 
 #endif

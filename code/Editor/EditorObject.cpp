@@ -223,8 +223,8 @@ void EditorObject::switchRender(int camX, int camY)
     x + width - camX, y - camY, x + width - camX, y + height - camY);
   SDL_RenderDrawLine(mDisplay->getRenderer(),
     x - camX, y + height - camY, x + width - camX, y + height - camY);
-
-  SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 0, 0, 0xFF);
+  if(stringInfo[7]->value == "T"){SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 255, 0, 0xFF);}
+  else {SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 0, 0, 0xFF);}
   SDL_Rect rect = { x + 1 - camX, y + 1 - camY, width - 1, height - 1};
   SDL_RenderFillRect(mDisplay->getRenderer(), &rect);
 }
@@ -420,6 +420,7 @@ void EditorObject::constructStringInfo()
     stringInfo.push_back(new EO_String("T_SLOW", "t_atk"));
     stringInfo.push_back(new EO_String("T_STATIC", "t_move"));
     stringInfo.push_back(new EO_String("F", "invincib"));
+    stringInfo.push_back(new EO_String("F", "active"));
     break;
 
     case EO_SWITCH:
@@ -428,6 +429,7 @@ void EditorObject::constructStringInfo()
     stringInfo.push_back(new EO_String("F", "one_time"));
     stringInfo.push_back(new EO_String("0", "timer"));
     stringInfo.push_back(new EO_String("", "connect"));
+    stringInfo.push_back(new EO_String("F", "active"));
     break;
 
     case EO_EXIT:
@@ -561,7 +563,7 @@ int EditorObject::editorClick(SDL_MouseButtonEvent& b, int strings, std::string 
         // if value is a boolean
         else if(stringInfo[i]->type == "face ->" || stringInfo[i]->type == "face <-" ||
         stringInfo[i]->type == "face v" || stringInfo[i]->type == "face ^" ||
-        stringInfo[i]->type == "one_time" || stringInfo[i]->type == "invincib")
+        stringInfo[i]->type == "one_time" || stringInfo[i]->type == "invincib" || stringInfo[i]->type == "active")
         {
           if(stringInfo[i]->value == "F") // if false clicked becomes true, others become false
           {
