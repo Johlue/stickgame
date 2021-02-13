@@ -36,6 +36,7 @@ public:
       void switchConnectionsRender(int camX, int camY);
     void hazardRender(int camX, int camY);
     void walkerRender(int camX, int camY);
+    void exitRender(int camX, int camY);
   void update();
   void setIndex(int i);
   int getIndex();

@@ -251,7 +251,7 @@ void PlayState::exitLoad(std::vector<std::string> bl)
   if(bl[4] == "T"){activ = true;}
   else            {activ = false;}
 
-  objects.push_back(new LevelExit(bx, by, exitName, activ, mDisplay));
+  objects.push_back(new LevelExit(bx, by, exitName, activ, mDisplay, textureArray));
 }
 
 void PlayState::turretLoad(std::vector<std::string> bl)

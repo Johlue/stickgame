@@ -158,12 +158,19 @@ void EditorObject::render(int camX, int camY)
   else if(type == EO_SWITCH){switchRender(camX, camY);}
   else if(type == EO_SPIKE) {hazardRender(camX, camY);}
   else if(type == EO_WALKER_M){walkerRender(camX, camY);}
+  else if(type == EO_EXIT){exitRender(camX, camY);}
   else
   {
     SDL_Rect rect2 = { x - camX, y - camY, width, height};
     SDL_SetRenderDrawColor( mDisplay->getRenderer(), type * 50, type * 33, type * 100, 0xFF );
     SDL_RenderFillRect(mDisplay->getRenderer(), &rect2);
   }
+}
+
+void EditorObject::exitRender(int camX, int camY)
+{
+  if(stringInfo[4]->value == "T"){(*textureArray)[TEX_EXIT_DOOR]->render(x - 20 - camX, y - camY, 1);}
+  else{(*textureArray)[TEX_EXIT_DOOR]->render(x - 20 - camX, y - camY, 0);}
 }
 
 void EditorObject::walkerRender(int camX, int camY)
@@ -420,7 +427,7 @@ void EditorObject::constructStringInfo()
     stringInfo.push_back(new EO_String("T_SLOW", "t_atk"));
     stringInfo.push_back(new EO_String("T_STATIC", "t_move"));
     stringInfo.push_back(new EO_String("F", "invincib"));
-    stringInfo.push_back(new EO_String("F", "active"));
+    stringInfo.push_back(new EO_String("T", "active"));
     break;
 
     case EO_SWITCH:

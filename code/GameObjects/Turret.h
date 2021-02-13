@@ -24,7 +24,7 @@ public:
 
     Turret();
     // x location, y location, width, heigth, pointer to display
-    Turret(int xl, int yl, int cAI, int mAI, Display* display, std::vector<GameObject*>* obj, bool oinvincible = false, int ohp = 40, bool activ = true);
+    Turret(int xl, int yl, int cAI, int mAI, Display* display, std::vector<GameObject*>* obj, bool oinvincible = false, bool activ = true);
     ~Turret();
 
     void handleEvent(SDL_Event* e);

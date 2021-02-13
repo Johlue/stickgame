@@ -1,0 +1,57 @@
+size 1973 643
+Boundary 7 202 7 334 F F T F 
+Boundary 8 334 347 334 T F F F 
+Boundary 7 202 216 202 F T F F 
+Boundary 216 273 246 273 F T F F 
+Boundary 247 0 247 273 F F T F 
+Boundary 215 202 215 273 F F F T 
+Boundary 226 273 226 333 F F F T 
+Boundary 236 273 236 334 F F T F 
+Switch 194 208 S_WALL F 0 6|7|35 F 
+Boundary 355 271 425 271 F F F F 
+Boundary 425 260 425 271 F F T F 
+Boundary 356 260 356 271 F F F T 
+Boundary 356 260 426 260 T F F F 
+Boundary 478 197 524 197 F F F F 
+Boundary 524 186 524 197 F F T F 
+Boundary 478 186 478 197 F F F T 
+Boundary 478 186 524 186 T F F F 
+Boundary 355 119 429 119 T F F F 
+Boundary 355 119 355 131 F F F T 
+Boundary 429 119 429 131 F F T F 
+Boundary 355 131 429 131 F F F F 
+Boundary 502 68 552 68 F F F F 
+Boundary 552 56 552 68 F F T F 
+Boundary 502 56 502 68 F F F T 
+Boundary 502 56 552 56 T F F F 
+Boundary 589 79 927 79 T F F F 
+Walker 865 18 M_STRONG STAND LEFT 
+Boundary 927 79 927 238 F F T F 
+Boundary 1008 0 1008 165 F F F T 
+Boundary 1008 165 1042 165 F T F F 
+Boundary 1042 0 1042 165 F F T F 
+Boundary 1018 166 1018 237 F F F T 
+Boundary 927 238 1900 238 T F F F 
+Boundary 1032 165 1032 237 F F T F 
+Switch 988 119 S_WALL F 0 31|33 F 
+Turret -12 261 T_BLADE T_NOCLIP T F 
+Player 119 301 
+Turret 1063 16 T_SLOW T_STATIC T T 
+Boundary 1350 0 1350 154 F F F T 
+Boundary 1350 154 1385 154 F T F F 
+Boundary 1385 -1 1385 154 F F T F 
+Boundary 1360 154 1360 237 F F F T 
+Boundary 1375 155 1375 237 F F T F 
+Switch 1329 103 S_WALL F 0 41|42 F 
+Turret 1598 17 T_FAST T_STATIC F T 
+Walker 1493 -268 MELEE WAIT LEFT 
+Boundary 1464 -97 1554 -97 T F F F 
+Switch 1487 -220 S_FLOOR F 0 51|52 F 
+Boundary 1616 0 1616 153 F F F T 
+Boundary 1617 153 1651 153 F T F F 
+Boundary 1651 0 1651 152 F F T F 
+Boundary 1624 154 1624 237 F F F T 
+Boundary 1640 153 1640 237 F F T F 
+Switch 1660 230 S_FLOOR T 0 52|51|35 T 
+Boundary 1901 0 1901 238 F F F T 
+Exit 1835 139 exhibition T 

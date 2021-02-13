@@ -32,7 +32,7 @@ void Switch::handleEvent(SDL_Event* e){}
 void Switch::update()
 {
 
-  if(onlyOnce && activated){return;}
+  if(onlyOnce && used){return;}
 
   activatedThisFrame = false;
 
@@ -118,7 +118,7 @@ bool Switch::render(int cameraX, int cameraY, int priority)
     SDL_RenderDrawLine(mDisplay->getRenderer(),
       x - cameraX, y + height - cameraY, x + width - cameraX, y + height - cameraY);
 
-    if(onlyOnce && activated){SDL_SetRenderDrawColor(mDisplay->getRenderer(), 100, 100, 100, 0xFF);}
+    if(onlyOnce && used){SDL_SetRenderDrawColor(mDisplay->getRenderer(), 100, 100, 100, 0xFF);}
     else if(activated) {SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 255, 0, 0xFF);}
     else {SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 0, 0, 0xFF);}
     SDL_Rect rect = { x + 1 - cameraX, y + 1 - cameraY, width - 1, height - 1};
@@ -144,8 +144,8 @@ void Switch::activate(bool reactivate)
 {
   if(activatedThisFrame) {return;}
   activatedThisFrame = true;
-  if(onlyOnce && activated){return;}
-  std::cout << "activation\n";
+  if(onlyOnce && used){return;}
+  used = true;
   if(reactivate)
   {
     activated = false;

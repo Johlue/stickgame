@@ -1,8 +1,9 @@
 #include "LevelExit.h"
 
 LevelExit::LevelExit(){}
-LevelExit::LevelExit(int xl, int yl, std::string name, bool active, Display* display)
+LevelExit::LevelExit(int xl, int yl, std::string name, bool active, Display* display, std::vector<ImageTexture*>* texs)
 {
+  textureArray = texs;
   type = EXIT;
   x = xl;
   y = yl;
@@ -20,11 +21,8 @@ bool LevelExit::render(int cameraX, int cameraY, int priority)
 {
   if(priority >= 7)
   {
-    if(activated){SDL_SetRenderDrawColor(mDisplay->getRenderer(), 255, 0, 255, 0xFF);}
-    else{SDL_SetRenderDrawColor(mDisplay->getRenderer(), 100, 100, 100, 0xFF);}
-
-    SDL_Rect rect2 = { x - cameraX, y - cameraY, width, height};
-    SDL_RenderFillRect(mDisplay->getRenderer(), &rect2);
+    if(activated){(*textureArray)[TEX_EXIT_DOOR]->render(x - 20 - cameraX, y - cameraY, 1);}
+    else{(*textureArray)[TEX_EXIT_DOOR]->render(x - 20 - cameraX, y - cameraY, 0);}
     return true;
   }
   return false;

@@ -10,7 +10,7 @@ class LevelExit : public GameObject
 public:
   LevelExit();
   ~LevelExit();
-  LevelExit(int xl, int yl, std::string name, bool active, Display* display);
+  LevelExit(int xl, int yl, std::string name, bool active, Display* display, std::vector<ImageTexture*>* texs);
 
   virtual void handleEvent(SDL_Event* e);
   virtual void update();

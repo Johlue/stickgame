@@ -31,6 +31,7 @@ protected:
   bool activatedThisFrame = false;
 
   bool onlyOnce = false;
+  bool used = false;
 
   int switchType = SWITCH_WALL;
 
