@@ -1,4 +1,4 @@
-size 1973 643
+size 1973 646
 Boundary 7 202 7 334 F F T F 
 Boundary 8 334 347 334 T F F F 
 Boundary 7 202 216 202 F T F F 
@@ -54,4 +54,4 @@ Boundary 1624 154 1624 237 F F F T
 Boundary 1640 153 1640 237 F F T F 
 Switch 1660 230 S_FLOOR T 0 52|51|35 T 
 Boundary 1901 0 1901 238 F F F T 
-Exit 1835 139 exhibition T 
+Exit 1835 139 level4 T 

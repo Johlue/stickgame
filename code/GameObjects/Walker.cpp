@@ -111,10 +111,10 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
   {
     width = 30;
     height = 60;
-    initialShotDelay = 60;
+    initialShotDelay = 10;
     betweenShotsDelay = 0;
-    clipSize = 120;
-    reloadSpeed = 160;
+    clipSize = 9999;
+    reloadSpeed = 1;
     damage = 52;
     hp = 60;
     gunSpread = 10;
@@ -143,6 +143,14 @@ void Walker::update()
 {
 
   if(hp <= 0) alive = false;
+
+  minigunSpin += minigunSpinSpeed;
+  if(minigunSpin > 180)
+  {
+    minigunSpin = 0;
+    if(minigunFrame == 0) {minigunFrame = 1;}
+    else {minigunFrame = 0;}
+  }
 
   if(flinched > 0)
   {
@@ -234,6 +242,8 @@ void Walker::update()
       }
       if(detectPlayer()) // look for the player
       {
+        if(minigunSpinSpeed < 180){minigunSpinSpeed += 1;}
+
          playerDetected = true;
          playerMemoryRemaining = playerMemory;
          switch(AI)
@@ -256,7 +266,7 @@ void Walker::update()
               direction = direction * -1; // turn around if player is behind
             }
             aimAt(90 + (-90 * direction), 180);
-            rangedAIshoot();
+            if(minigunSpinSpeed > 178){rangedAIshoot();}
             break;
 
            case MELEE:
@@ -298,6 +308,7 @@ void Walker::update()
       }
       else
       {
+        if(minigunSpinSpeed > 0) {minigunSpinSpeed--;}
         switch(AI)
         {
           int passiveAngle;// row row rowtate your gun
@@ -417,7 +428,7 @@ bool Walker::render(int cameraX, int cameraY, int priority)
     break;
 
     case RANGED_MINIGUN:
-    (*textureArray)[TEX_ENEMY_MINIGUN_HAND]->render(x - 10 - cameraX, y - cameraY, 0, NULL, NULL, NULL, flip);
+    (*textureArray)[TEX_ENEMY_MINIGUN_HAND]->render(x - 10 - cameraX, y - cameraY, minigunFrame, NULL, NULL, NULL, flip);
     break;
 
     case RANGED_QUICK:

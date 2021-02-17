@@ -10,7 +10,7 @@
 class MenuState : public GameState
 {
 public:
-    MenuState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, Writer* texS);
+    MenuState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, Writer* texS, std::vector<int>* kbs);
     ~MenuState();
 
     void init();
@@ -30,6 +30,10 @@ public:
     std::vector<MenuButton*> buttonArray;
     // useless test integer
     int temp = 0;
+
+    std::vector<int>* keybindings;
+    bool keybindCustomization = false;
+    int keybindNumber = 0;
 
 };
 

@@ -2,8 +2,9 @@
 #include "GameState.h"
 #include <vector>
 
-MenuState::MenuState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, Writer* texS)
+MenuState::MenuState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, Writer* texS, std::vector<int>* kbs)
 {
+  keybindings = kbs;
   currentState = cs;
   mDisplay = dis;
   textureArray = texA;
@@ -36,19 +37,26 @@ void MenuState::freeMem()
 
 void MenuState::handleEvents(SDL_Event* e)
 {
-  for(int i = 0; i < buttonArray.size(); i++)
+  if(keybindCustomization)
   {
-    if(buttonArray[i]->handleEvent(e) == START)
+
+  }
+  else
+  {
+    for(int i = 0; i < buttonArray.size(); i++)
     {
-      changeState(PLAYSTATE);
-    }
-    if(buttonArray[i]->handleEvent(e) == EDIT)
-    {
-      changeState(LEVELEDITSTATE);
-    }
-    if(buttonArray[i]->handleEvent(e) == LEVEL_SELECT)
-    {
-      changeState(LEVELSELECTSTATE);
+      if(buttonArray[i]->handleEvent(e) == START)
+      {
+        changeState(PLAYSTATE);
+      }
+      if(buttonArray[i]->handleEvent(e) == EDIT)
+      {
+        changeState(LEVELEDITSTATE);
+      }
+      if(buttonArray[i]->handleEvent(e) == LEVEL_SELECT)
+      {
+        changeState(LEVELSELECTSTATE);
+      }
     }
   }
 }
@@ -61,10 +69,18 @@ void MenuState::update()
 
 void MenuState::render()
 {
-  for(int i = 0; i < buttonArray.size(); i++)
+  if(keybindCustomization)
   {
-    buttonArray[i]->render();
-  }/*
+
+  }
+  else
+  {
+    for(int i = 0; i < buttonArray.size(); i++)
+    {
+      buttonArray[i]->render();
+    }
+  }
+/*
   (*mSymbols)[0]->render(30, 30);
   (*mSymbols)[2]->render(45, 30);
   (*mSymbols)[5]->render(60, 30);

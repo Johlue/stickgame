@@ -1,4 +1,4 @@
-size 1793 640
+size 1793 647
 Boundary 12 -1 12 159 F F T F 
 Boundary 13 159 91 159 T F F F 
 Boundary 91 158 91 476 F F T F 
@@ -9,7 +9,7 @@ Boundary 457 412 465 412 F T F F
 Boundary 465 293 465 412 F F T F 
 Boundary 457 293 457 412 F F F T 
 Boundary 457 293 465 293 F T F F 
-Turret 287 310 T_SLOW T_STATIC F F 
+Turret 287 310 T_SLOW T_STATIC F T 
 Walker 120 435 MELEE INSTTURN RIGHT 
 Walker 396 435 MELEE INSTTURN LEFT 
 Boundary 449 476 472 476 T F F F 

@@ -12,6 +12,11 @@
 #include "LevelSelectState.h"
 #include "TextTexture.h"
 
+enum keybinds_enum
+{
+  KB_UP = 0, KB_LEFT = 1, KB_DOWN = 2, KB_RIGHT = 3, KB_JUMP = 4, KB_SHOOT = 5
+};
+
 class GameEngine
 {
 public:
@@ -43,6 +48,7 @@ private:
   std::vector<TextTexture*> mSymbols;
   // list of levels with images
   std::vector<bool> levelImages;
+  std::vector<int> keybindings;
   Display* mDisplay = nullptr;
   Writer* mWriter = nullptr;
 };

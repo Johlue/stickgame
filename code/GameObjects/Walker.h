@@ -55,7 +55,7 @@ protected:
   Boundary* floorBeneath = nullptr; // the floor that your currently standing on
   int playerid = 9999999;
   bool playerDetected = false; // has the player been seen
-  double detectionRange = 200.0; // how far can this guy see
+  double detectionRange = 500.0; // how far can this guy see
   int playerMemory = 600; // how long the walker can remember having detected the player
   int playerMemoryRemaining = 0; // how many frames remaining until walker forgets the player
   int waiting = 0; // waiting at the edge of reality(aka the floor)
@@ -88,6 +88,9 @@ protected:
   int shotsRemaining = 4;
   int reloadSpeed = 60;
   int reloadSpeed_t = 60;
+  int minigunSpin = 0;
+  int minigunSpinSpeed = 0;
+  int minigunFrame = 0;
   double gunSpread = 0;
   double gunAngle = 0;
   Point gunPoint;

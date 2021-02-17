@@ -1,0 +1,155 @@
+size 1201 1186
+Boundary 12 143 238 143 T F F F 
+Boundary 12 13 12 143 F F T F 
+Boundary 12 13 238 13 F T F F 
+Exit 54 44 level T 
+Boundary 238 14 238 78 F F F F 
+Boundary 239 78 262 78 F T F F 
+Boundary 237 143 313 143 T F F F 
+Boundary 314 77 314 450 F F F T 
+Boundary 314 77 362 77 T F F F 
+Boundary 362 76 362 141 F F T F 
+Boundary 362 141 490 141 T F F F 
+Boundary 491 76 491 141 F F F T 
+Boundary 492 76 566 76 T F F F 
+Boundary 566 76 566 140 F F T F 
+Boundary 566 140 863 140 T F F F 
+Boundary 743 -198 743 102 F F F T 
+Boundary 263 -195 263 78 F F T F 
+Hazard 362 111 30 30 0 50 SPIKE 
+Hazard 424 111 30 30 0 50 SPIKE 
+Hazard 456 111 30 30 0 50 SPIKE 
+Hazard 392 111 30 30 0 50 SPIKE 
+Switch 781 132 S_FLOOR T 0 23 F 
+Switch 192 135 S_FLOOR T 0 23 T 
+Turret 1139 103 T_BLADE T_NOCLIP T F 
+Boundary 988 76 988 139 F F F T 
+Boundary 988 139 1173 139 F T F F 
+Boundary 1173 139 1173 500 F F F T 
+Boundary 862 140 862 148 F F T F 
+Boundary 333 148 863 148 F T F F 
+Boundary 796 149 796 427 F F T F 
+Boundary 797 427 1107 427 T F F F 
+Boundary 1107 427 1107 437 F F T F 
+Boundary 790 437 1106 437 F T F F 
+Boundary 1107 431 1173 431 F T F F 
+Boundary 250 499 1173 499 T F F F 
+Boundary 811 438 811 498 F F F T 
+Boundary 823 438 823 499 F F F T 
+Boundary 834 437 834 498 F F F T 
+Boundary 847 438 847 498 F F F T 
+Switch 1143 470 S_WALL T 0 33 F 
+Boundary 744 102 821 102 F T F F 
+Boundary 821 78 821 102 F F T F 
+Boundary 822 78 988 78 F T F F 
+Boundary 547 452 602 452 T F F F 
+Boundary 652 394 712 394 T F F F 
+Boundary 720 317 781 317 T F F F 
+Boundary 659 243 692 243 T F F F 
+Boundary 542 195 615 195 T F F F 
+Boundary 459 247 489 247 T F F F 
+Boundary 358 332 422 332 T F F F 
+Boundary 424 408 497 408 T F F F 
+Turret 575 320 T_FAST T_STATIC T T 
+Turret 813 409 T_SPREAD T_STATIC F T 
+Switch 733 309 S_FLOOR T 0 37 F 
+Switch 562 187 S_FLOOR T 0 38 F 
+Switch 373 324 S_FLOOR T 0 35 F 
+Switch 558 444 S_FLOOR T 0 36 F 
+Boundary 315 449 333 449 F T F F 
+Boundary 333 77 333 450 F F T F 
+Boundary 468 500 468 947 F F F T 
+Boundary 250 517 468 517 F T F F 
+Boundary 250 499 250 516 F F F T 
+Boundary 319 450 319 498 F F F T 
+Boundary 329 450 329 498 F F T F 
+Switch 276 491 S_FLOOR T 0 62|63 F 
+Boundary 7 243 7 1000 F F T F 
+Turret 448 718 T_SLOW T_STATIC T T 
+Turret 21 722 T_SLOW T_STATIC T T 
+Boundary 8 497 202 497 T F F F 
+Boundary 202 497 202 513 F F T F 
+Boundary 8 513 202 513 F T F F 
+Switch 216 465 S_FLOOR T 0 72|73 T 
+Boundary 202 503 249 503 T F F F 
+Boundary 203 508 249 508 F T F F 
+Boundary 8 948 468 948 T F F F 
+Boundary 8 956 477 956 F T F F 
+Switch 25 973 S_WALL T 0 75|74 F 
+Boundary 7 1000 1179 1000 T F F F 
+Boundary 1179 846 1179 1000 F F F T 
+Boundary 477 846 1178 846 F T F F 
+Boundary 477 845 477 957 F F T F 
+Player 1150 968 
+Boundary 1038 846 1038 1000 F F T F 
+Boundary 1022 847 1022 1000 F F F T 
+Switch 1041 992 S_FLOOR T 0 82|83 F 
+Turret 993 857 T_SLOW T_STATIC F T 
+Turret 923 857 T_SLOW T_STATIC F T 
+Turret 868 857 T_SLOW T_STATIC F T 
+Turret 808 857 T_SLOW T_STATIC F T 
+Turret 743 857 T_SLOW T_STATIC F T 
+Turret 688 857 T_SLOW T_STATIC F T 
+Turret 633 857 T_SLOW T_STATIC F T 
+Turret 578 857 T_SLOW T_STATIC F T 
+Turret 520 857 T_SLOW T_STATIC F T 
+Walker 1383 12 MELEE STAND LEFT 
+Boundary 1381 118 1410 118 T F F F 
+Switch 1377 57 S_FLOOR T 0 72|73 F 
+Boundary 124 939 177 939 T F F F 
+Boundary 177 939 177 947 F F T F 
+Boundary 124 939 124 947 F F F T 
+Boundary 124 947 177 947 F T F F 
+Boundary 198 895 250 895 F T F F 
+Boundary 250 888 250 895 F F T F 
+Boundary 198 888 198 895 F F F T 
+Boundary 198 888 250 888 T F F F 
+Boundary 290 851 345 851 F T F F 
+Boundary 345 844 345 851 F F T F 
+Boundary 290 844 290 851 F F F T 
+Boundary 290 844 345 844 T F F F 
+Boundary 255 794 287 794 F T F F 
+Boundary 287 785 287 794 F F T F 
+Boundary 255 785 255 794 F F F T 
+Boundary 255 785 287 785 T F F F 
+Boundary 193 734 236 734 F T F F 
+Boundary 236 726 236 734 F F T F 
+Boundary 193 726 193 734 F F F T 
+Boundary 193 726 236 726 T F F F 
+Boundary 130 673 181 673 F T F F 
+Boundary 181 666 181 673 F F T F 
+Boundary 130 666 130 673 F F F T 
+Boundary 130 666 181 666 T F F F 
+Boundary 184 599 232 599 F T F F 
+Boundary 232 593 232 599 F F T F 
+Boundary 184 593 184 599 F F F T 
+Boundary 184 593 232 593 T F F F 
+Boundary 229 551 264 551 F T F F 
+Boundary 264 545 264 551 F F T F 
+Boundary 229 545 229 551 F F F T 
+Boundary 229 545 264 545 T F F F 
+Boundary 790 149 790 437 F F F T 
+Boundary 951 379 961 379 F T F F 
+Boundary 961 323 961 379 F F T F 
+Boundary 951 323 951 379 F F F T 
+Boundary 951 323 961 323 T F F F 
+Boundary 961 369 1023 369 T F F F 
+Boundary 1023 369 1023 379 F F T F 
+Boundary 961 369 961 379 F F F F 
+Boundary 961 379 1023 379 F T F F 
+Boundary 1066 285 1145 285 F T F F 
+Boundary 1145 277 1145 285 F F T F 
+Boundary 1066 277 1066 285 F F F T 
+Boundary 1066 277 1145 277 T F F F 
+Boundary 1045 224 1054 224 F T F F 
+Boundary 1054 171 1054 224 F F T F 
+Boundary 1045 171 1045 224 F F F T 
+Boundary 1045 171 1054 171 T F F F 
+Boundary 1054 215 1103 215 T F F F 
+Boundary 1103 215 1103 224 F F T F 
+Boundary 1054 215 1054 224 F F F F 
+Boundary 1054 224 1103 224 F T F F 
+Boundary 870 226 973 226 F T F F 
+Boundary 973 217 973 226 F F T F 
+Boundary 870 217 870 226 F F F T 
+Boundary 870 217 973 217 T F F F 

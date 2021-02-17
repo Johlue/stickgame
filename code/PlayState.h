@@ -21,7 +21,7 @@ class PlayState : public GameState
 {
 public:
   PlayState();
-  PlayState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, Writer* texS, std::string* lvl);
+  PlayState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, Writer* texS, std::string* lvl, std::vector<int>* kbs);
   ~PlayState();
 
   void init();
@@ -58,6 +58,8 @@ protected:
 
   int levelSizeX;
   int levelSizeY;
+
+  std::vector<int>* keybindings;
 
   Player * currentPlayer;
   int playerVectorLocation;

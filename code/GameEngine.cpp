@@ -20,7 +20,7 @@ GameEngine::GameEngine(Display* display, Writer* writer)
   loadImageTexture("graphics/Enemy_Normal_Body.png", 6, 1);      // 10
   loadImageTexture("graphics/Enemy_Pistol_Hand.png", 1, 1);      // 11
   loadImageTexture("graphics/Enemy_Large_Body.png", 7, 1);       // 12
-  loadImageTexture("graphics/Enemy_Minigun_Hand.png", 1, 1);     // 13
+  loadImageTexture("graphics/Enemy_Minigun_Hand.png", 2, 1);     // 13
   loadImageTexture("graphics/Enemy_SMG_Hand.png", 1, 1);         // 14
   loadImageTexture("graphics/Enemy_Sword_Hand.png", 4, 2);       // 15
   loadImageTexture("graphics/Enemy_Ball_Hand.png", 5, 1);        // 16
@@ -95,8 +95,14 @@ void GameEngine::loadImageTexture(std::string name, int spriteRow, int spriteCol
 
 void GameEngine::init()
 {
-  states.push_back(new MenuState(mDisplay, &mTextures, &currentState, mWriter));
-  states.push_back(new PlayState(mDisplay, &mTextures, &currentState, mWriter, &loadableLevel));
+  keybindings.push_back(SDLK_UP);
+  keybindings.push_back(SDLK_LEFT);
+  keybindings.push_back(SDLK_DOWN);
+  keybindings.push_back(SDLK_RIGHT);
+  keybindings.push_back(SDLK_z);
+  keybindings.push_back(SDLK_x);
+  states.push_back(new MenuState(mDisplay, &mTextures, &currentState, mWriter, &keybindings));
+  states.push_back(new PlayState(mDisplay, &mTextures, &currentState, mWriter, &loadableLevel, &keybindings));
   states.push_back(new LevelEditState(mDisplay, &mTextures, &currentState, mWriter));
   states.push_back(new LevelSelectState(mDisplay, &mTextures, &currentState, mWriter, &loadableLevel, &levelImages));
   //std::cout << states.size() << std::endl;

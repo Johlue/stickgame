@@ -4,8 +4,9 @@
 PlayState::PlayState()
 {}
 
-PlayState::PlayState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, Writer* texS, std::string* lvl)
+PlayState::PlayState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, Writer* texS, std::string* lvl, std::vector<int>* kbs)
 {
+  keybindings = kbs;
   loadableLevel = lvl;
   currentState = cs;
   mDisplay = dis;
