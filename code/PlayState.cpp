@@ -116,7 +116,6 @@ void PlayState::render()
 
 void PlayState::handleEvents(SDL_Event* e)
 {
-
   for(int i = 0; i < objects.size(); i++)
   {
     objects[i]->handleEvent(e);
@@ -124,9 +123,8 @@ void PlayState::handleEvents(SDL_Event* e)
   }
   if(e->type == SDL_KEYDOWN)
   {
-    switch(e->key.keysym.sym)
+    if(e->key.keysym.sym == SDLK_r)
     {
-      case SDLK_r:
       /**
       for(int i = 0; i < objects.size(); i++)
       {
@@ -141,35 +139,32 @@ void PlayState::handleEvents(SDL_Event* e)
 
       //objects.push_back( new Player(101, 101, &playerAlive, mDisplay, &objects, textureArray));
       playerAlive = true;
+    }
 
-      break;
-
-      case SDLK_UP:
+    if (e->key.keysym.sym == (*keybindings)[KB_UP])
+    {
+      for(int i = 0; i < objects.size(); i++)
       {
-        for(int i = 0; i < objects.size(); i++)
+        if(objects[i]->getType() == EXIT)
         {
-          if(objects[i]->getType() == EXIT)
+          LevelExit * ext;
+          ext = dynamic_cast<LevelExit*>(objects[i]);
+          if(currentPlayer->getX() > ext->getX()
+          && currentPlayer->getX() + currentPlayer->getWidth() < ext->getX() + ext->getWidth()
+          && (currentPlayer->getY() > ext->getY()
+           || currentPlayer->getY() + currentPlayer->getHeight() < ext->getY() + ext->getHeight()))
           {
-            LevelExit * ext;
-            ext = dynamic_cast<LevelExit*>(objects[i]);
-            if(currentPlayer->getX() > ext->getX()
-            && currentPlayer->getX() + currentPlayer->getWidth() < ext->getX() + ext->getWidth()
-            && (currentPlayer->getY() > ext->getY()
-             || currentPlayer->getY() + currentPlayer->getHeight() < ext->getY() + ext->getHeight()))
-                {
-                    std::cout << ext->getExitName();
-                    currentLevel = "levels/" + ext->getExitName() + ".txt";
-                    *loadableLevel = currentLevel;
-                    loadLevel();
-                }
+            std::cout << ext->getExitName();
+            currentLevel = "levels/" + ext->getExitName() + ".txt";
+            *loadableLevel = currentLevel;
+            loadLevel();
           }
         }
       }
-      break;
-
-      case SDLK_ESCAPE:
+    }
+    if(e->key.keysym.sym == SDLK_ESCAPE)
+    {
       *currentState = MENUSTATE;
-      break;
     }
   }
 }
@@ -217,7 +212,7 @@ void PlayState::loadLevel()
         else if(strVec[0] == "Exit")   exitLoad(strVec);
         else if(strVec[0] == "Player")
         {
-          objects.push_back(new Player(std::stoi(strVec[1]), std::stoi(strVec[2]), &playerAlive, mDisplay, &objects, textureArray));
+          objects.push_back(new Player(std::stoi(strVec[1]), std::stoi(strVec[2]), &playerAlive, mDisplay, &objects, textureArray, keybindings));
           playerAlive = true;
         }
 

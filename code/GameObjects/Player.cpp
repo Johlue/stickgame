@@ -6,8 +6,9 @@ enum Animations {STAND = 0, WALK = 1};
 
 Player::Player(){}
 
-Player::Player(double xl, double yl, bool * life, Display* display, std::vector<GameObject*>* obj, std::vector<ImageTexture*>* texs)// : walkAnimation(15, true, textureArray, mDisplay), standAnimation(15, true, textureArray, mDisplay)
+Player::Player(double xl, double yl, bool * life, Display* display, std::vector<GameObject*>* obj, std::vector<ImageTexture*>* texs, std::vector<int>* kbs)// : walkAnimation(15, true, textureArray, mDisplay), standAnimation(15, true, textureArray, mDisplay)
 {
+  keybindings = kbs;
   textureArray = texs;
   mDisplay = display;
   SDL_Point renderPoint{0, 0};
@@ -55,92 +56,79 @@ void Player::handleEvent(SDL_Event* e)
       case SDL_KEYDOWN:
       if(stunned < 1) // can't begin moving if stunned
       {
-        switch(e->key.keysym.sym)
+        if (e->key.keysym.sym == (*keybindings)[KB_RIGHT])
         {
-          case SDLK_RIGHT:
           movingRight = true;
           aimingForward = true;
           facingRight = true;
-          break;
+        }
 
-          case SDLK_LEFT:
+        if (e->key.keysym.sym == (*keybindings)[KB_LEFT])
+        {
           movingLeft = true;
           aimingForward = true;
           facingRight = false;
-          break;
+        }
 
-          case SDLK_UP:
+        if (e->key.keysym.sym == (*keybindings)[KB_UP])
+        {
           aimingUp = true;
-          break;
+        }
 
-          case SDLK_DOWN:
+        if (e->key.keysym.sym == (*keybindings)[KB_DOWN])
+        {
           aimingDown = true;
-          break;
+        }
 
-          case SDLK_j: // for now jump button
+        if (e->key.keysym.sym == (*keybindings)[KB_JUMP]) // for now jump button
+        {
           if(!falling)
           {
             jumping = true;
             falling = true;
           }
-          break;
+        }
 
-          case SDLK_l: // for now shoot button
-          {
-            shoot();
-            gunButtonDown = true;
-          }
-          break;
-
-          case SDLK_k: // for now melee button
-          /**
-          if(slashFrame > 0) break;
-          // do an attack (add animation later)
-          {
-            slashFrame = 7*5;
-            int slashHeight = 40;
-            int slashWidth = 40;
-            if(facingRight) objects->push_back(new Slash(&x, &y, width, height/2 - slashHeight/2, slashWidth, slashHeight, 1, true, objects, mDisplay));
-            else objects->push_back(new Slash(&x, &y, -slashWidth, height/2 - slashHeight/2, slashWidth, slashHeight,-1, true, objects, mDisplay));
-          }*/
-          break;
+        if (e->key.keysym.sym == (*keybindings)[KB_SHOOT]) // for now shoot button
+        {
+          shoot();
+          gunButtonDown = true;
         }
       }
-
       break;
 
       case SDL_KEYUP:
-      switch(e->key.keysym.sym)
+      if (e->key.keysym.sym == (*keybindings)[KB_RIGHT])
       {
-        case SDLK_RIGHT:
         movingRight = false;
         aimingForward = false;
-        break;
+      }
 
-        case SDLK_LEFT:
+      if (e->key.keysym.sym == (*keybindings)[KB_LEFT])
+      {
         movingLeft = false;
         aimingForward = false;
-        break;
-
-        case SDLK_UP:
-        aimingUp = false;
-        break;
-
-        case SDLK_DOWN:
-        aimingDown = false;
-        break;
-
-        case SDLK_j:
-        jumping = false;
-        break;
-
-        case SDLK_l:
-        gunButtonDown = false;
-        break;
       }
-      break;
 
-      case SDL_MOUSEMOTION:
+      if (e->key.keysym.sym == (*keybindings)[KB_UP])
+      {
+        aimingUp = false;
+      }
+
+      if (e->key.keysym.sym == (*keybindings)[KB_DOWN])
+      {
+        aimingDown = false;
+      }
+
+      if (e->key.keysym.sym == (*keybindings)[KB_JUMP])
+      {
+        jumping = false;
+      }
+
+      if (e->key.keysym.sym == (*keybindings)[KB_SHOOT])
+      {
+        gunButtonDown = false;
+      }
       break;
   }
 }

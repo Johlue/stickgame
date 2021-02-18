@@ -9,6 +9,10 @@
 #include "Bullet.h"
 #include "Walker.h"
 #include "Point.h"
+enum keybinds_enum
+{
+  KB_UP = 0, KB_LEFT = 1, KB_DOWN = 2, KB_RIGHT = 3, KB_JUMP = 4, KB_SHOOT = 5
+};
 
 class Player : public GameObject
 {
@@ -16,7 +20,7 @@ public:
   Player();
   // interacting with other game objects may require a pointer to the gameobject array
   // x location, y location, pointer to display
-  Player(double xl, double yl, bool * life, Display* display, std::vector<GameObject*>* obj, std::vector<ImageTexture*>* texs);
+  Player(double xl, double yl, bool * life, Display* display, std::vector<GameObject*>* obj, std::vector<ImageTexture*>* texs, std::vector<int>* kbs);
   ~Player();
 
   void handleEvent(SDL_Event* e);
@@ -59,6 +63,7 @@ protected:
   bool * alive; // is the player alive or not
   std::vector<GameObject*>* objects = nullptr; // contains objects to interact with
   std::vector<Animation*> mAnimations;
+  std::vector<int>* keybindings;
   //temp test thingy for intersection math
   CollisionData renderPoint;
   double xVel = 0;
