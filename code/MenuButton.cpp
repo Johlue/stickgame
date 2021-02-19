@@ -10,7 +10,7 @@ MenuButton::MenuButton(int x, int y, ImageTexture* it, int type, int width, int 
   mWidth = width;
   mHeight = height;
   mTexture = it;
-  mTexture->useSpriteSheet(1, 12);
+  mTexture->useSpriteSheet(1, 15);
 }
 
 MenuButton::~MenuButton()

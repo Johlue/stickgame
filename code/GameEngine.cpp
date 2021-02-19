@@ -7,7 +7,7 @@ GameEngine::GameEngine(Display* display, Writer* writer)
   mDisplay = display;
   //TODO all the things, basically create a display and initialize gamestates and whatever
   // load a texture to the thingy
-  loadImageTexture("graphics/menuButtons.png", 1, 12);           // 0
+  loadImageTexture("graphics/menuButtons.png", 1, 15);           // 0
   loadImageTexture("graphics/chara.png", 10, 1);                // 1
   loadImageTexture("graphics/LevelEditMenu1.png", 1, 4);         // 2
   loadImageTexture("graphics/LevelEditMenuEnemies.png", 4, 3);   // 3
@@ -95,12 +95,16 @@ void GameEngine::loadImageTexture(std::string name, int spriteRow, int spriteCol
 
 void GameEngine::init()
 {
-  keybindings.push_back(SDLK_UP);
-  keybindings.push_back(SDLK_LEFT);
-  keybindings.push_back(SDLK_DOWN);
-  keybindings.push_back(SDLK_RIGHT);
-  keybindings.push_back(SDLK_z);
-  keybindings.push_back(SDLK_x);
+  std::ifstream kbFile;
+  kbFile.open("keybindings.txt");
+  if(kbFile.is_open())
+  {
+    std::string line;
+    while ( std::getline(kbFile, line) )
+    {
+      keybindings.push_back(std::stoi(line));
+    }
+  }
   states.push_back(new MenuState(mDisplay, &mTextures, &currentState, mWriter, &keybindings));
   states.push_back(new PlayState(mDisplay, &mTextures, &currentState, mWriter, &loadableLevel, &keybindings));
   states.push_back(new LevelEditState(mDisplay, &mTextures, &currentState, mWriter));

@@ -6,6 +6,7 @@
 #include "ImageTexture.h"
 #include "MenuButton.h"
 #include <vector>
+#include "Player.h"
 
 class MenuState : public GameState
 {

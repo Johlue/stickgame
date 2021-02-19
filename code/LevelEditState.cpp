@@ -827,10 +827,8 @@ void LevelEditState::saveLevel(std::string lvlName)
       }
       levelfile << "\n";
     }
-    /*
+
     levelfile.close();
-    std::ofstream.open("LevelList.txt");
-    for()*/
   }
 }
 

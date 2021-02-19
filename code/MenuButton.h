@@ -6,7 +6,7 @@
 #include "ImageTexture.h"
 
 enum Texture{NORMAL = 0, HIGHLIGHTED = 1, PRESSED = 2};
-enum ButtonType{START = 0, QUIT = 1, EDIT = 2, LEVEL_SELECT = 3}; //TODO loads and whatnot
+enum ButtonType{START = 0, QUIT = 1, EDIT = 2, LEVEL_SELECT = 3, KEYBIND_CUSTOMIZING = 4}; //TODO loads and whatnot
 
 class MenuButton
 {

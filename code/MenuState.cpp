@@ -22,6 +22,7 @@ void MenuState::init()
   buttonArray.push_back( new MenuButton(160, 490, textureArray->at(TEX_MENUBUTTONS), QUIT)); // ???
   buttonArray.push_back( new MenuButton(160, 190, textureArray->at(TEX_MENUBUTTONS), EDIT));   // ???
   buttonArray.push_back( new MenuButton(160, 340, textureArray->at(TEX_MENUBUTTONS), LEVEL_SELECT));   // ???
+  buttonArray.push_back( new MenuButton(560, 190, textureArray->at(TEX_MENUBUTTONS), KEYBIND_CUSTOMIZING));
 }
 
 void MenuState::freeMem()
@@ -39,7 +40,36 @@ void MenuState::handleEvents(SDL_Event* e)
 {
   if(keybindCustomization)
   {
+    if( e->type == SDL_MOUSEBUTTONUP )
+    {
+      if(e->button.button == SDL_BUTTON_RIGHT)
+      {
+        keybindCustomization = false;
+        keybindNumber = 0;
+      }
+    }
+    if(e->type == SDL_KEYUP)
+    {
+      (*keybindings)[keybindNumber] = e->key.keysym.sym;
 
+      keybindNumber++;
+      if(keybindNumber >= 6)
+      {
+        std::ofstream levelfile;
+        levelfile.open("keybindings.txt");
+
+        keybindCustomization = false;
+        keybindNumber = 0;
+
+        for(int i = 0; i < keybindings->size(); i++)
+        {
+          levelfile << (*keybindings)[i];
+          levelfile << "\n";
+        }
+
+        levelfile.close();
+      }
+    }
   }
   else
   {
@@ -57,6 +87,11 @@ void MenuState::handleEvents(SDL_Event* e)
       {
         changeState(LEVELSELECTSTATE);
       }
+      if(buttonArray[i]->handleEvent(e) == KEYBIND_CUSTOMIZING)
+      {
+        keybindCustomization = true;
+        keybindNumber = 0;
+      }
     }
   }
 }
@@ -71,14 +106,18 @@ void MenuState::render()
 {
   if(keybindCustomization)
   {
-
+    std::string currentkey = "Press button for: ";
+    if(keybindNumber == KB_UP)  {currentkey = currentkey + "UP";}
+    if(keybindNumber == KB_DOWN){currentkey = currentkey + "DOWN";}
+    if(keybindNumber == KB_RIGHT){currentkey = currentkey + "RIGHT";}
+    if(keybindNumber == KB_LEFT){currentkey = currentkey + "LEFT";}
+    if(keybindNumber == KB_SHOOT){currentkey = currentkey + "SHOOT";}
+    if(keybindNumber == KB_JUMP){currentkey = currentkey + "JUMP";}
+    mWriter->render(currentkey, 560, 300);
   }
-  else
+  for(int i = 0; i < buttonArray.size(); i++)
   {
-    for(int i = 0; i < buttonArray.size(); i++)
-    {
-      buttonArray[i]->render();
-    }
+    buttonArray[i]->render();
   }
 /*
   (*mSymbols)[0]->render(30, 30);
