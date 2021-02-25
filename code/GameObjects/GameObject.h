@@ -51,6 +51,8 @@ public:
   int getWidth();
   int getHeight();
 
+  bool getActivated();
+
   bool isAlive();
   void kill();
   bool isOnScreen();

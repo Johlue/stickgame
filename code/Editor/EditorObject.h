@@ -12,7 +12,7 @@ enum EO_types
 
   EO_BOUNDARY, EO_SPIKE, EO_BOX, EO_SWITCH, EO_EXIT ,EO_OBJECT_LIST_END,  // objects side of the menu | starts at 0
 
-  EO_PLAYER = 1000, EO_WALKER_M, EO_TURRET, EO_ENEMY_LIST_END,  // enemies menu | starts at 1000
+  EO_PLAYER = 1000, EO_WALKER_M, EO_TURRET, EO_BOSS, EO_ENEMY_LIST_END,  // enemies menu | starts at 1000
 
   //EO_PLAYER = 9999 //add other stuff later
 };

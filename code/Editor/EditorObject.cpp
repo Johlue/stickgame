@@ -143,6 +143,11 @@ void EditorObject::update()
     width = 40;
     height = 100;
   }
+  else if(stringInfo[0]->value == "Boss")
+  {
+    width = 80;
+    height = 160;
+  }
 }
 
 bool EditorObject::handleEvents(SDL_Event * e, int cameraX, int cameraY)
@@ -443,6 +448,10 @@ void EditorObject::constructStringInfo()
     stringInfo[0]->value = "Exit";
     stringInfo.push_back(new EO_String("level", "LvlName"));
     stringInfo.push_back(new EO_String("F", "active"));
+    break;
+
+    case EO_BOSS:
+    stringInfo[0]->value = "Boss";
     break;
 
     case EO_PLAYER:

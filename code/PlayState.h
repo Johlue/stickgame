@@ -15,6 +15,7 @@
 #include "Walker.h"
 #include "Switch.h"
 #include "LevelExit.h"
+#include "Boss.h"
 
 
 class PlayState : public GameState
@@ -46,6 +47,7 @@ protected:
   void walkerLoad(std::vector<std::string> bl);
   void switchLoad(std::vector<std::string> bl);
   void exitLoad(std::vector<std::string> bl);
+  void bossLoad(std::vector<std::string> bl);
 
   void deleteLevel();
 

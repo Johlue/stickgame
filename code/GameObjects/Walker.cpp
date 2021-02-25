@@ -84,7 +84,7 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
     meleeRange = 999360;
     width = 30;
     height = 60;
-    hp = 100;
+    hp = 120;
     moveSpeed = 1;
   }
   else if(AI == RANGED)
@@ -116,7 +116,7 @@ Walker::Walker(int o_x, int o_y, int combatAI, int movementAI, Display* disp, st
     clipSize = 9999;
     reloadSpeed = 1;
     damage = 52;
-    hp = 60;
+    hp = 100;
     gunSpread = 10;
     gunPoint.x = x + (width/2) + 20;
     gunPoint.y = y + 34;
@@ -813,7 +813,7 @@ void Walker::damaged(CollisionData cd)
 
 void Walker::knockedBack(int knockback, int dmg)
 {
-  if(AI == MELEE_STRONG){return;}
+  if(AI == MELEE_STRONG || AI == RANGED_MINIGUN){return;}
   falling = true;
   flinched = dmg;
   xVel = -knockback;

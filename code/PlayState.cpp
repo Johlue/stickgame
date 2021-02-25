@@ -149,15 +149,18 @@ void PlayState::handleEvents(SDL_Event* e)
         {
           LevelExit * ext;
           ext = dynamic_cast<LevelExit*>(objects[i]);
-          if(currentPlayer->getX() > ext->getX()
-          && currentPlayer->getX() + currentPlayer->getWidth() < ext->getX() + ext->getWidth()
-          && (currentPlayer->getY() > ext->getY()
-           || currentPlayer->getY() + currentPlayer->getHeight() < ext->getY() + ext->getHeight()))
+          if(ext->getActivated())
           {
-            std::cout << ext->getExitName();
-            currentLevel = "levels/" + ext->getExitName() + ".txt";
-            *loadableLevel = currentLevel;
-            loadLevel();
+            if(currentPlayer->getX() > ext->getX()
+            && currentPlayer->getX() + currentPlayer->getWidth() < ext->getX() + ext->getWidth()
+            && (currentPlayer->getY() > ext->getY()
+             || currentPlayer->getY() + currentPlayer->getHeight() < ext->getY() + ext->getHeight()))
+            {
+              std::cout << ext->getExitName();
+              currentLevel = "levels/" + ext->getExitName() + ".txt";
+              *loadableLevel = currentLevel;
+              loadLevel();
+            }
           }
         }
       }
@@ -210,6 +213,7 @@ void PlayState::loadLevel()
         else if(strVec[0] == "Walker") walkerLoad(strVec);
         else if(strVec[0] == "Switch") switchLoad(strVec);
         else if(strVec[0] == "Exit")   exitLoad(strVec);
+        else if(strVec[0] == "Boss")   bossLoad(strVec);
         else if(strVec[0] == "Player")
         {
           objects.push_back(new Player(std::stoi(strVec[1]), std::stoi(strVec[2]), &playerAlive, mDisplay, &objects, textureArray, keybindings));
@@ -236,6 +240,14 @@ void PlayState::loadLevel()
     }
 
   } else std::cout << "level opening error is a thing that happened";
+}
+
+void PlayState::bossLoad(std::vector<std::string> bl)
+{
+  int bx, by;
+  bx = std::stoi(bl[1]); by = std::stoi(bl[2]);
+
+  objects.push_back(new Boss(bx, by, mDisplay, &objects, textureArray));
 }
 
 void PlayState::exitLoad(std::vector<std::string> bl)

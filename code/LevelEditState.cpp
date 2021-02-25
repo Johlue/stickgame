@@ -908,6 +908,12 @@ bool LevelEditState::createObjectFromFile(std::string sourceString)
     objects[objects.size() - 1]->setTextureArray(textureArray);
     objects[objects.size() - 1]->setIndex(objects.size() - 1); // set index of new object
   }
+  else if(pieces[0] == "Boss")
+  {
+    objects.push_back(new EditorObject(EO_BOSS, 0, 0, mDisplay));
+    objects[objects.size() - 1]->setTextureArray(textureArray);
+    objects[objects.size() - 1]->setIndex(objects.size() - 1); // set index of new object
+  }
   else return false;
 
   if(pieces.size() == objects.back()->getStringVector().size())

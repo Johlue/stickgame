@@ -2,7 +2,7 @@ size 1201 1186
 Boundary 12 143 238 143 T F F F 
 Boundary 12 13 12 143 F F T F 
 Boundary 12 13 238 13 F T F F 
-Exit 54 44 level T 
+Exit 54 44 level6 T 
 Boundary 238 14 238 78 F F F F 
 Boundary 239 78 262 78 F T F F 
 Boundary 237 143 313 143 T F F F 
