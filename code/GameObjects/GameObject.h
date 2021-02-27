@@ -27,7 +27,8 @@ enum ObjectTypes
   PLAYERATTACK = 6,
   WALKER = 7,
   SWITCH = 8,
-  EXIT = 9
+  EXIT = 9,
+  BOSS = 10
 };
 // Parent to all gameobjects
 class GameObject
