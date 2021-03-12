@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "Player.h"
 #include "Walker.h"
+#include "Boss.h"
 
 class Bullet : public GameObject
 {

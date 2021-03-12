@@ -55,6 +55,8 @@ protected:
   std::vector<GameObject*> objects;
   Ui ui;
   bool playerAlive = true;
+  bool bossChecked = false;
+  int bossId = -1;
   int cameraX;
   int cameraY;
 

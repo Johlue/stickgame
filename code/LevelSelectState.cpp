@@ -99,7 +99,7 @@ void LevelSelectState::render()
     {
       (*textureArray)[TEX_404]->render(40 + xMod, 40 + yMod);
     }
-    SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, 0);
+    SDL_SetRenderDrawColor(mDisplay->getRenderer(), 0, 0, 0, 0xFF);
     drawRectangle(mDisplay->getRenderer(), 40 + xMod, 40 + yMod, 220 + xMod, 150 + yMod);
     mWriter->render(levelArray[i], xMod + 60, yMod + 160);
   }

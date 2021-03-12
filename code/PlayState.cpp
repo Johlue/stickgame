@@ -52,6 +52,17 @@ void PlayState::update()
       objectId++;
     }
   }
+  if(bossChecked)
+  {
+    if(bossId != -1)
+    {
+      if(objects[bossId]->getType() == BOSS)
+      {
+        Boss * btr = dynamic_cast<Boss*>(objects[bossId]);
+        if(btr->getDeathTime() >= 255){*currentState = CREDITSSTATE;}
+      }
+    }
+  }
   //std::cout << "currently existing objects: " << objects.size() << std::endl;
   for(int i = 0; i < objects.size(); i++)
   {
@@ -93,6 +104,21 @@ void PlayState::update()
           currentPlayer->damaged(tempPoint);
         }
       }
+    }
+    if(!bossChecked)
+    {
+      std::cout << "bosscheck";
+      for(int i = 0; i < objects.size(); i++)
+      {
+        if(objects[i]->getType() == BOSS)
+        {
+          std::cout << "bosssuccess";
+          Boss * ptr = dynamic_cast<Boss*>(objects[i]);
+          ui.setBoss(ptr);
+          bossId = i;
+        }
+      }
+      bossChecked = true;
     }
   }
 }
@@ -187,6 +213,10 @@ void PlayState::loadLevel()
       objects.erase(objects.begin() + i);
     }
   }
+
+  ui.deleteBoss();
+  bossChecked = false;
+  bossId = -1;
 
   std::ifstream levelFile;
   levelFile.open(currentLevel);

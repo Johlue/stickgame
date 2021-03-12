@@ -18,7 +18,8 @@ enum GameStates
   MENUSTATE = 0,
   PLAYSTATE = 1,
   LEVELEDITSTATE = 2,
-  LEVELSELECTSTATE = 3
+  LEVELSELECTSTATE = 3,
+  CREDITSSTATE = 4
 };
 
 class GameState

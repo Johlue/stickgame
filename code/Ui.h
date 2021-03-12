@@ -21,8 +21,13 @@ public:
   void setPlayer(Player * newPlayer);
   void setDeadPlayer(bool dead);
 
+  void setBoss(Boss * newBoss);
+  void deleteBoss();
+
 protected:
   Player * player;
+  Boss * boss = nullptr;
+
   bool playerDead = false;
   Display * mDisplay;
 };

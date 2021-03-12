@@ -100,4 +100,4 @@ Hazard 5415 352 30 30 0 50 SPIKE
 Hazard 4898 352 30 30 0 50 SPIKE 
 Switch 5662 372 S_FLOOR T 0 77 T 
 Boundary 5850 -1 5850 380 F F F T 
-Exit 5764 281 level F 
+Exit 5764 281 boss T 

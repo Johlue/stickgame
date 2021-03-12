@@ -26,6 +26,12 @@ GameEngine::GameEngine(Display* display, Writer* writer)
   loadImageTexture("graphics/Enemy_Ball_Hand.png", 5, 1);        // 16
   loadImageTexture("graphics/Enemy_Dagger_Hand.png", 3, 1);      // 17
   loadImageTexture("graphics/EXIT.png", 1, 2);                   // 18
+  loadImageTexture("graphics/Boss_Body.png", 1, 2);              // 19
+  loadImageTexture("graphics/Boss_Megaguns.png", 1, 37);         // 20
+  loadImageTexture("graphics/Boss_Wheel.png", 4, 1);             // 21
+  loadImageTexture("graphics/Boss_Gun.png", 1, 1);               // 22
+  loadImageTexture("graphics/Credits.png", 1, 1);                // 23
+  loadImageTexture("graphics/Title.png",1,1);                    // 24
 
 
   loadImageTexture("graphics/404.png", 1, 1);                    // n+1
@@ -109,6 +115,7 @@ void GameEngine::init()
   states.push_back(new PlayState(mDisplay, &mTextures, &currentState, mWriter, &loadableLevel, &keybindings));
   states.push_back(new LevelEditState(mDisplay, &mTextures, &currentState, mWriter));
   states.push_back(new LevelSelectState(mDisplay, &mTextures, &currentState, mWriter, &loadableLevel, &levelImages));
+  states.push_back(new CreditsState(mDisplay, &mTextures, &currentState));
   //std::cout << states.size() << std::endl;
   mRunning = true;
   currentState = MENUSTATE;

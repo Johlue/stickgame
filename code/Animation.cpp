@@ -19,11 +19,11 @@ Animation::~Animation(){freeMem();}
 void Animation::freeMem()
 {
 }
-void Animation::render(int x, int y, int camx, int camy, SDL_RendererFlip flip)
+void Animation::render(int x, int y, int camx, int camy, SDL_RendererFlip flip, double rotation, SDL_Point center)
 {
   if(currentFrame < mFrames.size())
   {
-    (*mTextures)[mFrames[currentFrame].getTexture()]->render(x-camx, y-camy, mFrames[currentFrame].getSprite(), NULL, NULL, NULL, flip);
+    (*mTextures)[mFrames[currentFrame].getTexture()]->render(x-camx, y-camy, mFrames[currentFrame].getSprite(), NULL, rotation, &center, flip);
   }
   //mTextures()[1].rend(x+camx, y+camy, 1);
 

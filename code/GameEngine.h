@@ -11,6 +11,7 @@
 #include "LevelEditState.h"
 #include "LevelSelectState.h"
 #include "TextTexture.h"
+#include "CreditsState.h"
 
 
 class GameEngine

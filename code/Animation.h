@@ -21,7 +21,7 @@ public:
   Animation(int framdelay, bool loop, std::vector<ImageTexture*>* textures, Display* display);
   ~Animation();
   void update();
-  void render(int x, int y, int cameraX, int cameraY, SDL_RendererFlip flip = SDL_FLIP_NONE);
+  void render(int x, int y, int cameraX, int cameraY, SDL_RendererFlip flip = SDL_FLIP_NONE, double rotation = 0, SDL_Point center = {0,0});
   void addFrame(int sprite, int tex); // add next frame, from texture nro, sprite nro
   void reset(); // reset animation
   void freeMem();

@@ -90,6 +90,16 @@ void Bullet::update()
           alive = false;
         }
     }
+    else if(playerBullet && (*objects)[i]->getType() == BOSS)
+    {
+      CollisionData cd;
+      Boss * ptr;
+      ptr = dynamic_cast<Boss*>((*objects)[i]);
+      if(x >= ptr->getCritBox().x && x <= ptr->getCritBox().x + ptr->getCritBox().w && y >= ptr->getCritBox().y && y <= ptr->getCritBox().y + ptr->getCritBox().h)
+      {ptr->damaged(10); alive = false;}
+      if(x >= ptr->getHurtBox().x && x <= ptr->getHurtBox().x + ptr->getHurtBox().w && y >= ptr->getHurtBox().y && y <= ptr->getHurtBox().y + ptr->getHurtBox().h)
+      {ptr->damaged(1); alive = false;}
+    }
     else if((*objects)[i]->getType() == PLAYER && !playerBullet) // hitting a player with an enemy bullet
     {
       CollisionData cd;

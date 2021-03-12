@@ -164,12 +164,25 @@ void EditorObject::render(int camX, int camY)
   else if(type == EO_SPIKE) {hazardRender(camX, camY);}
   else if(type == EO_WALKER_M){walkerRender(camX, camY);}
   else if(type == EO_EXIT){exitRender(camX, camY);}
+  else if(type == EO_BOSS){bossRender(camX, camY);}
   else
   {
     SDL_Rect rect2 = { x - camX, y - camY, width, height};
     SDL_SetRenderDrawColor( mDisplay->getRenderer(), type * 50, type * 33, type * 100, 0xFF );
     SDL_RenderFillRect(mDisplay->getRenderer(), &rect2);
   }
+}
+
+void EditorObject::bossRender(int camX, int camY)
+{
+  SDL_Point cntr = {8, 8};
+  (*textureArray)[TEX_BOSS_BODY]->render(x - camX, y - camY, 0);
+  (*textureArray)[TEX_BOSS_GUN]->render(x + 40 - 8 - camX, y + 20 - 8 - camY, 0, NULL, 180, &cntr);
+  for(int i = 0; i < 6; i++)
+  {
+    (*textureArray)[TEX_BOSS_WHEEL]->render(x + 1 + (i*13) - camX, y + 146 - camY, 0);
+  }
+
 }
 
 void EditorObject::exitRender(int camX, int camY)

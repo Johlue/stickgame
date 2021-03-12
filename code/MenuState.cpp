@@ -18,11 +18,11 @@ MenuState::~MenuState()
 void MenuState::init()
 {
   // create new buttons
-  buttonArray.push_back( new MenuButton(160, 40, textureArray->at(TEX_MENUBUTTONS), START));     // Start
-  buttonArray.push_back( new MenuButton(160, 490, textureArray->at(TEX_MENUBUTTONS), QUIT)); // ???
-  buttonArray.push_back( new MenuButton(160, 190, textureArray->at(TEX_MENUBUTTONS), EDIT));   // ???
-  buttonArray.push_back( new MenuButton(160, 340, textureArray->at(TEX_MENUBUTTONS), LEVEL_SELECT));   // ???
-  buttonArray.push_back( new MenuButton(560, 190, textureArray->at(TEX_MENUBUTTONS), KEYBIND_CUSTOMIZING));
+  buttonArray.push_back( new MenuButton(260, 190, textureArray->at(TEX_MENUBUTTONS), START));     // Start
+  buttonArray.push_back( new MenuButton(460, 490, textureArray->at(TEX_MENUBUTTONS), QUIT)); // ???
+  buttonArray.push_back( new MenuButton(660, 340, textureArray->at(TEX_MENUBUTTONS), EDIT));   // ???
+  buttonArray.push_back( new MenuButton(260, 340, textureArray->at(TEX_MENUBUTTONS), LEVEL_SELECT));   // ???
+  buttonArray.push_back( new MenuButton(660, 190, textureArray->at(TEX_MENUBUTTONS), KEYBIND_CUSTOMIZING));
 }
 
 void MenuState::freeMem()
@@ -119,6 +119,9 @@ void MenuState::render()
   {
     buttonArray[i]->render();
   }
+
+  (*textureArray)[TEX_TITLE]->render(0,0,0);
+
 /*
   (*mSymbols)[0]->render(30, 30);
   (*mSymbols)[2]->render(45, 30);
