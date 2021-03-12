@@ -62,7 +62,7 @@ int main( int argc, char* args[] )
 	bool initSuccess = true;
 	//Start up SDL and create window
 	initSuccess = init();
-	Display display("windowName", 0, 100, Screen_Width, Screen_Height);
+	Display display("StickGame", 0, 100, Screen_Width, Screen_Height);
 	Writer writer;
 	writer.setup(&display);
 	GameEngine game(&display, &writer);
