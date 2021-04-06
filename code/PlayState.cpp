@@ -14,6 +14,7 @@ PlayState::PlayState(Display* dis, std::vector<ImageTexture*>* texA, int* cs, Wr
   mWriter = texS;
   //TODO some other stuff
   ui.setDisplay(mDisplay);
+  ui.setWriter(texS);
   init();
 }
 

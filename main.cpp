@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include <array>
 #include <vector>
-#include "testFile.h"
 #include "Display.h"
 #include "ImageTexture.h"
 #include "GameState.h"

@@ -23,6 +23,10 @@ void Ui::render()
     SDL_RenderFillRect(mDisplay->getRenderer(), &rect2);
 
   }
+  else
+  {
+    mWriter->render("Press R to try again", mDisplay->getWidth()/2 - 50, mDisplay->getHeight()/2 - 4);
+  }
   if(boss != nullptr)
   {
     if(boss->getActionState() != BAS_DEAD && boss->getActionState() != BAS_UNAWARE)
@@ -48,6 +52,7 @@ void Ui::render()
 
 void Ui::setDeadPlayer(bool dead){playerDead = dead;}
 void Ui::setDisplay(Display* disp){mDisplay = disp;}
+void Ui::setWriter(Writer* writ){mWriter = writ;}
 Player* Ui::getPlayer(){return player;}
 void Ui::setPlayer(Player * newPlayer)
 {

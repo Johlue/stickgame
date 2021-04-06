@@ -6,6 +6,7 @@
 #include "Player.h"
 #include <SDL.h>
 #include <iostream>
+#include "Writer.h"
 
 class Ui
 {
@@ -18,6 +19,7 @@ public:
 
   Player * getPlayer();
   void setDisplay(Display* disp);
+  void setWriter(Writer* writ);
   void setPlayer(Player * newPlayer);
   void setDeadPlayer(bool dead);
 
@@ -30,6 +32,7 @@ protected:
 
   bool playerDead = false;
   Display * mDisplay;
+  Writer* mWriter;
 };
 
 #endif
